@@ -22,7 +22,9 @@
 
 package com.vladsch.plugin.util;
 
-public interface CancellableRunnable extends Runnable {
+import org.jetbrains.annotations.NotNull;
+
+public interface CancellableRunnable extends Cancellable, Runnable {
     CancellableRunnable NULL = new CancellableRunnable() {
         @Override
         public boolean cancel() {
@@ -30,10 +32,30 @@ public interface CancellableRunnable extends Runnable {
         }
 
         @Override
+        public boolean canRun() {
+            return false;
+        }
+
+        @Override
         public void run() {
 
         }
+
+        @Override
+        @NotNull
+        public String getId() {
+            return "NULL";
+        }
     };
 
-    boolean cancel();
+    default boolean isNull() {
+        return this == CancellableRunnable.NULL;
+    }
+
+    default boolean isNotNull() {
+        return this != CancellableRunnable.NULL;
+    }
+
+    @NotNull
+    String getId();
 }

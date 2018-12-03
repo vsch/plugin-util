@@ -23,6 +23,9 @@
 package com.vladsch.plugin.util.ui;
 
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.ui.TextFieldWithHistory;
+import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
 import com.vladsch.flexmark.util.ValueRunnable;
 import org.jetbrains.annotations.NotNull;
 
@@ -63,7 +66,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
             myComponents = createComponents(i);
             myCachedSettings = i;
         } else if (i != myCachedSettings) {
-            // another settings instance, not the right use case 
+            // another settings instance, not the right use case
             //noinspection unchecked
             return createComponents(i);
         }
@@ -125,6 +128,9 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     @NotNull public TextBoxSetter component(JTextComponent component, Getter<String> getter, Setter<String> setter) { return new TextBoxSetter(component, getter, setter); }
     @NotNull public ColorCheckBoxSetter component(CheckBoxWithColorChooser component, Getter<Color> getter, Setter<Color> setter) { return new ColorCheckBoxSetter(component, getter, setter); }
     @NotNull public ColorCheckBoxEnabledSetter componentEnabled(CheckBoxWithColorChooser component, Getter<Boolean> getter, Setter<Boolean> setter) { return new ColorCheckBoxEnabledSetter(component, getter, setter); }
+    @NotNull public TextFieldWithHistorySetter component(TextFieldWithHistory component, Getter<String> getter, Setter<String> setter) { return new TextFieldWithHistorySetter(component, getter, setter); }
+    @NotNull public TextFieldWithBrowseButtonSetter component(TextFieldWithBrowseButton component, Getter<String> getter, Setter<String> setter) { return new TextFieldWithBrowseButtonSetter(component, getter, setter); }
+    @NotNull public TextFieldWithHistoryWithBrowseButtonSetter component(TextFieldWithHistoryWithBrowseButton component, Getter<String> getter, Setter<String> setter) { return new TextFieldWithHistoryWithBrowseButtonSetter(component, getter, setter); }
     // @formatter:on
 
     @NotNull
@@ -197,6 +203,25 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     public static class ColorCheckBoxSetter extends JComponentSettable<Color> {
         public ColorCheckBoxSetter(@NotNull CheckBoxWithColorChooser component, @NotNull Getter<Color> getter, @NotNull Setter<Color> setter) {
             super(component, component::getColor, component::setColor, getter, setter);
+        }
+    }
+
+
+    public static class TextFieldWithHistorySetter extends JComponentSettable<String> {
+        public TextFieldWithHistorySetter(@NotNull TextFieldWithHistory component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
+            super(component, component::getText, component::setTextAndAddToHistory, getter, setter);
+        }
+    }
+
+    public static class TextFieldWithBrowseButtonSetter extends JComponentSettable<String> {
+        public TextFieldWithBrowseButtonSetter(@NotNull TextFieldWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
+            super(component, component::getText, component::setText, getter, setter);
+        }
+    }
+
+    public static class TextFieldWithHistoryWithBrowseButtonSetter extends JComponentSettable<String> {
+        public TextFieldWithHistoryWithBrowseButtonSetter(@NotNull TextFieldWithHistoryWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
+            super(component, component::getText, component::setTextAndAddToHistory, getter, setter);
         }
     }
 

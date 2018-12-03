@@ -29,8 +29,7 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.JBColor;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.UIUtil;
-import com.vladsch.flexmark.util.ui.HtmlBuilder;
-import com.vladsch.flexmark.util.ui.HtmlHelpers;
+import com.vladsch.plugin.util.html.HtmlHelpers;
 
 import javax.swing.JComponent;
 import java.awt.Component;
@@ -85,9 +84,6 @@ public class Helpers {
         }
     }
 
-    static {
-        HtmlBuilder.addColorStylerClass(JBColor.class);
-    }
     public static java.awt.Color errorColor(java.awt.Color color) {
         return HtmlHelpers.mixedColor(color, errorColor());
     }

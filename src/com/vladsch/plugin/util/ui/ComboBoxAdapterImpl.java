@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 Vladimir Schneider <vladimir.schneider@gmail.com>
+ * Copyright (c) 2015-2018 Vladimir Schneider <vladimir.schneider@gmail.com>
  *
  *  Licensed to the Apache Software Foundation (ASF) under one
  *  or more contributor license agreements.  See the NOTICE file
@@ -37,7 +37,7 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
     public ComboBoxAdapterImpl(E defaultValue) {
         this.myDefault = defaultValue;
     }
-    
+
     @Override
     public void setDefaultValue(E defaultValue) {
         myDefault = defaultValue;

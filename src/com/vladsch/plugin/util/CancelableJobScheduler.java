@@ -1,22 +1,17 @@
 /*
  * Copyright (c) 2016-2018 Vladimir Schneider <vladimir.schneider@gmail.com>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  */
 
@@ -24,6 +19,7 @@ package com.vladsch.plugin.util;
 
 import com.intellij.concurrency.JobScheduler;
 import com.intellij.openapi.components.ServiceManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -62,7 +58,7 @@ public class CancelableJobScheduler {
         long tickTime = myTickTime.addAndGet(myResolution);
 
         // run all tasks whose tickTime is <= tickTime
-        CancellableJob dummy = new CancellableJob(tickTime, this::onTimerTick);
+        CancellableJob dummy = new CancellableJob("", tickTime, this::onTimerTick);
         final ArrayList<CancellableJob> toRun = new ArrayList<>();
         synchronized (myRunnables) {
             myRunnables.removeIfBefore(dummy, toRun::add);
@@ -79,12 +75,23 @@ public class CancelableJobScheduler {
         }
     }
 
-    public CancellableRunnable schedule(Runnable command, int delay) {
+    public CancellableRunnable schedule(String id, int delay, Runnable command) {
         CancellableJob runnable;
         delay = Math.max(delay, myResolution);
 
         synchronized (myRunnables) {
-            runnable = new CancellableJob(myTickTime.get() + delay, command);
+            runnable = new CancellableJob(id, myTickTime.get() + delay, command);
+            myRunnables.add(runnable);
+        }
+        return runnable;
+    }
+
+    public CancellableRunnable schedule(int delay, CancellableRunnable command) {
+        CancellableJob runnable;
+        delay = Math.max(delay, myResolution);
+
+        synchronized (myRunnables) {
+            runnable = new CancellableJob(command.getId(), myTickTime.get() + delay, command);
             myRunnables.add(runnable);
         }
         return runnable;
@@ -92,17 +99,32 @@ public class CancelableJobScheduler {
 
     private static class CancellableJob implements CancellableRunnable {
         private final Runnable myRunnable;
-        private final long myScheduledTickTime;
+        final long myScheduledTickTime;
         private final AtomicBoolean myHasRun = new AtomicBoolean(false);
+        private final String myID;
 
-        CancellableJob(long scheduledTickTime, Runnable runnable) {
+        CancellableJob(String id, long scheduledTickTime, Runnable runnable) {
             myRunnable = runnable;
             myScheduledTickTime = scheduledTickTime;
+            myID = id;
         }
 
         @Override
         public boolean cancel() {
-            return !myHasRun.getAndSet(true);
+            boolean result = !myHasRun.getAndSet(true);
+            if (myRunnable instanceof CancellableRunnable) ((CancellableRunnable) myRunnable).cancel();
+            return result;
+        }
+
+        @NotNull
+        @Override
+        public String getId() {
+            return "CancellableJob(" + myID + ")";
+        }
+
+        @Override
+        public boolean canRun() {
+            return !myHasRun.get();
         }
 
         @Override

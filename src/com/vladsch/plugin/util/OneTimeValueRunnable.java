@@ -19,6 +19,7 @@ package com.vladsch.plugin.util;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ModalityState;
+import com.vladsch.flexmark.util.ValueRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -33,19 +34,19 @@ import static javax.swing.SwingUtilities.isEventDispatchThread;
  * <p>
  * Useful for triggering actions after a delay that may need to be run before the delay triggers
  */
-public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable {
+public class OneTimeValueRunnable<T> extends AwtValueRunnable<T> implements CancellableValueRunnable<T> {
     final private AtomicBoolean myHasRun;
     final private @NotNull String myId;
 
-    public OneTimeRunnable(@NotNull Runnable command) {
+    public OneTimeValueRunnable(@NotNull ValueRunnable<T> command) {
         this("", false, command);
     }
 
-    public OneTimeRunnable(@NotNull String id, @NotNull Runnable command) {
+    public OneTimeValueRunnable(@NotNull String id, @NotNull ValueRunnable<T> command) {
         this(id, false, command);
     }
 
-    public OneTimeRunnable(@NotNull String id, boolean awtThread, Runnable command) {
+    public OneTimeValueRunnable(@NotNull String id, boolean awtThread, ValueRunnable<T> command) {
         super(awtThread, command);
         myHasRun = new AtomicBoolean(false);
         myId = id;
@@ -74,12 +75,14 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
     }
 
     @Override
-    public void run() {
+    public void run(final T value) {
         if (isAwtThread() && !isEventDispatchThread()) {
-            ApplicationManager.getApplication().invokeLater(this, ModalityState.any());
+            ApplicationManager.getApplication().invokeLater(() -> {
+                run(value);
+            }, ModalityState.any());
         } else {
             if (!myHasRun.getAndSet(true)) {
-                super.run();
+                super.run(value);
             }
         }
     }
@@ -88,34 +91,5 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
     @Override
     public String getId() {
         return myId;
-    }
-
-    /**
-     * Creates a one-shot runnable that will run after a delay, can be run early, or cancelled
-     * <p>
-     * the given command will only be executed once, either by the delayed trigger or by the run method.
-     * if you want to execute the task early just invoke #run, it will do nothing if the task has already run.
-     *
-     * @param command the task to execute
-     * @param delay   the time from now to delay execution
-     * @return a {@link OneTimeRunnable} which will run after the given
-     * delay or if {@link #run()} is invoked before {@link #cancel()} is invoked
-     * @throws NullPointerException if command is null
-     */
-    public static OneTimeRunnable schedule(@NotNull String id, int delay, @NotNull Runnable command) {
-        OneTimeRunnable runnable = new OneTimeRunnable(id, command);
-        CancelableJobScheduler.getScheduler().schedule(delay, runnable);
-        return runnable;
-    }
-
-    public static OneTimeRunnable schedule(int delay, @NotNull CancellableRunnable command) {
-        OneTimeRunnable runnable = new OneTimeRunnable(command.getId(), command);
-        CancellableRunnable cancellableJob = CancelableJobScheduler.getScheduler().schedule(delay, runnable);
-        return runnable;
-    }
-
-    public static OneTimeRunnable schedule(int delay, @NotNull OneTimeRunnable command) {
-        CancellableRunnable cancellableJob = CancelableJobScheduler.getScheduler().schedule(delay, command);
-        return command;
     }
 }
