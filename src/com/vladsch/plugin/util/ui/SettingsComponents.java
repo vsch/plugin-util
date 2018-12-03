@@ -38,6 +38,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+@SuppressWarnings("WeakerAccess")
 public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, Disposable {
     protected Settable<T>[] myComponents;
     protected T myCachedSettings;
@@ -56,20 +57,22 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         myComponents = null;
     }
 
-    protected Settable<T>[] getComponents(T i) {
+    final public Settable<T>[] getComponents(T i) {
         if (myComponents == null && (myCachedSettings == null || myCachedSettings == i)) {
+            //noinspection unchecked
             myComponents = createComponents(i);
             myCachedSettings = i;
         } else if (i != myCachedSettings) {
             // another settings instance, not the right use case 
+            //noinspection unchecked
             return createComponents(i);
         }
         return myComponents;
     }
 
-    protected abstract Settable<T>[] createComponents(T i);
+    protected abstract Settable[] createComponents(T i);
 
-    public Set<Settable<T>> getComponentSet(T i) {
+    final public Set<Settable<T>> getComponentSet(T i) {
         return new LinkedHashSet<>(Arrays.asList(getComponents(i)));
     }
 
@@ -220,7 +223,6 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
 
         @Override
         public void reset() {
-            //noinspection unchecked
             if (!myGetter.get().equals(myComponentGetter.get())) {
                 myComponentSetter.set(myGetter.get());
             }
@@ -228,7 +230,6 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
 
         @Override
         public void apply() {
-            //noinspection unchecked
             if (myInstance instanceof JComponent && ((JComponent) myInstance).isVisible()) {
                 if (!myGetter.get().equals(myComponentGetter.get())) {
                     mySetter.set(myComponentGetter.get());
@@ -238,7 +239,6 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
 
         @Override
         public boolean isModified() {
-            //noinspection unchecked
             if (myInstance instanceof JComponent && ((JComponent) myInstance).isVisible()) {
                 return myGetter.get() == null ? myComponentGetter.get() != null : !myGetter.get().equals(myComponentGetter.get());
             }

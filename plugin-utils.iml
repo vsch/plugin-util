@@ -8,6 +8,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="flexmark-util" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="flexmark-util" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Kotlin" level="project" />
+    <orderEntry type="library" scope="TEST" name="junit" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="flexmark-util" level="project" />
   </component>
 </module>

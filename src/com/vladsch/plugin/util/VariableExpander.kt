@@ -43,4 +43,9 @@ class VariableExpander {
     }
 
     operator fun get(name: String): List<String> = valueMap[name] ?: listOf()
+    override fun toString(): String {
+        return "VariableExpander(valueMap=${valueMap.entries.sortedBy { it.key }.joinToString { (key,value) -> "$key -> [ " + value.joinToString(", ") + " ]\n" }}" +
+                "asMacroMap=[ ${asMacroMap.joinToString(", ") } ])"
+    }
 }
+

@@ -29,8 +29,8 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.JBColor;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.UIUtil;
-import com.vladsch.flexmark.util.html.Color;
-import com.vladsch.flexmark.util.html.HtmlBuilder;
+import com.vladsch.flexmark.util.ui.HtmlBuilder;
+import com.vladsch.flexmark.util.ui.HtmlHelpers;
 
 import javax.swing.JComponent;
 import java.awt.Component;
@@ -73,26 +73,26 @@ public class Helpers {
         return color;
     }
 
-    public static void disableChildren(JComponent parent) {
+    public static void setEnabledOfChildren(JComponent parent, boolean isEnabled) {
         int iMax = parent.getComponentCount();
 
         for (int i = 0; i < iMax; i++) {
             Component component = parent.getComponent(i);
-            component.setEnabled(false);
+            component.setEnabled(isEnabled);
             if (component instanceof JComponent) {
-                disableChildren((JComponent) component);
+                setEnabledOfChildren((JComponent) component, isEnabled);
             }
         }
     }
-    
+
     static {
         HtmlBuilder.addColorStylerClass(JBColor.class);
     }
     public static java.awt.Color errorColor(java.awt.Color color) {
-        return Color.mixedColor(color, errorColor());
+        return HtmlHelpers.mixedColor(color, errorColor());
     }
 
     public static java.awt.Color warningColor(java.awt.Color color) {
-        return Color.mixedColor(color, warningColor());
+        return HtmlHelpers.mixedColor(color, warningColor());
     }
 }
