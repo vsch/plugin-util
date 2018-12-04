@@ -34,6 +34,9 @@ import static javax.swing.SwingUtilities.isEventDispatchThread;
  * Useful for triggering actions after a delay that may need to be run before the delay triggers
  */
 public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable {
+    final public static OneTimeRunnable NULL = new OneTimeRunnable(() -> {
+    });
+
     final private AtomicBoolean myHasRun;
     final private @NotNull String myId;
 
@@ -49,6 +52,12 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
         super(awtThread, command);
         myHasRun = new AtomicBoolean(false);
         myId = id;
+    }
+
+    public OneTimeRunnable(boolean awtThread, Runnable command) {
+        super(awtThread, command);
+        myHasRun = new AtomicBoolean(false);
+        myId = "";
     }
 
     /**
@@ -104,6 +113,12 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
      */
     public static OneTimeRunnable schedule(@NotNull String id, int delay, @NotNull Runnable command) {
         OneTimeRunnable runnable = new OneTimeRunnable(id, command);
+        CancelableJobScheduler.getScheduler().schedule(delay, runnable);
+        return runnable;
+    }
+
+    public static OneTimeRunnable schedule(int delay, @NotNull Runnable command) {
+        OneTimeRunnable runnable = new OneTimeRunnable(command);
         CancelableJobScheduler.getScheduler().schedule(delay, runnable);
         return runnable;
     }

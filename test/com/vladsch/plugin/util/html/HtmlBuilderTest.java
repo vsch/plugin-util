@@ -41,7 +41,7 @@ public class HtmlBuilderTest {
                 });
             }
         });
-        assertEquals("<ul>\n<li>item1</li>\n</ul>", fa.toFinalizedString());
+        assertEquals("<ul>\n<li>item1</li>\n</ul>\n", fa.toFinalizedString());
 
         final HtmlBuilder fa1 = new HtmlBuilder();
         fa1.tagIndent("ul", new Runnable() {
@@ -66,7 +66,7 @@ public class HtmlBuilderTest {
                 });
             }
         });
-        assertEquals("<ul>\n<li>item1\n<ul>\n<li>item1</li>\n</ul>\n</li>\n</ul>",fa1.toFinalizedString());
+        assertEquals("<ul>\n<li>item1\n<ul>\n<li>item1</li>\n</ul>\n</li>\n</ul>\n",fa1.toFinalizedString());
 
         final HtmlBuilder fa2 = new HtmlBuilder();
         fa2.withCondLine().tagIndent("tbody", new Runnable() {
@@ -75,7 +75,7 @@ public class HtmlBuilderTest {
 
             }
         });
-        assertEquals("<tbody></tbody>", fa2.toFinalizedString());
+        assertEquals("<tbody></tbody>\n", fa2.toFinalizedString());
 
         HtmlBuilder fa3 = new HtmlBuilder();
         fa3.attr("style", "color:#ff0000").span();

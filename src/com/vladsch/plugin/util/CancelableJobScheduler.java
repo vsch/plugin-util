@@ -86,6 +86,17 @@ public class CancelableJobScheduler {
         return runnable;
     }
 
+    public CancellableRunnable schedule(int delay, Runnable command) {
+        CancellableJob runnable;
+        delay = Math.max(delay, myResolution);
+
+        synchronized (myRunnables) {
+            runnable = new CancellableJob("", myTickTime.get() + delay, command);
+            myRunnables.add(runnable);
+        }
+        return runnable;
+    }
+
     public CancellableRunnable schedule(int delay, CancellableRunnable command) {
         CancellableJob runnable;
         delay = Math.max(delay, myResolution);
