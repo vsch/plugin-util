@@ -28,14 +28,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class CancelableJobScheduler {
-    public static CancelableJobScheduler getInstance() {
-        return ServiceManager.getService(CancelableJobScheduler.class);
-    }
-
-    public static CancelableJobScheduler getScheduler() {
-        return ServiceManager.getService(CancelableJobScheduler.class);
-    }
-
     final private SortedArrayList<CancellableJob> myRunnables = new SortedArrayList<>(Comparator.comparingLong(o -> o.myScheduledTickTime));
     private AtomicLong myTickTime;
     final private int myResolution = 25;

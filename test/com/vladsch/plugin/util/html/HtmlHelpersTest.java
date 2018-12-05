@@ -12,18 +12,21 @@
  * under the License.
  *
  */
-package com.vladsch.plugin.util;
 
-import com.vladsch.plugin.util.html.HtmlBuilderTest;
-import com.vladsch.plugin.util.html.HtmlHelpersTest;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+package com.vladsch.plugin.util.html;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-        StudiedWordTest.class,
-        HtmlBuilderTest.class,
-        HtmlHelpersTest.class,
-})
-public class PluginUtilTestSuite {
+import com.vladsch.plugin.util.ui.Helpers;
+import org.junit.Test;
+
+import java.awt.Font;
+
+import static org.junit.Assert.assertEquals;
+
+@SuppressWarnings("UseJBColor")
+public class HtmlHelpersTest {
+
+    @Test
+    public void test_mixedColor() {
+        assertEquals(Color.of("#807240").toString(), Color.of(HtmlHelpers.mixedColor(Color.BLACK, Color.ORANGE)).toString());
+    }
 }

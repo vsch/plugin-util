@@ -50,9 +50,8 @@ public class AwtValueRunnable<T> implements ValueRunnable<T> {
     @Override
     public void run(final T value) {
         if (myAwtThread && !isEventDispatchThread()) {
-            ApplicationManager.getApplication().invokeLater(() -> {
-                run(value);
-            }, ModalityState.any());
+            //ApplicationManager.getApplication().invokeLater(() -> { run(value); }, ModalityState.any()); } 
+            ApplicationManager.getApplication().invokeLater(() -> { run(value); }); 
         } else {
             myCommand.run(value);
         }

@@ -29,6 +29,14 @@ public class ColorStyler extends HtmlStylerBase<Color> {
     }
 
     public static Integer getNamedColor(final String colorName) {
+        if (colorName.startsWith("#")) {
+            // extract rgb from it
+            String color = colorName.substring(1);
+
+            switch (colorName.length()) {
+                case 1 : 
+            }
+        }
         return nameColorMap.get(colorName);
     }
 

@@ -46,4 +46,9 @@ public class Color extends java.awt.Color {
         Integer rgb = ColorStyler.getNamedColor(colorName);
         return rgb == null ? NULL : new Color(rgb);
     }
+
+    @Override
+    public String toString() {
+        return "Color { " + HtmlHelpers.toHtmlString(this) + " " + HtmlHelpers.toRgbString(this) + "}";
+    }
 }

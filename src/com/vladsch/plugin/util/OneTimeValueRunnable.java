@@ -77,9 +77,8 @@ public class OneTimeValueRunnable<T> extends AwtValueRunnable<T> implements Canc
     @Override
     public void run(final T value) {
         if (isAwtThread() && !isEventDispatchThread()) {
-            ApplicationManager.getApplication().invokeLater(() -> {
-                run(value);
-            }, ModalityState.any());
+            //ApplicationManager.getApplication().invokeLater(() -> { run(value); }, ModalityState.any());
+            ApplicationManager.getApplication().invokeLater(() -> { run(value); });
         } else {
             if (!myHasRun.getAndSet(true)) {
                 super.run(value);
