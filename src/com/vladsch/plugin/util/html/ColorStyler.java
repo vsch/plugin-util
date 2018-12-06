@@ -17,6 +17,8 @@
 
 package com.vladsch.plugin.util.html;
 
+import com.vladsch.flexmark.util.Utils;
+
 import java.awt.Color;
 import java.util.HashMap;
 
@@ -28,16 +30,67 @@ public class ColorStyler extends HtmlStylerBase<Color> {
         else return item == null ? "" : String.format("color:#%s", getColorValue(item));
     }
 
-    public static Integer getNamedColor(final String colorName) {
+    @SuppressWarnings("UseJBColor")
+    public static Color getNamedColor(final String colorName) {
         if (colorName.startsWith("#")) {
             // extract rgb from it
-            String color = colorName.substring(1);
+            Integer color = Utils.parseIntOrNull(colorName.substring(1), 16);
+            if (color == null) return null;
+            String colorText = colorName.substring(1);
+            String r = "";
+            String g = "";
+            String b = "";
+            String a = "";
 
-            switch (colorName.length()) {
-                case 1 : 
+            switch (colorText.length()) {
+                case 3:
+                    r = colorText.substring(0, 1);
+                    g = colorText.substring(1, 2);
+                    b = colorText.substring(2, 3);
+                    break;
+
+                case 4:
+                    r = colorText.substring(0, 1);
+                    g = colorText.substring(1, 2);
+                    b = colorText.substring(2, 3);
+                    a = colorText.substring(3, 4);
+                    break;
+
+                case 6:
+                    r = colorText.substring(0, 2);
+                    g = colorText.substring(2, 4);
+                    b = colorText.substring(4, 6);
+                    break;
+
+                case 8:
+                    r = colorText.substring(0, 2);
+                    g = colorText.substring(2, 4);
+                    b = colorText.substring(4, 6);
+                    b = colorText.substring(6, 8);
+                    break;
+
+                default:
+                    return null;
             }
+
+            if (r.length() == 1) r += r;
+            if (g.length() == 1) g += g;
+            if (b.length() == 1) b += b;
+            if (a.length() == 1) a += a;
+
+            if (a.isEmpty()) {
+                a = "ff";
+            }
+            
+            return new Color(parse(r), parse(g), parse(b), parse(a));
         }
-        return nameColorMap.get(colorName);
+        
+        Integer rgb = nameColorMap.get(colorName);
+        return rgb == null ? null : new Color(rgb);
+    }
+
+    static int parse(String color) {
+        return Integer.parseInt(color, 16);
     }
 
     public static String getColorName(Color item) {

@@ -43,8 +43,8 @@ public class Color extends java.awt.Color {
     public static Color of(int rgb) { return new Color(rgb); }
 
     public static Color of(String colorName) {
-        Integer rgb = ColorStyler.getNamedColor(colorName);
-        return rgb == null ? NULL : new Color(rgb);
+        java.awt.Color color = ColorStyler.getNamedColor(colorName);
+        return color == null ? NULL : new Color(color);
     }
 
     @Override

@@ -530,3 +530,10 @@ fun Element.cloneChild(oldName: String, newName: String, removeOld: Boolean = tr
     this.addContent(newElement)
     return element
 }
+
+fun <T> List<T>.forEachReversed(action:(T)->Unit) {
+    var i = size
+    while(i-- > 0) {
+        action.invoke(get(i))
+    }
+}

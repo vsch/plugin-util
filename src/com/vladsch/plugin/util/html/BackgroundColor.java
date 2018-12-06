@@ -17,6 +17,8 @@
 
 package com.vladsch.plugin.util.html;
 
+import java.awt.Color;
+
 @SuppressWarnings({ "WeakerAccess" })
 public class BackgroundColor extends java.awt.Color {
     public static final BackgroundColor NULL = new BackgroundColor(new java.awt.Color(0, true));
@@ -43,7 +45,7 @@ public class BackgroundColor extends java.awt.Color {
     public static BackgroundColor of(int rgb) { return new BackgroundColor(rgb); }
 
     public static BackgroundColor of(String colorName) {
-        Integer rgb = ColorStyler.getNamedColor(colorName);
-        return rgb == null ? NULL : new BackgroundColor(rgb);
+        Color color = ColorStyler.getNamedColor(colorName);
+        return color == null ? NULL : new BackgroundColor(color);
     }
 }
