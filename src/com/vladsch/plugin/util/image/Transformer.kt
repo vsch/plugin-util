@@ -21,10 +21,11 @@ import com.vladsch.plugin.util.forEachReversed
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-class Transformer constructor(val transforms: List<ImageTransform>, val reversed: Boolean = false) : ImageTransform {
+class Transformer constructor(val transforms: List<ImageTransform>, val reversed: Boolean = false) : ImageTransform, DrawingTransform {
+    
     override fun transform(image: BufferedImage): BufferedImage {
         var result = image
-        forEach { result = it.transform(result) }
+        forEach { if (it is DrawingTransform) result = it.transform(result) }
         return result
     }
 
@@ -70,11 +71,11 @@ class Transformer constructor(val transforms: List<ImageTransform>, val reversed
         return result
     }
 
-    private fun forEach(action: (ImageTransform) -> Unit) {
+    fun forEach(action: (ImageTransform) -> Unit) {
         transforms.forEach { action.invoke(it) }
     }
 
-    private fun forEachReversed(action: (ImageTransform) -> Unit) {
+    fun forEachReversed(action: (ImageTransform) -> Unit) {
         transforms.forEachReversed { action.invoke(it) }
     }
 

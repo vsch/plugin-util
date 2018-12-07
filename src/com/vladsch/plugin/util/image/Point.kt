@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * You may obtain a copy Point.of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,26 +17,51 @@
 
 package com.vladsch.plugin.util.image
 
-import com.vladsch.flexmark.util.Utils
+import com.vladsch.plugin.util.rangeLimit
+import kotlin.math.roundToInt
 
 @Suppress("MemberVisibilityCanBePrivate")
-class Point private constructor(val x: Int, val y: Int) {
+class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) {
+
+    val intX: Int
+        get() = x.roundToInt()
+
+    val intY: Int
+        get() = y.roundToInt()
 
     fun clipBy(other: Rectangle): Point {
         val clipped = Point.of(
-                Utils.rangeLimit(x, other.left, other.right),
-                Utils.rangeLimit(y, other.left, other.right));
+                x.rangeLimit(other.left, other.right),
+                y.rangeLimit(other.top, other.bottom));
 
         return if (this == clipped) this else clipped
     }
+
+    fun clipOut(other: Rectangle): Point {
+        val clipped = Point.of(
+                x.rangeLimit(other.left, other.right),
+                y.rangeLimit(other.top, other.bottom));
+
+        return if (this == clipped) this else NULL
+    }
+
+    val isNull: Boolean
+        get() = this === NULL
 
     fun isInsideOf(other: Rectangle): Boolean {
         return clipBy(other) === this
     }
 
     fun translate(x: Int, y: Int): Point {
-        return if (x != 0 || y != 0) Point.of(this.x + x, this.y + y) else this
+        return translate(x.toFloat(), y.toFloat())
     }
+
+    fun translate(x: Float, y: Float): Point {
+        return if (x != 0f || y != 0f) Point.of(this.x + x, this.y + y) else this
+    }
+
+    val round: Point
+        get() = myCopy(Point.of(x.roundToInt(), y.roundToInt()))
 
     fun scale(scale: Float): Point {
         return scale(scale, scale)
@@ -44,10 +69,13 @@ class Point private constructor(val x: Int, val y: Int) {
 
     fun scale(x: Float, y: Float): Point {
         if (x != 1f || y != 1f) {
-            val scaled = Point.of((this.x * x).toInt(), (this.y * y).toInt())
-            if (scaled != this) return scaled
+            return myCopy(Point.of((this.x * x), (this.y * y)))
         }
         return this
+    }
+
+    fun myCopy(other: Point): Point {
+        return if (this == other) this else other
     }
 
     override fun equals(other: Any?): Boolean {
@@ -63,8 +91,8 @@ class Point private constructor(val x: Int, val y: Int) {
     }
 
     override fun hashCode(): Int {
-        var result = x
-        result = 31 * result + y
+        var result = x.hashCode()
+        result = 31 * result + y.hashCode()
         return result
     }
 
@@ -73,10 +101,17 @@ class Point private constructor(val x: Int, val y: Int) {
     }
 
     companion object {
-        val NULL = Point(0, 0)
+        @JvmField
+        val NULL = Point(0f, 0f)
 
+        @JvmStatic
+        fun of(x: Float, y: Float): Point {
+            return if (x == 0f && y == 0f) NULL else Point(x, y)
+        }
+
+        @JvmStatic
         fun of(x: Int, y: Int): Point {
-            return if (x == 0 && y == 0) NULL else Point(x, y)
+            return Point.of(x.toFloat(), y.toFloat())
         }
     }
 }

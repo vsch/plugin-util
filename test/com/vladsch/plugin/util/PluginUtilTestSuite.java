@@ -18,12 +18,7 @@ package com.vladsch.plugin.util;
 
 import com.vladsch.plugin.util.html.HtmlBuilderTest;
 import com.vladsch.plugin.util.html.HtmlHelpersTest;
-import com.vladsch.plugin.util.image.BorderTransformTest;
-import com.vladsch.plugin.util.image.CropTransformTest;
-import com.vladsch.plugin.util.image.PointTest;
-import com.vladsch.plugin.util.image.RectangleTest;
-import com.vladsch.plugin.util.image.ScaleTransformTest;
-import com.vladsch.plugin.util.image.TransformerTest;
+import com.vladsch.plugin.util.image.ImageTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -32,12 +27,7 @@ import org.junit.runners.Suite;
         StudiedWordTest.class,
         HtmlBuilderTest.class,
         HtmlHelpersTest.class,
-        PointTest.class,
-        RectangleTest.class,
-        BorderTransformTest.class,
-        CropTransformTest.class,
-        ScaleTransformTest.class,
-        TransformerTest.class,
+        ImageTestSuite.class,
 })
 public class PluginUtilTestSuite {
 }

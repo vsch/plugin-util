@@ -17,11 +17,11 @@
 
 package com.vladsch.plugin.util.image
 
-import java.awt.Color
-import java.awt.image.BufferedImage
-
 @Suppress("MemberVisibilityCanBePrivate")
 open class BorderTransform(val borderWidth: Int) : ImageTransform {
+
+    constructor(borderWidth: Float) : this(borderWidth.toInt())
+
     override fun transformImage(rectangle: Rectangle): Rectangle {
         return rectangle
     }
