@@ -22,6 +22,7 @@
 
 package com.vladsch.plugin.util
 
+import com.vladsch.flexmark.util.FileUtil
 import java.io.*
 
 fun getResourceFiles(resourceClass: Class<*>, path: String, prefixPath: Boolean = false): List<String> {
@@ -80,31 +81,13 @@ fun getResourceAsStream(resourceClass: Class<*>, resource: String): InputStream?
     return null
 }
 
-fun File.isChildOf(ancestor: File): Boolean {
-    return (path + File.separator).startsWith(ancestor.path + File.separator)
-}
+fun File.isChildOf(ancestor: File): Boolean = FileUtil.isChildOf(this, ancestor)
 
-val File.nameOnly: String
-    get() {
-        val pos = name.lastIndexOf('.')
-        return if (pos > 0 && pos > name.lastIndexOf(File.separatorChar)) name.substring(0, pos) else name
-    }
+val File.nameOnly: String get() = FileUtil.getNameOnly(this)
 
-val File.dotExtension: String
-    get() {
-        val pos = name.lastIndexOf('.')
-        return if (pos > 0 && pos > name.lastIndexOf(File.separatorChar)) name.substring(pos) else ""
-    }
+val File.dotExtension: String get() = FileUtil.getDotExtension(this)
 
-val File.pathSlash: String
-    get() {
-        val pos = path.lastIndexOf(File.separatorChar)
-        return if (pos != -1) path.substring(0, pos + 1) else ""
-    }
+val File.pathSlash: String get() = FileUtil.pathSlash(this)
 
-operator fun File.plus(name: String): File {
-    val path = this.path
-    val dbDir = File(if (!path.endsWith(File.separatorChar) && !name.startsWith(File.separatorChar)) path + File.separator + name else "$path$name")
-    return dbDir
-}
+operator fun File.plus(name: String): File = FileUtil.plus(this, name)
 
