@@ -16,9 +16,6 @@
  */
 package com.vladsch.plugin.util.image;
 
-import com.vladsch.plugin.util.StudiedWordTest;
-import com.vladsch.plugin.util.html.HtmlBuilderTest;
-import com.vladsch.plugin.util.html.HtmlHelpersTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

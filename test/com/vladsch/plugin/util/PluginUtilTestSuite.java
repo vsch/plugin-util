@@ -17,7 +17,6 @@
 package com.vladsch.plugin.util;
 
 import com.vladsch.plugin.util.html.HtmlBuilderTest;
-import com.vladsch.plugin.util.html.HtmlHelpersTest;
 import com.vladsch.plugin.util.image.ImageTestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -26,7 +25,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         StudiedWordTest.class,
         HtmlBuilderTest.class,
-        HtmlHelpersTest.class,
         ImageTestSuite.class,
 })
 public class PluginUtilTestSuite {

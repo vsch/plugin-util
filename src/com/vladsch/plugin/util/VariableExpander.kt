@@ -1,5 +1,6 @@
 package com.vladsch.plugin.util
 
+import com.vladsch.flexmark.util.TemplateUtil
 import java.util.regex.Pattern
 
 class VariableExpander {
@@ -11,7 +12,7 @@ class VariableExpander {
     private val asMacroMap = HashSet<String>()
 
     fun resolve(value: CharSequence?): String {
-        return Template.resolveRefs(value,VARIABLE_REF) { groups ->
+        return TemplateUtil.resolveRefs(value, VARIABLE_REF) { groups ->
             val name = groups[1]
             valueMap[name]?.joinToString() ?: if (asMacroMap.contains(name)) "\${$name}" else ""
         }
@@ -43,8 +44,8 @@ class VariableExpander {
 
     operator fun get(name: String): List<String> = valueMap[name] ?: listOf()
     override fun toString(): String {
-        return "VariableExpander(valueMap=${valueMap.entries.sortedBy { it.key }.joinToString { (key,value) -> "$key -> [ " + value.joinToString(", ") + " ]\n" }}" +
-                "asMacroMap=[ ${asMacroMap.joinToString(", ") } ])"
+        return "VariableExpander(valueMap=${valueMap.entries.sortedBy { it.key }.joinToString { (key, value) -> "$key -> [ " + value.joinToString(", ") + " ]\n" }}" +
+                "asMacroMap=[ ${asMacroMap.joinToString(", ")} ])"
     }
 }
 

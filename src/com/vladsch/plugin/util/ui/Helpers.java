@@ -29,7 +29,7 @@ import com.intellij.openapi.editor.markup.TextAttributes;
 import com.intellij.ui.JBColor;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.UIUtil;
-import com.vladsch.plugin.util.html.HtmlHelpers;
+import com.vladsch.flexmark.util.html.ui.HtmlHelpers;
 
 import javax.swing.JComponent;
 import java.awt.Component;
