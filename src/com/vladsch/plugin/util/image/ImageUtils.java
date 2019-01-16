@@ -17,6 +17,12 @@
 
 package com.vladsch.plugin.util.image;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import com.vladsch.plugin.util.FileIOKt;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.image.PNGTranscoder;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -138,28 +144,31 @@ public class ImageUtils {
             return null;
         }
 
-        try {
-            // related to http://bugs.java.com/bugdatabase/view_bug.do;jsessionid=dc84943191e06dffffffffdf200f5210dd319?bug_id=6967419
-            for (int i = 0; i < 3; i++) {
-                BufferedImage read = null;
-                try {
-                    read = ImageIO.read(cachedImageFile);
-                } catch (IndexOutOfBoundsException e) {
-                    System.err.print("*");
-                    System.err.println("could not read" + cachedImageFile);
-                    continue;
+        if (".svg".equals(FileIOKt.getDotExtension(cachedImageFile))) {
+            return loadSvgImageFromFile(cachedImageFile);
+        } else {
+            try {
+                // related to http://bugs.java.com/bugdatabase/view_bug.do;jsessionid=dc84943191e06dffffffffdf200f5210dd319?bug_id=6967419
+                for (int i = 0; i < 3; i++) {
+                    BufferedImage read = null;
+                    try {
+                        read = ImageIO.read(cachedImageFile);
+                    } catch (IndexOutOfBoundsException e) {
+                        System.err.print("*");
+                        System.err.println("could not read" + cachedImageFile);
+                        continue;
+                    }
+
+                    if (i > 0) System.err.println("");
+
+                    return read;
                 }
-
-                if (i > 0) System.err.println("");
-
-                return read;
+            } catch (Throwable e) {
+                //System.err.println("deleting " + cachedImageFile);
+                //cachedImageFile.delete();
+                return null;
             }
-        } catch (Throwable e) {
-            //System.err.println("deleting " + cachedImageFile);
-            //cachedImageFile.delete();
-            return null;
         }
-
         return null;
     }
 
@@ -257,6 +266,52 @@ public class ImageUtils {
         }
     }
 
+    public static BufferedImage loadSvgImageFromURL(String imageURL) {
+        return loadSvgImageFromURL(imageURL,false);
+    }
+    
+    public static BufferedImage loadSvgImageFromURL(String imageURL, boolean logImageProcessing) {
+        BufferedImage image;
+        
+        try {
+            PNGTranscoder t = new PNGTranscoder();
+            // Create the transcoder input.
+            String svgURI = imageURL;
+            TranscoderInput input = new TranscoderInput(svgURI);
+
+            // Create the transcoder output.
+            ByteOutputStream ostream = new ByteOutputStream();
+            TranscoderOutput output = new TranscoderOutput(ostream);
+
+            // Save the image.
+            t.transcode(input, output);
+
+            // Flush and close the stream.
+            ostream.flush();
+            ostream.close();
+
+            byte[] imageBytes = ostream.getBytes();
+
+            ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+            image = ImageIO.read(bis);
+            bis.close();
+        } catch (IOException | TranscoderException e) {
+            if (logImageProcessing) {
+                e.printStackTrace();
+            }
+            image = null;
+        }
+        return image;
+    }
+
+    public static BufferedImage loadSvgImageFromFile(File imageFile) {
+        return loadSvgImageFromFile(imageFile,false);
+    }
+    
+    public static BufferedImage loadSvgImageFromFile(File imageFile, boolean logImageProcessing) {
+        return loadSvgImageFromURL("file://" + imageFile.getPath(), logImageProcessing);
+    }
+
     public static BufferedImage loadImageFromURL(String imageURL) {
         return loadImageFromURL(imageURL, false);
     }
@@ -264,8 +319,9 @@ public class ImageUtils {
     public static BufferedImage loadImageFromURL(String imageURL, boolean logImageProcessing) {
         if (imageURL != null) {
             try {
-                return toBufferedImage(new ImageIcon(new URL(imageURL)).getImage());
-            } catch (MalformedURLException e) {
+                Image image = ImageIO.read(new URL(imageURL));
+                return toBufferedImage(image);
+            } catch (IOException e) {
                 if (logImageProcessing) {
                     e.printStackTrace();
                 }
