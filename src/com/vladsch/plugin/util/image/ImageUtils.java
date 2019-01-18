@@ -19,6 +19,7 @@ package com.vladsch.plugin.util.image;
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import com.vladsch.plugin.util.FileIOKt;
+import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
@@ -27,19 +28,20 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -52,7 +54,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
@@ -136,8 +137,8 @@ public class ImageUtils {
 
     /**
      * @param cachedImageFile file
-     * @return Could be {@code null} if the image could not be read from the file (because of whatever strange
-     * reason).
+     *
+     * @return Could be {@code null} if the image could not be read from the file (because of whatever strange reason).
      */
     public static BufferedImage loadImageFromFile(File cachedImageFile) {
         if (cachedImageFile == null || !cachedImageFile.isFile()) {
@@ -179,7 +180,7 @@ public class ImageUtils {
         try {
             ImageIO.write(image, "PNG", bos);
             byte[] imageBytes = bos.toByteArray();
-            imageString = new String(new BASE64Encoder().encode(imageBytes)).replace("\n","");
+            imageString = new String(new BASE64Encoder().encode(imageBytes)).replace("\n", "");
             //imageString = javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
             bos.close();
         } catch (IOException e) {
@@ -198,7 +199,7 @@ public class ImageUtils {
             FileInputStream fileInputStreamReader = new FileInputStream(file);
             byte[] imageBytes = new byte[(int) file.length()];
             if (fileInputStreamReader.read(imageBytes) != -1) {
-                return "data:image/png;base64," + new String(new BASE64Encoder().encode(imageBytes)).replace("\n","");
+                return "data:image/png;base64," + new String(new BASE64Encoder().encode(imageBytes)).replace("\n", "");
                 //return "data:image/png;base64," + javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
             }
             return null;
@@ -267,14 +268,32 @@ public class ImageUtils {
     }
 
     public static BufferedImage loadSvgImageFromURL(String imageURL) {
-        return loadSvgImageFromURL(imageURL,false);
+        return loadSvgImageFromURL(imageURL, 1.0f, false);
     }
-    
-    public static BufferedImage loadSvgImageFromURL(String imageURL, boolean logImageProcessing) {
+
+    public static BufferedImage loadSvgImageFromURL(String imageURL, final float scale) {
+        return loadSvgImageFromURL(imageURL, scale, false);
+    }
+
+    public static BufferedImage loadSvgImageFromURL(String imageURL, final float scale, boolean logImageProcessing) {
+        BufferedImage image = loadSvgImageFromURL(imageURL, null, logImageProcessing);
+        if (image != null && scale != 1.0f) {
+            image = loadSvgImageFromURL(imageURL, new Point((int)(image.getWidth() * scale), (int)(image.getHeight() * scale)), logImageProcessing);
+        }
+        return image;
+    }
+
+    public static BufferedImage loadSvgImageFromURL(String imageURL, final Point size, boolean logImageProcessing) {
         BufferedImage image;
-        
+
         try {
             PNGTranscoder t = new PNGTranscoder();
+
+            if (size != null) {
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)size.x);
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)size.y);
+            }
+
             // Create the transcoder input.
             String svgURI = imageURL;
             TranscoderInput input = new TranscoderInput(svgURI);
@@ -305,11 +324,11 @@ public class ImageUtils {
     }
 
     public static BufferedImage loadSvgImageFromFile(File imageFile) {
-        return loadSvgImageFromFile(imageFile,false);
+        return loadSvgImageFromFile(imageFile, false);
     }
-    
+
     public static BufferedImage loadSvgImageFromFile(File imageFile, boolean logImageProcessing) {
-        return loadSvgImageFromURL("file://" + imageFile.getPath(), logImageProcessing);
+        return loadSvgImageFromURL("file://" + imageFile.getPath(), 1.0f, logImageProcessing);
     }
 
     public static BufferedImage loadImageFromURL(String imageURL) {
