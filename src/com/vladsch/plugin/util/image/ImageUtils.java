@@ -54,6 +54,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Pattern;
@@ -284,6 +285,14 @@ public class ImageUtils {
     }
 
     public static BufferedImage loadSvgImageFromURL(String imageURL, final Point size, boolean logImageProcessing) {
+        return loadSvgImage(new TranscoderInput(imageURL), size, logImageProcessing);
+    }
+
+    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final Point size, boolean logImageProcessing) {
+        return loadSvgImage(new TranscoderInput(svgInputStream), size, logImageProcessing);
+    }
+
+    public static BufferedImage loadSvgImage(TranscoderInput input, final Point size, boolean logImageProcessing) {
         BufferedImage image;
 
         try {
@@ -293,10 +302,6 @@ public class ImageUtils {
                 t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)size.x);
                 t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)size.y);
             }
-
-            // Create the transcoder input.
-            String svgURI = imageURL;
-            TranscoderInput input = new TranscoderInput(svgURI);
 
             // Create the transcoder output.
             ByteOutputStream ostream = new ByteOutputStream();
