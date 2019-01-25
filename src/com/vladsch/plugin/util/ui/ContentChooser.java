@@ -67,16 +67,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class ContentChooser<Data> extends DialogWrapper {
-    private List<Data> myAllContents;
+    List<Data> myAllContents;
     private Editor myViewer;
 
-    private final boolean myUseIdeaEditor;
+    final boolean myUseIdeaEditor;
 
-    private final JBList myList;
+    final JBList myList;
     private final JBSplitter mySplitter;
     private final Project myProject;
     private final boolean myAllowMultipleSelections;
-    private final Alarm myUpdateAlarm;
+    final Alarm myUpdateAlarm;
     private Icon myListEntryIcon = AllIcons.FileTypes.Text;
 
     public ContentChooser(Project project, String title, boolean useIdeaEditor) {
@@ -91,6 +91,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         myUpdateAlarm = new Alarm(getDisposable());
         mySplitter = new JBSplitter(true, 0.3f);
         mySplitter.setSplitterProportionKey(getDimensionServiceKey() + ".splitter");
+        //noinspection unchecked
         myList = new JBList(new CollectionListModel<Item>());
         myList.setExpandableItemsEnabled(false);
 
@@ -140,6 +141,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
             }
         }.installOn(myList);
 
+        //noinspection unchecked
         myList.setCellRenderer(new MyListCellRenderer());
         myList.addKeyListener(new KeyAdapter() {
             @Override
@@ -244,7 +246,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         return null;
     }
 
-    private void updateViewerForSelection() {
+    void updateViewerForSelection() {
         if (myAllContents.isEmpty()) return;
         String fullString = getSelectedText();
 
@@ -334,7 +336,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         return " ...";
     }
 
-    private void rebuildListContent() {
+    void rebuildListContent() {
         ArrayList<Item> items = new ArrayList<>();
         int i = 0;
         List<Data> contents = new ArrayList<>(getContents());
@@ -351,6 +353,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         if (listModel instanceof FilteringListModel) {
             FilteringListModel filteringListModel = (FilteringListModel) listModel;
             ((CollectionListModel) filteringListModel.getOriginalModel()).removeAll();
+            //noinspection unchecked
             filteringListModel.addAll(items);
             ListWithFilter listWithFilter = UIUtil.getParentOfType(ListWithFilter.class, myList);
             if (listWithFilter != null) {
@@ -360,6 +363,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         } else if (listModel instanceof CollectionListModel) {
             // needed for 2016.3 since speed search wrapper is not compatible with 2019.1
             ((CollectionListModel) listModel).removeAll();
+            //noinspection unchecked
             ((CollectionListModel) listModel).add(items);
         }
     }
@@ -448,7 +452,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         final String shortText;
         final String longText;
 
-        private Item(int index, String shortText, String longText) {
+        Item(int index, String shortText, String longText) {
             this.index = index;
             this.shortText = shortText;
             this.longText = longText;
