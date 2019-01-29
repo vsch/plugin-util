@@ -21,6 +21,8 @@
  */
 package com.vladsch.plugin.util
 
+import com.vladsch.flexmark.util.sequence.BasedSequence
+import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 import org.jdom.Element
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
@@ -143,7 +145,7 @@ fun String?.count(char: Char, startIndex: Int = 0, endIndex: Int = Integer.MAX_V
     var count = 0
     var pos = startIndex
     val lastIndex = Math.min(length, endIndex)
-    while (pos in 0..lastIndex) {
+    while (pos in 0 .. lastIndex) {
         pos = indexOf(char, pos)
         if (pos < 0) break
         count++
@@ -158,7 +160,7 @@ fun String?.count(char: String, startIndex: Int = 0, endIndex: Int = Integer.MAX
     var count = 0
     var pos = startIndex
     val lastIndex = Math.min(length, endIndex)
-    while (pos in 0..lastIndex) {
+    while (pos in 0 .. lastIndex) {
         pos = indexOf(char, pos)
         if (pos < 0) break
         count++
@@ -271,7 +273,7 @@ fun skipEmptySplicer(delimiter: String): (accum: String, elem: String) -> String
 }
 
 fun StringBuilder.regionMatches(thisOffset: Int, other: String, otherOffset: Int, length: Int, ignoreCase: Boolean = false): Boolean {
-    for (i in 0..length - 1) {
+    for (i in 0 .. length - 1) {
         if (!this.get(i + thisOffset).equals(other[i + otherOffset], ignoreCase)) return false
     }
     return true
@@ -362,6 +364,18 @@ fun String.removePrefixIncluding(delimiter: String): String {
     return this
 }
 
+fun CharSequence.asBased(): BasedSequence {
+    return BasedSequenceImpl.of(this)
+}
+
+fun Int.indexOrNull(): Int? {
+    return if (this < 0) null else this
+}
+
+fun CharSequence.contains(char: Char?):Boolean {
+    return char != null && this.indexOf(char) != -1
+}
+
 fun <T : Any> Any?.ifNotNull(eval: () -> T?): T? = if (this == null) null else eval()
 
 fun <T : String?> T.nullIfEmpty(): T? = if (this != null && !this.isEmpty()) this else null
@@ -380,7 +394,7 @@ operator fun <T : Any> StringBuilder.plusAssign(text: T): Unit {
 
 fun repeatChar(char: Char, count: Int): String {
     var result = ""
-    for (i in 1..count) {
+    for (i in 1 .. count) {
         result += char
     }
 
@@ -531,9 +545,9 @@ fun Element.cloneChild(oldName: String, newName: String, removeOld: Boolean = tr
     return element
 }
 
-fun <T> List<T>.forEachReversed(action:(T)->Unit) {
+fun <T> List<T>.forEachReversed(action: (T) -> Unit) {
     var i = size
-    while(i-- > 0) {
+    while (i-- > 0) {
         action.invoke(get(i))
     }
 }
