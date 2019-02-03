@@ -23,6 +23,8 @@
 package com.vladsch.plugin.util.ui;
 
 import com.intellij.ide.ui.AntialiasingType;
+import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.editor.colors.CodeInsightColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.markup.TextAttributes;
@@ -30,9 +32,13 @@ import com.intellij.ui.JBColor;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.UIUtil;
 import com.vladsch.flexmark.util.html.ui.HtmlHelpers;
+import com.vladsch.flexmark.util.sequence.RepeatedCharSequence;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JComponent;
 import java.awt.Component;
+import java.awt.MouseInfo;
+import java.awt.Point;
 
 @SuppressWarnings("WeakerAccess")
 public class Helpers {
@@ -90,5 +96,25 @@ public class Helpers {
 
     public static java.awt.Color warningColor(java.awt.Color color) {
         return HtmlHelpers.mixedColor(color, warningColor());
+    }
+    
+    public static int mousePositionVirtualSpaces(@NotNull Editor editor) {
+        if (editor.getSettings().isVirtualSpace()) {
+            JComponent editorComponent = editor.getContentComponent();
+            Point mouseScreenPos = MouseInfo.getPointerInfo().getLocation();
+            Point editorScreenPos = editorComponent.getLocationOnScreen();
+            Point mouseEditorPos = new Point(mouseScreenPos.x - editorScreenPos.x, mouseScreenPos.y - editorScreenPos.y);
+            if (mouseEditorPos.x >= 0 && mouseEditorPos.x < editorComponent.getWidth()
+                    && mouseEditorPos.y >= 0 && mouseEditorPos.y < editorComponent.getHeight()) {
+                LogicalPosition mouseLogicalPos = editor.xyToLogicalPosition(mouseEditorPos);
+                LogicalPosition caretOffsetLogicalPos = editor.getCaretModel().getPrimaryCaret().getLogicalPosition();
+
+                if (caretOffsetLogicalPos.column < mouseLogicalPos.column) {
+                    // insert spaces to compensate
+                    return mouseLogicalPos.column - caretOffsetLogicalPos.column;
+                }
+            }
+        }
+        return 0;
     }
 }
