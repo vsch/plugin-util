@@ -100,5 +100,3 @@ class NodeRange(val node: ASTNode, start: Int, end: Int, text: CharSequence) : N
         return "NodeRange(node=$node, start=$start, end=$end, text=\"$text\", nonSpace=$nonSpace, trailingSpace=$trailingSpace)"
     }
 }
-
-

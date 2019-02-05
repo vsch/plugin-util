@@ -419,7 +419,7 @@ fun <T : String?> T.nullIfEmpty(): T? = if (this != null && !this.isEmpty()) thi
 
 fun <T : Any?> T.nullIf(nullIfValue: T): T? = if (this == null || this == nullIfValue) null else this
 fun <T : Any?> T.nullIf(nullIfValue: Boolean): T? = if (this == null || nullIfValue) null else this
-fun <T : Any?> T.nullIf(condition: (T) -> Boolean): T? = if (this == null || condition.invoke(this)) null else this
+fun <T : Any> T?.nullIf(condition: (T) -> Boolean): T? = if (this == null || condition.invoke(this)) null else this
 
 fun <T : Any, R : Any> T?.nullOr(transform: (T) -> R): R? = if (this == null) null else transform.invoke(this)
 
