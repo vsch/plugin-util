@@ -423,6 +423,7 @@ fun <T : Any> T?.nullIf(condition: (T) -> Boolean): T? = if (this == null || con
 
 fun <T : Any, R : Any> T?.nullOr(transform: (T) -> R): R? = if (this == null) null else transform.invoke(this)
 
+fun Boolean?.toInt(): Int = if (this != true) 0 else 1
 fun <T : Any?> Boolean.ifElse(ifTrue: T, ifFalse: T): T = if (this) ifTrue else ifFalse
 fun <T : Any?> Boolean.ifElse(ifTrue: () -> T, ifFalse: () -> T): T = if (this) ifTrue() else ifFalse()
 fun <T : Any?> Boolean.ifElse(ifTrue: T, ifFalse: () -> T): T = if (this) ifTrue else ifFalse()
