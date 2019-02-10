@@ -415,6 +415,8 @@ fun StringBuilder.append(c: CharSequence, count: Int): StringBuilder {
 
 fun <T : Any> Any?.ifNotNull(eval: () -> T?): T? = if (this == null) null else eval()
 
+fun <T : Any, R:Any> T?.ifNull(nullResult: R, elseEval: (R, T) -> R): R = if (this == null) nullResult else elseEval(nullResult, this)
+
 fun <T : String?> T.nullIfEmpty(): T? = if (this != null && !this.isEmpty()) this else null
 
 fun <T : Any?> T.nullIf(nullIfValue: T): T? = if (this == null || this == nullIfValue) null else this
