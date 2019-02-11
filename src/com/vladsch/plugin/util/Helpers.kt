@@ -418,6 +418,7 @@ fun <T : Any> Any?.ifNotNull(eval: () -> T?): T? = if (this == null) null else e
 fun <T : Any, R:Any> T?.ifNull(nullResult: R, elseEval: (R, T) -> R): R = if (this == null) nullResult else elseEval(nullResult, this)
 
 fun <T : String?> T.nullIfEmpty(): T? = if (this != null && !this.isEmpty()) this else null
+fun <T : String?> T.nullIfBlank(): T? = if (this != null && !this.isBlank()) this else null
 
 fun <T : Any?> T.nullIf(nullIfValue: T): T? = if (this == null || this == nullIfValue) null else this
 fun <T : Any?> T.nullIf(nullIfValue: Boolean): T? = if (this == null || nullIfValue) null else this

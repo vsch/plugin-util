@@ -41,7 +41,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -279,7 +278,7 @@ public class ImageUtils {
     public static BufferedImage loadSvgImageFromURL(String imageURL, final float scale, boolean logImageProcessing) {
         BufferedImage image = loadSvgImageFromURL(imageURL, null, logImageProcessing);
         if (image != null && scale != 1.0f) {
-            image = loadSvgImageFromURL(imageURL, new Point((int)(image.getWidth() * scale), (int)(image.getHeight() * scale)), logImageProcessing);
+            image = loadSvgImageFromURL(imageURL, new Point((int) (image.getWidth() * scale), (int) (image.getHeight() * scale)), logImageProcessing);
         }
         return image;
     }
@@ -299,8 +298,8 @@ public class ImageUtils {
             PNGTranscoder t = new PNGTranscoder();
 
             if (size != null) {
-                t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float)size.x);
-                t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float)size.y);
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float) size.x);
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float) size.y);
             }
 
             // Create the transcoder output.
