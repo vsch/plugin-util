@@ -372,6 +372,10 @@ fun Int.indexOrNull(): Int? {
     return if (this < 0) null else this
 }
 
+fun Int.indexOr(defaultValue:Int): Int {
+    return if (this < 0) defaultValue else this
+}
+
 fun CharSequence.contains(char: Char?): Boolean {
     return char != null && this.indexOf(char) != -1
 }
