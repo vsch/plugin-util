@@ -15,8 +15,24 @@
 
 package com.vladsch.plugin.util;
 
-import org.jetbrains.annotations.NotNull;
+public class BreakResult {
+    public static final Object NULL = new Object();
+    
+    private boolean myBreak;
 
-public interface ReportingConsumer<T, R> {
-    void accept(@NotNull T it, final @NotNull ReportResult<R> result);
+    public BreakResult() {
+        myBreak = false;
+    }
+
+    public boolean isBreak() {
+        return myBreak;
+    }
+
+    public void Return() {
+        myBreak = true;
+    }
+
+    public void Break() {
+        myBreak = true;
+    }
 }

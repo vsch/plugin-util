@@ -17,6 +17,6 @@ package com.vladsch.plugin.util;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ReportingConsumer<T, R> {
-    void accept(@NotNull T it, final @NotNull ReportResult<R> result);
+public interface BreakingConsumer<T> {
+    void accept(@NotNull T it, final @NotNull BreakResult result);
 }
