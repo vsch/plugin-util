@@ -13,26 +13,11 @@
  *
  */
 
-package com.vladsch.plugin.util;
+package com.vladsch.plugin.util.loop;
 
-public class BreakResult {
-    public static final Object NULL = new Object();
-    
-    private boolean myBreak;
+import org.jetbrains.annotations.Nullable;
 
-    public BreakResult() {
-        myBreak = false;
-    }
-
-    public boolean isBreak() {
-        return myBreak;
-    }
-
-    public void Return() {
-        myBreak = true;
-    }
-
-    public void Break() {
-        myBreak = true;
-    }
+public interface MorphingFilter<T, F extends T> {
+    @Nullable
+    F match(T element);
 }

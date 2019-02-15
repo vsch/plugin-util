@@ -13,28 +13,10 @@
  *
  */
 
-package com.vladsch.plugin.util;
+package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ReturnResult<R> extends BreakResult {
-    @NotNull private R myValue;        // return value
-
-    public ReturnResult(final @NotNull R initialValue) {
-        myValue = initialValue;
-    }
-
-    public void Return() {
-        Break();
-    }
-
-    public void Return(@NotNull R value) {
-        myValue = value;
-        Break();
-    }
-
-    @NotNull
-    public R getValue() {
-        return myValue;
-    }
+public interface ReturningConsumer<T, R> {
+    void accept(@NotNull T it, final @NotNull ReturnResult<R> result);
 }

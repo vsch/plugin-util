@@ -13,10 +13,5 @@
  *
  */
 
-package com.vladsch.plugin.util;
+package com.vladsch.plugin.util.loop;
 
-import org.jetbrains.annotations.NotNull;
-
-public interface BreakingConsumer<T> {
-    void accept(@NotNull T it, final @NotNull BreakResult result);
-}
