@@ -17,7 +17,6 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class LoopingImpl<N> implements Loop<N> {
@@ -59,12 +58,7 @@ public class LoopingImpl<N> implements Loop<N> {
 
     @NotNull
     public LoopingImpl<N> modifiedCopy(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter, final @NotNull Predicate<N> recursion) {
-        return new LoopingImpl<>(constraints, recursion, filter);
-    }
-
-    @NotNull
-    public LoopingImpl<N> aborted() {
-        return modifiedCopy(myConstraints.getAborted(), myFilter, myRecursion);
+        return new LoopingImpl<>(constraints, filter, recursion);
     }
 
     @NotNull
@@ -85,8 +79,23 @@ public class LoopingImpl<N> implements Loop<N> {
     }
 
     @NotNull
-    public LoopingImpl<N> filter(final @NotNull Predicate<N> predicate) {
-        return modifiedCopy(myConstraints, myFilter.and(predicate), myRecursion);
+    public LoopingImpl<N> recurse(final @NotNull Predicate<N> predicate) {
+        return modifiedCopy(myConstraints, myFilter, myRecursion.or(predicate));
+    }
+
+    @NotNull
+    public LoopingImpl<N> recurse(final @NotNull Class clazz) {
+        return modifiedCopy(myConstraints, myFilter, myRecursion.or(clazz::isInstance));
+    }
+
+    @NotNull
+    public <F> LoopingImpl<N> recurse(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+        return modifiedCopy(myConstraints, myFilter, myRecursion.or((it) -> clazz.isInstance(it) && predicate.test(clazz.cast(it))));
+    }
+
+    @NotNull
+    public LoopingImpl<N> aborted() {
+        return modifiedCopy(myConstraints.getAborted(), myFilter, myRecursion);
     }
 
     @NotNull
@@ -95,23 +104,33 @@ public class LoopingImpl<N> implements Loop<N> {
     }
 
     @NotNull
-    public LoopingImpl<N> filter(final @NotNull Class clazz) {
-        return modifiedCopy(myConstraints, myFilter.and(clazz::isInstance), myRecursion);
-    }
-
-    @NotNull
     public LoopingImpl<N> filterOut(final @NotNull Class clazz) {
         return filterOut(clazz::isInstance);
     }
 
     @NotNull
-    public LoopingImpl<N> recurse(final @NotNull Predicate<N> predicate) {
-        return modifiedCopy(myConstraints, myFilter, predicate);
+    public <F> LoopingImpl<N> filterOut(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+        return modifiedCopy(myConstraints, myFilter.and((it) -> !(clazz.isInstance(it) && predicate.test(clazz.cast(it)))), myRecursion);
     }
 
     @NotNull
-    public MorphedLooping<N, N> over(final @NotNull N element) {
-        return new MorphedLoopingImpl<>(element, Function.identity(), this);
+    public LoopingImpl<N> filter(final @NotNull Predicate<N> predicate) {
+        return modifiedCopy(myConstraints, myFilter.and(predicate), myRecursion);
+    }
+
+    @NotNull
+    public LoopingImpl<N> filter(final @NotNull Class clazz) {
+        return modifiedCopy(myConstraints, myFilter.and(clazz::isInstance), myRecursion);
+    }
+
+    @NotNull
+    public <F> LoopingImpl<N> filter(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+        return modifiedCopy(myConstraints, myFilter.and((it) -> clazz.isInstance(it) && predicate.test(clazz.cast(it))), myRecursion);
+    }
+
+    @NotNull
+    public <R> MorphedLooping<N, N> over(final @NotNull N element) {
+        return new MorphedLoopingImpl<>(element, ValueLoopAdapterImpl.of(), this);
     }
 
     @NotNull

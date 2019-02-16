@@ -17,6 +17,7 @@ package com.vladsch.plugin.util.loop;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -24,10 +25,10 @@ import java.util.function.Predicate;
 
 public class PsiLoopingImpl<T extends PsiElement> implements PsiLooping<T> {
     private final @NotNull PsiElement myElement;
-    private final @NotNull Function<PsiElement, T> myAdapter;
+    private final @NotNull ValueLoopAdapter<PsiElement, T> myAdapter;
     private final @NotNull LoopingImpl<PsiElement> myLooping;
 
-    public PsiLoopingImpl(@NotNull final PsiElement element, @NotNull Function<PsiElement, T> adapter, @NotNull LoopingImpl<PsiElement> looping) {
+    public PsiLoopingImpl(@NotNull final PsiElement element, @NotNull ValueLoopAdapter<PsiElement, T> adapter, @NotNull LoopingImpl<PsiElement> looping) {
         myElement = element;
         myAdapter = adapter;
         myLooping = looping;
@@ -65,8 +66,14 @@ public class PsiLoopingImpl<T extends PsiElement> implements PsiLooping<T> {
 
     @NotNull
     @Override
-    public PsiLooping<T> filter(@NotNull final Predicate<PsiElement> predicate) {
-        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filter(predicate));
+    public PsiLooping<T> recurse(@NotNull final Class clazz) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.recurse(clazz));
+    }
+
+    @NotNull
+    @Override
+    public <F> PsiLooping<T> recurse(@NotNull final Class<F> clazz, @NotNull final Predicate<F> predicate) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.recurse(clazz, predicate));
     }
 
     @NotNull
@@ -89,36 +96,80 @@ public class PsiLoopingImpl<T extends PsiElement> implements PsiLooping<T> {
 
     @NotNull
     @Override
-    public <F extends PsiElement> PsiLooping<F> filter(@NotNull Function<T, F> adapter) {
-        return new PsiLoopingImpl<>(myElement, myAdapter.andThen(adapter), myLooping);
+    public PsiLooping<T> filterOut(@NotNull Class clazz) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(clazz));
+    }
+
+    @NotNull
+    @Override
+    public <F> PsiLooping<T> filterOut(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(clazz, predicate));
+    }
+
+    @NotNull
+    @Override
+    public PsiLooping<T> filter(@NotNull final Predicate<PsiElement> predicate) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filter(predicate));
     }
 
     @NotNull
     @Override
     public <F extends PsiElement> PsiLooping<F> filter(@NotNull Class<F> clazz) {
-        return new PsiLoopingImpl<>(myElement, myAdapter.andThen((it) -> clazz.isInstance(it) ? clazz.cast(it) : null), myLooping);
+        return new PsiLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz)), myLooping);
     }
 
     @NotNull
     @Override
     public <F extends PsiElement> PsiLooping<F> filter(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
-        PsiLoopingImpl<F> morphedLooping = new PsiLoopingImpl<>(myElement, myAdapter.andThen((it) -> clazz.isInstance(it) ? clazz.cast(it) : null), myLooping);
-        return morphedLooping.filter((Predicate<PsiElement>) n -> {
-            F apply = morphedLooping.myAdapter.apply(n);
-            return apply != null && predicate.test(apply);
-        });
+        return new PsiLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
     }
 
     @NotNull
     @Override
-    public PsiLooping<T> filterOut(@NotNull Class clazz) {
-        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(clazz::isInstance));
+    public <F extends PsiElement> PsiLooping<F> filter(@NotNull Function<T, F> adapter) {
+        return new PsiLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
+    @NotNull
     @Override
-    public PsiLooping<T> getFilterOutLeafPsi() {
+    public <F extends PsiElement> PsiLooping<F> filter(@NotNull ValueLoopAdapter<T, F> adapter) {
+        return new PsiLoopingImpl<>(myElement, myAdapter.andThen(adapter), myLooping);
+    }
+
+    @NotNull
+    @Override
+    public PsiLooping<T> filter(@NotNull ValueLoopFilter<T> filter) {
+        return new PsiLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
+    }
+
+    /*
+     * Psi Only
+     */
+
+    @NotNull
+    public PsiLooping<T> recurse(@NotNull TokenSet tokenSet) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.recurse(it -> it.getNode() != null && tokenSet.contains(it.getNode().getElementType())));
+    }
+
+    @NotNull
+    public PsiLooping<T> filterOut(@NotNull TokenSet tokenSet) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(it -> it.getNode() != null && tokenSet.contains(it.getNode().getElementType())));
+    }
+
+    @NotNull
+    public PsiLooping<T> filter(@NotNull TokenSet tokenSet) {
+        return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filter(it -> it.getNode() != null && tokenSet.contains(it.getNode().getElementType())));
+    }
+
+    @NotNull
+    @Override
+    public PsiLooping<T> filterOutLeafPsi() {
         return new PsiLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(LeafPsiElement.class));
     }
+
+    /*
+     * Looping
+     */
 
     @Override
     @NotNull
@@ -129,5 +180,13 @@ public class PsiLoopingImpl<T extends PsiElement> implements PsiLooping<T> {
     @Override
     public void doLoop(@NotNull final VoidLoopConsumer<T> consumer) {
         myLooping.doLoop(myElement, myAdapter, consumer);
+    }
+
+    /*
+     * Static Factories
+     */
+
+    public static <R> PsiLooping<PsiElement> create(final PsiElement element, @NotNull LoopingImpl<PsiElement> looping) {
+        return new PsiLoopingImpl<>(element, ValueLoopAdapterImpl.of(), looping);
     }
 }

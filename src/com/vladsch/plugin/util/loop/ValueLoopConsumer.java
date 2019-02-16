@@ -18,5 +18,15 @@ package com.vladsch.plugin.util.loop;
 import org.jetbrains.annotations.NotNull;
 
 public interface ValueLoopConsumer<N, R> {
-    void accept(@NotNull N it, final @NotNull ValueLoop<N, R> result);
+    void accept(@NotNull N it, @NotNull ValueLoop<R> loop);
+
+    // loop is done, before returning
+    default void afterEnd(@NotNull ValueLoop<R> loop) {
+
+    }
+
+    // before start of all iterations
+    default void beforeStart(@NotNull ValueLoop<R> loop) {
+
+    }
 }

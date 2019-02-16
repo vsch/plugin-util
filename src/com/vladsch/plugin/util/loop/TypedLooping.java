@@ -19,20 +19,58 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-public interface TypedLooping<N, T> {
-    // @formatter:off
-    @NotNull LoopingImpl<N> getLooping();
-    @NotNull TypedLooping<N, T> reversed();
-    @NotNull TypedLooping<N, T> recursive();
-    @NotNull TypedLooping<N, T> nonRecursive();
-    @NotNull TypedLooping<N, T> recurse(@NotNull Predicate<N> predicate);
-    @NotNull TypedLooping<N, T> filter(@NotNull Predicate<N> predicate);
-    @NotNull TypedLooping<N, T> filterFalse();
-    @NotNull TypedLooping<N, T> aborted();
-    @NotNull TypedLooping<N, T> filterOut(@NotNull Predicate<N> predicate);
-    @NotNull TypedLooping<N, T> filterOut(@NotNull Class clazz);
-    @NotNull<R> R doLoop(@NotNull R defaultValue, @NotNull ValueLoopConsumer<T, R> consumer);
-    // @formatter:on
-    
+public interface TypedLooping<N, T, D extends TypedLooping<N,T,D>> {
+    @NotNull
+    LoopingImpl<N> getLooping();
+
+    @NotNull
+    D reversed();
+
+    @NotNull
+    D recursive();
+
+    @NotNull
+    D nonRecursive();
+
+    @NotNull
+    default D recursive(boolean recursive) {
+        return recursive ? recursive() : nonRecursive();
+    }
+
+    @NotNull
+    default D nonRecursive(boolean nonRecursive) {
+        return nonRecursive ? nonRecursive() : recursive();
+    }
+
+    @NotNull
+    D recurse(@NotNull Predicate<N> predicate);
+
+    @NotNull
+    D recurse(@NotNull Class clazz);
+
+    @NotNull
+    <F> D recurse(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate);
+
+    @NotNull
+    D filterFalse();
+
+    @NotNull
+    D aborted();
+
+    @NotNull
+    D filterOut(@NotNull Predicate<N> predicate);
+
+    @NotNull
+    D filterOut(@NotNull Class clazz);
+
+    @NotNull
+    <F> D filterOut(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate);
+
+    @NotNull
+    D filter(@NotNull Predicate<N> predicate);
+
+    @NotNull
+    <R> R doLoop(@NotNull R defaultValue, @NotNull ValueLoopConsumer<T, R> consumer);
+
     void doLoop(@NotNull VoidLoopConsumer<T> consumer);
 }

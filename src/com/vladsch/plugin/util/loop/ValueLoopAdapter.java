@@ -17,15 +17,14 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoop<R> extends VoidLoop {
-    void setResult(@NotNull R value);
-    
-    boolean isDefaultResult();       // true if value never set other than initial default setting
+public interface ValueLoopAdapter<N, T> {
 
     @NotNull
-    R getResult();
+    ValueLoopConsumerAdapter<N, T> getConsumerAdapter();
 
-    void Return();
+    @NotNull
+    <V> ValueLoopAdapter<N, V> andThen(ValueLoopAdapter<T, V> after);
 
-    void Return(@NotNull R value);
+    @NotNull
+    ValueLoopAdapter<N, T> compose(ValueLoopAdapter<N, N> before);
 }

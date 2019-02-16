@@ -15,27 +15,38 @@
 
 package com.vladsch.plugin.util.loop;
 
-public interface VoidLoop<N> {
+import com.vladsch.flexmark.util.options.MutableDataHolder;
+
+public interface VoidLoop {
     Object NULL = new Object();
 
     void Recurse();              // recurse into current element regardless of recursion predicate 
-    void Return();
+
     void Continue(int outerLevels);
+
     void Break(int outerLevels);
+
     boolean haveNext();
 
     boolean isBreak();          // true if looping terminated 
+
     boolean isTerminated();     // return true if current iteration is terminated ( break, continue, return)
+
     boolean isActive();          // return true if current iteration has not been terminated
 
     int getLoopCount();         // return total times through the loop of the iteration, includes skipped elements due to filtering
+
     int getCount();             // return total times consumer was invoked, ie. valid elements
+
     int getTotalLoopCount();    // return loop count across all recursions  
+
     int getTotalCount();        // return count across all recursions 
+
     int getRecursionCount();
 
-    void handle(VoidLoopConsumer<N> consumer);
+    MutableDataHolder getData();
 
     default void Continue() { Continue(0); }
+
     default void Break() { Break(0); }
 }

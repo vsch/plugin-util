@@ -61,12 +61,11 @@ public class LoopConstrainsBuilder<N> {
         this.LAST_CHILD = LAST_CHILD;
         this.PARENT = PARENT;
 
-        ourIterators = new IterationFunctions[] {
-                new IterationFunctions<N>(ITERATE_CHILDREN, NEXT_SIBLING, NEXT_SIBLING, PREV_SIBLING, PREV_SIBLING),
-                new IterationFunctions<N>(ITERATE_CHILDREN_REV, PREV_SIBLING, PREV_SIBLING, NEXT_SIBLING, NEXT_SIBLING),
-                new IterationFunctions<N>(ITERATE_SIBLINGS, FIRST_CHILD, NEXT_SIBLING, LAST_CHILD, PREV_SIBLING),
-                new IterationFunctions<N>(ITERATE_SIBLINGS_REV, LAST_CHILD, PREV_SIBLING, FIRST_CHILD, NEXT_SIBLING),
-        };
+        ourIterators = new IterationFunctions[MAX_CONSTRAINTS];
+        ourIterators[ITERATE_CHILDREN] = new IterationFunctions<N>(ITERATE_CHILDREN, FIRST_CHILD, NEXT_SIBLING, LAST_CHILD, PREV_SIBLING);
+        ourIterators[ITERATE_CHILDREN_REV] = new IterationFunctions<N>(ITERATE_CHILDREN_REV, LAST_CHILD, PREV_SIBLING, FIRST_CHILD, NEXT_SIBLING);
+        ourIterators[ITERATE_SIBLINGS] = new IterationFunctions<N>(ITERATE_SIBLINGS, NEXT_SIBLING, NEXT_SIBLING, PREV_SIBLING, PREV_SIBLING);
+        ourIterators[ITERATE_SIBLINGS_REV] = new IterationFunctions<N>(ITERATE_SIBLINGS_REV, PREV_SIBLING, PREV_SIBLING, NEXT_SIBLING, NEXT_SIBLING);
     }
 
     final LoopConstraints[] myConstraints = new LoopConstraints[MAX_CONSTRAINTS];

@@ -15,13 +15,15 @@
 
 package com.vladsch.plugin.util.loop;
 
+import com.vladsch.flexmark.util.options.MutableDataHolder;
+import com.vladsch.flexmark.util.options.MutableDataSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Stack;
 import java.util.function.Predicate;
 
-final public class LoopInstance<N, R> implements ValueLoop<N, R> {
+final public class LoopInstance<N, R> implements ValueLoop<R> {
     private Iteration<N> myIteration;               // current iteration information
     private @Nullable Stack<Iteration<N>> myRecursions;       // recursion frames
     final @NotNull private LoopConstraints<N> myConditions;
@@ -30,11 +32,13 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
     private int myTotalLoopCount;                        // total looping count across all nesting levels, including filtered out elements
     private int myTotalCount;                            // total looping count across all nesting levels, only consumed elements
     private @Nullable N myMatch;
+    private @Nullable MutableDataSet myDataSet;
 
     // ValueResult
     private Object myResult;
     private boolean myBreak;
     private boolean myRecursed;
+    private boolean myIsDefaultResult;
 
     public LoopInstance(@NotNull LoopConstraints<N> conditions, @NotNull Predicate<N> filter, @NotNull Predicate<N> recursion, @NotNull N element) {
         this(conditions, filter, recursion, element, VoidLoop.NULL);
@@ -50,6 +54,7 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
         myResult = defaultValue;
         myBreak = false;
         myRecursed = false;
+        myIsDefaultResult = true;
     }
 
     static class Iteration<V> {
@@ -72,22 +77,17 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
         }
     }
 
+    @Override
+    public MutableDataHolder getData() {
+        if (myDataSet == null) {
+            myDataSet = new MutableDataSet();
+        }
+        return myDataSet;
+    }
+
+    @Nullable
     public N getMatch() {
         return myMatch;
-    }
-
-    @Override
-    public void handle(final ValueLoopConsumer<N, R> consumer) {
-        if (myMatch != null) {
-            consumer.accept(myMatch, this);
-        }
-    }
-
-    @Override
-    public void handle(final VoidLoopConsumer<N> consumer) {
-        if (myMatch != null) {
-            consumer.accept(myMatch, this);
-        }
     }
 
     @Override
@@ -135,8 +135,26 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
         return myRecursions == null ? 0 : myRecursions.size();
     }
 
+    @Override
+    public boolean isDefaultResult() {
+        return myIsDefaultResult;
+    }
+
+    public void iterate(@NotNull VoidLoopConsumer<N> consumer) {
+        iterate(new VoidToValueLoopConsumerAdapter<>(consumer));
+    }
+
     public void iterate(@NotNull ValueLoopConsumer<N, R> consumer) {
-        while (myIteration.next != null) {
+        consumer.beforeStart(this);
+
+        while (true) {
+            if (myIteration.next == null) {
+                // see if all done, or just current 
+                if (myRecursions == null || myRecursions.size() == 0) break;
+                dropRecursions(1);
+                continue;
+            }
+            
             myIteration.advance(myConditions.getIterator().apply(myIteration.next));
             myTotalLoopCount++;
 
@@ -148,7 +166,6 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
                 myTotalCount++;
 
                 myRecursed = false;
-                //noinspection unchecked
                 consumer.accept(myMatch, this);
 
                 if (myBreak) break;
@@ -158,16 +175,19 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
                 Recurse();
             }
         }
+
+        consumer.afterEnd(this);
     }
 
     @Override
-    public void setValue(@NotNull final Object value) {
+    public void setResult(@NotNull final Object value) {
         myResult = value;
+        myIsDefaultResult = false;
     }
 
     @NotNull
     @Override
-    public R getValue() {
+    public R getResult() {
         return (R) myResult;
     }
 
@@ -176,6 +196,7 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
         myResult = value;
         myBreak = true;
         myMatch = null;
+        myIsDefaultResult = false;
     }
 
     /**

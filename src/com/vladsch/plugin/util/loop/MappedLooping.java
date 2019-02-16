@@ -20,35 +20,75 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public interface MappedLooping<N, T> extends TypedLooping<N,T> {
+public interface MappedLooping<N, T> extends TypedLooping<N, T, MappedLooping<N,T>> {
     @NotNull
     @Override
     MappedLooping<N, T> reversed();
+
     @NotNull
     @Override
     MappedLooping<N, T> recursive();
+
     @NotNull
     @Override
     MappedLooping<N, T> nonRecursive();
+
+    @NotNull
+    default MappedLooping<N, T> recursive(boolean recursive) {
+        return recursive ? recursive() : nonRecursive();
+    }
+
+    @NotNull
+    default MappedLooping<N, T> nonRecursive(boolean nonRecursive) {
+        return nonRecursive ? nonRecursive() : recursive();
+    }
+
     @NotNull
     @Override
     MappedLooping<N, T> recurse(@NotNull Predicate<N> predicate);
+
     @NotNull
-    @Override
-    MappedLooping<N, T> filter(@NotNull Predicate<N> predicate);
+    MappedLooping<N, T> recurse(@NotNull Class clazz);
+
+    @NotNull
+    <F> MappedLooping<N, T> recurse(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate);
+
     @NotNull
     @Override
     MappedLooping<N, T> filterFalse();
+
     @NotNull
     @Override
     MappedLooping<N, T> aborted();
+
     @NotNull
     @Override
     MappedLooping<N, T> filterOut(@NotNull Predicate<N> predicate);
-    @NotNull <F> MappedLooping<N, F> filter(@NotNull Function<T, F> adapter);
-    @NotNull <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz);
-    @NotNull <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate);
+
     @NotNull
     @Override
     MappedLooping<N, T> filterOut(@NotNull Class clazz);
+
+    @NotNull
+    @Override
+    <F> MappedLooping<N, T> filterOut(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate);
+
+    @NotNull
+    @Override
+    MappedLooping<N, T> filter(@NotNull Predicate<N> predicate);
+
+    @NotNull
+    <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz);
+
+    @NotNull
+    <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate);
+
+    @NotNull
+    <F> MappedLooping<N, F> filter(@NotNull Function<T, F> adapter);
+
+    @NotNull
+    <F> MappedLooping<N, F> filter(@NotNull ValueLoopAdapter<T, F> adapter);
+
+    @NotNull
+    MappedLooping<N, T> filter(@NotNull ValueLoopFilter<T> filter);
 }

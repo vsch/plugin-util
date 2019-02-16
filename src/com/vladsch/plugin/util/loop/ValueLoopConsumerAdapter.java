@@ -17,15 +17,10 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoop<R> extends VoidLoop {
-    void setResult(@NotNull R value);
-    
-    boolean isDefaultResult();       // true if value never set other than initial default setting
+public interface ValueLoopConsumerAdapter<P, T> {
+    @NotNull
+    <R> ValueLoopConsumer<P, R> getConsumer(ValueLoopConsumer<T, R> valueConsumer);
 
     @NotNull
-    R getResult();
-
-    void Return();
-
-    void Return(@NotNull R value);
+    <R> ValueLoopConsumer<P, R> getConsumer(VoidLoopConsumer<T> voidConsumer);
 }

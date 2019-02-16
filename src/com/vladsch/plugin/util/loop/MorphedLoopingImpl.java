@@ -15,7 +15,6 @@
 
 package com.vladsch.plugin.util.loop;
 
-import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -23,10 +22,10 @@ import java.util.function.Predicate;
 
 public class MorphedLoopingImpl<N, T> implements MorphedLooping<N, T> {
     private final @NotNull N myElement;
-    private final @NotNull Function<N, T> myAdapter;
+    private final @NotNull ValueLoopAdapter<N, T> myAdapter;
     private final @NotNull LoopingImpl<N> myLooping;
 
-    public MorphedLoopingImpl(@NotNull final N element, @NotNull Function<N, T> adapter, @NotNull LoopingImpl<N> looping) {
+    public MorphedLoopingImpl(@NotNull final N element, @NotNull ValueLoopAdapter<N, T> adapter, @NotNull LoopingImpl<N> looping) {
         myElement = element;
         myAdapter = adapter;
         myLooping = looping;
@@ -64,8 +63,14 @@ public class MorphedLoopingImpl<N, T> implements MorphedLooping<N, T> {
 
     @NotNull
     @Override
-    public MorphedLooping<N, T> filter(@NotNull final Predicate<N> predicate) {
-        return new MorphedLoopingImpl<>(myElement, myAdapter, myLooping.filter(predicate));
+    public MorphedLooping<N, T> recurse(@NotNull final Class clazz) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter, myLooping.recurse(clazz));
+    }
+
+    @NotNull
+    @Override
+    public <F> MorphedLooping<N, T> recurse(@NotNull final Class<F> clazz, @NotNull final Predicate<F> predicate) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter, myLooping.recurse(clazz, predicate));
     }
 
     @NotNull
@@ -88,31 +93,59 @@ public class MorphedLoopingImpl<N, T> implements MorphedLooping<N, T> {
 
     @NotNull
     @Override
-    public <F extends N> MorphedLooping<N, F> filter(@NotNull Function<T, F> adapter) {
-        return new MorphedLoopingImpl<>(myElement, myAdapter.andThen(adapter), myLooping);
+    public MorphedLooping<N, T> filterOut(@NotNull Class clazz) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(clazz));
+    }
+
+    @NotNull
+    @Override
+    public <F> MorphedLooping<N, T> filterOut(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(clazz, predicate));
+    }
+
+    @NotNull
+    @Override
+    public MorphedLooping<N, T> filter(@NotNull final Predicate<N> predicate) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter, myLooping.filter(predicate));
     }
 
     @NotNull
     @Override
     public <F extends N> MorphedLooping<N, F> filter(@NotNull Class<F> clazz) {
-        return new MorphedLoopingImpl<>(myElement, myAdapter.andThen((it) -> clazz.isInstance(it) ? clazz.cast(it) : null), myLooping);
+        return new MorphedLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz)), myLooping);
     }
 
     @NotNull
     @Override
     public <F extends N> MorphedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
-        MorphedLoopingImpl<N, F> morphedLooping = new MorphedLoopingImpl<>(myElement, myAdapter.andThen((it) -> clazz.isInstance(it) ? clazz.cast(it) : null), myLooping);
-        return morphedLooping.filter((Predicate<N>) n -> {
-            F apply = morphedLooping.myAdapter.apply(n);
-            return apply != null && predicate.test(apply);
-        });
+        return new MorphedLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
     }
 
     @NotNull
     @Override
-    public MorphedLooping<N, T> filterOut(@NotNull Class clazz) {
-        return new MorphedLoopingImpl<>(myElement, myAdapter, myLooping.filterOut(clazz::isInstance));
+    public <F extends N> MorphedLooping<N, F> filter(@NotNull Function<T, F> adapter) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
+
+    @NotNull
+    @Override
+    public <F extends N> MorphedLooping<N, F> filter(@NotNull ValueLoopAdapter<T, F> adapter) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter.andThen(adapter), myLooping);
+    }
+
+    @NotNull
+    @Override
+    public MorphedLooping<N, T> filter(@NotNull ValueLoopFilter<T> filter) {
+        return new MorphedLoopingImpl<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
+    }
+
+    /*
+     * Psi Only
+     */
+    
+    /*
+     * Looping
+     */
 
     @Override
     @NotNull
@@ -125,7 +158,11 @@ public class MorphedLoopingImpl<N, T> implements MorphedLooping<N, T> {
         myLooping.doLoop(myElement, myAdapter, consumer);
     }
 
+    /*
+     * Static Factories
+     */
+
     public static <N> MorphedLooping<N, N> create(final N element, @NotNull LoopingImpl<N> looping) {
-        return new MorphedLoopingImpl<>(element, Function.identity(), looping);
+        return new MorphedLoopingImpl<>(element, ValueLoopAdapterImpl.of(), looping);
     }
 }
