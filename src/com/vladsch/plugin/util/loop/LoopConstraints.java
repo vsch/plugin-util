@@ -25,14 +25,14 @@ public interface LoopConstraints<N> {
 
     @NotNull
     Function<N, N> getIterator();
-    
+
     @NotNull
     default LoopConstraints<N> getReversed() {
         throw new IllegalStateException("Method not implemented");
     }
 
     @NotNull
-    default public LoopConstraints<N> getAborted() {
+    default LoopConstraints<N> getAborted() {
         Function<N, N> function = n -> null;
         return new FixedLoopConstraints<>(function, function, function, function);
     }

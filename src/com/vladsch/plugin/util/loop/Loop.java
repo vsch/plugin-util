@@ -45,7 +45,7 @@ public interface Loop<N> {
     }
 
     default <F, R> ValueLoop<N, R> iterate(@NotNull N element, @NotNull R defaultValue, @NotNull Function<N, F> adapter, @NotNull ValueLoopConsumer<F, R> consumer) {
-        final AdaptedLoopInstance<N, F, R> instance = new AdaptedLoopInstance<>(adapter, new LoopInstance<>(getConstraints(), getFilter().and(it -> adapter.apply(it) != null), getRecursion(), element, defaultValue));
+        final MappedLoopInstance<N, F, R> instance = new MappedLoopInstance<>(adapter, new LoopInstance<>(getConstraints(), getFilter().and(it -> adapter.apply(it) != null), getRecursion(), element, defaultValue));
         if (adapter instanceof VoidLoopAdapter) {
             final VoidLoopConsumer<F> preFilter = ((VoidLoopAdapter<F>) adapter).getInstance();
             instance.iterate((it, result) -> {
@@ -68,7 +68,7 @@ public interface Loop<N> {
     }
 
     default <F> VoidLoop<N> iterate(@NotNull final N element, @NotNull Function<N, F> adapter, @NotNull final VoidLoopConsumer<F> consumer) {
-        final AdaptedLoopInstance<N, F, Object> instance = new AdaptedLoopInstance<>(adapter, new LoopInstance<>(getConstraints(), getFilter().and(it -> adapter.apply(it) != null), getRecursion(), element));
+        final MappedLoopInstance<N, F, Object> instance = new MappedLoopInstance<>(adapter, new LoopInstance<>(getConstraints(), getFilter().and(it -> adapter.apply(it) != null), getRecursion(), element));
         if (adapter instanceof VoidLoopAdapter) {
             final VoidLoopConsumer<F> preFilter = ((VoidLoopAdapter<F>) adapter).getInstance();
             instance.iterate((it, result) -> {

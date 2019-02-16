@@ -21,7 +21,7 @@ import java.util.function.Function;
 
 public interface VoidLoopAdapter<N> extends Function<N, N> {
     VoidLoopConsumer<N> getInstance();
-    
+
     @Override
     default N apply(final @NotNull N n) {
         return n;

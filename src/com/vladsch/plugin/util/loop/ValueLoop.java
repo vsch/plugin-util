@@ -24,6 +24,6 @@ public interface ValueLoop<N, R> extends VoidLoop<N> {
     R getValue();
 
     void Return(@NotNull R value);
-    
+
     void handle(ValueLoopConsumer<N, R> consumer);
 }

@@ -71,7 +71,7 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
             loopCount++;
         }
     }
-    
+
     public N getMatch() {
         return myMatch;
     }
@@ -79,7 +79,7 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
     @Override
     public void handle(final ValueLoopConsumer<N, R> consumer) {
         if (myMatch != null) {
-                consumer.accept(myMatch, this);
+            consumer.accept(myMatch, this);
         }
     }
 
@@ -89,7 +89,7 @@ final public class LoopInstance<N, R> implements ValueLoop<N, R> {
             consumer.accept(myMatch, this);
         }
     }
-    
+
     @Override
     public boolean haveNext() {
         return myIteration.next != null;

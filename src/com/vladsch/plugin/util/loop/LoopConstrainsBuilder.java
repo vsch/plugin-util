@@ -106,11 +106,11 @@ public class LoopConstrainsBuilder<N> {
     }
 
     final private static HashMap<Class, LoopConstrainsBuilder> ourCachedBuilders = new HashMap<>();
-    final public static Function<PsiElement, PsiElement> PSI_NEXT_SIBLING = PsiElement::getNextSibling;
-    final public static Function<PsiElement, PsiElement> PSI_PREV_SIBLING = PsiElement::getPrevSibling;
-    final public static Function<PsiElement, PsiElement> PSI_FIRST_CHILD = PsiElement::getFirstChild;
-    final public static Function<PsiElement, PsiElement> PSI_LAST_CHILD = PsiElement::getLastChild;
-    final public static Function<PsiElement, PsiElement> PSI_PARENT = PsiElement::getParent;
+    final public static Function<PsiElement, PsiElement> PSI_NEXT_SIBLING = element -> element.isValid() ? element.getNextSibling() : null;
+    final public static Function<PsiElement, PsiElement> PSI_PREV_SIBLING = element -> element.isValid() ? element.getPrevSibling() : null;
+    final public static Function<PsiElement, PsiElement> PSI_FIRST_CHILD = element -> element.isValid() ? element.getFirstChild() : null;
+    final public static Function<PsiElement, PsiElement> PSI_LAST_CHILD = element -> element.isValid() ? element.getLastChild() : null;
+    final public static Function<PsiElement, PsiElement> PSI_PARENT = element -> element.isValid() ? element.getParent() : null;
 
     final public static Function<ASTNode, ASTNode> AST_NEXT_SIBLING = ASTNode::getTreeNext;
     final public static Function<ASTNode, ASTNode> AST_PREV_SIBLING = ASTNode::getTreePrev;

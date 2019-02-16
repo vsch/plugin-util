@@ -17,14 +17,10 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
+public abstract class LoopInstanceDelegate<N, T, R> implements ValueLoop<T, R> {
+    protected final LoopInstance<N, R> myInstance;
 
-final public class AdaptedLoopInstance<N, T, R> implements ValueLoop<T, R> {
-    private final Function<N, T> myAdapter;
-    private final LoopInstance<N, R> myInstance;
-
-    public AdaptedLoopInstance(final Function<N, T> adapter, final LoopInstance<N, R> instance) {
-        myAdapter = adapter;
+    public LoopInstanceDelegate(final LoopInstance<N, R> instance) {
         myInstance = instance;
     }
 
@@ -32,25 +28,14 @@ final public class AdaptedLoopInstance<N, T, R> implements ValueLoop<T, R> {
         return myInstance;
     }
 
+/*
+    // must be provided by subclass
     @Override
-    public void handle(final ValueLoopConsumer<T, R> consumer) {
-        if (myInstance.getMatch() != null) {
-            T applied = myAdapter.apply(myInstance.getMatch());
-            if (applied != null) {
-                consumer.accept(applied, this);
-            }
-        }
-    }
+    public void handle(final ValueLoopConsumer<N, R> consumer) {getInstance().handle(consumer);}
 
     @Override
-    public void handle(final VoidLoopConsumer<T> consumer) {
-        if (myInstance.getMatch() != null) {
-            T applied = myAdapter.apply(myInstance.getMatch());
-            if (applied != null) {
-                consumer.accept(applied, this);
-            }
-        }
-    }
+    public void handle(final VoidLoopConsumer<N> consumer) {getInstance().handle(consumer);}
+*/
 
     @Override
     public boolean haveNext() {return myInstance.haveNext();}
