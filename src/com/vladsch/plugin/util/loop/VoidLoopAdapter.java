@@ -15,9 +15,15 @@
 
 package com.vladsch.plugin.util.loop;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
-public interface MorphingFilter<T, F extends T> {
-    @Nullable
-    F match(T element);
+import java.util.function.Function;
+
+public interface VoidLoopAdapter<N> extends Function<N, N> {
+    VoidLoopConsumer<N> getInstance();
+    
+    @Override
+    default N apply(final @NotNull N n) {
+        return n;
+    }
 }

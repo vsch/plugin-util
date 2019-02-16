@@ -17,6 +17,10 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ReturningConsumer<T, R> {
-    void accept(@NotNull T it, final @NotNull ReturnResult<R> result);
+import java.util.function.Function;
+
+public class FixedLooping<N> extends AdaptedLooping<N, N> {
+    public FixedLooping(@NotNull final N element, @NotNull final Function<N, N> adapter, @NotNull final Looping<N> looping) {
+        super(element, adapter, looping);
+    }
 }

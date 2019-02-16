@@ -17,6 +17,23 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface BreakingConsumer<T> {
-    void accept(@NotNull T it, final @NotNull BreakResult result);
+import java.util.function.Function;
+
+public interface LoopConstraints<N> {
+    @NotNull
+    Function<N, N> getInitializer();
+
+    @NotNull
+    Function<N, N> getIterator();
+    
+    @NotNull
+    default LoopConstraints<N> getReversed() {
+        throw new IllegalStateException("Method not implemented");
+    }
+
+    @NotNull
+    default public LoopConstraints<N> getAborted() {
+        Function<N, N> function = n -> null;
+        return new FixedLoopConstraints<>(function, function, function, function);
+    }
 }

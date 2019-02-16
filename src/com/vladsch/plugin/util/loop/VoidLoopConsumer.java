@@ -15,3 +15,8 @@
 
 package com.vladsch.plugin.util.loop;
 
+import org.jetbrains.annotations.NotNull;
+
+public interface VoidLoopConsumer<N> {
+    void accept(@NotNull N it, final @NotNull VoidLoop<N> result);
+}

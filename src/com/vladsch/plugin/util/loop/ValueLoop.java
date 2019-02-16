@@ -17,24 +17,13 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ReturnResult<R> extends BreakResult {
-    @NotNull private R myValue;        // return value
-
-    public ReturnResult(final @NotNull R initialValue) {
-        myValue = initialValue;
-    }
-
-    public void Return() {
-        Break();
-    }
-
-    public void Return(@NotNull R value) {
-        myValue = value;
-        Break();
-    }
+public interface ValueLoop<N, R> extends VoidLoop<N> {
+    void setValue(@NotNull R value);
 
     @NotNull
-    public R getValue() {
-        return myValue;
-    }
+    R getValue();
+
+    void Return(@NotNull R value);
+    
+    void handle(ValueLoopConsumer<N, R> consumer);
 }
