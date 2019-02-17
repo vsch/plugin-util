@@ -20,12 +20,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 
 class FixedLoopConstraints<N> implements LoopConstraints<N> {
-    final private @NotNull Function<N, N> initializer;
-    final private @NotNull Function<N, N> iterator;
-    final private @NotNull Function<N, N> reverseInitializer;
-    final private @NotNull Function<N, N> reverseIterator;
+    final private @NotNull Function<? super N, N> initializer;
+    final private @NotNull Function<? super N, N> iterator;
+    final private @NotNull Function<? super N, N> reverseInitializer;
+    final private @NotNull Function<? super N, N> reverseIterator;
 
-    public FixedLoopConstraints(@NotNull final Function<N, N> initializer, @NotNull final Function<N, N> iterator, @NotNull final Function<N, N> reverseInitializer, @NotNull final Function<N, N> reverseIterator) {
+    public FixedLoopConstraints(@NotNull final Function<? super N, N> initializer, @NotNull final Function<? super N, N> iterator, @NotNull final Function<? super N, N> reverseInitializer, @NotNull final Function<? super N, N> reverseIterator) {
         this.initializer = initializer;
         this.iterator = iterator;
         this.reverseInitializer = reverseInitializer;
@@ -34,13 +34,13 @@ class FixedLoopConstraints<N> implements LoopConstraints<N> {
 
     @Override
     @NotNull
-    public Function<N, N> getInitializer() {
+    public Function<? super N, N> getInitializer() {
         return initializer;
     }
 
     @Override
     @NotNull
-    public Function<N, N> getIterator() {
+    public Function<? super N, N> getIterator() {
         return iterator;
     }
 

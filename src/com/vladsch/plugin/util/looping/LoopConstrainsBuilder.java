@@ -24,11 +24,11 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 public class LoopConstrainsBuilder<N> {
-    final Function<N, N> NEXT_SIBLING;
-    final Function<N, N> PREV_SIBLING;
-    final Function<N, N> FIRST_CHILD;
-    final Function<N, N> LAST_CHILD;
-    final Function<N, N> PARENT;
+    final Function<? super N, N> NEXT_SIBLING;
+    final Function<? super N, N> PREV_SIBLING;
+    final Function<? super N, N> FIRST_CHILD;
+    final Function<? super N, N> LAST_CHILD;
+    final Function<? super N, N> PARENT;
 
     final public static int ITERATE_CHILDREN = 0;
     final public static int ITERATE_CHILDREN_REV = 1;
@@ -38,12 +38,12 @@ public class LoopConstrainsBuilder<N> {
 
     static class IterationFunctions<N> {
         final int builderIndex;
-        @NotNull final Function<N, N> initializer;
-        @NotNull final Function<N, N> iterator;
-        @NotNull final Function<N, N> reverseInitializer;
-        @NotNull final Function<N, N> reverseIterator;
+        @NotNull final Function<? super N, N> initializer;
+        @NotNull final Function<? super N, N> iterator;
+        @NotNull final Function<? super N, N> reverseInitializer;
+        @NotNull final Function<? super N, N> reverseIterator;
 
-        public IterationFunctions(final int builderIndex, @NotNull final Function<N, N> initializer, @NotNull final Function<N, N> iterator, @NotNull final Function<N, N> reverseInitializer, @NotNull final Function<N, N> reverseIterator) {
+        public IterationFunctions(final int builderIndex, @NotNull final Function<? super N, N> initializer, @NotNull final Function<? super N, N> iterator, @NotNull final Function<? super N, N> reverseInitializer, @NotNull final Function<? super N, N> reverseIterator) {
             this.builderIndex = builderIndex;
             this.initializer = initializer;
             this.iterator = iterator;
@@ -54,7 +54,7 @@ public class LoopConstrainsBuilder<N> {
 
     final IterationFunctions[] ourIterators;
 
-    private LoopConstrainsBuilder(final Function<N, N> NEXT_SIBLING, final Function<N, N> PREV_SIBLING, final Function<N, N> FIRST_CHILD, final Function<N, N> LAST_CHILD, final Function<N, N> PARENT) {
+    private LoopConstrainsBuilder(final Function<? super N, N> NEXT_SIBLING, final Function<? super N, N> PREV_SIBLING, final Function<? super N, N> FIRST_CHILD, final Function<? super N, N> LAST_CHILD, final Function<? super N, N> PARENT) {
         this.NEXT_SIBLING = NEXT_SIBLING;
         this.PREV_SIBLING = PREV_SIBLING;
         this.FIRST_CHILD = FIRST_CHILD;
@@ -105,17 +105,17 @@ public class LoopConstrainsBuilder<N> {
     }
 
     final private static HashMap<Class, LoopConstrainsBuilder> ourCachedBuilders = new HashMap<>();
-    final public static Function<PsiElement, PsiElement> PSI_NEXT_SIBLING = element -> element.isValid() ? element.getNextSibling() : null;
-    final public static Function<PsiElement, PsiElement> PSI_PREV_SIBLING = element -> element.isValid() ? element.getPrevSibling() : null;
-    final public static Function<PsiElement, PsiElement> PSI_FIRST_CHILD = element -> element.isValid() ? element.getFirstChild() : null;
-    final public static Function<PsiElement, PsiElement> PSI_LAST_CHILD = element -> element.isValid() ? element.getLastChild() : null;
-    final public static Function<PsiElement, PsiElement> PSI_PARENT = element -> element.isValid() ? element.getParent() : null;
+    final public static Function<? super PsiElement, PsiElement> PSI_NEXT_SIBLING = element -> element.isValid() ? element.getNextSibling() : null;
+    final public static Function<? super PsiElement, PsiElement> PSI_PREV_SIBLING = element -> element.isValid() ? element.getPrevSibling() : null;
+    final public static Function<? super PsiElement, PsiElement> PSI_FIRST_CHILD = element -> element.isValid() ? element.getFirstChild() : null;
+    final public static Function<? super PsiElement, PsiElement> PSI_LAST_CHILD = element -> element.isValid() ? element.getLastChild() : null;
+    final public static Function<? super PsiElement, PsiElement> PSI_PARENT = element -> element.isValid() ? element.getParent() : null;
 
-    final public static Function<ASTNode, ASTNode> AST_NEXT_SIBLING = ASTNode::getTreeNext;
-    final public static Function<ASTNode, ASTNode> AST_PREV_SIBLING = ASTNode::getTreePrev;
-    final public static Function<ASTNode, ASTNode> AST_FIRST_CHILD = ASTNode::getFirstChildNode;
-    final public static Function<ASTNode, ASTNode> AST_LAST_CHILD = ASTNode::getLastChildNode;
-    final public static Function<ASTNode, ASTNode> AST_PARENT = ASTNode::getTreeParent;
+    final public static Function<? super ASTNode, ASTNode> AST_NEXT_SIBLING = ASTNode::getTreeNext;
+    final public static Function<? super ASTNode, ASTNode> AST_PREV_SIBLING = ASTNode::getTreePrev;
+    final public static Function<? super ASTNode, ASTNode> AST_FIRST_CHILD = ASTNode::getFirstChildNode;
+    final public static Function<? super ASTNode, ASTNode> AST_LAST_CHILD = ASTNode::getLastChildNode;
+    final public static Function<? super ASTNode, ASTNode> AST_PARENT = ASTNode::getTreeParent;
 
     final public static LoopConstrainsBuilder<PsiElement> PSI_LOOPS = new LoopConstrainsBuilder<>(PSI_NEXT_SIBLING, PSI_PREV_SIBLING, PSI_FIRST_CHILD, PSI_LAST_CHILD, PSI_PARENT);
     public static final LoopConstrainsBuilder<ASTNode> AST_LOOPS = new LoopConstrainsBuilder<>(AST_NEXT_SIBLING, AST_PREV_SIBLING, AST_FIRST_CHILD, AST_LAST_CHILD, AST_PARENT);
@@ -130,7 +130,7 @@ public class LoopConstrainsBuilder<N> {
     }
 
     @NotNull
-    public static <N> LoopConstrainsBuilder<N> createFor(Class<N> clazz, final Function<N, N> NEXT_SIBLING, final Function<N, N> PREV_SIBLING, final Function<N, N> FIRST_CHILD, final Function<N, N> LAST_CHILD, final Function<N, N> PARENT) {
+    public static <N> LoopConstrainsBuilder<N> createFor(Class<N> clazz, final Function<? super N, N> NEXT_SIBLING, final Function<? super N, N> PREV_SIBLING, final Function<? super N, N> FIRST_CHILD, final Function<? super N, N> LAST_CHILD, final Function<? super N, N> PARENT) {
         // TODO: decide if need to access builders by sub-class then on first subclass add the subclass entry for the superclass builder
         //LoopConstrainsBuilder builder = ourCachedBuilders.get(clazz);
         //if (builder == null) {

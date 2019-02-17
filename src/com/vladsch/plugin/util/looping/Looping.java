@@ -28,10 +28,10 @@ public class Looping<N> implements Loop<N> {
     public final static Logger LOG_TRACE = getInstance("com.vladsch.plugin.util.looping-detailed");
 
     private final LoopConstraints<N> myConstraints;
-    private final Predicate<N> myRecursion;
-    protected final Predicate<N> myFilter;
+    private final Predicate<? super N> myRecursion;
+    protected final Predicate<? super N> myFilter;
 
-    public Looping(final LoopConstraints<N> constraints, final Predicate<N> filter) {
+    public Looping(final LoopConstraints<N> constraints, final Predicate<? super N> filter) {
         //noinspection unchecked
         this(constraints, filter, Loop.FALSE);
     }
@@ -41,7 +41,11 @@ public class Looping<N> implements Loop<N> {
         this(constraints, Loop.TRUE, Loop.FALSE);
     }
 
-    public Looping(final LoopConstraints<N> constraints, final Predicate<N> filter, Predicate<N> recursion) {
+    public Looping(
+            final LoopConstraints<N> constraints,
+            final Predicate<? super N> filter,
+            Predicate<? super N> recursion
+    ) {
         myConstraints = constraints;
         myRecursion = recursion;
         myFilter = filter;
@@ -53,7 +57,7 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public <F> Predicate<N> getPredicate(@NotNull final Class<F> clazz, @NotNull final Predicate<F> predicate) {
+    public <F> Predicate<N> getPredicate(@NotNull final Class<F> clazz, @NotNull final Predicate<? super F> predicate) {
         return (it) -> clazz.isInstance(it) && predicate.test(clazz.cast(it));
     }
 
@@ -64,17 +68,21 @@ public class Looping<N> implements Loop<N> {
     }
 
     @Override
-    public Predicate<N> getRecursion() {
+    public Predicate<? super N> getRecursion() {
         return myRecursion;
     }
 
     @Override
-    public Predicate<N> getFilter() {
+    public Predicate<? super N> getFilter() {
         return myFilter;
     }
 
     @NotNull
-    public Looping<N> modifiedCopy(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter, final @NotNull Predicate<N> recursion) {
+    public Looping<N> modifiedCopy(
+            final @NotNull LoopConstraints<N> constraints,
+            final @NotNull Predicate<? super N> filter,
+            final @NotNull Predicate<? super N> recursion
+    ) {
         return new Looping<>(constraints, filter, recursion);
     }
 
@@ -96,8 +104,8 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public Looping<N> recurse(final @NotNull Predicate<N> predicate) {
-        return modifiedCopy(myConstraints, myFilter, myRecursion.or(predicate));
+    public Looping<N> recurse(final @NotNull Predicate<? super N> predicate) {
+        return modifiedCopy(myConstraints, myFilter, it -> myRecursion.test(it) || predicate.test(it));
     }
 
     @NotNull
@@ -106,13 +114,13 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public <F> Looping<N> recurse(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> recurse(final @NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return recurse(getPredicate(clazz, predicate));
     }
 
     @NotNull
-    public Looping<N> noRecurse(final @NotNull Predicate<N> predicate) {
-        return modifiedCopy(myConstraints, myFilter, myRecursion.and(predicate.negate()));
+    public Looping<N> noRecurse(final @NotNull Predicate<? super N> predicate) {
+        return modifiedCopy(myConstraints, myFilter, it -> myRecursion.test(it) && !predicate.test(it));
     }
 
     @NotNull
@@ -121,7 +129,7 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public <F> Looping<N> noRecurse(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> noRecurse(final @NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return noRecurse(getPredicate(clazz, predicate));
     }
 
@@ -131,8 +139,8 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public Looping<N> filterOut(final @NotNull Predicate<N> predicate) {
-        return modifiedCopy(myConstraints, myFilter.and(predicate.negate()), myRecursion);
+    public Looping<N> filterOut(final @NotNull Predicate<? super N> predicate) {
+        return modifiedCopy(myConstraints, it -> myFilter.test(it) && !predicate.test(it), myRecursion);
     }
 
     @NotNull
@@ -141,13 +149,13 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public <F> Looping<N> filterOut(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> filterOut(final @NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return filterOut(getPredicate(clazz, predicate));
     }
 
     @NotNull
-    public Looping<N> filter(final @NotNull Predicate<N> predicate) {
-        return modifiedCopy(myConstraints, myFilter.and(predicate), myRecursion);
+    public Looping<N> filter(final @NotNull Predicate<? super N> predicate) {
+        return modifiedCopy(myConstraints, it -> myFilter.test(it) && predicate.test(it), myRecursion);
     }
 
     @NotNull
@@ -156,7 +164,7 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public <F> Looping<N> filter(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> filter(final @NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return filter(getPredicate(clazz, predicate));
     }
 
@@ -171,12 +179,12 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter) {
+    public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<? super N> filter) {
         return new Looping<N>(constraints, filter);
     }
 
     @NotNull
-    public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter, final @NotNull Predicate<N> recursion) {
+    public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<? super N> filter, final @NotNull Predicate<? super N> recursion) {
         return new Looping<N>(constraints, filter, recursion);
     }
 

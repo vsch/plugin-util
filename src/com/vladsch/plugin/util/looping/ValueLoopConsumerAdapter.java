@@ -19,8 +19,8 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ValueLoopConsumerAdapter<P, T> {
     @NotNull
-    <R> ValueLoopConsumer<P, R> getConsumer(ValueLoopConsumer<T, R> valueConsumer);
+    <R> ValueLoopConsumer<? super P, R> getConsumer(ValueLoopConsumer<? super T, R> valueConsumer);
 
     @NotNull
-    <R> ValueLoopConsumer<P, R> getConsumer(VoidLoopConsumer<T> voidConsumer);
+    <R> ValueLoopConsumer<? super P, R> getConsumer(VoidLoopConsumer<? super T> voidConsumer);
 }

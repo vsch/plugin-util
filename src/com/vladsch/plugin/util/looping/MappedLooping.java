@@ -21,12 +21,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class MappedLooping<N, T> extends TypedLooping<N, T, MappedLooping<N, T>> {
-    public MappedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<N, T> adapter, @NotNull Looping<N> looping) {
+    public MappedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull Looping<N> looping) {
         super(element, adapter, looping);
     }
 
     @NotNull
-    public MappedLooping<N, T> getModifiedCopy(final N element, final ValueLoopAdapter<N, T> adapter, final Looping<N> looping) {
+    public MappedLooping<N, T> getModifiedCopy(final N element, final ValueLoopAdapter<? super N, T> adapter, final Looping<N> looping) {
         return new MappedLooping<>(element, adapter, looping);
     }
 
@@ -36,17 +36,17 @@ public class MappedLooping<N, T> extends TypedLooping<N, T, MappedLooping<N, T>>
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> map(@NotNull Function<T, F> adapter) {
+    public <F> MappedLooping<N, F> map(@NotNull Function<? super T, F> adapter) {
         return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> map(@NotNull ValueLoopAdapter<T, F> adapter) {
+    public <F> MappedLooping<N, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
         return new MappedLooping<>(myElement, myAdapter.andThen(adapter), myLooping);
     }
 

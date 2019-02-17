@@ -21,12 +21,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class MorphedLooping<N, T extends N> extends TypedLooping<N, T, MorphedLooping<N, T>> {
-    public MorphedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<N, T> adapter, @NotNull Looping<N> looping) {
+    public MorphedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull Looping<N> looping) {
         super(element, adapter, looping);
     }
 
     @NotNull
-    public MorphedLooping<N, T> getModifiedCopy(final N element, final ValueLoopAdapter<N, T> adapter, final Looping<N> looping) {
+    public MorphedLooping<N, T> getModifiedCopy(final N element, final ValueLoopAdapter<? super N, T> adapter, final Looping<N> looping) {
         return new MorphedLooping<>(element, adapter, looping);
     }
 
@@ -37,7 +37,7 @@ public class MorphedLooping<N, T extends N> extends TypedLooping<N, T, MorphedLo
 
     @NotNull
     @Override
-    public MorphedLooping<N, T> filter(@NotNull final Predicate<N> predicate) {
+    public MorphedLooping<N, T> filter(@NotNull final Predicate<? super N> predicate) {
         return new MorphedLooping<>(myElement, myAdapter, myLooping.filter(predicate));
     }
 
@@ -47,23 +47,23 @@ public class MorphedLooping<N, T extends N> extends TypedLooping<N, T, MorphedLo
     }
 
     @NotNull
-    public <F extends N> MorphedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F extends N> MorphedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return new MorphedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
     }
 
     @NotNull
-    public <F extends N> MorphedLooping<N, F> map(@NotNull Function<T, F> adapter) {
+    public <F extends N> MorphedLooping<N, F> map(@NotNull Function<? super T, F> adapter) {
         return new MorphedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F extends N> MorphedLooping<N, F> map(@NotNull ValueLoopAdapter<T, F> adapter) {
+    public <F extends N> MorphedLooping<N, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
         return new MorphedLooping<>(myElement, myAdapter.andThen(adapter), myLooping);
     }
 
     @NotNull
     @Override
-    public MorphedLooping<N, T> preAccept(@NotNull ValueLoopFilter<T> filter) {
+    public MorphedLooping<N, T> preAccept(@NotNull ValueLoopFilter<? super T> filter) {
         return new MorphedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
     }
 

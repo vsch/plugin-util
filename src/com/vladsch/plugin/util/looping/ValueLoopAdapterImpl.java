@@ -21,37 +21,37 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class ValueLoopAdapterImpl<N, T, R> implements ValueLoopAdapter<N, T> {
+public class ValueLoopAdapterImpl<N, T> implements ValueLoopAdapter<N, T> {
     private final @NotNull ValueLoopConsumerAdapter<N, T> myConsumerAdapter;
 
     static class ConsumerAdapter<P, T> implements ValueLoopConsumerAdapter<P, T> {
         private final @NotNull Function<? super P, ? extends T> myFunction;
-        private final @Nullable ValueLoopFilter<T> myFilter;
+        private final @Nullable ValueLoopFilter<? super T> myFilter;
 
-        public ConsumerAdapter(@NotNull final Function<? super P, ? extends T> function, @Nullable ValueLoopFilter<T> filter) {
+        public ConsumerAdapter(@NotNull final Function<? super P, ? extends T> function, @Nullable ValueLoopFilter<? super T> filter) {
             myFunction = function;
             myFilter = filter;
         }
 
         @NotNull
         @Override
-        public <R> ValueLoopConsumer<P, R> getConsumer(final ValueLoopConsumer<T, R> valueConsumer) {
+        public <R> ValueLoopConsumer<? super P, R> getConsumer(final ValueLoopConsumer<? super T, R> valueConsumer) {
             return new MyValueLoopConsumer<>(myFunction, myFilter, valueConsumer);
         }
 
         @NotNull
         @Override
-        public <R> ValueLoopConsumer<P, R> getConsumer(final VoidLoopConsumer<T> voidConsumer) {
+        public <R> ValueLoopConsumer<? super P, R> getConsumer(final VoidLoopConsumer<? super T> voidConsumer) {
             return new MyValueLoopConsumer<>(myFunction, myFilter, new VoidToValueLoopConsumerAdapter<>(voidConsumer));
         }
     }
 
     private static class MyValueLoopConsumer<P, T, R> implements ValueLoopConsumer<P, R> {
-        private final ValueLoopConsumer<T, R> myConsumer;
+        private final ValueLoopConsumer<? super T, R> myConsumer;
         private final Function<? super P, ? extends T> myFunction;
-        private final @Nullable ValueLoopFilter<T> myFilter;
+        private final @Nullable ValueLoopFilter<? super T> myFilter;
 
-        public MyValueLoopConsumer(final @NotNull Function<? super P, ? extends T> function, @Nullable ValueLoopFilter<T> filter, final ValueLoopConsumer<T, R> consumer) {
+        public MyValueLoopConsumer(final @NotNull Function<? super P, ? extends T> function, @Nullable ValueLoopFilter<? super T> filter, final ValueLoopConsumer<? super T, R> consumer) {
             myFunction = function;
             myFilter = filter;
             myConsumer = consumer;
@@ -79,32 +79,32 @@ public class ValueLoopAdapterImpl<N, T, R> implements ValueLoopAdapter<N, T> {
     }
 
     static class ChainedConsumerAdapter<P, T, V> implements ValueLoopConsumerAdapter<P, V> {
-        private final ValueLoopConsumerAdapter<P, T> myBeforeAdapter;
-        private final ValueLoopConsumerAdapter<T, V> myAfterAdapter;
+        private final ValueLoopConsumerAdapter<? super P, T> myBeforeAdapter;
+        private final ValueLoopConsumerAdapter<? super T, V> myAfterAdapter;
 
-        public ChainedConsumerAdapter(final ValueLoopConsumerAdapter<P, T> beforeAdapter, final ValueLoopConsumerAdapter<T, V> afterAdapter) {
+        public ChainedConsumerAdapter(final ValueLoopConsumerAdapter<? super P, T> beforeAdapter, final ValueLoopConsumerAdapter<? super T, V> afterAdapter) {
             myBeforeAdapter = beforeAdapter;
             myAfterAdapter = afterAdapter;
         }
 
         @NotNull
         @Override
-        public <R> ValueLoopConsumer<P, R> getConsumer(final ValueLoopConsumer<V, R> valueConsumer) {
+        public <R> ValueLoopConsumer<? super P, R> getConsumer(final ValueLoopConsumer<? super V, R> valueConsumer) {
             return myBeforeAdapter.getConsumer(myAfterAdapter.getConsumer(valueConsumer));
         }
 
         @NotNull
         @Override
-        public <R> ValueLoopConsumer<P, R> getConsumer(final VoidLoopConsumer<V> voidConsumer) {
+        public <R> ValueLoopConsumer<? super P, R> getConsumer(final VoidLoopConsumer<? super V> voidConsumer) {
             return myBeforeAdapter.getConsumer(myAfterAdapter.getConsumer(voidConsumer));
         }
     }
 
-    public ValueLoopAdapterImpl(final @NotNull Function<N, T> function) {
+    public ValueLoopAdapterImpl(final @NotNull Function<? super N, T> function) {
         this(function, null);
     }
 
-    public ValueLoopAdapterImpl(final @NotNull Function<N, T> function, final @Nullable ValueLoopFilter<T> filter) {
+    public ValueLoopAdapterImpl(final @NotNull Function<? super N, T> function, final @Nullable ValueLoopFilter<? super T> filter) {
         this(new ConsumerAdapter<>(function, filter));
     }
 
@@ -120,37 +120,37 @@ public class ValueLoopAdapterImpl<N, T, R> implements ValueLoopAdapter<N, T> {
 
     @NotNull
     @Override
-    public <V> ValueLoopAdapter<N, V> andThen(final ValueLoopAdapter<T, V> after) {
-        return new ValueLoopAdapterImpl<N, V, R>(new ChainedConsumerAdapter<>(myConsumerAdapter, after.getConsumerAdapter()));
+    public <V> ValueLoopAdapter<N, V> andThen(final ValueLoopAdapter<? super T, V> after) {
+        return new ValueLoopAdapterImpl<N, V>(new ChainedConsumerAdapter<>(myConsumerAdapter, after.getConsumerAdapter()));
     }
 
     @NotNull
     @Override
-    public ValueLoopAdapter<N, T> compose(final ValueLoopAdapter<N, N> before) {
+    public ValueLoopAdapter<N, T> compose(final ValueLoopAdapter<? super N, N> before) {
         return new ValueLoopAdapterImpl<>(new ChainedConsumerAdapter<>(before.getConsumerAdapter(), myConsumerAdapter));
     }
 
-    public static <N, R> ValueLoopAdapter<N, N> of() {
+    public static <N> ValueLoopAdapter<N, N> of() {
         return new ValueLoopAdapterImpl<>(Function.identity());
     }
 
-    public static <N, R> ValueLoopAdapter<N, N> of(ValueLoopFilter<N> filter) {
+    public static <N> ValueLoopAdapter<N, N> of(ValueLoopFilter<? super N> filter) {
         return new ValueLoopAdapterImpl<>(Function.identity(), filter);
     }
 
-    public static <N, T, R> ValueLoopAdapter<N, T> of(Function<N, T> function) {
+    public static <N, T> ValueLoopAdapter<N, T> of(Function<? super N, T> function) {
         return new ValueLoopAdapterImpl<>(function);
     }
 
-    public static <N, T, R> ValueLoopAdapter<N, T> of(Class<T> clazz) {
+    public static <N, T> ValueLoopAdapter<N, T> of(Class<T> clazz) {
         return new ValueLoopAdapterImpl<>((it) -> clazz.isInstance(it) ? clazz.cast(it) : null);
     }
 
-    public static <N, T, R> ValueLoopAdapter<N, T> of(Class<T> clazz, Predicate<T> filter) {
+    public static <N, T> ValueLoopAdapter<N, T> of(Class<T> clazz, Predicate<? super T> filter) {
         return new ValueLoopAdapterImpl<>(((it) -> clazz.isInstance(it) ? clazz.cast(it) : null), (it, loop) -> filter.test(it));
     }
 
-    public static <N, T, R> ValueLoopAdapter<N, T> of(Class<T> clazz, ValueLoopFilter<T> filter) {
+    public static <N, T> ValueLoopAdapter<N, T> of(Class<T> clazz, ValueLoopFilter<? super T> filter) {
         return new ValueLoopAdapterImpl<>(((it) -> clazz.isInstance(it) ? clazz.cast(it) : null), filter);
     }
 }

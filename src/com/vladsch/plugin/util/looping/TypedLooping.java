@@ -21,10 +21,10 @@ import java.util.function.Predicate;
 
 public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
     protected final @NotNull N myElement;
-    protected final @NotNull ValueLoopAdapter<N, T> myAdapter;
+    protected final @NotNull ValueLoopAdapter<? super N, T> myAdapter;
     protected final @NotNull Looping<N> myLooping;
 
-    public TypedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<N, T> adapter, @NotNull Looping<N> looping) {
+    public TypedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull Looping<N> looping) {
         myElement = element;
         myAdapter = adapter;
         myLooping = looping;
@@ -36,7 +36,7 @@ public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
     }
 
     @NotNull
-    public abstract D getModifiedCopy(final N element, final ValueLoopAdapter<N, T> adapter, final Looping<N> looping);
+    public abstract D getModifiedCopy(final N element, final ValueLoopAdapter<? super N, T> adapter, final Looping<N> looping);
 
     @NotNull
 
@@ -67,7 +67,7 @@ public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
 
     @NotNull
 
-    public D recurse(@NotNull final Predicate<N> predicate) {
+    public D recurse(@NotNull final Predicate<? super N> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.recurse(predicate));
     }
 
@@ -79,13 +79,13 @@ public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
 
     @NotNull
 
-    public <F> D recurse(@NotNull final Class<F> clazz, @NotNull final Predicate<F> predicate) {
+    public <F> D recurse(@NotNull final Class<F> clazz, @NotNull final Predicate<? super F> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.recurse(clazz, predicate));
     }
 
     @NotNull
 
-    public D noRecurse(@NotNull final Predicate<N> predicate) {
+    public D noRecurse(@NotNull final Predicate<? super N> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.noRecurse(predicate));
     }
 
@@ -97,7 +97,7 @@ public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
 
     @NotNull
 
-    public <F> D noRecurse(@NotNull final Class<F> clazz, @NotNull final Predicate<F> predicate) {
+    public <F> D noRecurse(@NotNull final Class<F> clazz, @NotNull final Predicate<? super F> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.recurse(clazz, predicate));
     }
 
@@ -115,7 +115,7 @@ public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
 
     @NotNull
 
-    public D filterOut(@NotNull final Predicate<N> predicate) {
+    public D filterOut(@NotNull final Predicate<? super N> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.filterOut(predicate));
     }
 
@@ -127,28 +127,28 @@ public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
 
     @NotNull
 
-    public <F> D filterOut(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> D filterOut(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.filterOut(clazz, predicate));
     }
 
     @NotNull
 
-    public D filter(@NotNull final Predicate<N> predicate) {
+    public D filter(@NotNull final Predicate<? super N> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.filter(predicate));
     }
 
     @NotNull
 
-    public D preAccept(@NotNull ValueLoopFilter<T> filter) {
+    public D preAccept(@NotNull ValueLoopFilter<? super T> filter) {
         return getModifiedCopy(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
     }
 
     @NotNull
-    final public <R> R doLoop(@NotNull final R defaultValue, @NotNull final ValueLoopConsumer<T, R> consumer) {
+    final public <R> R doLoop(@NotNull final R defaultValue, @NotNull final ValueLoopConsumer<? super T, R> consumer) {
         return myLooping.doLoop(myElement, defaultValue, myAdapter, consumer);
     }
 
-    final public void doLoop(@NotNull final VoidLoopConsumer<T> consumer) {
+    final public void doLoop(@NotNull final VoidLoopConsumer<? super T> consumer) {
         myLooping.doLoop(myElement, myAdapter, consumer);
     }
 }

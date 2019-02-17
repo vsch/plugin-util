@@ -13,11 +13,18 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.psi;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.TokenSet;
+import com.vladsch.plugin.util.looping.LoopConstraints;
+import com.vladsch.plugin.util.looping.Looping;
+import com.vladsch.plugin.util.looping.MappedLooping;
+import com.vladsch.plugin.util.looping.MorphedLooping;
+import com.vladsch.plugin.util.looping.TypedLooping;
+import com.vladsch.plugin.util.looping.ValueLoopAdapter;
+import com.vladsch.plugin.util.looping.ValueLoopAdapterImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -36,21 +43,34 @@ public class PsiLooping<T extends PsiElement> extends TypedLooping<PsiElement, T
         return of(element, new Looping<>(constraints));
     }
 
-    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull LoopConstraints<PsiElement> constraints, final @NotNull Predicate<PsiElement> filter) {
+    public static PsiLooping<PsiElement> of(
+            final @NotNull PsiElement element,
+            final @NotNull LoopConstraints<PsiElement> constraints,
+            final @NotNull Predicate<? super PsiElement> filter
+    ) {
         return of(element, new Looping<>(constraints, filter));
     }
 
-    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull LoopConstraints<PsiElement> constraints, final @NotNull Predicate<PsiElement> filter, final @NotNull Predicate<PsiElement> recursion) {
+    public static PsiLooping<PsiElement> of(
+            final @NotNull PsiElement element,
+            final @NotNull LoopConstraints<PsiElement> constraints,
+            final @NotNull Predicate<? super PsiElement> filter,
+            final @NotNull Predicate<? super PsiElement> recursion
+    ) {
         return of(element, new Looping<>(constraints, filter, recursion));
-    }
-
-    public PsiLooping(@NotNull final PsiElement element, @NotNull ValueLoopAdapter<PsiElement, T> adapter, @NotNull Looping<PsiElement> looping) {
-        super(element, adapter, looping);
     }
 
     @NotNull
     final public MappedLooping<PsiElement, T> asMapped() {
         return new MappedLooping<>(myElement, myAdapter, myLooping);
+    }
+
+    public PsiLooping(
+            @NotNull final PsiElement element,
+            @NotNull ValueLoopAdapter<? super PsiElement, T> adapter,
+            @NotNull Looping<PsiElement> looping
+    ) {
+        super(element, adapter, looping);
     }
 
     @NotNull
@@ -60,12 +80,20 @@ public class PsiLooping<T extends PsiElement> extends TypedLooping<PsiElement, T
 
     @NotNull
     @Override
-    final public PsiLooping<T> getModifiedCopy(final PsiElement element, final ValueLoopAdapter<PsiElement, T> adapter, final Looping<PsiElement> looping) {
+    final public PsiLooping<T> getModifiedCopy(
+            final PsiElement element,
+            final ValueLoopAdapter<? super PsiElement, T> adapter,
+            final Looping<PsiElement> looping
+    ) {
         return getModifiedCopyF(element, adapter, looping);
     }
 
     @NotNull
-    public <F extends PsiElement> PsiLooping<F> getModifiedCopyF(final PsiElement element, final ValueLoopAdapter<PsiElement, F> adapter, final Looping<PsiElement> looping) {
+    public <F extends PsiElement> PsiLooping<F> getModifiedCopyF(
+            final PsiElement element,
+            final ValueLoopAdapter<? super PsiElement, F> adapter,
+            final Looping<PsiElement> looping
+    ) {
         return new PsiLooping<>(element, adapter, looping);
     }
 
@@ -75,17 +103,20 @@ public class PsiLooping<T extends PsiElement> extends TypedLooping<PsiElement, T
     }
 
     @NotNull
-    public <F extends PsiElement> PsiLooping<F> filter(@NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F extends PsiElement> PsiLooping<F> filter(
+            @NotNull Class<F> clazz,
+            @NotNull Predicate<? super F> predicate
+    ) {
         return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
     }
 
     @NotNull
-    public <F extends PsiElement> PsiLooping<F> map(@NotNull Function<T, F> adapter) {
+    public <F extends PsiElement> PsiLooping<F> map(@NotNull Function<? super T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F extends PsiElement> PsiLooping<F> map(@NotNull ValueLoopAdapter<T, F> adapter) {
+    public <F extends PsiElement> PsiLooping<F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(adapter), myLooping);
     }
 
@@ -95,17 +126,17 @@ public class PsiLooping<T extends PsiElement> extends TypedLooping<PsiElement, T
 
     @NotNull
     public PsiLooping<T> recurse(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.recurse(it -> it.getNode() != null && tokenSet.contains(it.getNode().getElementType())));
+        return getModifiedCopyF(myElement, myAdapter, myLooping.recurse(it -> PsiUtils.isIn(it, tokenSet)));
     }
 
     @NotNull
     public PsiLooping<T> filterOut(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> it.getNode() == null || tokenSet.contains(it.getNode().getElementType())));
+        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> PsiUtils.isInOrNull(it, tokenSet)));
     }
 
     @NotNull
     public PsiLooping<T> filter(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filter(it -> it.getNode() != null && tokenSet.contains(it.getNode().getElementType())));
+        return getModifiedCopyF(myElement, myAdapter, myLooping.filter(it -> PsiUtils.isIn(it, tokenSet)));
     }
 
     @NotNull

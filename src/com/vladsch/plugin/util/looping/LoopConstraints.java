@@ -21,10 +21,10 @@ import java.util.function.Function;
 
 public interface LoopConstraints<N> {
     @NotNull
-    Function<N, N> getInitializer();
+    Function<? super N, N> getInitializer();
 
     @NotNull
-    Function<N, N> getIterator();
+    Function<? super N, N> getIterator();
 
     @NotNull
     default LoopConstraints<N> getReversed() {

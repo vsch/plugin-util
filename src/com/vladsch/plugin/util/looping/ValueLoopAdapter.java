@@ -23,8 +23,8 @@ public interface ValueLoopAdapter<N, T> {
     ValueLoopConsumerAdapter<N, T> getConsumerAdapter();
 
     @NotNull
-    <V> ValueLoopAdapter<N, V> andThen(ValueLoopAdapter<T, V> after);
+    <V> ValueLoopAdapter<N, V> andThen(ValueLoopAdapter<? super T, V> after);
 
     @NotNull
-    ValueLoopAdapter<N, T> compose(ValueLoopAdapter<N, N> before);
+    ValueLoopAdapter<N, T> compose(ValueLoopAdapter<? super N, N> before);
 }
