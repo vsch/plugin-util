@@ -20,52 +20,46 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class MappedLooping<N, T> extends TypedLooping<N, T, MappedLooping<N, T>> {
+public class MappedLooping<B, N extends B, T extends B> extends TypedLooping<B, N, T, MappedLooping<B, N, T>> {
     public MappedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull Looping<N> looping) {
         super(element, adapter, looping);
     }
 
     @NotNull
-    public MappedLooping<N, T> getModifiedCopy(final N element, final ValueLoopAdapter<? super N, T> adapter, final Looping<N> looping) {
+    public MappedLooping<B, N, T> getModifiedCopy(final N element, final ValueLoopAdapter<? super N, T> adapter, final Looping<N> looping) {
         return new MappedLooping<>(element, adapter, looping);
     }
 
     @NotNull
-    public MappedLooping<N, T> filter(@NotNull final Predicate<? super N> predicate) {
-        return new MappedLooping<>(myElement, myAdapter, myLooping.filter(predicate));
+    public <F extends B> MappedLooping<B, N, F> getModifiedCopyF(final N element, final ValueLoopAdapter<? super N, F> adapter, final Looping<N> looping) {
+        return new MappedLooping<>(element, adapter, looping);
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz) {
-        return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz)), myLooping);
+    public <F extends B> MappedLooping<B, N, F> filter(@NotNull Class<F> clazz) {
+        return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz)), myLooping);
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
-        return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
+    public <F extends B> MappedLooping<B, N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
+        return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> map(@NotNull Function<? super T, F> adapter) {
-        return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
+    public <F extends B> MappedLooping<B, N, F> map(@NotNull Function<? super T, F> adapter) {
+        return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
-        return new MappedLooping<>(myElement, myAdapter.andThen(adapter), myLooping);
-    }
-
-    @NotNull
-    @Override
-    public MappedLooping<N, T> preAccept(@NotNull ValueLoopFilter<? super T> filter) {
-        return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
+    public <F extends B> MappedLooping<B, N, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
+        return getModifiedCopyF(myElement, myAdapter.andThen(adapter), myLooping);
     }
 
     /*
      * Static Factories
      */
 
-    public static <N> MappedLooping<N, N> create(final N element, @NotNull Looping<N> looping) {
+    public static <N> MappedLooping<N, N, N> create(final N element, @NotNull Looping<N> looping) {
         return new MappedLooping<>(element, ValueLoopAdapterImpl.of(), looping);
     }
 }
