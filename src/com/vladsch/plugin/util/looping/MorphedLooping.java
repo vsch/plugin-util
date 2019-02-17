@@ -155,6 +155,12 @@ public class MorphedLooping<N, T extends N> extends MappedLooping<N, N, T> {
         return (MorphedLooping<N, T>) super.preAccept(filter);
     }
 
+    // *******************************************************
+    //
+    // Mapping Functions
+    //
+    // *******************************************************
+
     @NotNull
     @Override
     public <F extends N> MorphedLooping<N, F> filter(@NotNull final Class<F> clazz) {
