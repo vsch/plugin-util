@@ -126,17 +126,17 @@ public class PsiLooping<T extends PsiElement> extends TypedLooping<PsiElement, T
 
     @NotNull
     public PsiLooping<T> recurse(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.recurse(it -> PsiUtils.isIn(it, tokenSet)));
+        return getModifiedCopyF(myElement, myAdapter, myLooping.recurse(it -> PsiUtils.isTypeOf(it, tokenSet)));
     }
 
     @NotNull
     public PsiLooping<T> filterOut(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> PsiUtils.isInOrNull(it, tokenSet)));
+        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> PsiUtils.isNullOrTypeOf(it, tokenSet)));
     }
 
     @NotNull
     public PsiLooping<T> filter(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filter(it -> PsiUtils.isIn(it, tokenSet)));
+        return getModifiedCopyF(myElement, myAdapter, myLooping.filter(it -> PsiUtils.isTypeOf(it, tokenSet)));
     }
 
     @NotNull
