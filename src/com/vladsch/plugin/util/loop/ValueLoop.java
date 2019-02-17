@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ValueLoop<R> extends VoidLoop {
     void setResult(@NotNull R value);
-    
+
     boolean isDefaultResult();       // true if value never set other than initial default setting
 
     @NotNull

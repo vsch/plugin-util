@@ -154,7 +154,7 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
                 dropRecursions(1);
                 continue;
             }
-            
+
             myIteration.advance(myConditions.getIterator().apply(myIteration.next));
             myTotalLoopCount++;
 

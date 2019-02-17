@@ -19,24 +19,24 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-public abstract class TypedLoopingBase<N, T, D extends TypedLoopingBase<N, T, D>> {
+public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
     protected final @NotNull N myElement;
     protected final @NotNull ValueLoopAdapter<N, T> myAdapter;
-    protected final @NotNull LoopingImpl<N> myLooping;
+    protected final @NotNull Looping<N> myLooping;
 
-    public TypedLoopingBase(@NotNull final N element, @NotNull ValueLoopAdapter<N, T> adapter, @NotNull LoopingImpl<N> looping) {
+    public TypedLooping(@NotNull final N element, @NotNull ValueLoopAdapter<N, T> adapter, @NotNull Looping<N> looping) {
         myElement = element;
         myAdapter = adapter;
         myLooping = looping;
     }
 
     @NotNull
-    public LoopingImpl<N> getLooping() {
+    final public Looping<N> getLooping() {
         return myLooping;
     }
 
     @NotNull
-    public abstract D getModifiedCopy(final N element, final ValueLoopAdapter<N, T> adapter, final LoopingImpl<N> looping);
+    public abstract D getModifiedCopy(final N element, final ValueLoopAdapter<N, T> adapter, final Looping<N> looping);
 
     @NotNull
 
@@ -51,7 +51,6 @@ public abstract class TypedLoopingBase<N, T, D extends TypedLoopingBase<N, T, D>
     }
 
     @NotNull
-
     public D nonRecursive() {
         return getModifiedCopy(myElement, myAdapter, myLooping.nonRecursive());
     }
@@ -145,11 +144,11 @@ public abstract class TypedLoopingBase<N, T, D extends TypedLoopingBase<N, T, D>
     }
 
     @NotNull
-    public <R> R doLoop(@NotNull final R defaultValue, @NotNull final ValueLoopConsumer<T, R> consumer) {
+    final public <R> R doLoop(@NotNull final R defaultValue, @NotNull final ValueLoopConsumer<T, R> consumer) {
         return myLooping.doLoop(myElement, defaultValue, myAdapter, consumer);
     }
 
-    public void doLoop(@NotNull final VoidLoopConsumer<T> consumer) {
+    final public void doLoop(@NotNull final VoidLoopConsumer<T> consumer) {
         myLooping.doLoop(myElement, myAdapter, consumer);
     }
 }

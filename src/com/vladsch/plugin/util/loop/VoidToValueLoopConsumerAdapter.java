@@ -17,8 +17,8 @@ package com.vladsch.plugin.util.loop;
 
 import org.jetbrains.annotations.NotNull;
 
-public class VoidToValueLoopConsumerAdapter<N,R> implements ValueLoopConsumer<N,R> {
-    final private  @NotNull VoidLoopConsumer<N> myConsumer;
+public class VoidToValueLoopConsumerAdapter<N, R> implements ValueLoopConsumer<N, R> {
+    final private @NotNull VoidLoopConsumer<N> myConsumer;
 
     public VoidToValueLoopConsumerAdapter(@NotNull final VoidLoopConsumer<N> consumer) {
         myConsumer = consumer;

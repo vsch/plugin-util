@@ -129,7 +129,6 @@ public class LoopConstrainsBuilder<N> {
         return ourCachedBuilders.get(clazz);
     }
 
-
     @NotNull
     public static <N> LoopConstrainsBuilder<N> createFor(Class<N> clazz, final Function<N, N> NEXT_SIBLING, final Function<N, N> PREV_SIBLING, final Function<N, N> FIRST_CHILD, final Function<N, N> LAST_CHILD, final Function<N, N> PARENT) {
         // TODO: decide if need to access builders by sub-class then on first subclass add the subclass entry for the superclass builder

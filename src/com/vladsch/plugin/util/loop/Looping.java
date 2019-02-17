@@ -19,22 +19,22 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-public class LoopingImpl<N> implements Loop<N> {
+public class Looping<N> implements Loop<N> {
     private final LoopConstraints<N> myConstraints;
     private final Predicate<N> myRecursion;
     protected final Predicate<N> myFilter;
 
-    public LoopingImpl(final LoopConstraints<N> constraints, final Predicate<N> filter) {
+    public Looping(final LoopConstraints<N> constraints, final Predicate<N> filter) {
         //noinspection unchecked
         this(constraints, filter, Loop.FALSE);
     }
 
-    public LoopingImpl(final LoopConstraints<N> constraints) {
+    public Looping(final LoopConstraints<N> constraints) {
         //noinspection unchecked
         this(constraints, Loop.TRUE, Loop.TRUE);
     }
 
-    public LoopingImpl(final LoopConstraints<N> constraints, final Predicate<N> filter, Predicate<N> recursion) {
+    public Looping(final LoopConstraints<N> constraints, final Predicate<N> filter, Predicate<N> recursion) {
         myConstraints = constraints;
         myRecursion = recursion;
         myFilter = filter;
@@ -67,110 +67,110 @@ public class LoopingImpl<N> implements Loop<N> {
     }
 
     @NotNull
-    public LoopingImpl<N> modifiedCopy(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter, final @NotNull Predicate<N> recursion) {
-        return new LoopingImpl<>(constraints, filter, recursion);
+    public Looping<N> modifiedCopy(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter, final @NotNull Predicate<N> recursion) {
+        return new Looping<>(constraints, filter, recursion);
     }
 
     @NotNull
-    public LoopingImpl<N> reversed() {
+    public Looping<N> reversed() {
         return modifiedCopy(myConstraints.getReversed(), myFilter, myRecursion);
     }
 
     @NotNull
-    public LoopingImpl<N> recursive() {
+    public Looping<N> recursive() {
         //noinspection unchecked
         return modifiedCopy(myConstraints, myFilter, (Predicate<N>) Loop.TRUE);
     }
 
     @NotNull
-    public LoopingImpl<N> nonRecursive() {
+    public Looping<N> nonRecursive() {
         //noinspection unchecked
         return modifiedCopy(myConstraints, myFilter, (Predicate<N>) Loop.FALSE);
     }
 
     @NotNull
-    public LoopingImpl<N> recurse(final @NotNull Predicate<N> predicate) {
+    public Looping<N> recurse(final @NotNull Predicate<N> predicate) {
         return modifiedCopy(myConstraints, myFilter, myRecursion.or(predicate));
     }
 
     @NotNull
-    public LoopingImpl<N> recurse(final @NotNull Class clazz) {
+    public Looping<N> recurse(final @NotNull Class clazz) {
         return recurse(getPredicate(clazz));
     }
 
     @NotNull
-    public <F> LoopingImpl<N> recurse(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> recurse(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
         return recurse(getPredicate(clazz, predicate));
     }
 
     @NotNull
-    public LoopingImpl<N> noRecurse(final @NotNull Predicate<N> predicate) {
+    public Looping<N> noRecurse(final @NotNull Predicate<N> predicate) {
         return modifiedCopy(myConstraints, myFilter, myRecursion.and(predicate.negate()));
     }
 
     @NotNull
-    public LoopingImpl<N> noRecurse(final @NotNull Class clazz) {
+    public Looping<N> noRecurse(final @NotNull Class clazz) {
         return noRecurse(getPredicate(clazz));
     }
 
     @NotNull
-    public <F> LoopingImpl<N> noRecurse(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> noRecurse(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
         return noRecurse(getPredicate(clazz, predicate));
     }
 
     @NotNull
-    public LoopingImpl<N> aborted() {
+    public Looping<N> aborted() {
         return modifiedCopy(myConstraints.getAborted(), myFilter, myRecursion);
     }
 
     @NotNull
-    public LoopingImpl<N> filterOut(final @NotNull Predicate<N> predicate) {
+    public Looping<N> filterOut(final @NotNull Predicate<N> predicate) {
         return modifiedCopy(myConstraints, myFilter.and(predicate.negate()), myRecursion);
     }
 
     @NotNull
-    public LoopingImpl<N> filterOut(final @NotNull Class clazz) {
+    public Looping<N> filterOut(final @NotNull Class clazz) {
         return filterOut(getPredicate(clazz));
     }
 
     @NotNull
-    public <F> LoopingImpl<N> filterOut(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> filterOut(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
         return filterOut(getPredicate(clazz, predicate));
     }
 
     @NotNull
-    public LoopingImpl<N> filter(final @NotNull Predicate<N> predicate) {
+    public Looping<N> filter(final @NotNull Predicate<N> predicate) {
         return modifiedCopy(myConstraints, myFilter.and(predicate), myRecursion);
     }
 
     @NotNull
-    public LoopingImpl<N> filter(final @NotNull Class clazz) {
+    public Looping<N> filter(final @NotNull Class clazz) {
         return filter(getPredicate(clazz));
     }
 
     @NotNull
-    public <F> LoopingImpl<N> filter(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
+    public <F> Looping<N> filter(final @NotNull Class<F> clazz, @NotNull Predicate<F> predicate) {
         return filter(getPredicate(clazz, predicate));
     }
 
     @NotNull
-    public <R> MorphedLoopingImpl<N, N> over(final @NotNull N element) {
-        return new MorphedLoopingImpl<>(element, ValueLoopAdapterImpl.of(), this);
+    public <R> MorphedLooping<N, N> over(final @NotNull N element) {
+        return new MorphedLooping<>(element, ValueLoopAdapterImpl.of(), this);
     }
 
     @NotNull
-    public static <N> LoopingImpl<N> of(final @NotNull LoopConstraints<N> constraints) {
-        return new LoopingImpl<N>(constraints);
+    public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints) {
+        return new Looping<N>(constraints);
     }
 
     @NotNull
-    public static <N> LoopingImpl<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter) {
-        return new LoopingImpl<N>(constraints, filter);
+    public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter) {
+        return new Looping<N>(constraints, filter);
     }
 
     @NotNull
-    public static <N> LoopingImpl<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter, final @NotNull Predicate<N> recursion) {
-        return new LoopingImpl<N>(constraints, filter, recursion);
+    public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<N> filter, final @NotNull Predicate<N> recursion) {
+        return new Looping<N>(constraints, filter, recursion);
     }
 
     @NotNull
