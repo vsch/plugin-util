@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import org.jetbrains.annotations.NotNull;
 

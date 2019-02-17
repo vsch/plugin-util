@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 
@@ -45,6 +45,8 @@ public interface VoidLoop {
     int getRecursionCount();
 
     MutableDataHolder getData();
+
+    void Return();
 
     default void Continue() { Continue(0); }
 

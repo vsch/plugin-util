@@ -13,8 +13,20 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
-public interface ValueLoopFilter<N> {
-    boolean filter(N it, VoidLoop loop);
+import org.jetbrains.annotations.NotNull;
+
+public interface VoidLoopConsumer<N> {
+    void accept(@NotNull N it, final @NotNull VoidLoop loop);
+
+    // loop is done, before returning
+    default void afterEnd(@NotNull VoidLoop loop) {
+
+    }
+
+    // before start of all iterations
+    default void beforeStart(@NotNull VoidLoop loop) {
+
+    }
 }

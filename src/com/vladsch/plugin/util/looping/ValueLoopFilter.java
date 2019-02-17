@@ -13,14 +13,8 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
-import org.jetbrains.annotations.NotNull;
-
-public interface ValueLoopConsumerAdapter<P, T> {
-    @NotNull
-    <R> ValueLoopConsumer<P, R> getConsumer(ValueLoopConsumer<T, R> valueConsumer);
-
-    @NotNull
-    <R> ValueLoopConsumer<P, R> getConsumer(VoidLoopConsumer<T> voidConsumer);
+public interface ValueLoopFilter<N> {
+    boolean filter(N it, VoidLoop loop);
 }

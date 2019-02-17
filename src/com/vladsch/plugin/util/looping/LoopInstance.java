@@ -13,8 +13,9 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 import org.jetbrains.annotations.NotNull;
@@ -24,21 +25,26 @@ import java.util.Stack;
 import java.util.function.Predicate;
 
 final public class LoopInstance<N, R> implements ValueLoop<R> {
+    final static private Logger LOG = Looping.LOG;
+    final static private Logger LOG_INFO = Looping.LOG_INFO;
+    final static private Logger LOG_TRACE = Looping.LOG_TRACE;
+
     private Iteration<N> myIteration;               // current iteration information
     private @Nullable Stack<Iteration<N>> myRecursions;       // recursion frames
     final @NotNull private LoopConstraints<N> myConditions;
     final @NotNull private Predicate<N> myRecursion;
     final @NotNull private Predicate<N> myFilter;
-    private int myTotalLoopCount;                        // total looping count across all nesting levels, including filtered out elements
-    private int myTotalCount;                            // total looping count across all nesting levels, only consumed elements
+    private int myTotalLoopCount = 0;                        // total looping count across all nesting levels, including filtered out elements
+    private int myTotalCount = 0;                            // total looping count across all nesting levels, only consumed elements
     private @Nullable N myMatch;
     private @Nullable MutableDataSet myDataSet;
 
     // ValueResult
     private Object myResult;
-    private boolean myBreak;
-    private boolean myRecursed;
-    private boolean myIsDefaultResult;
+    private boolean myBreak = false;
+    private boolean myRecursed = false;
+    private boolean myIsDefaultResult = true;
+    private int myMaxRecursions = 0;
 
     public LoopInstance(@NotNull LoopConstraints<N> conditions, @NotNull Predicate<N> filter, @NotNull Predicate<N> recursion, @NotNull N element) {
         this(conditions, filter, recursion, element, VoidLoop.NULL);
@@ -49,12 +55,7 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
         myRecursion = recursion;
         myFilter = filter;
         myIteration = new Iteration<>(myConditions.getInitializer().apply(element));
-        myTotalLoopCount = 0;
-        myTotalCount = 0;
         myResult = defaultValue;
-        myBreak = false;
-        myRecursed = false;
-        myIsDefaultResult = true;
     }
 
     static class Iteration<V> {
@@ -74,6 +75,18 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
             current = next;
             next = nextValue;
             loopCount++;
+        }
+
+        @Override
+        public String toString() {
+            String currentText = current == null ? "null" : current.toString();
+            String nextText = next == null ? "null" : next.toString();
+            return "Iteration {" +
+                    ", count=" + count +
+                    ", current=" + currentText.subSequence(0, Integer.min(currentText.length(), 30)) +
+                    ", next=" + nextText.subSequence(0, Integer.min(nextText.length(), 30)) +
+                    ", loopCount=" + loopCount +
+                    '}';
         }
     }
 
@@ -146,6 +159,7 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
 
     public void iterate(@NotNull ValueLoopConsumer<N, R> consumer) {
         consumer.beforeStart(this);
+        if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("Starting looping " + myIteration);
 
         while (true) {
             if (myIteration.next == null) {
@@ -168,15 +182,20 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
                 myRecursed = false;
                 consumer.accept(myMatch, this);
 
+                if (LOG_TRACE.isDebugEnabled()) LOG_TRACE.debug("Consumed, recursion: " + getRecursionCount() + " isBreak " + myBreak + " recursed: " + myRecursed + " " + myIteration);
                 if (myBreak) break;
+            } else {
+                if (LOG_TRACE.isDebugEnabled()) LOG_TRACE.debug("Skipping, recursion: " + getRecursionCount() + " filtered out " + myIteration);
             }
 
             if (!myRecursed && myMatch != null && myRecursion.test(myMatch)) {
+                if (LOG_TRACE.isDebugEnabled()) LOG_TRACE.debug("Recursing " + myIteration);
                 Recurse();
             }
         }
 
         consumer.afterEnd(this);
+        if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("Done looping, totalLoopCount: " + myTotalLoopCount + " totalCount: " + myTotalCount + " maxRecursions: " + myMaxRecursions + " " + myIteration);
     }
 
     @Override
@@ -212,6 +231,7 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
             myRecursed = true;
             myRecursions.add(myIteration);
             myIteration = new Iteration<>(myConditions.getInitializer().apply(myMatch));
+            myMaxRecursions = Integer.max(myMaxRecursions, myRecursions.size());
         }
     }
 

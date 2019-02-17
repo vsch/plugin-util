@@ -13,29 +13,27 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import org.jetbrains.annotations.NotNull;
 
-public class VoidToValueLoopConsumerAdapter<N, R> implements ValueLoopConsumer<N, R> {
-    final private @NotNull VoidLoopConsumer<N> myConsumer;
+import java.util.function.Function;
 
-    public VoidToValueLoopConsumerAdapter(@NotNull final VoidLoopConsumer<N> consumer) {
-        myConsumer = consumer;
+public interface LoopConstraints<N> {
+    @NotNull
+    Function<N, N> getInitializer();
+
+    @NotNull
+    Function<N, N> getIterator();
+
+    @NotNull
+    default LoopConstraints<N> getReversed() {
+        throw new IllegalStateException("Method not implemented");
     }
 
-    @Override
-    public void accept(@NotNull final N it, @NotNull final ValueLoop<R> loop) {
-        myConsumer.accept(it, loop);
-    }
-
-    @Override
-    public void afterEnd(@NotNull final ValueLoop<R> loop) {
-        myConsumer.afterEnd(loop);
-    }
-
-    @Override
-    public void beforeStart(@NotNull final ValueLoop<R> loop) {
-        myConsumer.beforeStart(loop);
+    @NotNull
+    default LoopConstraints<N> getAborted() {
+        Function<N, N> function = n -> null;
+        return new FixedLoopConstraints<>(function, function, function, function);
     }
 }

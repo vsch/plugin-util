@@ -13,13 +13,20 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
+import static com.intellij.openapi.diagnostic.Logger.getInstance;
+
 public class Looping<N> implements Loop<N> {
+    public final static Logger LOG = getInstance("com.vladsch.plugin.util.looping");
+    public final static Logger LOG_INFO = getInstance("com.vladsch.plugin.util.looping-summary");
+    public final static Logger LOG_TRACE = getInstance("com.vladsch.plugin.util.looping-detailed");
+
     private final LoopConstraints<N> myConstraints;
     private final Predicate<N> myRecursion;
     protected final Predicate<N> myFilter;
@@ -31,7 +38,7 @@ public class Looping<N> implements Loop<N> {
 
     public Looping(final LoopConstraints<N> constraints) {
         //noinspection unchecked
-        this(constraints, Loop.TRUE, Loop.TRUE);
+        this(constraints, Loop.TRUE, Loop.FALSE);
     }
 
     public Looping(final LoopConstraints<N> constraints, final Predicate<N> filter, Predicate<N> recursion) {

@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -52,18 +52,18 @@ public class MorphedLooping<N, T extends N> extends TypedLooping<N, T, MorphedLo
     }
 
     @NotNull
-    public <F extends N> MorphedLooping<N, F> filter(@NotNull Function<T, F> adapter) {
+    public <F extends N> MorphedLooping<N, F> map(@NotNull Function<T, F> adapter) {
         return new MorphedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F extends N> MorphedLooping<N, F> filter(@NotNull ValueLoopAdapter<T, F> adapter) {
+    public <F extends N> MorphedLooping<N, F> map(@NotNull ValueLoopAdapter<T, F> adapter) {
         return new MorphedLooping<>(myElement, myAdapter.andThen(adapter), myLooping);
     }
 
     @NotNull
     @Override
-    public MorphedLooping<N, T> filter(@NotNull ValueLoopFilter<T> filter) {
+    public MorphedLooping<N, T> preAccept(@NotNull ValueLoopFilter<T> filter) {
         return new MorphedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
     }
 

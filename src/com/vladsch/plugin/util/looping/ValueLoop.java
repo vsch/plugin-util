@@ -13,20 +13,17 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoopConsumer<N, R> {
-    void accept(@NotNull N it, @NotNull ValueLoop<R> loop);
+public interface ValueLoop<R> extends VoidLoop {
+    void setResult(@NotNull R value);
 
-    // loop is done, before returning
-    default void afterEnd(@NotNull ValueLoop<R> loop) {
+    boolean isDefaultResult();       // true if value never set other than initial default setting
 
-    }
+    @NotNull
+    R getResult();
 
-    // before start of all iterations
-    default void beforeStart(@NotNull ValueLoop<R> loop) {
-
-    }
+    void Return(@NotNull R value);
 }

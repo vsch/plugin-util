@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;

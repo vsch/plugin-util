@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -139,7 +139,7 @@ public abstract class TypedLooping<N, T, D extends TypedLooping<N, T, D>> {
 
     @NotNull
 
-    public D filter(@NotNull ValueLoopFilter<T> filter) {
+    public D preAccept(@NotNull ValueLoopFilter<T> filter) {
         return getModifiedCopy(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
     }
 

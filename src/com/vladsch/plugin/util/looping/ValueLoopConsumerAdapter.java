@@ -13,27 +13,14 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
-
-public interface LoopConstraints<N> {
+public interface ValueLoopConsumerAdapter<P, T> {
     @NotNull
-    Function<N, N> getInitializer();
+    <R> ValueLoopConsumer<P, R> getConsumer(ValueLoopConsumer<T, R> valueConsumer);
 
     @NotNull
-    Function<N, N> getIterator();
-
-    @NotNull
-    default LoopConstraints<N> getReversed() {
-        throw new IllegalStateException("Method not implemented");
-    }
-
-    @NotNull
-    default LoopConstraints<N> getAborted() {
-        Function<N, N> function = n -> null;
-        return new FixedLoopConstraints<>(function, function, function, function);
-    }
+    <R> ValueLoopConsumer<P, R> getConsumer(VoidLoopConsumer<T> voidConsumer);
 }

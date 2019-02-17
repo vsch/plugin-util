@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
@@ -80,12 +80,12 @@ public class PsiLooping<T extends PsiElement> extends TypedLooping<PsiElement, T
     }
 
     @NotNull
-    public <F extends PsiElement> PsiLooping<F> filter(@NotNull Function<T, F> adapter) {
+    public <F extends PsiElement> PsiLooping<F> map(@NotNull Function<T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F extends PsiElement> PsiLooping<F> filter(@NotNull ValueLoopAdapter<T, F> adapter) {
+    public <F extends PsiElement> PsiLooping<F> map(@NotNull ValueLoopAdapter<T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(adapter), myLooping);
     }
 
@@ -100,7 +100,7 @@ public class PsiLooping<T extends PsiElement> extends TypedLooping<PsiElement, T
 
     @NotNull
     public PsiLooping<T> filterOut(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> it.getNode() != null && tokenSet.contains(it.getNode().getElementType())));
+        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> it.getNode() == null || tokenSet.contains(it.getNode().getElementType())));
     }
 
     @NotNull

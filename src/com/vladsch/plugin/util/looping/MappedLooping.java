@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.loop;
+package com.vladsch.plugin.util.looping;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,12 +41,12 @@ public class MappedLooping<N, T> extends TypedLooping<N, T, MappedLooping<N, T>>
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> filter(@NotNull Function<T, F> adapter) {
+    public <F> MappedLooping<N, F> map(@NotNull Function<T, F> adapter) {
         return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F> MappedLooping<N, F> filter(@NotNull ValueLoopAdapter<T, F> adapter) {
+    public <F> MappedLooping<N, F> map(@NotNull ValueLoopAdapter<T, F> adapter) {
         return new MappedLooping<>(myElement, myAdapter.andThen(adapter), myLooping);
     }
 
