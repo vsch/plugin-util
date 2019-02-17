@@ -31,6 +31,11 @@ public class MappedLooping<N, T> extends TypedLooping<N, T, MappedLooping<N, T>>
     }
 
     @NotNull
+    public MappedLooping<N, T> filter(@NotNull final Predicate<? super N> predicate) {
+        return new MappedLooping<>(myElement, myAdapter, myLooping.filter(predicate));
+    }
+
+    @NotNull
     public <F> MappedLooping<N, F> filter(@NotNull Class<F> clazz) {
         return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz)), myLooping);
     }
@@ -49,6 +54,16 @@ public class MappedLooping<N, T> extends TypedLooping<N, T, MappedLooping<N, T>>
     public <F> MappedLooping<N, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
         return new MappedLooping<>(myElement, myAdapter.andThen(adapter), myLooping);
     }
+
+    @NotNull
+    @Override
+    public MappedLooping<N, T> preAccept(@NotNull ValueLoopFilter<? super T> filter) {
+        return new MappedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
+    }
+
+    /*
+     * Static Factories
+     */
 
     public static <N> MappedLooping<N, N> create(final N element, @NotNull Looping<N> looping) {
         return new MappedLooping<>(element, ValueLoopAdapterImpl.of(), looping);

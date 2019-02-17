@@ -31,12 +31,6 @@ public class MorphedLooping<N, T extends N> extends TypedLooping<N, T, MorphedLo
     }
 
     @NotNull
-    public MappedLooping<N, T> asMapped() {
-        return new MappedLooping<>(myElement, myAdapter, myLooping);
-    }
-
-    @NotNull
-    @Override
     public MorphedLooping<N, T> filter(@NotNull final Predicate<? super N> predicate) {
         return new MorphedLooping<>(myElement, myAdapter, myLooping.filter(predicate));
     }
@@ -67,6 +61,12 @@ public class MorphedLooping<N, T extends N> extends TypedLooping<N, T, MorphedLo
         return new MorphedLooping<>(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
     }
 
+
+    @NotNull
+    public MappedLooping<N, T> asMapped() {
+        return new MappedLooping<>(myElement, myAdapter, myLooping);
+    }
+    
     /*
      * Static Factories
      */
