@@ -160,7 +160,7 @@ public class MappedLooping<B, N extends B, T extends B> {
     }
 
     @NotNull
-    public MappedLooping<B, N, T> preAccept(@NotNull ValueLoopFilter<? super T> filter) {
+    public MappedLooping<B, N, T> acceptFilter(@NotNull ValueLoopFilter<? super T> filter) {
         return getModifiedCopy(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
     }
 

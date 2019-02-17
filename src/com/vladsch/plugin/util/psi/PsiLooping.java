@@ -160,8 +160,8 @@ public class PsiLooping<T extends PsiElement> extends MorphedLooping<PsiElement,
 
     @NotNull
     @Override
-    public PsiLooping<T> preAccept(@NotNull final ValueLoopFilter<? super T> filter) {
-        return (PsiLooping<T>) super.preAccept(filter);
+    public PsiLooping<T> acceptFilter(@NotNull final ValueLoopFilter<? super T> filter) {
+        return (PsiLooping<T>) super.acceptFilter(filter);
     }
 
     // *******************************************************
