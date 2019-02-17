@@ -61,7 +61,7 @@ public class ValueLoopAdapterImpl<N, T, R> implements ValueLoopAdapter<N, T> {
         public void accept(@NotNull final P it, @NotNull final ValueLoop<R> loop) {
             T applied = myFunction.apply(it);
             if (applied == null || myFilter != null && !myFilter.filter(applied, loop)) {
-                loop.Continue();
+                //loop.Continue();
             } else {
                 myConsumer.accept(applied, loop);
             }
