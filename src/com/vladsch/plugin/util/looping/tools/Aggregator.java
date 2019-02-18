@@ -13,30 +13,15 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.looping.tools;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoopConsumer<N, R> {
-    void accept(@NotNull N it, @NotNull ValueLoop<R> loop);
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
-    // before start of all iterations
-    default void beforeStart(@NotNull ValueLoop<R> loop) {
-
-    }
-
-    // starting a new recursion iteration  
-    default void startRecursion(@NotNull ValueLoop<R> loop) {
-
-    }
-
-    // after recursion is done but before stack is adjusted for new level 
-    default void endRecursion(@NotNull ValueLoop<R> loop) {
-
-    }
-    
-    // loop is done, before returning
-    default void afterEnd(@NotNull ValueLoop<R> loop) {
-
+public interface Aggregator<V, R> extends BiFunction<R, V, R> {
+    default <N> Aggregator<N, R> adapt(@NotNull Function<? super N, ? extends V> adapter) {
+        return (r, n) -> apply(r, adapter.apply(n));
     }
 }

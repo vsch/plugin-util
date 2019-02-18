@@ -21,14 +21,6 @@ public interface VoidLoop {
     Object NULL = new Object();
 
     /**
-     * Recurse into current element regardless of recursion predicate or filtering
-     * <p>
-     * Current iteration is marked {@link #Complete()} and {@link #Continue()}, {@link #Break()} in the current
-     * iteration will throw an {@link IllegalStateException}
-     */
-    void Recurse();
-
-    /**
      * Complete current iteration, ie. isComplete() will report true and isIncomplete() false
      * <p>
      * Purely a convenience feature to use without needing to track if break or continue have been executed

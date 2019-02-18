@@ -241,3 +241,4 @@ public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
         return of(element, new Looping<>(constraints, filter, recursion));
     }
 }
+                                                                        

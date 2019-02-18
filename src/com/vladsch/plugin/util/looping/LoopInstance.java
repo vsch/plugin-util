@@ -79,11 +79,24 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
         consumer.beforeStart(this);
         if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("Starting looping " + myIteration);
 
+        if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("Start recursion " + getRecursionLevel());
+        
         while (true) {
             if (myIteration.next == null) {
                 // see if all done, or just current 
-                if (myRecursions == null || myRecursions.size() == 0) break;
+                
+                if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("End recursion " + getRecursionLevel());
+                consumer.endRecursion(this);
+
+                if (myRecursions == null || myRecursions.size() == 0) {
+                    break;
+                }
+                
                 dropRecursions(1, false);
+                
+                if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("Start recursion " + getRecursionLevel());
+                consumer.startRecursion(this);
+                
                 continue;
             }
 
@@ -111,6 +124,8 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
             if (!myHadRecurse && myMatch != null && myRecursionPredicate.test(myMatch)) {
                 if (LOG_TRACE.isDebugEnabled()) LOG_TRACE.debug("Recursing " + myIteration);
                 Recurse();
+                if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("Start recursion " + getRecursionLevel());
+                consumer.startRecursion(this);
             }
         }
 
@@ -152,8 +167,7 @@ final public class LoopInstance<N, R> implements ValueLoop<R> {
     /**
      * Unconditionally recurse into current element
      */
-    @Override
-    public void Recurse() {
+    private void Recurse() {
         if (myMatch != null && !myHadRecurse) {
             if (myRecursions == null) {
                 myRecursions = new Stack<>();
