@@ -15,11 +15,13 @@
 
 package com.vladsch.plugin.util.psi;
 
+import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.TokenSet;
 import com.vladsch.plugin.util.looping.LoopConstraints;
 import com.vladsch.plugin.util.looping.Looping;
+import com.vladsch.plugin.util.looping.MappedLooping;
 import com.vladsch.plugin.util.looping.MorphedLooping;
 import com.vladsch.plugin.util.looping.ValueLoopAdapter;
 import com.vladsch.plugin.util.looping.ValueLoopAdapterImpl;
@@ -219,6 +221,18 @@ public class PsiLooping<T extends PsiElement> extends MorphedLooping<PsiElement,
     public PsiLooping<T> filterOutLeafPsi() {
         return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(LeafPsiElement.class));
     }
+
+    @NotNull
+    public MappedLooping<PsiElement, PsiElement, T> toMappedLooping() {
+        return new MappedLooping<>(myElement, myAdapter, myLooping);
+    }
+
+    //@NotNull
+    //public ASTLooping<ASTNode> toASTLooping() {
+    //    return new ASTLooping<ASTNode>(myElement.getNode(), new ValueLoopAdapterImpl<PsiElement, ASTNode>(PsiElement::getNode), new Looping<Object, ASTNode>(new FixedLoopConstraints<PsiElement, ASTNode>(myLooping.getConstraints(), PSI_TO_AST)));
+    //}
+
+    public static Function<PsiElement, ASTNode> PSI_TO_AST = PsiElement::getNode;
 
     // *******************************************************
     //

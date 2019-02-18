@@ -13,10 +13,12 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
+import com.vladsch.plugin.util.looping.FixedLoopConstraints;
+import com.vladsch.plugin.util.looping.LoopConstraints;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

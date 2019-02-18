@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 
-class FixedLoopConstraints<N> implements LoopConstraints<N> {
+public class FixedLoopConstraints<N> implements LoopConstraints<N> {
     final private @NotNull Function<? super N, N> initializer;
     final private @NotNull Function<? super N, N> iterator;
     final private @NotNull Function<? super N, N> reverseInitializer;

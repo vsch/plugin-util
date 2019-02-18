@@ -33,7 +33,7 @@ public interface LoopConstraints<N> {
 
     @NotNull
     default LoopConstraints<N> getAborted() {
-        Function<N, N> function = n -> null;
+        Function<? super N, N> function = n -> null;
         return new FixedLoopConstraints<>(function, function, function, function);
     }
 }

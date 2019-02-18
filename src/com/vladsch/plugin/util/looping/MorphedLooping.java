@@ -191,6 +191,11 @@ public class MorphedLooping<N, T extends N> extends MappedLooping<N, N, T> {
     //
     // *******************************************************
 
+    @NotNull
+    public MappedLooping<N, N, T> toMappedLooping() {
+        return new MappedLooping<>(myElement, myAdapter, myLooping);
+    }
+
     // *******************************************************
     //
     // Static Factories

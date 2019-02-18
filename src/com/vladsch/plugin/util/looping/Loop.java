@@ -18,6 +18,7 @@ package com.vladsch.plugin.util.looping;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.vladsch.plugin.util.psi.LoopConstrainsBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

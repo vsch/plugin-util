@@ -78,11 +78,7 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public Looping<N> modifiedCopy(
-            final @NotNull LoopConstraints<N> constraints,
-            final @NotNull Predicate<? super N> filter,
-            final @NotNull Predicate<? super N> recursion
-    ) {
+    public Looping<N> modifiedCopy(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<? super N> filter, final @NotNull Predicate<? super N> recursion) {
         return new Looping<>(constraints, filter, recursion);
     }
 
@@ -169,23 +165,18 @@ public class Looping<N> implements Loop<N> {
     }
 
     @NotNull
-    public <R> MorphedLooping<N, N> over(final @NotNull N element) {
-        return new MorphedLooping<>(element, ValueLoopAdapterImpl.of(), this);
-    }
-
-    @NotNull
     public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints) {
-        return new Looping<N>(constraints);
+        return new Looping<>(constraints);
     }
 
     @NotNull
     public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<? super N> filter) {
-        return new Looping<N>(constraints, filter);
+        return new Looping<>(constraints, filter);
     }
 
     @NotNull
     public static <N> Looping<N> of(final @NotNull LoopConstraints<N> constraints, final @NotNull Predicate<? super N> filter, final @NotNull Predicate<? super N> recursion) {
-        return new Looping<N>(constraints, filter, recursion);
+        return new Looping<>(constraints, filter, recursion);
     }
 
     @NotNull
