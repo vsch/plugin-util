@@ -182,13 +182,21 @@ public class MappedLooping<B, T extends B> {
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, F> map(@NotNull Function<? super T, F> adapter) {
+    public <F extends B> MappedLooping<B, F> adapt(@NotNull Function<? super T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
+    public <F extends B> MappedLooping<B, F> adapt(@NotNull ValueLoopAdapter<? super T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(adapter), myLooping);
+    }
+
+    @NotNull
+    public MappedLooping<Object, B> toObjectMapped(Class<B> clazz) {
+        Function<Object, B> objectToB = it -> clazz.isInstance(it) ? clazz.cast(it) : null;
+        Function<B, Object> tToObject = it -> it;
+        FixedLoopConstraints<Object> constraints = FixedLoopConstraints.mapTtoB(myLooping.getConstraints(), objectToB, tToObject);
+        return new MappedLooping<>(myElement, new ValueLoopAdapterImpl<>(objectToB), new Looping<>(constraints));
     }
 
     // *******************************************************

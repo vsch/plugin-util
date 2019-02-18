@@ -183,14 +183,14 @@ public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
 
     @NotNull
     @Override
-    public <F extends ASTNode> ASTLooping<F> map(@NotNull final Function<? super T, F> adapter) {
-        return (ASTLooping<F>) super.map(adapter);
+    public <F extends ASTNode> ASTLooping<F> adapt(@NotNull final Function<? super T, F> adapter) {
+        return (ASTLooping<F>) super.adapt(adapter);
     }
 
     @NotNull
     @Override
-    public <F extends ASTNode> ASTLooping<F> map(@NotNull final ValueLoopAdapter<? super T, F> adapter) {
-        return (ASTLooping<F>) super.map(adapter);
+    public <F extends ASTNode> ASTLooping<F> adapt(@NotNull final ValueLoopAdapter<? super T, F> adapter) {
+        return (ASTLooping<F>) super.adapt(adapter);
     }
 
     // *******************************************************
@@ -212,6 +212,11 @@ public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
     @NotNull
     public ASTLooping<T> filter(@NotNull TokenSet tokenSet) {
         return getModifiedCopyF(myElement, myAdapter, myLooping.filter(it -> PsiUtils.isTypeOf(it, tokenSet)));
+    }
+
+    @NotNull
+    public MappedLooping<Object, ASTNode> toAstObjectMapped() {
+        return toObjectMapped(ASTNode.class);
     }
 
     // *******************************************************

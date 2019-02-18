@@ -19,7 +19,6 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.TokenSet;
-import com.vladsch.plugin.util.looping.FixedLoopConstraints;
 import com.vladsch.plugin.util.looping.LoopConstraints;
 import com.vladsch.plugin.util.looping.Looping;
 import com.vladsch.plugin.util.looping.MappedLooping;
@@ -186,14 +185,14 @@ public class PsiLooping<T extends PsiElement> extends MappedLooping<PsiElement, 
 
     @NotNull
     @Override
-    public <F extends PsiElement> PsiLooping<F> map(@NotNull final Function<? super T, F> adapter) {
-        return (PsiLooping<F>) super.map(adapter);
+    public <F extends PsiElement> PsiLooping<F> adapt(@NotNull final Function<? super T, F> adapter) {
+        return (PsiLooping<F>) super.adapt(adapter);
     }
 
     @NotNull
     @Override
-    public <F extends PsiElement> PsiLooping<F> map(@NotNull final ValueLoopAdapter<? super T, F> adapter) {
-        return (PsiLooping<F>) super.map(adapter);
+    public <F extends PsiElement> PsiLooping<F> adapt(@NotNull final ValueLoopAdapter<? super T, F> adapter) {
+        return (PsiLooping<F>) super.adapt(adapter);
     }
 
     // *******************************************************
@@ -223,14 +222,18 @@ public class PsiLooping<T extends PsiElement> extends MappedLooping<PsiElement, 
     }
 
     @NotNull
-    public MappedLooping<Object, PsiElement> toMapped() {
-        return new MappedLooping<>(myElement, new ValueLoopAdapterImpl<>(it -> it instanceof PsiElement ? (PsiElement) it : null),
-                new Looping<Object>(FixedLoopConstraints.mapTtoB(myLooping.getConstraints(), it -> it instanceof PsiElement ? (PsiElement) it : null, it -> (Object) it)));
+    public MappedLooping<Object, PsiElement> toPsiObjectMapped() {
+        return toObjectMapped(PsiElement.class);
     }
 
     @NotNull
-    public MappedLooping<Object, ASTNode> toAST() {
-        return toMapped().map(PsiElement::getNode);
+    public MappedLooping<Object, ASTNode> toAstObjectMapped() {
+        return toPsiObjectMapped().adapt(PsiElement::getNode);
+    }
+
+    @NotNull
+    public <A extends ASTNode> MappedLooping<Object, A> toAstObjectMapped(Class<A> clazz) {
+        return toAstObjectMapped().filter(clazz);
     }
 
     // *******************************************************
