@@ -19,7 +19,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;
 import com.vladsch.plugin.util.looping.LoopConstraints;
 import com.vladsch.plugin.util.looping.Looping;
-import com.vladsch.plugin.util.looping.MorphedLooping;
+import com.vladsch.plugin.util.looping.MappedLooping;
 import com.vladsch.plugin.util.looping.ValueLoopAdapter;
 import com.vladsch.plugin.util.looping.ValueLoopAdapterImpl;
 import com.vladsch.plugin.util.looping.ValueLoopFilter;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class ASTLooping<T extends ASTNode> extends MorphedLooping<ASTNode, T> {
+public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
     public ASTLooping(@NotNull final ASTNode element, @NotNull ValueLoopAdapter<? super ASTNode, T> adapter, @NotNull Looping<ASTNode> looping) {
         super(element, adapter, looping);
     }

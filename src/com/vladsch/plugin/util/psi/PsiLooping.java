@@ -19,10 +19,10 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.TokenSet;
+import com.vladsch.plugin.util.looping.FixedLoopConstraints;
 import com.vladsch.plugin.util.looping.LoopConstraints;
 import com.vladsch.plugin.util.looping.Looping;
 import com.vladsch.plugin.util.looping.MappedLooping;
-import com.vladsch.plugin.util.looping.MorphedLooping;
 import com.vladsch.plugin.util.looping.ValueLoopAdapter;
 import com.vladsch.plugin.util.looping.ValueLoopAdapterImpl;
 import com.vladsch.plugin.util.looping.ValueLoopFilter;
@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class PsiLooping<T extends PsiElement> extends MorphedLooping<PsiElement, T> {
+public class PsiLooping<T extends PsiElement> extends MappedLooping<PsiElement, T> {
     public PsiLooping(@NotNull final PsiElement element, @NotNull ValueLoopAdapter<? super PsiElement, T> adapter, @NotNull Looping<PsiElement> looping) {
         super(element, adapter, looping);
     }
@@ -204,35 +204,34 @@ public class PsiLooping<T extends PsiElement> extends MorphedLooping<PsiElement,
 
     @NotNull
     public PsiLooping<T> recurse(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.recurse(it -> PsiUtils.isTypeOf(it, tokenSet)));
+        return recurse(it -> PsiUtils.isTypeOf(it, tokenSet));
     }
 
     @NotNull
     public PsiLooping<T> filterOut(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> PsiUtils.isNullOrTypeOf(it, tokenSet)));
+        return filterOut(it -> PsiUtils.isNullOrTypeOf(it, tokenSet));
     }
 
     @NotNull
     public PsiLooping<T> filter(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filter(it -> PsiUtils.isTypeOf(it, tokenSet)));
+        return filter(it -> PsiUtils.isTypeOf(it, tokenSet));
     }
 
     @NotNull
     public PsiLooping<T> filterOutLeafPsi() {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(LeafPsiElement.class));
+        return filterOut(LeafPsiElement.class);
     }
 
     @NotNull
-    public MappedLooping<PsiElement, PsiElement, T> toMappedLooping() {
-        return new MappedLooping<>(myElement, myAdapter, myLooping);
+    public MappedLooping<Object, PsiElement> toMapped() {
+        return new MappedLooping<>(myElement, new ValueLoopAdapterImpl<>(it -> it instanceof PsiElement ? (PsiElement) it : null),
+                new Looping<Object>(FixedLoopConstraints.mapTtoB(myLooping.getConstraints(), it -> it instanceof PsiElement ? (PsiElement) it : null, it -> (Object) it)));
     }
 
-    //@NotNull
-    //public ASTLooping<ASTNode> toASTLooping() {
-    //    return new ASTLooping<ASTNode>(myElement.getNode(), new ValueLoopAdapterImpl<PsiElement, ASTNode>(PsiElement::getNode), new Looping<Object, ASTNode>(new FixedLoopConstraints<PsiElement, ASTNode>(myLooping.getConstraints(), PSI_TO_AST)));
-    //}
-
-    public static Function<PsiElement, ASTNode> PSI_TO_AST = PsiElement::getNode;
+    @NotNull
+    public MappedLooping<Object, ASTNode> toAST() {
+        return toMapped().map(PsiElement::getNode);
+    }
 
     // *******************************************************
     //

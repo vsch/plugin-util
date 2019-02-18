@@ -15,12 +15,13 @@
 
 package com.vladsch.plugin.util.looping;
 
+import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class MappedLooping<B, N extends B, T extends B> {
+public class MappedLooping<B, T extends B> {
     protected final @NotNull B myElement;
     protected final @NotNull ValueLoopAdapter<? super B, T> myAdapter;
     protected final @NotNull Looping<B> myLooping;
@@ -58,12 +59,12 @@ public class MappedLooping<B, N extends B, T extends B> {
     // *******************************************************
 
     @NotNull
-    public MappedLooping<B, N, T> getModifiedCopy(final B element, final ValueLoopAdapter<? super B, T> adapter, final Looping<B> looping) {
+    public MappedLooping<B, T> getModifiedCopy(final B element, final ValueLoopAdapter<? super B, T> adapter, final Looping<B> looping) {
         return new MappedLooping<>(element, adapter, looping);
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, F> getModifiedCopyF(final B element, final ValueLoopAdapter<? super B, F> adapter, final Looping<B> looping) {
+    public <F extends B> MappedLooping<B, F> getModifiedCopyF(final B element, final ValueLoopAdapter<? super B, F> adapter, final Looping<B> looping) {
         return new MappedLooping<>(element, adapter, looping);
     }
 
@@ -74,93 +75,93 @@ public class MappedLooping<B, N extends B, T extends B> {
     // *******************************************************
 
     @NotNull
-    public MappedLooping<B, N, T> reversed() {
+    public MappedLooping<B, T> reversed() {
         return getModifiedCopy(myElement, myAdapter, myLooping.reversed());
     }
 
     @NotNull
 
-    public MappedLooping<B, N, T> recursive() {
+    public MappedLooping<B, T> recursive() {
         return getModifiedCopy(myElement, myAdapter, myLooping.recursive());
     }
 
     @NotNull
-    public MappedLooping<B, N, T> nonRecursive() {
+    public MappedLooping<B, T> nonRecursive() {
         return getModifiedCopy(myElement, myAdapter, myLooping.nonRecursive());
     }
 
     @NotNull
-    public MappedLooping<B, N, T> recursive(boolean recursive) {
+    public MappedLooping<B, T> recursive(boolean recursive) {
         return recursive ? recursive() : nonRecursive();
     }
 
     @NotNull
-    public MappedLooping<B, N, T> nonRecursive(boolean nonRecursive) {
+    public MappedLooping<B, T> nonRecursive(boolean nonRecursive) {
         return nonRecursive ? nonRecursive() : recursive();
     }
 
     @NotNull
-    public MappedLooping<B, N, T> recurse(@NotNull final Predicate<? super B> predicate) {
+    public MappedLooping<B, T> recurse(@NotNull final Predicate<? super B> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.recurse(predicate));
     }
 
     @NotNull
-    public MappedLooping<B, N, T> recurse(@NotNull final Class clazz) {
+    public MappedLooping<B, T> recurse(@NotNull final Class clazz) {
         return getModifiedCopy(myElement, myAdapter, myLooping.recurse(clazz));
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, T> recurse(@NotNull final Class<F> clazz, @NotNull final Predicate<? super F> predicate) {
+    public <F extends B> MappedLooping<B, T> recurse(@NotNull final Class<F> clazz, @NotNull final Predicate<? super F> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.recurse(clazz, predicate));
     }
 
     @NotNull
-    public MappedLooping<B, N, T> noRecurse(@NotNull final Predicate<? super B> predicate) {
+    public MappedLooping<B, T> noRecurse(@NotNull final Predicate<? super B> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.noRecurse(predicate));
     }
 
     @NotNull
-    public MappedLooping<B, N, T> noRecurse(@NotNull final Class clazz) {
+    public MappedLooping<B, T> noRecurse(@NotNull final Class clazz) {
         return getModifiedCopy(myElement, myAdapter, myLooping.noRecurse(clazz));
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, T> noRecurse(@NotNull final Class<F> clazz, @NotNull final Predicate<? super F> predicate) {
+    public <F extends B> MappedLooping<B, T> noRecurse(@NotNull final Class<F> clazz, @NotNull final Predicate<? super F> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.recurse(clazz, predicate));
     }
 
     @NotNull
-    public MappedLooping<B, N, T> filterFalse() {
+    public MappedLooping<B, T> filterFalse() {
         return aborted();
     }
 
     @NotNull
-    public MappedLooping<B, N, T> aborted() {
+    public MappedLooping<B, T> aborted() {
         return getModifiedCopy(myElement, myAdapter, myLooping.aborted());
     }
 
     @NotNull
-    public MappedLooping<B, N, T> filterOut(@NotNull final Predicate<? super B> predicate) {
+    public MappedLooping<B, T> filterOut(@NotNull final Predicate<? super B> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.filterOut(predicate));
     }
 
     @NotNull
-    public MappedLooping<B, N, T> filterOut(@NotNull Class clazz) {
+    public MappedLooping<B, T> filterOut(@NotNull Class clazz) {
         return getModifiedCopy(myElement, myAdapter, myLooping.filterOut(clazz));
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, T> filterOut(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
+    public <F extends B> MappedLooping<B, T> filterOut(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.filterOut(clazz, predicate));
     }
 
     @NotNull
-    public MappedLooping<B, N, T> filter(@NotNull final Predicate<? super B> predicate) {
+    public MappedLooping<B, T> filter(@NotNull final Predicate<? super B> predicate) {
         return getModifiedCopy(myElement, myAdapter, myLooping.filter(predicate));
     }
 
     @NotNull
-    public MappedLooping<B, N, T> acceptFilter(@NotNull ValueLoopFilter<? super T> filter) {
+    public MappedLooping<B, T> acceptFilter(@NotNull ValueLoopFilter<? super T> filter) {
         return getModifiedCopy(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(filter)), myLooping);
     }
 
@@ -171,22 +172,22 @@ public class MappedLooping<B, N extends B, T extends B> {
     // *******************************************************
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, F> filter(@NotNull Class<F> clazz) {
+    public <F extends B> MappedLooping<B, F> filter(@NotNull Class<F> clazz) {
         return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz)), myLooping);
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
+    public <F extends B> MappedLooping<B, F> filter(@NotNull Class<F> clazz, @NotNull Predicate<? super F> predicate) {
         return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(clazz, predicate)), myLooping);
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, F> map(@NotNull Function<? super T, F> adapter) {
+    public <F extends B> MappedLooping<B, F> map(@NotNull Function<? super T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(ValueLoopAdapterImpl.of(adapter)), myLooping);
     }
 
     @NotNull
-    public <F extends B> MappedLooping<B, N, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
+    public <F extends B> MappedLooping<B, F> map(@NotNull ValueLoopAdapter<? super T, F> adapter) {
         return getModifiedCopyF(myElement, myAdapter.andThen(adapter), myLooping);
     }
 
@@ -202,7 +203,7 @@ public class MappedLooping<B, N extends B, T extends B> {
     //
     // *******************************************************
 
-    public static <N> MappedLooping<N, N, N> create(final N element, @NotNull Looping<N> looping) {
+    public static <N> MappedLooping<N, N> create(final N element, @NotNull Looping<N> looping) {
         return new MappedLooping<>(element, ValueLoopAdapterImpl.of(), looping);
     }
 }

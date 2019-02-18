@@ -49,4 +49,17 @@ public class FixedLoopConstraints<N> implements LoopConstraints<N> {
     public LoopConstraints<N> getReversed() {
         return new FixedLoopConstraints<>(reverseInitializer, reverseIterator, initializer, iterator);
     }
+
+    public static <B, T> Function<? super B, B> getAdapter(Function<? super T, T> function, Function<? super B, T> adaptBtoT, Function<? super T, B> adaptTtoB) {
+        return adaptBtoT.andThen(function).andThen(adaptTtoB);
+    }
+
+    public static <B, T> FixedLoopConstraints<B> mapTtoB(LoopConstraints<T> constraints, Function<? super B, T> adaptBtoT, Function<? super T, B> adaptTtoB) {
+        return new FixedLoopConstraints<>(
+                getAdapter(constraints.getInitializer(), adaptBtoT, adaptTtoB),
+                getAdapter(constraints.getIterator(), adaptBtoT, adaptTtoB),
+                getAdapter(constraints.getReversed().getInitializer(), adaptBtoT, adaptTtoB),
+                getAdapter(constraints.getReversed().getIterator(), adaptBtoT, adaptTtoB)
+        );
+    }
 }
