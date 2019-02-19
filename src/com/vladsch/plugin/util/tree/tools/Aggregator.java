@@ -13,8 +13,15 @@
  *
  */
 
-package com.vladsch.plugin.util.looping.tools;
+package com.vladsch.plugin.util.tree.tools;
 
-public interface AggregatorFactory<N, R> {
-    Aggregator<N, R> create();
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
+public interface Aggregator<V, R> extends BiFunction<R, V, R> {
+    default <N> Aggregator<N, R> adapt(@NotNull Function<? super N, ? extends V> adapter) {
+        return (r, n) -> apply(r, adapter.apply(n));
+    }
 }

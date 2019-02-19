@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.looping.tools;
+package com.vladsch.plugin.util.tree.tools;
 
 import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;

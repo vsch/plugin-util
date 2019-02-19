@@ -17,8 +17,8 @@ package com.vladsch.plugin.util.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.vladsch.plugin.util.looping.FixedLoopConstraints;
-import com.vladsch.plugin.util.looping.LoopConstraints;
+import com.vladsch.plugin.util.tree.FixedIterationConstraints;
+import com.vladsch.plugin.util.tree.IterationConstraints;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -70,15 +70,15 @@ public class LoopConstrainsBuilder<N> {
         ourIterators[ITERATE_SIBLINGS_REV] = new IterationFunctions<N>(ITERATE_SIBLINGS_REV, PREV_SIBLING, PREV_SIBLING, NEXT_SIBLING, NEXT_SIBLING);
     }
 
-    final LoopConstraints[] myConstraints = new LoopConstraints[MAX_CONSTRAINTS];
+    final IterationConstraints[] myConstraints = new IterationConstraints[MAX_CONSTRAINTS];
 
-    LoopConstraints<N> getOrComputeConstraint(int index) {
-        LoopConstraints constraints = myConstraints[index];
+    IterationConstraints<N> getOrComputeConstraint(int index) {
+        IterationConstraints constraints = myConstraints[index];
         if (constraints == null) {
             //noinspection unchecked
             IterationFunctions<N> iterator = ourIterators[index];
 
-            constraints = new FixedLoopConstraints<>(iterator.initializer, iterator.iterator, iterator.reverseInitializer, iterator.reverseIterator);
+            constraints = new FixedIterationConstraints<>(iterator.initializer, iterator.iterator, iterator.reverseInitializer, iterator.reverseIterator);
             myConstraints[index] = constraints;
         }
 
@@ -86,19 +86,19 @@ public class LoopConstrainsBuilder<N> {
         return constraints;
     }
 
-    public LoopConstraints<N> getIterateSiblings() {
+    public IterationConstraints<N> getIterateSiblings() {
         return getOrComputeConstraint(ITERATE_SIBLINGS);
     }
 
-    public LoopConstraints<N> getIterateSiblingsRev() {
+    public IterationConstraints<N> getIterateSiblingsRev() {
         return getOrComputeConstraint(ITERATE_SIBLINGS_REV);
     }
 
-    public LoopConstraints<N> getIterateChildren() {
+    public IterationConstraints<N> getIterateChildren() {
         return getOrComputeConstraint(ITERATE_CHILDREN);
     }
 
-    public LoopConstraints<N> getIterateChildrenRev() {
+    public IterationConstraints<N> getIterateChildrenRev() {
         return getOrComputeConstraint(ITERATE_CHILDREN_REV);
     }
 

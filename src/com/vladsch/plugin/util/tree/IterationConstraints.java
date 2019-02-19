@@ -13,20 +13,27 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface VoidLoopConsumer<N> {
-    void accept(@NotNull N it, final @NotNull VoidLoop loop);
+import java.util.function.Function;
 
-    // loop is done, before returning
-    default void afterEnd(@NotNull VoidLoop loop) {
+public interface IterationConstraints<N> {
+    @NotNull
+    Function<? super N, N> getInitializer();
 
+    @NotNull
+    Function<? super N, N> getIterator();
+
+    @NotNull
+    default IterationConstraints<N> getReversed() {
+        throw new IllegalStateException("Method not implemented");
     }
 
-    // before start of all iterations
-    default void beforeStart(@NotNull VoidLoop loop) {
-
+    @NotNull
+    default IterationConstraints<N> getAborted() {
+        Function<? super N, N> function = n -> null;
+        return new FixedIterationConstraints<>(function, function, function, function);
     }
 }

@@ -13,11 +13,10 @@
  *
  */
 
-package com.vladsch.plugin.util.looping.tools;
+package com.vladsch.plugin.util.tree.tools;
 
-import com.vladsch.plugin.util.looping.Utils;
-import com.vladsch.plugin.util.looping.ValueLoop;
-import com.vladsch.plugin.util.looping.ValueLoopConsumer;
+import com.vladsch.plugin.util.tree.ValueIteration;
+import com.vladsch.plugin.util.tree.ValueLoopConsumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -64,7 +63,7 @@ public class MultiAggregatorFactory<N, K> {
         }
 
         @Override
-        public void accept(@NotNull final N it, @NotNull final ValueLoop<Map<K, Result>> loop) {
+        public void accept(@NotNull final N it, @NotNull final ValueIteration<Map<K, Result>> loop) {
             for (IntermediateResult value : myIntermediateResults) {
                 //noinspection unchecked
                 value.accept(it);
@@ -72,7 +71,7 @@ public class MultiAggregatorFactory<N, K> {
         }
 
         @Override
-        public void afterEnd(@NotNull final ValueLoop<Map<K, Result>> loop) {
+        public void afterEnd(@NotNull final ValueIteration<Map<K, Result>> loop) {
             HashMap<K, Result> results = new HashMap<>();
 
             for (IntermediateResult result : myIntermediateResults) {

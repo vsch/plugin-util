@@ -13,14 +13,8 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree.tools;
 
-import org.jetbrains.annotations.NotNull;
-
-public interface ValueLoopConsumerAdapter<P, T> {
-    @NotNull
-    <R> ValueLoopConsumer<? super P, R> getConsumer(ValueLoopConsumer<? super T, R> valueConsumer);
-
-    @NotNull
-    <R> ValueLoopConsumer<? super P, R> getConsumer(VoidLoopConsumer<? super T> voidConsumer);
+public interface AggregatorFactory<N, R> {
+    Aggregator<N, R> create();
 }

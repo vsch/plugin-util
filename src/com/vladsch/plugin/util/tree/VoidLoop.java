@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree;
 
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 
@@ -115,10 +115,10 @@ public interface VoidLoop {
     /**
      * Per loop instance data instance can be used to store context information
      * <p>
-     * Exists between {@link VoidLoopConsumer#beforeStart(VoidLoop)} and {@link ValueLoopConsumer#afterEnd(ValueLoop) }
+     * Exists between {@link VoidLoopConsumer#beforeStart(VoidLoop)} and {@link ValueLoopConsumer#afterEnd(ValueIteration) }
      * for consumer and
      * <p>
-     * lifetime of {@link LoopInstance} for caller of {@link Loop#iterate}
+     * lifetime of {@link IterationInstance} for caller of {@link TreeIterator#iterate}
      *
      * @return per loop instance mutable data holder
      */

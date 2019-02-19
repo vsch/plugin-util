@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree;
 
 public interface ValueLoopFilter<N> {
     boolean filter(N it, VoidLoop loop);

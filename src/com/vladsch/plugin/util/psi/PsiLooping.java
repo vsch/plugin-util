@@ -19,20 +19,20 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.TokenSet;
-import com.vladsch.plugin.util.looping.LoopConstraints;
-import com.vladsch.plugin.util.looping.Looping;
-import com.vladsch.plugin.util.looping.MappedLooping;
-import com.vladsch.plugin.util.looping.ValueLoopAdapter;
-import com.vladsch.plugin.util.looping.ValueLoopAdapterImpl;
-import com.vladsch.plugin.util.looping.ValueLoopFilter;
+import com.vladsch.plugin.util.tree.IterationConstraints;
+import com.vladsch.plugin.util.tree.TreeIterator;
+import com.vladsch.plugin.util.tree.MappedLooping;
+import com.vladsch.plugin.util.tree.ValueLoopAdapter;
+import com.vladsch.plugin.util.tree.ValueLoopAdapterImpl;
+import com.vladsch.plugin.util.tree.ValueLoopFilter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class PsiLooping<T extends PsiElement> extends MappedLooping<PsiElement, T> {
-    public PsiLooping(@NotNull final PsiElement element, @NotNull ValueLoopAdapter<? super PsiElement, T> adapter, @NotNull Looping<PsiElement> looping) {
-        super(element, adapter, looping);
+    public PsiLooping(@NotNull final PsiElement element, @NotNull ValueLoopAdapter<? super PsiElement, T> adapter, @NotNull TreeIterator<PsiElement> treeIterator) {
+        super(element, adapter, treeIterator);
     }
 
     // *******************************************************
@@ -42,13 +42,13 @@ public class PsiLooping<T extends PsiElement> extends MappedLooping<PsiElement, 
     // *******************************************************
 
     @NotNull
-    public PsiLooping<T> getModifiedCopy(final PsiElement element, final ValueLoopAdapter<? super PsiElement, T> adapter, final Looping<PsiElement> looping) {
-        return new PsiLooping<>(element, adapter, looping);
+    public PsiLooping<T> getModifiedCopy(final PsiElement element, final ValueLoopAdapter<? super PsiElement, T> adapter, final TreeIterator<PsiElement> treeIterator) {
+        return new PsiLooping<>(element, adapter, treeIterator);
     }
 
     @NotNull
-    public <F extends PsiElement> PsiLooping<F> getModifiedCopyF(final PsiElement element, final ValueLoopAdapter<? super PsiElement, F> adapter, final Looping<PsiElement> looping) {
-        return new PsiLooping<>(element, adapter, looping);
+    public <F extends PsiElement> PsiLooping<F> getModifiedCopyF(final PsiElement element, final ValueLoopAdapter<? super PsiElement, F> adapter, final TreeIterator<PsiElement> treeIterator) {
+        return new PsiLooping<>(element, adapter, treeIterator);
     }
 
     // *******************************************************
@@ -242,19 +242,19 @@ public class PsiLooping<T extends PsiElement> extends MappedLooping<PsiElement, 
     //
     // *******************************************************
 
-    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull Looping<PsiElement> looping) {
-        return new PsiLooping<>(element, ValueLoopAdapterImpl.of(), looping);
+    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull TreeIterator<PsiElement> treeIterator) {
+        return new PsiLooping<>(element, ValueLoopAdapterImpl.of(), treeIterator);
     }
 
-    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull LoopConstraints<PsiElement> constraints) {
-        return of(element, new Looping<>(constraints));
+    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull IterationConstraints<PsiElement> constraints) {
+        return of(element, new TreeIterator<>(constraints));
     }
 
-    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull LoopConstraints<PsiElement> constraints, final @NotNull Predicate<? super PsiElement> filter) {
-        return of(element, new Looping<>(constraints, filter));
+    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull IterationConstraints<PsiElement> constraints, final @NotNull Predicate<? super PsiElement> filter) {
+        return of(element, new TreeIterator<>(constraints, filter));
     }
 
-    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull LoopConstraints<PsiElement> constraints, final @NotNull Predicate<? super PsiElement> filter, final @NotNull Predicate<? super PsiElement> recursion) {
-        return of(element, new Looping<>(constraints, filter, recursion));
+    public static PsiLooping<PsiElement> of(final @NotNull PsiElement element, final @NotNull IterationConstraints<PsiElement> constraints, final @NotNull Predicate<? super PsiElement> filter, final @NotNull Predicate<? super PsiElement> recursion) {
+        return of(element, new TreeIterator<>(constraints, filter, recursion));
     }
 }

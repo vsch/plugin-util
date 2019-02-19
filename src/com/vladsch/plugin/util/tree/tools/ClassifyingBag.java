@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.looping.tools;
+package com.vladsch.plugin.util.tree.tools;
 
 import java.util.HashMap;
 import java.util.function.BiFunction;

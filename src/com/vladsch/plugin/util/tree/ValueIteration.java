@@ -13,11 +13,11 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoop<R> extends VoidLoop {
+public interface ValueIteration<R> extends VoidLoop {
     /**
      * Set the result which will be returned by the loop if terminated without {@link #Return(Object)} call.
      *

@@ -13,30 +13,14 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoopConsumer<N, R> {
-    void accept(@NotNull N it, @NotNull ValueLoop<R> loop);
+public interface ValueLoopConsumerAdapter<P, T> {
+    @NotNull
+    <R> ValueLoopConsumer<? super P, R> getConsumer(ValueLoopConsumer<? super T, R> valueConsumer);
 
-    // before start of all iterations
-    default void beforeStart(@NotNull ValueLoop<R> loop) {
-
-    }
-
-    // starting a new recursion iteration  
-    default void startRecursion(@NotNull ValueLoop<R> loop) {
-
-    }
-
-    // after recursion is done but before stack is adjusted for new level 
-    default void endRecursion(@NotNull ValueLoop<R> loop) {
-
-    }
-    
-    // loop is done, before returning
-    default void afterEnd(@NotNull ValueLoop<R> loop) {
-
-    }
+    @NotNull
+    <R> ValueLoopConsumer<? super P, R> getConsumer(VoidLoopConsumer<? super T> voidConsumer);
 }

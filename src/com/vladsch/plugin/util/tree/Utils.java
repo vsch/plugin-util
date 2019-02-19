@@ -13,10 +13,10 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree;
 
-import com.vladsch.plugin.util.looping.tools.Aggregator;
-import com.vladsch.plugin.util.looping.tools.AggregatorFactory;
+import com.vladsch.plugin.util.tree.tools.Aggregator;
+import com.vladsch.plugin.util.tree.tools.AggregatorFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;

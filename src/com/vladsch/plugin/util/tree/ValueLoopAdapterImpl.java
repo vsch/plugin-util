@@ -13,7 +13,7 @@
  *
  */
 
-package com.vladsch.plugin.util.looping;
+package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +58,7 @@ public class ValueLoopAdapterImpl<N, T> implements ValueLoopAdapter<N, T> {
         }
 
         @Override
-        public void accept(@NotNull final P it, @NotNull final ValueLoop<R> loop) {
+        public void accept(@NotNull final P it, @NotNull final ValueIteration<R> loop) {
             T applied = myFunction.apply(it);
             if (applied == null || myFilter != null && !myFilter.filter(applied, loop)) {
                 //loop.Continue();
@@ -68,12 +68,12 @@ public class ValueLoopAdapterImpl<N, T> implements ValueLoopAdapter<N, T> {
         }
 
         @Override
-        public void afterEnd(@NotNull final ValueLoop<R> loop) {
+        public void afterEnd(@NotNull final ValueIteration<R> loop) {
             myConsumer.afterEnd(loop);
         }
 
         @Override
-        public void beforeStart(@NotNull final ValueLoop<R> loop) {
+        public void beforeStart(@NotNull final ValueIteration<R> loop) {
             myConsumer.beforeStart(loop);
         }
     }

@@ -17,20 +17,20 @@ package com.vladsch.plugin.util.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;
-import com.vladsch.plugin.util.looping.LoopConstraints;
-import com.vladsch.plugin.util.looping.Looping;
-import com.vladsch.plugin.util.looping.MappedLooping;
-import com.vladsch.plugin.util.looping.ValueLoopAdapter;
-import com.vladsch.plugin.util.looping.ValueLoopAdapterImpl;
-import com.vladsch.plugin.util.looping.ValueLoopFilter;
+import com.vladsch.plugin.util.tree.IterationConstraints;
+import com.vladsch.plugin.util.tree.TreeIterator;
+import com.vladsch.plugin.util.tree.MappedLooping;
+import com.vladsch.plugin.util.tree.ValueLoopAdapter;
+import com.vladsch.plugin.util.tree.ValueLoopAdapterImpl;
+import com.vladsch.plugin.util.tree.ValueLoopFilter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
-    public ASTLooping(@NotNull final ASTNode element, @NotNull ValueLoopAdapter<? super ASTNode, T> adapter, @NotNull Looping<ASTNode> looping) {
-        super(element, adapter, looping);
+    public ASTLooping(@NotNull final ASTNode element, @NotNull ValueLoopAdapter<? super ASTNode, T> adapter, @NotNull TreeIterator<ASTNode> treeIterator) {
+        super(element, adapter, treeIterator);
     }
 
     // *******************************************************
@@ -40,13 +40,13 @@ public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
     // *******************************************************
 
     @NotNull
-    public ASTLooping<T> getModifiedCopy(final ASTNode element, final ValueLoopAdapter<? super ASTNode, T> adapter, final Looping<ASTNode> looping) {
-        return new ASTLooping<>(element, adapter, looping);
+    public ASTLooping<T> getModifiedCopy(final ASTNode element, final ValueLoopAdapter<? super ASTNode, T> adapter, final TreeIterator<ASTNode> treeIterator) {
+        return new ASTLooping<>(element, adapter, treeIterator);
     }
 
     @NotNull
-    public <F extends ASTNode> ASTLooping<F> getModifiedCopyF(final ASTNode element, final ValueLoopAdapter<? super ASTNode, F> adapter, final Looping<ASTNode> looping) {
-        return new ASTLooping<>(element, adapter, looping);
+    public <F extends ASTNode> ASTLooping<F> getModifiedCopyF(final ASTNode element, final ValueLoopAdapter<? super ASTNode, F> adapter, final TreeIterator<ASTNode> treeIterator) {
+        return new ASTLooping<>(element, adapter, treeIterator);
     }
 
     // *******************************************************
@@ -201,17 +201,17 @@ public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
 
     @NotNull
     public ASTLooping<T> recurse(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.recurse(it -> PsiUtils.isTypeOf(it, tokenSet)));
+        return getModifiedCopyF(myElement, myAdapter, myTreeIterator.recurse(it -> PsiUtils.isTypeOf(it, tokenSet)));
     }
 
     @NotNull
     public ASTLooping<T> filterOut(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filterOut(it -> PsiUtils.isNullOrTypeOf(it, tokenSet)));
+        return getModifiedCopyF(myElement, myAdapter, myTreeIterator.filterOut(it -> PsiUtils.isNullOrTypeOf(it, tokenSet)));
     }
 
     @NotNull
     public ASTLooping<T> filter(@NotNull TokenSet tokenSet) {
-        return getModifiedCopyF(myElement, myAdapter, myLooping.filter(it -> PsiUtils.isTypeOf(it, tokenSet)));
+        return getModifiedCopyF(myElement, myAdapter, myTreeIterator.filter(it -> PsiUtils.isTypeOf(it, tokenSet)));
     }
 
     @NotNull
@@ -225,20 +225,20 @@ public class ASTLooping<T extends ASTNode> extends MappedLooping<ASTNode, T> {
     //
     // *******************************************************
 
-    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull Looping<ASTNode> looping) {
-        return new ASTLooping<>(element, ValueLoopAdapterImpl.of(), looping);
+    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull TreeIterator<ASTNode> treeIterator) {
+        return new ASTLooping<>(element, ValueLoopAdapterImpl.of(), treeIterator);
     }
 
-    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull LoopConstraints<ASTNode> constraints) {
-        return of(element, new Looping<>(constraints));
+    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull IterationConstraints<ASTNode> constraints) {
+        return of(element, new TreeIterator<>(constraints));
     }
 
-    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull LoopConstraints<ASTNode> constraints, final @NotNull Predicate<? super ASTNode> filter) {
-        return of(element, new Looping<>(constraints, filter));
+    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull IterationConstraints<ASTNode> constraints, final @NotNull Predicate<? super ASTNode> filter) {
+        return of(element, new TreeIterator<>(constraints, filter));
     }
 
-    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull LoopConstraints<ASTNode> constraints, final @NotNull Predicate<? super ASTNode> filter, final @NotNull Predicate<? super ASTNode> recursion) {
-        return of(element, new Looping<>(constraints, filter, recursion));
+    public static ASTLooping<ASTNode> of(final @NotNull ASTNode element, final @NotNull IterationConstraints<ASTNode> constraints, final @NotNull Predicate<? super ASTNode> filter, final @NotNull Predicate<? super ASTNode> recursion) {
+        return of(element, new TreeIterator<>(constraints, filter, recursion));
     }
 }
                                                                         
