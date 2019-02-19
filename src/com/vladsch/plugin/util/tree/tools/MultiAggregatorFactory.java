@@ -16,7 +16,8 @@
 package com.vladsch.plugin.util.tree.tools;
 
 import com.vladsch.plugin.util.tree.ValueIteration;
-import com.vladsch.plugin.util.tree.ValueLoopConsumer;
+import com.vladsch.plugin.util.tree.ValueIterationConsumer;
+import com.vladsch.plugin.util.tree.VoidIteration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +34,7 @@ public class MultiAggregatorFactory<N, K> {
         myAggregatorFactoryList.add(new AggregatorFactoryInstance<>(key, aggregatorFactory));
     }
 
-    public ValueLoopConsumer<N, Map<K, Result>> getConsumer() {
+    public ValueIterationConsumer<N, Map<K, Result>> getConsumer() {
         return new MultiCastingConsumer<N, K>((AggregatorFactoryInstance[]) myAggregatorFactoryList.toArray());
     }
 
@@ -51,7 +52,7 @@ public class MultiAggregatorFactory<N, K> {
         }
     }
 
-    static class MultiCastingConsumer<N, K> implements ValueLoopConsumer<N, Map<K, Result>> {
+    static class MultiCastingConsumer<N, K> implements ValueIterationConsumer<N, Map<K, Result>> {
         private final IntermediateResult[] myIntermediateResults;
 
         public MultiCastingConsumer(final AggregatorFactoryInstance[] aggregatorFactoryList) {
@@ -63,7 +64,7 @@ public class MultiAggregatorFactory<N, K> {
         }
 
         @Override
-        public void accept(@NotNull final N it, @NotNull final ValueIteration<Map<K, Result>> loop) {
+        public void accept(@NotNull final N it, @NotNull final ValueIteration<Map<K, Result>> iteration) {
             for (IntermediateResult value : myIntermediateResults) {
                 //noinspection unchecked
                 value.accept(it);

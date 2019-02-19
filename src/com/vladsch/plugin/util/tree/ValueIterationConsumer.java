@@ -17,25 +17,16 @@ package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public class VoidToValueLoopConsumerAdapter<N, R> implements ValueLoopConsumer<N, R> {
-    final private @NotNull VoidLoopConsumer<N> myConsumer;
+public interface ValueIterationConsumer<N, R> extends IterationConsumer<N>  {
+    void accept(@NotNull N it, @NotNull ValueIteration<R> iteration);
 
-    public VoidToValueLoopConsumerAdapter(@NotNull final VoidLoopConsumer<N> consumer) {
-        myConsumer = consumer;
+    // before start of all iterations
+    default void beforeStart(@NotNull ValueIteration<R> iteration) {
+
     }
 
-    @Override
-    public void accept(@NotNull final N it, @NotNull final ValueIteration<R> loop) {
-        myConsumer.accept(it, loop);
-    }
+    // iteration is done, before returning
+    default void afterEnd(@NotNull ValueIteration<R> iteration) {
 
-    @Override
-    public void afterEnd(@NotNull final ValueIteration<R> loop) {
-        myConsumer.afterEnd(loop);
-    }
-
-    @Override
-    public void beforeStart(@NotNull final ValueIteration<R> loop) {
-        myConsumer.beforeStart(loop);
     }
 }

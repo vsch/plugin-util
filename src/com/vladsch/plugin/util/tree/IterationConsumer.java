@@ -17,26 +17,16 @@ package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoopConsumer<N, R> {
-    void accept(@NotNull N it, @NotNull ValueIteration<R> loop);
-
-    // before start of all iterations
-    default void beforeStart(@NotNull ValueIteration<R> loop) {
-
-    }
-
+public interface IterationConsumer<N> {
     // starting a new recursion iteration  
-    default void startRecursion(@NotNull ValueIteration<R> loop) {
+    //void startRecursion(@NotNull VoidIteration iteration);
+    default void startRecursion(@NotNull VoidIteration iteration) {
 
     }
 
     // after recursion is done but before stack is adjusted for new level 
-    default void endRecursion(@NotNull ValueIteration<R> loop) {
-
-    }
-    
-    // loop is done, before returning
-    default void afterEnd(@NotNull ValueIteration<R> loop) {
+    //void endRecursion(@NotNull VoidIteration iteration);
+    default void endRecursion(@NotNull VoidIteration iteration) {
 
     }
 }

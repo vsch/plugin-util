@@ -17,7 +17,7 @@ package com.vladsch.plugin.util.tree;
 
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 
-public interface VoidLoop {
+public interface VoidIteration {
     Object NULL = new Object();
 
     /**
@@ -65,7 +65,7 @@ public interface VoidLoop {
     /**
      * @return true if have next element and it passes element filters.
      *         <p>
-     *         NOTE: {@link ValueLoopConsumerAdapter} not invoked. It is part of the consumer.accept() call
+     *         NOTE: {@link ValueIterationConsumerAdapter} not invoked. It is part of the consumer.accept() call
      *         hierarchy and can have code side-effects. Only predicate filters are tested. This does not mean the final
      *         consumer will see this value.
      */
@@ -115,10 +115,10 @@ public interface VoidLoop {
     /**
      * Per loop instance data instance can be used to store context information
      * <p>
-     * Exists between {@link VoidLoopConsumer#beforeStart(VoidLoop)} and {@link ValueLoopConsumer#afterEnd(ValueIteration) }
+     * Exists between {@link VoidIterationConsumer#beforeStart(VoidIteration)} and {@link ValueIterationConsumer#afterEnd(ValueIteration) }
      * for consumer and
      * <p>
-     * lifetime of {@link IterationInstance} for caller of {@link TreeIterator#iterate}
+     * lifetime of {@link IteratorInstance} for caller of {@link TreeIterator#iterate}
      *
      * @return per loop instance mutable data holder
      */

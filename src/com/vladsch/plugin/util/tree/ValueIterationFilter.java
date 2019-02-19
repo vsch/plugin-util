@@ -15,25 +15,6 @@
 
 package com.vladsch.plugin.util.tree;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Function;
-
-public interface IterationConstraints<N> {
-    @NotNull
-    Function<? super N, N> getInitializer();
-
-    @NotNull
-    Function<? super N, N> getIterator();
-
-    @NotNull
-    default IterationConstraints<N> getReversed() {
-        throw new IllegalStateException("Method not implemented");
-    }
-
-    @NotNull
-    default IterationConstraints<N> getAborted() {
-        Function<? super N, N> function = n -> null;
-        return new FixedIterationConstraints<>(function, function, function, function);
-    }
+public interface ValueIterationFilter<N> {
+    boolean filter(N it, VoidIteration loop);
 }

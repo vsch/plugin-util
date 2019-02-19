@@ -15,6 +15,12 @@
 
 package com.vladsch.plugin.util.tree;
 
-public interface ValueLoopFilter<N> {
-    boolean filter(N it, VoidLoop loop);
+import org.jetbrains.annotations.NotNull;
+
+public interface ValueIterationConsumerAdapter<P, T> {
+    @NotNull
+    <R> ValueIterationConsumer<? super P, R> getConsumer(ValueIterationConsumer<? super T, R> valueConsumer);
+
+    @NotNull
+    <R> ValueIterationConsumer<? super P, R> getConsumer(VoidIterationConsumer<? super T> voidConsumer);
 }

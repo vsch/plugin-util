@@ -17,16 +17,14 @@ package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface VoidLoopConsumer<N> {
-    void accept(@NotNull N it, final @NotNull VoidLoop loop);
+public interface ValueIterationAdapter<N, T> {
 
-    // loop is done, before returning
-    default void afterEnd(@NotNull VoidLoop loop) {
+    @NotNull
+    ValueIterationConsumerAdapter<N, T> getConsumerAdapter();
 
-    }
+    @NotNull
+    <V> ValueIterationAdapter<N, V> andThen(ValueIterationAdapter<? super T, V> after);
 
-    // before start of all iterations
-    default void beforeStart(@NotNull VoidLoop loop) {
-
-    }
+    @NotNull
+    ValueIterationAdapter<N, T> compose(ValueIterationAdapter<? super N, N> before);
 }

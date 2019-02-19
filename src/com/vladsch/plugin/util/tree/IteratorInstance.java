@@ -24,14 +24,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Stack;
 import java.util.function.Predicate;
 
-final public class IterationInstance<N, R> implements ValueIteration<R> {
+final public class IteratorInstance<N, R> implements ValueIteration<R> {
     final static private Logger LOG = TreeIterator.LOG;
     final static private Logger LOG_INFO = TreeIterator.LOG_INFO;
     final static private Logger LOG_TRACE = TreeIterator.LOG_TRACE;
 
     private Iteration<N> myIteration;               // current iteration information
     private @Nullable Stack<Iteration<N>> myRecursions;       // recursion frames
-    final @NotNull private IterationConstraints<N> myIterationConstraints;
+    final @NotNull private IterationConditions<N> myIterationConditions;
     final @NotNull private Predicate<? super N> myRecursionPredicate;
     final @NotNull private Predicate<? super N> myFilterPredicate;
     private int myTotalLoopCount = 0;                        // total looping count across all nesting levels, including filtered out elements
@@ -47,35 +47,35 @@ final public class IterationInstance<N, R> implements ValueIteration<R> {
     private boolean myIsDefaultResult = true;
     private int myMaxRecursions = 0;
 
-    public IterationInstance(
-            @NotNull IterationConstraints<N> iterationConstraints,
+    public IteratorInstance(
+            @NotNull IterationConditions<N> iterationConditions,
             @NotNull Predicate<? super N> filterPredicate,
             @NotNull Predicate<? super N> recursionPredicate,
             @NotNull N element
     ) {
-        this(iterationConstraints, filterPredicate, recursionPredicate, element, VoidLoop.NULL);
+        this(iterationConditions, filterPredicate, recursionPredicate, element, VoidIteration.NULL);
     }
 
-    public IterationInstance(
-            @NotNull IterationConstraints<N> iterationConstraints,
+    public IteratorInstance(
+            @NotNull IterationConditions<N> iterationConditions,
             @NotNull Predicate<? super N> filterPredicate,
             @NotNull Predicate<? super N> recursionPredicate,
             @NotNull N element,
             @NotNull Object defaultValue
     ) {
-        myIterationConstraints = iterationConstraints;
+        myIterationConditions = iterationConditions;
         myRecursionPredicate = recursionPredicate;
         myFilterPredicate = filterPredicate;
-        myIteration = new Iteration<>(myIterationConstraints.getInitializer().apply(element));
+        myIteration = new Iteration<>(myIterationConditions.getInitializer().apply(element));
         myDefaultValue = defaultValue;
         myResult = defaultValue;
     }
 
-    public void iterate(@NotNull VoidLoopConsumer<? super N> consumer) {
-        iterate(new VoidToValueLoopConsumerAdapter<>(consumer));
+    public void iterate(@NotNull VoidIterationConsumer<? super N> consumer) {
+        iterate(new VoidToValueIConsumerAdapter<>(consumer));
     }
 
-    public void iterate(@NotNull ValueLoopConsumer<? super N, R> consumer) {
+    public void iterate(@NotNull ValueIterationConsumer<? super N, R> consumer) {
         consumer.beforeStart(this);
         if (LOG_INFO.isDebugEnabled()) LOG_INFO.debug("Starting looping " + myIteration);
 
@@ -100,7 +100,7 @@ final public class IterationInstance<N, R> implements ValueIteration<R> {
                 continue;
             }
 
-            myIteration.advance(myIterationConstraints.getIterator().apply(myIteration.next));
+            myIteration.advance(myIterationConditions.getIterator().apply(myIteration.next));
             myTotalLoopCount++;
 
             myMatch = myIteration.current;
@@ -175,7 +175,7 @@ final public class IterationInstance<N, R> implements ValueIteration<R> {
 
             myHadRecurse = true;
             myRecursions.push(myIteration);
-            myIteration = new Iteration<>(myIterationConstraints.getInitializer().apply(myMatch));
+            myIteration = new Iteration<>(myIterationConditions.getInitializer().apply(myMatch));
             myMaxRecursions = Integer.max(myMaxRecursions, myRecursions.size());
             myMatch = null;
         }

@@ -19,7 +19,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.vladsch.plugin.util.psi.LoopConstrainsBuilder;
+import com.vladsch.plugin.util.psi.TreeIteratorConstrains;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -32,30 +32,30 @@ public class TreeIterator<N> {
     public final static Logger LOG_INFO = getInstance("com.vladsch.plugin.util.looping-summary");
     public final static Logger LOG_TRACE = getInstance("com.vladsch.plugin.util.looping-detailed");
     
-    public static final LoopConstrainsBuilder<PsiElement> PSI = LoopConstrainsBuilder.PSI_LOOPS;
-    public static final LoopConstrainsBuilder<ASTNode> AST = LoopConstrainsBuilder.AST_LOOPS;
+    public static final TreeIteratorConstrains<PsiElement> PSI = TreeIteratorConstrains.PSI_LOOPS;
+    public static final TreeIteratorConstrains<ASTNode> AST = TreeIteratorConstrains.AST_LOOPS;
     public static final Predicate NOT_LEAF_PSI = n -> n instanceof LeafPsiElement;
     public static final Predicate LEAF_PSI = n -> !(n instanceof LeafPsiElement);
     public static final Predicate TRUE = o -> true;
     public static final Predicate FALSE = o -> false;
     public static final Predicate NOT_NULL = Objects::nonNull;
 
-    private final IterationConstraints<N> myConstraints;
+    private final IterationConditions<N> myConstraints;
     private final Predicate<? super N> myRecursion;
     protected final Predicate<? super N> myFilter;
 
-    public TreeIterator(final IterationConstraints<N> constraints, final Predicate<? super N> filter) {
+    public TreeIterator(final IterationConditions<N> constraints, final Predicate<? super N> filter) {
         //noinspection unchecked
         this(constraints, filter, FALSE);
     }
 
-    public TreeIterator(final IterationConstraints<N> constraints) {
+    public TreeIterator(final IterationConditions<N> constraints) {
         //noinspection unchecked
         this(constraints, TRUE, FALSE);
     }
 
     public TreeIterator(
-            final IterationConstraints<N> constraints,
+            final IterationConditions<N> constraints,
             final Predicate<? super N> filter,
             Predicate<? super N> recursion
     ) {
@@ -75,7 +75,7 @@ public class TreeIterator<N> {
     }
 
     @NotNull
-    public IterationConstraints<N> getConstraints() {
+    public IterationConditions<N> getConstraints() {
         return myConstraints;
     }
 
@@ -88,7 +88,7 @@ public class TreeIterator<N> {
     }
 
     @NotNull
-    public TreeIterator<N> modifiedCopy(final @NotNull IterationConstraints<N> constraints, final @NotNull Predicate<? super N> filter, final @NotNull Predicate<? super N> recursion) {
+    public TreeIterator<N> modifiedCopy(final @NotNull IterationConditions<N> constraints, final @NotNull Predicate<? super N> filter, final @NotNull Predicate<? super N> recursion) {
         return new TreeIterator<>(constraints, filter, recursion);
     }
 
@@ -175,17 +175,17 @@ public class TreeIterator<N> {
     }
 
     @NotNull
-    public static <N> TreeIterator<N> of(final @NotNull IterationConstraints<N> constraints) {
+    public static <N> TreeIterator<N> of(final @NotNull IterationConditions<N> constraints) {
         return new TreeIterator<>(constraints);
     }
 
     @NotNull
-    public static <N> TreeIterator<N> of(final @NotNull IterationConstraints<N> constraints, final @NotNull Predicate<? super N> filter) {
+    public static <N> TreeIterator<N> of(final @NotNull IterationConditions<N> constraints, final @NotNull Predicate<? super N> filter) {
         return new TreeIterator<>(constraints, filter);
     }
 
     @NotNull
-    public static <N> TreeIterator<N> of(final @NotNull IterationConstraints<N> constraints, final @NotNull Predicate<? super N> filter, final @NotNull Predicate<? super N> recursion) {
+    public static <N> TreeIterator<N> of(final @NotNull IterationConditions<N> constraints, final @NotNull Predicate<? super N> filter, final @NotNull Predicate<? super N> recursion) {
         return new TreeIterator<>(constraints, filter, recursion);
     }
 
@@ -199,45 +199,45 @@ public class TreeIterator<N> {
         return n -> true;
     }
 
-    public <R> ValueIteration<R> iterate(@NotNull N element, @NotNull R defaultValue, @NotNull ValueLoopConsumer<? super N, R> consumer) {
-        final IterationInstance<N, R> instance = new IterationInstance<>(getConstraints(), getFilter(), getRecursion(), element, defaultValue);
+    public <R> ValueIteration<R> iterate(@NotNull N element, @NotNull R defaultValue, @NotNull ValueIterationConsumer<? super N, R> consumer) {
+        final IteratorInstance<N, R> instance = new IteratorInstance<>(getConstraints(), getFilter(), getRecursion(), element, defaultValue);
         instance.iterate(consumer);
         return instance;
     }
 
-    public <T, R> ValueIteration<R> iterate(@NotNull N element, @NotNull R defaultValue, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull ValueLoopConsumer<? super T, R> consumer) {
-        final IterationInstance<N, R> instance = new IterationInstance<>(getConstraints(), getFilter(), getRecursion(), element, defaultValue);
+    public <T, R> ValueIteration<R> iterate(@NotNull N element, @NotNull R defaultValue, @NotNull ValueIterationAdapter<? super N, T> adapter, @NotNull ValueIterationConsumer<? super T, R> consumer) {
+        final IteratorInstance<N, R> instance = new IteratorInstance<>(getConstraints(), getFilter(), getRecursion(), element, defaultValue);
         instance.iterate(adapter.getConsumerAdapter().getConsumer(consumer));
         return instance;
     }
 
-    public <R> VoidLoop iterate(@NotNull final N element, @NotNull final VoidLoopConsumer<? super N> consumer) {
-        final IterationInstance<N, R> instance = new IterationInstance<>(getConstraints(), getFilter(), getRecursion(), element);
+    public <R> VoidIteration iterate(@NotNull final N element, @NotNull final VoidIterationConsumer<? super N> consumer) {
+        final IteratorInstance<N, R> instance = new IteratorInstance<>(getConstraints(), getFilter(), getRecursion(), element);
         instance.iterate(consumer);
         return instance;
     }
 
-    public <T, R> VoidLoop iterate(@NotNull final N element, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull final VoidLoopConsumer<? super T> consumer) {
-        final IterationInstance<N, R> instance = new IterationInstance<>(getConstraints(), getFilter(), getRecursion(), element);
+    public <T, R> VoidIteration iterate(@NotNull final N element, @NotNull ValueIterationAdapter<? super N, T> adapter, @NotNull final VoidIterationConsumer<? super T> consumer) {
+        final IteratorInstance<N, R> instance = new IteratorInstance<>(getConstraints(), getFilter(), getRecursion(), element);
         instance.iterate(adapter.getConsumerAdapter().getConsumer(consumer));
         return instance;
     }
 
     @NotNull
-    public <R> R doLoop(@NotNull N element, @NotNull R defaultValue, @NotNull ValueLoopConsumer<? super N, R> consumer) {
+    public <R> R doLoop(@NotNull N element, @NotNull R defaultValue, @NotNull ValueIterationConsumer<? super N, R> consumer) {
         return iterate(element, defaultValue, consumer).getResult();
     }
 
-    public void doLoop(@NotNull N element, @NotNull VoidLoopConsumer<? super N> consumer) {
+    public void doLoop(@NotNull N element, @NotNull VoidIterationConsumer<? super N> consumer) {
         iterate(element, consumer);
     }
 
     @NotNull
-    public <T, R> R doLoop(@NotNull N element, @NotNull R defaultValue, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull ValueLoopConsumer<? super T, R> consumer) {
+    public <T, R> R doLoop(@NotNull N element, @NotNull R defaultValue, @NotNull ValueIterationAdapter<? super N, T> adapter, @NotNull ValueIterationConsumer<? super T, R> consumer) {
         return iterate(element, defaultValue, adapter, consumer).getResult();
     }
 
-    public <T, R> void doLoop(@NotNull N element, @NotNull ValueLoopAdapter<? super N, T> adapter, @NotNull VoidLoopConsumer<? super T> consumer) {
+    public <T, R> void doLoop(@NotNull N element, @NotNull ValueIterationAdapter<? super N, T> adapter, @NotNull VoidIterationConsumer<? super T> consumer) {
         iterate(element, adapter, consumer);
     }
 }

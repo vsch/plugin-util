@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class Utils {
+public class IterationUtils {
     public static final BiFunction<Integer, Integer, Integer> SUM = (accum, x) -> (accum == null ? 0 : accum) + x;
     public static final BiFunction<Integer, Integer, Integer> COUNTER = (accum, x) -> SUM.apply(accum, 1);
 

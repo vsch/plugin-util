@@ -17,7 +17,7 @@ package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueIteration<R> extends VoidLoop {
+public interface ValueIteration<R> extends VoidIteration {
     /**
      * Set the result which will be returned by the loop if terminated without {@link #Return(Object)} call.
      *

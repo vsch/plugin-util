@@ -17,14 +17,23 @@ package com.vladsch.plugin.util.tree;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface ValueLoopAdapter<N, T> {
+import java.util.function.Function;
+
+public interface IterationConditions<N> {
+    @NotNull
+    Function<? super N, N> getInitializer();
 
     @NotNull
-    ValueLoopConsumerAdapter<N, T> getConsumerAdapter();
+    Function<? super N, N> getIterator();
 
     @NotNull
-    <V> ValueLoopAdapter<N, V> andThen(ValueLoopAdapter<? super T, V> after);
+    default IterationConditions<N> getReversed() {
+        throw new IllegalStateException("Method not implemented");
+    }
 
     @NotNull
-    ValueLoopAdapter<N, T> compose(ValueLoopAdapter<? super N, N> before);
+    default IterationConditions<N> getAborted() {
+        Function<? super N, N> function = n -> null;
+        return new FixedIterationConditions<>(function, function, function, function);
+    }
 }
