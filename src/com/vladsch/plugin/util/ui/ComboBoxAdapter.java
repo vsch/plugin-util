@@ -28,13 +28,13 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.JComboBox;
 
 public interface ComboBoxAdapter<E extends ComboBoxAdaptable<E>> {
-    boolean isAdaptable(ComboBoxAdaptable type);
-    void setDefaultValue(E defaultValue);
+    boolean isAdaptable(@NotNull ComboBoxAdaptable type);
+    void setDefaultValue(@NotNull E defaultValue);
     boolean onFirst(int intValue, OnMap map);
     boolean onAll(int intValue, OnMap map);
-    void fillComboBox(JComboBox comboBox, ComboBoxAdaptable... exclude);
+    void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable... exclude);
     @SuppressWarnings("UnusedReturnValue")
-    boolean setComboBoxSelection(JComboBox comboBox, final ComboBoxAdaptable selection);
+    boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, final @NotNull ComboBoxAdaptable selection);
     @NotNull
     E findEnum(int intValue);
     @NotNull
@@ -44,7 +44,7 @@ public interface ComboBoxAdapter<E extends ComboBoxAdaptable<E>> {
     @Nullable
     E findEnumNameOrNull(String name);
     @NotNull
-    E get(JComboBox comboBox);
+    E get(@NotNull JComboBox<String> comboBox);
     @NotNull
     E valueOf(String name);
     @NotNull

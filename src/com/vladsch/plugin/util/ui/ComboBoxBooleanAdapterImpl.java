@@ -22,6 +22,8 @@
 
 package com.vladsch.plugin.util.ui;
 
+import org.jetbrains.annotations.NotNull;
+
 import javax.swing.JComboBox;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -36,7 +38,7 @@ public class ComboBoxBooleanAdapterImpl<E extends ComboBoxAdaptable<E>> extends 
     }
 
     @Override
-    public void fillComboBox(JComboBox comboBox, ComboBoxAdaptable... exclude) {
+    public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable... exclude) {
         Set<ComboBoxAdaptable> excluded = new HashSet<>(Arrays.asList(exclude));
 
         comboBox.removeAllItems();

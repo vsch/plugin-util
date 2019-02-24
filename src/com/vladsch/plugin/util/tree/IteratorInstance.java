@@ -16,6 +16,7 @@
 package com.vladsch.plugin.util.tree;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.vladsch.flexmark.util.RunnableValue;
 import com.vladsch.flexmark.util.options.MutableDataHolder;
 import com.vladsch.flexmark.util.options.MutableDataSet;
 import org.jetbrains.annotations.NotNull;
@@ -182,7 +183,7 @@ final public class IteratorInstance<N, R> implements ValueIteration<R> {
     }
 
     @Override
-    public void Return() {
+    public void doReturn() {
         myBreak = true;
         myMatch = null;
     }
@@ -204,7 +205,7 @@ final public class IteratorInstance<N, R> implements ValueIteration<R> {
     }
 
     @Override
-    public void Continue(final int recursionLevel) {
+    public void doContinue(final int recursionLevel) {
         if (myHadRecurse)
             throw new IllegalStateException("Continue(" + recursionLevel + ") called after Recurse() in current iteration");
 
@@ -213,7 +214,7 @@ final public class IteratorInstance<N, R> implements ValueIteration<R> {
     }
 
     @Override
-    public void Break(final int recursionLevel) {
+    public void doBreak(final int recursionLevel) {
         if (myHadRecurse)
             throw new IllegalStateException("Break(" + recursionLevel + ") called after Recurse() in current iteration");
 
@@ -250,7 +251,14 @@ final public class IteratorInstance<N, R> implements ValueIteration<R> {
     }
 
     @Override
-    public void Complete() {
+    public void ifIncomplete(@NotNull final RunnableValue runnable) {
+        if (isIncomplete()) {
+            runnable.run();
+        }
+    }
+
+    @Override
+    public void doComplete() {
         myMatch = null;
     }
 

@@ -39,7 +39,7 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
     }
 
     @Override
-    public void setDefaultValue(E defaultValue) {
+    public void setDefaultValue(@NotNull E defaultValue) {
         myDefault = defaultValue;
     }
 
@@ -71,7 +71,7 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
     }
 
     @Override
-    public void fillComboBox(JComboBox comboBox, ComboBoxAdaptable... exclude) {
+    public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable... exclude) {
         Set<ComboBoxAdaptable> excluded = new HashSet<>(Arrays.asList(exclude));
 
         //if (excluded.contains(myDefault)) {
@@ -89,7 +89,7 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
     }
 
     @Override
-    public boolean setComboBoxSelection(final JComboBox comboBox, final ComboBoxAdaptable selection) {
+    public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @NotNull final ComboBoxAdaptable selection) {
         int iMax = comboBox.getItemCount();
         int defaultIndex = 0;
         for (int i = 0; i < iMax; i++) {
@@ -107,7 +107,7 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
     }
 
     @Override
-    public boolean isAdaptable(ComboBoxAdaptable type) {
+    public boolean isAdaptable(@NotNull ComboBoxAdaptable type) {
         return myDefault.getClass() == type.getClass();
     }
 
@@ -124,8 +124,8 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
 
     @NotNull
     @Override
-    public E get(final JComboBox comboBox) {
-        return findEnum((String) comboBox.getSelectedItem());
+    public E get(@NotNull final JComboBox<String> comboBox) {
+        return findEnum((String)comboBox.getSelectedItem());
     }
 
     @NotNull

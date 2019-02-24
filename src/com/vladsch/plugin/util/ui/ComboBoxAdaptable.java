@@ -22,18 +22,27 @@
 
 package com.vladsch.plugin.util.ui;
 
+import com.intellij.openapi.ui.ComboBox;
+import com.intellij.ui.ListCellRendererWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.swing.Icon;
 import javax.swing.JComboBox;
+import javax.swing.JList;
+import java.util.function.Function;
 
 public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
     ComboBoxAdaptable[] EMPTY = new ComboBoxAdaptable[0];
 
     String getDisplayName();
+
     String name();
+
     int getIntValue();
+
     ComboBoxAdapter<E> getAdapter();
+
     E[] getValues();
 
     // these have default implementations
@@ -41,8 +50,25 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         return this == getAdapter().getDefault();
     }
 
-    default boolean setComboBoxSelection(JComboBox comboBox) {
+    default boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox) {
         return getAdapter().setComboBoxSelection(comboBox, this);
+    }
+
+    class IconCellRenderer<E extends ComboBoxAdaptable<E>> extends ListCellRendererWrapper<String> {
+        final @NotNull ComboBoxAdapter<E> myAdapter;
+        final @NotNull Function<E, Icon> myIconMapper;
+
+        public IconCellRenderer(@NotNull final ComboBoxAdapter<E> myAdapter, @NotNull final Function<E, Icon> iconMapper) {
+            this.myAdapter = myAdapter;
+            this.myIconMapper = iconMapper;
+        }
+
+        @Override
+        public void customize(final JList list, final String value, final int index, final boolean selected, final boolean hasFocus) {
+            E type = myAdapter.findEnum((String) value);
+            this.setText(type.getDisplayName());
+            this.setIcon(myIconMapper.apply(type));
+        }
     }
 
     class Static<T extends ComboBoxAdaptable<T>> implements ComboBoxAdapter<T> {
@@ -53,7 +79,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @NotNull
-        public T get(JComboBox comboBox) {
+        public T get(@NotNull JComboBox<String> comboBox) {
             return ADAPTER.findEnum((String) comboBox.getSelectedItem());
         }
 
@@ -66,7 +92,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         public T getDefault() {return ADAPTER.getDefault();}
 
         @Override
-        public void setDefaultValue(final T defaultValue) {
+        public void setDefaultValue(@NotNull final T defaultValue) {
             ADAPTER.setDefaultValue(defaultValue);
         }
 
@@ -74,28 +100,33 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
             return ADAPTER.findEnum(value);
         }
 
-        public int getInt(JComboBox comboBox) {
+        public int getInt(@NotNull JComboBox<String> comboBox) {
             return ADAPTER.findEnum((String) comboBox.getSelectedItem()).getIntValue();
         }
 
-        public void set(JComboBox comboBox, int intValue) {
+        public void set(@NotNull JComboBox<String> comboBox, int intValue) {
             comboBox.setSelectedItem(ADAPTER.findEnum(intValue).getDisplayName());
         }
 
-        public JComboBox createComboBox(ComboBoxAdaptable... exclude) {
-            JComboBox comboBox = new JComboBox();
+        @NotNull
+        public JComboBox<String> createComboBox(@NotNull ComboBoxAdaptable... exclude) {
+            JComboBox<String> comboBox = new ComboBox<>();
             ADAPTER.fillComboBox(comboBox, exclude);
             return comboBox;
         }
 
-        @Override
-        public boolean isAdaptable(ComboBoxAdaptable type) { return ADAPTER.isAdaptable(type); }
+        public void addComboBoxIcons(@NotNull JComboBox<String> comboBox, @NotNull Function<T, Icon> iconMapper) {
+            comboBox.setRenderer(new IconCellRenderer<>(ADAPTER, iconMapper));
+        }
 
         @Override
-        public void fillComboBox(JComboBox comboBox, ComboBoxAdaptable[] exclude) { ADAPTER.fillComboBox(comboBox, exclude); }
+        public boolean isAdaptable(@NotNull ComboBoxAdaptable type) { return ADAPTER.isAdaptable(type); }
 
         @Override
-        public boolean setComboBoxSelection(JComboBox comboBox, final ComboBoxAdaptable selection) {
+        public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable[] exclude) { ADAPTER.fillComboBox(comboBox, exclude); }
+
+        @Override
+        public boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, @NotNull final ComboBoxAdaptable selection) {
             return ADAPTER.setComboBoxSelection(comboBox, selection);
         }
 
@@ -131,7 +162,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @Override
-        public boolean setComboBoxSelection(final JComboBox comboBox, final ComboBoxAdaptable selection) {
+        public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @NotNull final ComboBoxAdaptable selection) {
             return ADAPTER.setComboBoxSelection(comboBox, selection);
         }
 

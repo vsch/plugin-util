@@ -134,13 +134,13 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     // @formatter:on
 
     @NotNull
-    public ComboBoxBooleanSetter component(@NotNull ComboBoxBooleanAdapter adapter, JComboBox component, Getter<Boolean> getter, Setter<Boolean> setter) { return new ComboBoxBooleanSetter(component, adapter, getter, setter); }
+    public ComboBoxBooleanSetter component(@NotNull ComboBoxBooleanAdapter adapter, JComboBox<String> component, Getter<Boolean> getter, Setter<Boolean> setter) { return new ComboBoxBooleanSetter(component, adapter, getter, setter); }
 
     @NotNull
-    public ComboBoxSetter component(@NotNull ComboBoxAdapter adapter, JComboBox component, Getter<Integer> getter, Setter<Integer> setter) { return new ComboBoxSetter(component, adapter, getter, setter); }
+    public ComboBoxSetter component(@NotNull ComboBoxAdapter adapter, JComboBox<String> component, Getter<Integer> getter, Setter<Integer> setter) { return new ComboBoxSetter(component, adapter, getter, setter); }
 
     @NotNull
-    public ComboBoxStringSetter componentString(@NotNull ComboBoxAdapter adapter, JComboBox component, Getter<String> getter, Setter<String> setter) { return new ComboBoxStringSetter(component, adapter, getter, setter); }
+    public ComboBoxStringSetter componentString(@NotNull ComboBoxAdapter adapter, JComboBox<String> component, Getter<String> getter, Setter<String> setter) { return new ComboBoxStringSetter(component, adapter, getter, setter); }
 
     @NotNull
     public JComponentSettableForm<T> component(@NotNull SettableForm<T> component, @NotNull T settings) { return new JComponentSettableForm<>(component, settings);}
@@ -164,7 +164,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     }
 
     public static class ComboBoxBooleanSetter extends JComponentSettable<Boolean> {
-        public ComboBoxBooleanSetter(@NotNull JComboBox component, @NotNull ComboBoxBooleanAdapter adapter, @NotNull Getter<Boolean> getter, @NotNull Setter<Boolean> setter) {
+        public ComboBoxBooleanSetter(@NotNull JComboBox<String> component, @NotNull ComboBoxBooleanAdapter adapter, @NotNull Getter<Boolean> getter, @NotNull Setter<Boolean> setter) {
             super(component, () -> adapter.findEnum((String) component.getSelectedItem()) == adapter.getNonDefault(),
                     (value) -> component.setSelectedItem(value ? adapter.getNonDefault().getDisplayName() : adapter.getDefault().getDisplayName()),
                     getter, setter);
@@ -172,7 +172,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     }
 
     public static class ComboBoxSetter extends JComponentSettable<Integer> {
-        public ComboBoxSetter(@NotNull JComboBox component, @NotNull ComboBoxAdapter adapter, @NotNull Getter<Integer> getter, @NotNull Setter<Integer> setter) {
+        public ComboBoxSetter(@NotNull JComboBox<String> component, @NotNull ComboBoxAdapter adapter, @NotNull Getter<Integer> getter, @NotNull Setter<Integer> setter) {
             super(component, () -> adapter.findEnum((String) component.getSelectedItem()).getIntValue(),
                     (value) -> component.setSelectedItem(adapter.findEnum(value).getDisplayName()),
                     getter, setter);
@@ -180,7 +180,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     }
 
     public static class ComboBoxStringSetter extends JComponentSettable<String> {
-        public ComboBoxStringSetter(@NotNull JComboBox component, @NotNull ComboBoxAdapter adapter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
+        public ComboBoxStringSetter(@NotNull JComboBox<String> component, @NotNull ComboBoxAdapter adapter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
             super(component, () -> (String) component.getSelectedItem(),
                     component::setSelectedItem,
                     getter, setter);

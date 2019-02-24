@@ -15,7 +15,9 @@
 
 package com.vladsch.plugin.util.tree;
 
+import com.vladsch.flexmark.util.RunnableValue;
 import com.vladsch.flexmark.util.options.MutableDataHolder;
+import org.jetbrains.annotations.NotNull;
 
 public interface VoidIteration {
     Object NULL = new Object();
@@ -25,36 +27,36 @@ public interface VoidIteration {
      * <p>
      * Purely a convenience feature to use without needing to track if break or continue have been executed
      */
-    void Complete();
+    void doComplete();
 
     /**
      * Continue with the next iteration of the given recursion level
      *
      * @param recursionLevel 0 current, <0 previous recursion levels, >0 actual recursion level
      */
-    void Continue(int recursionLevel);
+    void doContinue(int recursionLevel);
 
     /**
      * Break out of given recursion level
      *
      * @param recursionLevel 0 current, <0 previous recursion levels, >0 actual recursion level
      */
-    void Break(int recursionLevel);
+    void doBreak(int recursionLevel);
 
     /**
      * Break out of all recursion levels and return current result value for the loop if value loop
      */
-    void Return();
+    void doReturn();
 
     /**
      * Continue with next iteration of current recursion level
      */
-    default void Continue() { Continue(0); }
+    default void doContinue() { doContinue(0); }
 
     /**
-     * Break the current recursion level, if last level then same as {@link #Return()}
+     * Break the current recursion level, if last level then same as {@link #doReturn()}
      */
-    default void Break() { Break(0); }
+    default void doBreak() { doBreak(0); }
 
     /**
      * @return true if have next element, does not mean it matches filters, just raw next from loop iterator, fast
@@ -72,7 +74,7 @@ public interface VoidIteration {
     boolean getHaveAcceptableNext();
 
     /**
-     * @return true if looping terminated by {@link #Return()}, or {@link #Break()} of the last recursion level.
+     * @return true if looping terminated by {@link #doReturn()}, or {@link #doBreak()} of the last recursion level.
      */
     boolean isTerminated();
 
@@ -85,6 +87,12 @@ public interface VoidIteration {
      * @return true if current iteration is not complete, ie. need to continue processing
      */
     boolean isIncomplete();
+
+    /**
+     * Run the passed code only if the current iteration is not complete
+     * @param runnable to run
+     */
+    void ifIncomplete(@NotNull RunnableValue runnable);
 
     /**
      * @return times through the loop of the current recursion level, includes skipped elements due to filtering
