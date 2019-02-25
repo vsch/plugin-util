@@ -18,14 +18,27 @@
 package com.vladsch.plugin.util;
 
 import com.intellij.openapi.application.ex.ApplicationInfoEx;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.BuildNumber;
 import com.intellij.openapi.util.Version;
+import com.vladsch.plugin.util.edit.Helpers;
+
+import static com.intellij.openapi.diagnostic.Logger.getInstance;
 
 @SuppressWarnings("WeakerAccess")
 public class AppUtils {
+    static final Logger LOG = getInstance("com.vladsch.plugin.util");
+
     public static final String PARAMETER_HINTS_APP_VERSION = "163.3512";
     public static final String PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION = "172.1909";
+    public static final String LOADS_SVG_ICONS_APP_VERSION = "180";
     
+    public static boolean isSvgLoadIconAvailable() {
+        boolean available = isAppVersionGreaterThan(LOADS_SVG_ICONS_APP_VERSION);
+        LOG.info("SvgIconsAvailable " + available);
+        return available;
+    }
+
     public static boolean isParameterHintsAvailable() {
         return isAppVersionGreaterThan(PARAMETER_HINTS_APP_VERSION);
     }
