@@ -18,21 +18,28 @@
 package com.vladsch.plugin.util;
 
 import com.intellij.openapi.application.ex.ApplicationInfoEx;
+import com.intellij.openapi.util.BuildNumber;
 import com.intellij.openapi.util.Version;
 
 @SuppressWarnings("WeakerAccess")
 public class AppUtils {
     public static final String PARAMETER_HINTS_APP_VERSION = "163.3512";
+    public static final String PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION = "172.1909";
     
     public static boolean isParameterHintsAvailable() {
         return isAppVersionGreaterThan(PARAMETER_HINTS_APP_VERSION);
     }
 
+    public static boolean isParameterHintsForceUpdateAvailable() {
+        return isAppVersionGreaterThan(PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION);
+    }
+
     public static boolean isAppVersionGreaterThan(String requiredAppVersion) {
-        String versionName = ApplicationInfoEx.getInstance().getFullVersion();
-        Version version = Version.parseVersion(versionName);
+        BuildNumber build = ApplicationInfoEx.getInstance().getBuild();
         Version requiredVersion = Version.parseVersion(requiredAppVersion);
-        if (version != null && requiredVersion != null) {
+        if (build != null && requiredVersion != null) {
+            int[] buildComponents = build.getComponents();
+            Version version = new Version(buildComponents[0], buildComponents[1], buildComponents[2]);
             return version.isOrGreaterThan(requiredVersion.major, requiredVersion.minor, requiredVersion.bugfix);
         }
         return false;

@@ -176,11 +176,12 @@ public class CheckBoxWithColorChooser extends JPanel {
             final Color color = g.getColor();
             int width = getWidth() - LEFT_MARGIN;
             int height = getHeight();
-            if (UIUtil.isJreHiDPI()) {
+            float scale = JBUI.scale(1.0f);
+            if (scale != 1.0f) {
                 final Graphics2D g2d = (Graphics2D) g.create(LEFT_MARGIN, 0, width, height);
                 final GraphicsConfig graphicsConfig = new GraphicsConfig(g2d);
                 graphicsConfig.setAntialiasing(true);
-                float s = JBUI.sysScale();
+                float s = scale;
                 g2d.scale(1 / s, 1 / s);
 
                 int iSize = CORNER_RADIUS;

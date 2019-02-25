@@ -24,6 +24,8 @@ import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -160,7 +162,7 @@ public class ImageUtils {
                         continue;
                     }
 
-                    if (i > 0) System.err.println("");
+                    if (i > 0) System.err.println();
 
                     return read;
                 }
@@ -180,7 +182,7 @@ public class ImageUtils {
         try {
             ImageIO.write(image, "PNG", bos);
             byte[] imageBytes = bos.toByteArray();
-            imageString = new String(new BASE64Encoder().encode(imageBytes)).replace("\n", "");
+            imageString = new BASE64Encoder().encode(imageBytes).replace("\n", "");
             //imageString = javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
             bos.close();
         } catch (IOException e) {
@@ -199,7 +201,7 @@ public class ImageUtils {
             FileInputStream fileInputStreamReader = new FileInputStream(file);
             byte[] imageBytes = new byte[(int) file.length()];
             if (fileInputStreamReader.read(imageBytes) != -1) {
-                return "data:image/png;base64," + new String(new BASE64Encoder().encode(imageBytes)).replace("\n", "");
+                return "data:image/png;base64," + new BASE64Encoder().encode(imageBytes).replace("\n", "");
                 //return "data:image/png;base64," + javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
             }
             return null;
@@ -291,15 +293,27 @@ public class ImageUtils {
         return loadSvgImage(new TranscoderInput(svgInputStream), size, logImageProcessing);
     }
 
-    public static BufferedImage loadSvgImage(TranscoderInput input, final Point size, boolean logImageProcessing) {
+    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final @Nullable Float scaleX, final @Nullable Float scaleY,  boolean logImageProcessing) {
+        return loadSvgImage(new TranscoderInput(svgInputStream), scaleX, scaleY, logImageProcessing);
+    }
+
+    private static BufferedImage loadSvgImage(@NotNull TranscoderInput input, @Nullable final Point size, boolean logImageProcessing) {
+        if (size == null) {
+            return loadSvgImage(input, null, null, logImageProcessing);
+        } else {
+            return loadSvgImage(input, (float) size.x, (float) size.y, logImageProcessing);
+        }
+    }
+
+    private static BufferedImage loadSvgImage(TranscoderInput input, final @Nullable Float scaleX, final @Nullable Float scaleY, boolean logImageProcessing) {
         BufferedImage image;
 
         try {
             PNGTranscoder t = new PNGTranscoder();
 
-            if (size != null) {
-                t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, (float) size.x);
-                t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, (float) size.y);
+            if (scaleX != null && scaleX != 1.0f || scaleY != null && scaleY != 1.0f) {
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, scaleX == null ? 1.0f : scaleX);
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, scaleY == null ? 1.0f : scaleY);
             }
 
             // Create the transcoder output.
@@ -321,6 +335,11 @@ public class ImageUtils {
         } catch (IOException | TranscoderException e) {
             if (logImageProcessing) {
                 e.printStackTrace();
+            }
+            image = null;
+        } catch (Throwable t) {
+            if (logImageProcessing) {
+                t.printStackTrace();
             }
             image = null;
         }
