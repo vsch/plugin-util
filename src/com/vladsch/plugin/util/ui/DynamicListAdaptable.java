@@ -38,41 +38,12 @@ public abstract class DynamicListAdaptable<A extends DynamicListAdaptable<A>> im
         this.displayName = displayName;
     }
 
-    // these need to be defined in the base class, uncomment and replace V with derived class name
-    //final public static V EMPTY = new V(0,"");
-    //public static DynamicEnumAdaptable[] values = new DynamicEnumAdaptable[0];
-    //final public static Static<DynamicEnumAdaptable<V>> ADAPTER = new Static<>(new ComboBoxAdapterImpl<>(EMPTY));
-    //
-    //@Override
-    //public ComboBoxAdapter<DynamicEnumAdaptable<A>> getAdapter() {
-    //    return ADAPTER;
-    //}
-    //
-    //@Override
-    //public DynamicEnumAdaptable<A>[] getValues() {
-    //    //noinspection unchecked
-    //    return values;
-    //}
-    //
-    //public static void updateValues(String[] valueList, final boolean addEmpty, JComboBox comboBox, V... exclude) {
-    //    updateValues(asList(valueList),addEmpty, comboBox, exclude);
-    //}
-    //
-    //public static void updateValues(EMPTY, List<String> valueList, final boolean addEmpty, JComboBox comboBox, V... exclude) {
-    //    values = DynamicEnumAdaptable.updateValues(EMPTY, valueList, addEmpty, V::new);
-    //    //noinspection unchecked
-    //    ADAPTER.setDefaultValue(values[0]);
-    //
-    //    if (comboBox != null) {
-    //        ADAPTER.fillComboBox(comboBox, exclude);
-    //    }
-    //}
-
     protected interface Factory<F> {
         F create(int intValue, @NotNull String displayName);
     }
 
-    public static List<String> getDisplayNames(DynamicListAdaptable[] values) {
+    @NotNull
+    public static List<String> getDisplayNames(@NotNull DynamicListAdaptable[] values) {
         ArrayList<String> list = new ArrayList<>(values.length);
         for (DynamicListAdaptable item : values) {
             list.add(item.displayName);
@@ -80,13 +51,14 @@ public abstract class DynamicListAdaptable<A extends DynamicListAdaptable<A>> im
         return list;
     }
 
-    protected static List<String> asList(String[] valueList) {
+    @NotNull
+    protected static List<String> asList(@NotNull String[] valueList) {
         ArrayList<String> list = new ArrayList<>(valueList.length);
         Collections.addAll(list, valueList);
         return list;
     }
 
-    protected static <V extends DynamicListAdaptable<V>> V[] updateValues(V empty, Iterable<String> valueList, final boolean addEmpty, final Factory<V> factory) {
+    protected static <V extends DynamicListAdaptable<V>> V[] updateValues(@NotNull V empty, @NotNull Iterable<String> valueList, final boolean addEmpty, final @NotNull Factory<V> factory) {
         int iMax = 0;
 
         for (String item : valueList) iMax++;
@@ -113,6 +85,7 @@ public abstract class DynamicListAdaptable<A extends DynamicListAdaptable<A>> im
         return displayName;
     }
 
+    @NotNull
     @Override
     public String name() {
         return displayName;

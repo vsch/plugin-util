@@ -35,14 +35,18 @@ import java.util.function.Function;
 public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
     ComboBoxAdaptable[] EMPTY = new ComboBoxAdaptable[0];
 
+    @NotNull
     String getDisplayName();
 
+    @NotNull
     String name();
 
     int getIntValue();
 
+    @NotNull
     ComboBoxAdapter<E> getAdapter();
 
+    @NotNull
     E[] getValues();
 
     // these have default implementations
