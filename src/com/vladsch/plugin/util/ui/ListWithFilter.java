@@ -43,7 +43,7 @@ import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;
 
 public class ListWithFilter<T> extends JPanel implements DataProvider {
-    final JList<? extends T> myList;
+    final JList<T> myList;
     final SearchTextField mySearchField = new SearchTextField(false);
     private final NameFilteringListModel<T> myModel;
     private final JScrollPane myScrollPane;
@@ -59,20 +59,20 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
     }
 
     @NotNull
-    public static <T> ListWithFilter<T> wrap(@NotNull JList<? extends T> list, @NotNull JScrollPane scrollPane, @Nullable Function<? super T, String> namer) {
+    public static <T> ListWithFilter<T> wrap(@NotNull JList<T> list, @NotNull JScrollPane scrollPane, @Nullable Function<? super T, String> namer) {
         return wrap(list, scrollPane, namer, false);
     }
 
     @NotNull
     public static <T> ListWithFilter<T> wrap(
-            @NotNull JList<? extends T> list, @NotNull JScrollPane scrollPane, @Nullable Function<? super T, String> namer,
+            @NotNull JList<T> list, @NotNull JScrollPane scrollPane, @Nullable Function<? super T, String> namer,
             boolean highlightAllOccurrences
     ) {
-        return new ListWithFilter<>(list, scrollPane, namer, highlightAllOccurrences);
+        return new ListWithFilter<T>(list, scrollPane, namer, highlightAllOccurrences);
     }
 
     private ListWithFilter(
-            @NotNull JList<? extends T> list,
+            @NotNull JList<T> list,
             @NotNull JScrollPane scrollPane,
             @Nullable Function<? super T, String> namer,
             boolean highlightAllOccurrences
