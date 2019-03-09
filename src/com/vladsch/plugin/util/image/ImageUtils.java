@@ -17,7 +17,6 @@
 
 package com.vladsch.plugin.util.image;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import com.vladsch.plugin.util.FileIOKt;
 import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderException;
@@ -327,7 +326,7 @@ public class ImageUtils {
             }
 
             // Create the transcoder output.
-            ByteOutputStream ostream = new ByteOutputStream();
+            ByteArrayOutputStream ostream = new ByteArrayOutputStream();
             TranscoderOutput output = new TranscoderOutput(ostream);
 
             // Save the image.
@@ -337,7 +336,7 @@ public class ImageUtils {
             ostream.flush();
             ostream.close();
 
-            byte[] imageBytes = ostream.getBytes();
+            byte[] imageBytes = ostream.toByteArray();
 
             ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
             image = ImageIO.read(bis);
