@@ -281,10 +281,18 @@ public class ImageUtils {
 
     public static BufferedImage loadSvgImageFromURL(String imageURL, final float scale, boolean logImageProcessing) {
         BufferedImage image = loadSvgImageFromURL(imageURL, null, logImageProcessing);
-        if (image != null && scale != 1.0f) {
+        if (image != null && scale != 0f) {
             image = loadSvgImageFromURL(imageURL, new Point((int) (image.getWidth() * scale), (int) (image.getHeight() * scale)), logImageProcessing);
         }
         return image;
+    }
+
+    public static BufferedImage loadSvgImageFromURLSized(String imageURL, final float sizeX, float sizeY, boolean logImageProcessing) {
+        return loadSvgImage(new TranscoderInput(imageURL), sizeX, sizeY, logImageProcessing);
+    }
+
+    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final float sizeX, float sizeY, boolean logImageProcessing) {
+        return loadSvgImage(new TranscoderInput(svgInputStream), sizeX, sizeY, logImageProcessing);
     }
 
     public static BufferedImage loadSvgImageFromURL(String imageURL, final Point size, boolean logImageProcessing) {
@@ -295,8 +303,8 @@ public class ImageUtils {
         return loadSvgImage(new TranscoderInput(svgInputStream), size, logImageProcessing);
     }
 
-    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final @Nullable Float scaleX, final @Nullable Float scaleY,  boolean logImageProcessing) {
-        return loadSvgImage(new TranscoderInput(svgInputStream), scaleX, scaleY, logImageProcessing);
+    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final @Nullable Float sizeX, final @Nullable Float sizeY,  boolean logImageProcessing) {
+        return loadSvgImage(new TranscoderInput(svgInputStream), sizeX, sizeY, logImageProcessing);
     }
 
     private static BufferedImage loadSvgImage(@NotNull TranscoderInput input, @Nullable final Point size, boolean logImageProcessing) {
@@ -307,15 +315,15 @@ public class ImageUtils {
         }
     }
 
-    private static BufferedImage loadSvgImage(TranscoderInput input, final @Nullable Float scaleX, final @Nullable Float scaleY, boolean logImageProcessing) {
+    private static BufferedImage loadSvgImage(TranscoderInput input, final @Nullable Float sizeX, final @Nullable Float sizeY, boolean logImageProcessing) {
         BufferedImage image;
 
         try {
             PNGTranscoder t = new PNGTranscoder();
 
-            if (scaleX != null && scaleX != 1.0f || scaleY != null && scaleY != 1.0f) {
-                t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, scaleX == null ? 1.0f : scaleX);
-                t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, scaleY == null ? 1.0f : scaleY);
+            if (sizeX != null && sizeX != 0f || sizeY != null && sizeY != 0f) {
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_WIDTH, sizeX == null ? 1.0f : sizeX);
+                t.addTranscodingHint(SVGAbstractTranscoder.KEY_HEIGHT, sizeY == null ? 1.0f : sizeY);
             }
 
             // Create the transcoder output.
@@ -481,6 +489,15 @@ public class ImageUtils {
         }
         g2.dispose();
         //output.setRGB(3, 3, 123);
+        return output;
+    }
+
+    public static BufferedImage overlayImage(BufferedImage imageBack, Image imageFore, int x, int y) {
+        BufferedImage output = new BufferedImage(imageBack.getWidth(), imageBack.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = output.createGraphics();
+        g2.drawImage(imageBack, 0, 0, null);
+        g2.drawImage(imageFore, x, y, null);
+        g2.dispose();
         return output;
     }
 
