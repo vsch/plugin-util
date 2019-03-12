@@ -97,7 +97,7 @@ public class Helpers {
 
         if (icon == null) {
             // cannot load SVG, we'll load PNG
-            String modPath = path.substring(0, path.length() - ".svg".length()).replace("/svg/", "/png/") + ".png";
+            String modPath = path.substring(0, path.length() - ".svg".length())/*.replace("/svg/", "/png/")*/ + ".png";
             icon = IconLoader.getIcon(modPath, clazz);
         }
         return icon;
