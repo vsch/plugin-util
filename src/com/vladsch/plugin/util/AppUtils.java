@@ -32,7 +32,14 @@ public class AppUtils {
     public static final String PARAMETER_HINTS_APP_VERSION = "163.3512";
     public static final String PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION = "172.1909";
     public static final String LOADS_SVG_ICONS_APP_VERSION = "180";
+    public static final String CLIPBOARD_CHANGE_NOTIFICATIONS = "180";
     
+    public static boolean isClipboardChangeNotificationsAvailable() {
+        boolean available = isAppVersionGreaterThan(CLIPBOARD_CHANGE_NOTIFICATIONS);
+        LOG.info("ClipboardChangeNotifications " + available);
+        return available;
+    }
+
     public static boolean isSvgLoadIconAvailable() {
         boolean available = isAppVersionGreaterThan(LOADS_SVG_ICONS_APP_VERSION);
         LOG.info("SvgIconsAvailable " + available);

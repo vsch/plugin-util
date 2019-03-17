@@ -57,7 +57,7 @@ public class ClipboardUtils {
     }
     
     @Nullable
-    private static Clipboard getSystemClipboard() {
+    public static Clipboard getSystemClipboard() {
         try {
             return Toolkit.getDefaultToolkit().getSystemClipboard();
         } catch (IllegalStateException e) {
