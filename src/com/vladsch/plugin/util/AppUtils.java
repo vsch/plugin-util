@@ -21,7 +21,6 @@ import com.intellij.openapi.application.ex.ApplicationInfoEx;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.BuildNumber;
 import com.intellij.openapi.util.Version;
-import com.vladsch.plugin.util.edit.Helpers;
 
 import static com.intellij.openapi.diagnostic.Logger.getInstance;
 
@@ -33,7 +32,7 @@ public class AppUtils {
     public static final String PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION = "172.1909";
     public static final String LOADS_SVG_ICONS_APP_VERSION = "180";
     public static final String CLIPBOARD_CHANGE_NOTIFICATIONS = "180";
-    
+
     public static boolean isClipboardChangeNotificationsAvailable() {
         boolean available = isAppVersionGreaterThan(CLIPBOARD_CHANGE_NOTIFICATIONS);
         LOG.info("ClipboardChangeNotifications " + available);

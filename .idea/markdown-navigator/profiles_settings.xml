@@ -1,0 +1,14 @@
+<component name="MarkdownNavigator.ProfileManager">
+  <settings default="" pdf-export="PDF" plain-text-search-scope="Markdown Files">
+    <scope-profiles>
+      <element scope="HTML Notice" profile="HTML Notice" />
+      <element scope="Plugin Description" profile="Plugin Description" />
+      <element scope="launch-debug" profile="launch-debug" />
+      <element scope="javadoc-overview" profile="javadoc-overview" />
+      <element scope="Version" profile="Version" />
+      <element scope="Support" profile="Support" />
+      <element scope="InspectionDescriptions" profile="InspectionDescriptions" />
+      <element scope="Samples" profile="Samples" />
+    </scope-profiles>
+  </settings>
+</component>
