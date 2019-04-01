@@ -53,6 +53,8 @@ import static com.intellij.openapi.diagnostic.Logger.getInstance;
 
 @SuppressWarnings("WeakerAccess")
 public class Helpers {
+    private static final Logger LOG = getInstance("com.vladsch.plugin.util.ui.icons");
+
     private static boolean ourLoadPng = !AppUtils.isSvgLoadIconAvailable();
     private static boolean ourTestSvg = false;
 
@@ -60,44 +62,49 @@ public class Helpers {
         return !ourLoadPng;
     }
 
-    public static Icon load(String path, Class clazz) {
+    public static Icon load(@NotNull String path, @NotNull Class clazz) {
         //return IconLoader.getIcon(path, PluginIcons.class);
         Icon icon = null;
 
         if (!(ourLoadPng && path.endsWith(".svg"))) {
-            icon = IconLoader.getIcon(path, clazz);
+            try {
+                icon = IconLoader.getIcon(path, clazz);
 
-            if (ourTestSvg && path.endsWith(".svg")) {
-                // test the first one
-                ourTestSvg = false;
+                if (ourTestSvg && path.endsWith(".svg")) {
+                    // test the first one
+                    ourTestSvg = false;
 
-                if (icon.getIconWidth() < 16) {
-                    ourLoadPng = true;
-                } else {
-                    // could be 2017 which loads SVG as Black and White
-                    ourLoadPng = true;
-                    if (icon instanceof CachedImageIcon) {
-                        CachedImageIcon cachedImageIcon = (CachedImageIcon) icon;
-                        try {
-                            Method m = cachedImageIcon.getClass().getDeclaredMethod("getRealIcon");
-                            m.setAccessible(true);
-                            ImageIcon imageIcon = (ImageIcon) m.invoke(cachedImageIcon);
-                            if (imageIcon != null) {
-                                ourLoadPng = isBlackAndWhite(imageIcon);
+                    if (icon.getIconWidth() < 16) {
+                        ourLoadPng = true;
+                    } else {
+                        // could be 2017 which loads SVG as Black and White
+                        ourLoadPng = true;
+                        if (icon instanceof CachedImageIcon) {
+                            CachedImageIcon cachedImageIcon = (CachedImageIcon) icon;
+                            try {
+                                Method m = cachedImageIcon.getClass().getDeclaredMethod("getRealIcon");
+                                m.setAccessible(true);
+                                ImageIcon imageIcon = (ImageIcon) m.invoke(cachedImageIcon);
+                                if (imageIcon != null) {
+                                    ourLoadPng = isBlackAndWhite(imageIcon);
+                                }
+                            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                                int tmp = 0;
                             }
-                        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                            int tmp = 0;
                         }
                     }
-                }
 
-                if (ourLoadPng) icon = null;
+                    if (ourLoadPng) icon = null;
+                }
+            } catch (Throwable t) {
+                LOG.error(t);
+                icon = null;
             }
         }
 
         if (icon == null) {
             // cannot load SVG, we'll load PNG
-            String modPath = path.substring(0, path.length() - ".svg".length())/*.replace("/svg/", "/png/")*/ + ".png";
+            String modPath = path.substring(0, path.length() - ".svg".length()).replace("/svg/", "/png/") + ".png";
             icon = IconLoader.getIcon(modPath, clazz);
         }
         return icon;
