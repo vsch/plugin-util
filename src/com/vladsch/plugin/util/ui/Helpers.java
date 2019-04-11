@@ -29,6 +29,7 @@ import com.intellij.openapi.editor.LogicalPosition;
 import com.intellij.openapi.editor.colors.CodeInsightColors;
 import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.IconLoader.CachedImageIcon;
 import com.intellij.ui.JBColor;
@@ -42,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -104,7 +106,8 @@ public class Helpers {
 
         if (icon == null) {
             // cannot load SVG, we'll load PNG
-            String modPath = path.substring(0, path.length() - ".svg".length()).replace("/svg/", "/png/") + ".png";
+            // diagnostic/2876
+            String modPath = !path.endsWith(".svg") ? path : path.substring(0, path.length() - ".svg".length()).replace("/svg/", "/png/") + ".png";
             icon = IconLoader.getIcon(modPath, clazz);
         }
         return icon;
@@ -136,7 +139,7 @@ public class Helpers {
 
     public static java.awt.Color errorColor() {
         TextAttributes attribute = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(CodeInsightColors.ERRORS_ATTRIBUTES);
-        java.awt.Color color = JBColor.RED;
+        java.awt.Color color = new JBColor(new Color(0xDE242F), JBColor.RED);
         if (attribute != null) {
             if (attribute.getForegroundColor() != null) {
                 color = attribute.getForegroundColor();
@@ -152,6 +155,21 @@ public class Helpers {
     public static java.awt.Color warningColor() {
         TextAttributes attribute = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(CodeInsightColors.WARNINGS_ATTRIBUTES);
         java.awt.Color color = JBColor.ORANGE;
+        if (attribute != null) {
+            if (attribute.getForegroundColor() != null) {
+                color = attribute.getForegroundColor();
+            } else if (attribute.getEffectColor() != null) {
+                color = attribute.getEffectColor();
+            } else if (attribute.getErrorStripeColor() != null) {
+                color = attribute.getErrorStripeColor();
+            }
+        }
+        return color;
+    }
+
+    public static java.awt.Color unusedColor() {
+        TextAttributes attribute = EditorColorsManager.getInstance().getGlobalScheme().getAttributes(CodeInsightColors.NOT_USED_ELEMENT_ATTRIBUTES);
+        java.awt.Color color = JBColor.GRAY;
         if (attribute != null) {
             if (attribute.getForegroundColor() != null) {
                 color = attribute.getForegroundColor();
