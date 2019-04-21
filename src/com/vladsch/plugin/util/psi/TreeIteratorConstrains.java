@@ -1,31 +1,21 @@
-/*
- * Copyright (c) 2015-2019 Vladimir Schneider <vladimir.schneider@gmail.com>, all rights reserved.
- *
- * This code is private property of the copyright holder and cannot be used without
- * having obtained a license or prior written permission of the of the copyright holder.
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- *
- */
-
 package com.vladsch.plugin.util.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.vladsch.plugin.util.tree.FixedIterationConditions;
-import com.vladsch.plugin.util.tree.IterationConditions;
+import com.intellij.psi.impl.source.tree.LeafPsiElement;
+import com.vladsch.treeIteration.util.FixedIterationConditions;
+import com.vladsch.treeIteration.util.IterationConditions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class TreeIteratorConstrains<N> {
+    public static final Predicate NOT_LEAF_PSI = n -> n instanceof LeafPsiElement;
+    public static final Predicate LEAF_PSI = n -> !(n instanceof LeafPsiElement);
+
     final Function<? super N, N> NEXT_SIBLING;
     final Function<? super N, N> PREV_SIBLING;
     final Function<? super N, N> FIRST_CHILD;
@@ -120,7 +110,9 @@ public class TreeIteratorConstrains<N> {
     final public static Function<? super ASTNode, ASTNode> AST_PARENT = ASTNode::getTreeParent;
 
     final public static TreeIteratorConstrains<PsiElement> PSI_LOOPS = new TreeIteratorConstrains<>(PSI_NEXT_SIBLING, PSI_PREV_SIBLING, PSI_FIRST_CHILD, PSI_LAST_CHILD, PSI_PARENT);
+    public static final TreeIteratorConstrains<PsiElement> PSI = PSI_LOOPS;
     public static final TreeIteratorConstrains<ASTNode> AST_LOOPS = new TreeIteratorConstrains<>(AST_NEXT_SIBLING, AST_PREV_SIBLING, AST_FIRST_CHILD, AST_LAST_CHILD, AST_PARENT);
+    public static final TreeIteratorConstrains<ASTNode> AST = AST_LOOPS;
     static {
         ourCachedBuilders.put(PsiElement.class, PSI_LOOPS);
         ourCachedBuilders.put(ASTNode.class, AST_LOOPS);
@@ -136,7 +128,7 @@ public class TreeIteratorConstrains<N> {
         // TODO: decide if need to access builders by sub-class then on first subclass add the subclass entry for the superclass builder
         //LoopConstrainsBuilder builder = ourCachedBuilders.get(clazz);
         //if (builder == null) {
-        //    // see if there are super classes defined or interfaces 
+        //    // see if there are super classes defined or interfaces
         //    clazz.getSuperclass();
         //    clazz.getInterfaces();
         //}

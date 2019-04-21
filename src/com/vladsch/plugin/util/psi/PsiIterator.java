@@ -1,30 +1,15 @@
-/*
- * Copyright (c) 2015-2019 Vladimir Schneider <vladimir.schneider@gmail.com>, all rights reserved.
- *
- * This code is private property of the copyright holder and cannot be used without
- * having obtained a license or prior written permission of the of the copyright holder.
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- *
- */
-
 package com.vladsch.plugin.util.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.intellij.psi.tree.TokenSet;
-import com.vladsch.plugin.util.tree.IterationConditions;
-import com.vladsch.plugin.util.tree.TreeIterator;
-import com.vladsch.plugin.util.tree.MappedIterator;
-import com.vladsch.plugin.util.tree.ValueIterationAdapter;
-import com.vladsch.plugin.util.tree.ValueIterationAdapterImpl;
-import com.vladsch.plugin.util.tree.ValueIterationFilter;
+import com.vladsch.treeIteration.util.IterationConditions;
+import com.vladsch.treeIteration.util.TreeIterator;
+import com.vladsch.treeIteration.util.MappedIterator;
+import com.vladsch.treeIteration.util.ValueIterationAdapter;
+import com.vladsch.treeIteration.util.ValueIterationAdapterImpl;
+import com.vladsch.treeIteration.util.ValueIterationFilter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
@@ -37,7 +22,7 @@ public class PsiIterator<T extends PsiElement> extends MappedIterator<PsiElement
 
     // *******************************************************
     //
-    // Need Subclass Constructors 
+    // Need Subclass Constructors
     //
     // *******************************************************
 
