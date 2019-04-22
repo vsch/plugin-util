@@ -8,8 +8,6 @@ import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
@@ -40,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.regex.Pattern;
 
 import static com.vladsch.flexmark.util.Utils.minLimit;
@@ -165,7 +164,7 @@ public class ImageUtils {
             ImageIO.write(image, "PNG", bos);
             byte[] imageBytes = bos.toByteArray();
             // diagnostic/2553 on windows its \r\n
-            imageString = new BASE64Encoder().encode(imageBytes).replace("\r", "").replace("\n", "");
+            imageString = Base64.getEncoder().encodeToString(imageBytes).replace("\r", "").replace("\n", "");
             //imageString = javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
             bos.close();
         } catch (IOException e) {
@@ -185,7 +184,7 @@ public class ImageUtils {
             byte[] imageBytes = new byte[(int) file.length()];
             if (fileInputStreamReader.read(imageBytes) != -1) {
                 // diagnostic/2553 on windows its \r\n
-                return "data:image/png;base64," + new BASE64Encoder().encode(imageBytes).replace("\r", "").replace("\n", "");
+                return "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes).replace("\r", "").replace("\n", "");
                 //return "data:image/png;base64," + javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
             }
             return null;
@@ -207,7 +206,7 @@ public class ImageUtils {
                 int pos = encoded.indexOf(',');
                 if (pos >= 0) {
                     String encodedImage = encoded.substring(pos + 1);
-                    byte[] imageBytes = new BASE64Decoder().decodeBuffer(encodedImage);
+                    byte[] imageBytes = Base64.getDecoder().decode(encodedImage);
 
                     ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
                     final BufferedImage bufferedImage = ImageIO.read(bis);
@@ -240,7 +239,7 @@ public class ImageUtils {
             int pos = encoded.indexOf(',');
             if (pos >= 0) {
                 String encodedImage = encoded.substring(pos + 1);
-                byte[] imageBytes = new BASE64Decoder().decodeBuffer(encodedImage);
+                byte[] imageBytes = Base64.getDecoder().decode(encodedImage);
 
                 ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
                 final BufferedImage bufferedImage = ImageIO.read(bis);
@@ -285,7 +284,7 @@ public class ImageUtils {
         return loadSvgImage(new TranscoderInput(svgInputStream), size, logImageProcessing);
     }
 
-    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final @Nullable Float sizeX, final @Nullable Float sizeY,  boolean logImageProcessing) {
+    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final @Nullable Float sizeX, final @Nullable Float sizeY, boolean logImageProcessing) {
         return loadSvgImage(new TranscoderInput(svgInputStream), sizeX, sizeY, logImageProcessing);
     }
 
