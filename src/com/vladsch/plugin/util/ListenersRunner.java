@@ -1,6 +1,6 @@
 package com.vladsch.plugin.util;
 
-import com.vladsch.flexmark.util.ValueRunnable;
+import java.util.function.Consumer;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
@@ -12,13 +12,13 @@ public class ListenersRunner<L> {
 
     }
 
-    public void fire(ValueRunnable<L> runnable) {
+    public void fire(Consumer<L> runnable) {
         myListeners.removeIf(reference -> reference.get() == null);
 
         for (WeakReference<L> listener : myListeners) {
             L l = listener.get();
             if (l != null) {
-                runnable.run(l);
+                runnable.accept(l);
             }
         }
     }

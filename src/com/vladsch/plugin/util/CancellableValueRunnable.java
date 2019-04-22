@@ -1,9 +1,9 @@
 package com.vladsch.plugin.util;
 
-import com.vladsch.flexmark.util.ValueRunnable;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
-public interface CancellableValueRunnable<T> extends Cancellable, ValueRunnable<T> {
+public interface CancellableValueRunnable<T> extends Cancellable, Consumer<T> {
     CancellableValueRunnable NULL = new CancellableValueRunnable() {
         @Override
         public boolean cancel() {
@@ -16,7 +16,7 @@ public interface CancellableValueRunnable<T> extends Cancellable, ValueRunnable<
         }
 
         @Override
-        public void run(final Object value) {
+        public void accept(final Object value) {
 
         }
 

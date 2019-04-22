@@ -1,8 +1,8 @@
 package com.vladsch.plugin.util;
 
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.ModalityState;
-import com.vladsch.flexmark.util.ValueRunnable;
+
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -21,15 +21,15 @@ public class OneTimeValueRunnable<T> extends AwtValueRunnable<T> implements Canc
     final private AtomicBoolean myHasRun;
     final private @NotNull String myId;
 
-    public OneTimeValueRunnable(@NotNull ValueRunnable<T> command) {
+    public OneTimeValueRunnable(@NotNull Consumer<T> command) {
         this("", false, command);
     }
 
-    public OneTimeValueRunnable(@NotNull String id, @NotNull ValueRunnable<T> command) {
+    public OneTimeValueRunnable(@NotNull String id, @NotNull Consumer<T> command) {
         this(id, false, command);
     }
 
-    public OneTimeValueRunnable(@NotNull String id, boolean awtThread, ValueRunnable<T> command) {
+    public OneTimeValueRunnable(@NotNull String id, boolean awtThread, Consumer<T> command) {
         super(awtThread, command);
         myHasRun = new AtomicBoolean(false);
         myId = id;
@@ -58,13 +58,13 @@ public class OneTimeValueRunnable<T> extends AwtValueRunnable<T> implements Canc
     }
 
     @Override
-    public void run(final T value) {
+    public void accept(final T value) {
         if (isAwtThread() && !isEventDispatchThread()) {
             //ApplicationManager.getApplication().invokeLater(() -> { run(value); }, ModalityState.any());
-            ApplicationManager.getApplication().invokeLater(() -> { run(value); });
+            ApplicationManager.getApplication().invokeLater(() -> { accept(value); });
         } else {
             if (!myHasRun.getAndSet(true)) {
-                super.run(value);
+                super.accept(value);
             }
         }
     }

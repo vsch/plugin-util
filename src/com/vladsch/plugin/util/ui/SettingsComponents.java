@@ -4,7 +4,7 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.TextFieldWithHistory;
 import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
-import com.vladsch.flexmark.util.ValueRunnable;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JCheckBox;
@@ -57,18 +57,18 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         return new LinkedHashSet<>(Arrays.asList(getComponents(i)));
     }
 
-    public void forAllComponents(T i, ValueRunnable<Settable<T>> runnable) {
+    public void forAllComponents(T i, Consumer<Settable<T>> runnable) {
         for (Settable<T> settable : getComponents(i)) {
-            runnable.run(settable);
+            runnable.accept(settable);
         }
     }
 
-    public void forAllTargets(T i, Object[] targets, ValueRunnable<Settable<T>> runnable) {
+    public void forAllTargets(T i, Object[] targets, Consumer<Settable<T>> runnable) {
         Set<Object> targetSet = new LinkedHashSet<>();
         Collections.addAll(targetSet, targets);
 
         forAllComponents(i, settable -> {
-            if (targetSet.contains(settable.getComponent())) runnable.run(settable);
+            if (targetSet.contains(settable.getComponent())) runnable.accept(settable);
         });
     }
 

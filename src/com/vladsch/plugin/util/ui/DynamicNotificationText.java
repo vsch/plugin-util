@@ -1,8 +1,8 @@
 package com.vladsch.plugin.util.ui;
 
 import com.intellij.notification.Notification;
-import com.vladsch.flexmark.util.RunnableValue;
-import com.vladsch.flexmark.util.ValueRunnable;
+import java.util.function.Supplier;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,17 +15,17 @@ public class DynamicNotificationText {
         myItems = new ArrayList<>();
     }
 
-    public DynamicNotificationText add(@Nullable final String placeholderText, @Nullable final RunnableValue<String> dynamicText, @Nullable final String linkText, @Nullable final ValueRunnable<Notification> linkAction) {
+    public DynamicNotificationText add(@Nullable final String placeholderText, @Nullable final Supplier<String> dynamicText, @Nullable final String linkText, @Nullable final Consumer<Notification> linkAction) {
         myItems.add(new DynamicNotificationItem(placeholderText, dynamicText, linkText, linkAction));
         return this;
     }
 
-    public DynamicNotificationText addText(@NotNull final String placeholderText, @NotNull final RunnableValue<String> dynamicText) {
+    public DynamicNotificationText addText(@NotNull final String placeholderText, @NotNull final Supplier<String> dynamicText) {
         myItems.add(new DynamicNotificationItem(placeholderText, dynamicText));
         return this;
     }
 
-    public DynamicNotificationText addLink(@NotNull final String linkText, @NotNull final ValueRunnable<Notification> linkAction) {
+    public DynamicNotificationText addLink(@NotNull final String linkText, @NotNull final Consumer<Notification> linkAction) {
         myItems.add(new DynamicNotificationItem(null, null, linkText, linkAction));
         return this;
     }
@@ -34,7 +34,7 @@ public class DynamicNotificationText {
         String result = text;
         for (DynamicNotificationItem item : myItems) {
             if (item.getPlaceholderText() != null && item.getDynamicText() != null) {
-                String resultText = item.getDynamicText().run();
+                String resultText = item.getDynamicText().get();
                 result = result.replace(item.getPlaceholderText(), resultText);
             }
         }
@@ -44,7 +44,7 @@ public class DynamicNotificationText {
     public boolean linkAction(@NotNull Notification notification, @NotNull String linkText) {
         for (DynamicNotificationItem item : myItems) {
             if (linkText.equals(item.getLinkText()) && item.getLinkAction() != null) {
-                item.getLinkAction().run(notification);
+                item.getLinkAction().accept(notification);
                 return true;
             }
         }
@@ -54,15 +54,15 @@ public class DynamicNotificationText {
     @SuppressWarnings("WeakerAccess")
     private static class DynamicNotificationItem {
         private final @Nullable String myPlaceholderText;
-        private final @Nullable RunnableValue<String> myDynamicText;
+        private final @Nullable Supplier<String> myDynamicText;
         private final @Nullable String myLinkText;
-        private final @Nullable ValueRunnable<Notification> myLinkAction;
+        private final @Nullable Consumer<Notification> myLinkAction;
 
         DynamicNotificationItem(
                 @Nullable final String placeholderText,
-                @Nullable final RunnableValue<String> dynamicText,
+                @Nullable final Supplier<String> dynamicText,
                 @Nullable final String linkText,
-                @Nullable final ValueRunnable<Notification> linkAction
+                @Nullable final Consumer<Notification> linkAction
         ) {
             myPlaceholderText = placeholderText;
             myDynamicText = dynamicText;
@@ -70,11 +70,11 @@ public class DynamicNotificationText {
             myLinkAction = linkAction;
         }
 
-        public DynamicNotificationItem(final String placeholderText, final RunnableValue<String> dynamicText) {
+        public DynamicNotificationItem(final String placeholderText, final Supplier<String> dynamicText) {
             this(placeholderText, dynamicText, null, null);
         }
 
-        DynamicNotificationItem(@Nullable final String linkText, @Nullable final ValueRunnable<Notification> linkAction) {
+        DynamicNotificationItem(@Nullable final String linkText, @Nullable final Consumer<Notification> linkAction) {
             this(null, null, linkText, linkAction);
         }
 
@@ -84,7 +84,7 @@ public class DynamicNotificationText {
         }
 
         @Nullable
-        public RunnableValue<String> getDynamicText() {
+        public Supplier<String> getDynamicText() {
             return myDynamicText;
         }
 
@@ -94,7 +94,7 @@ public class DynamicNotificationText {
         }
 
         @Nullable
-        public ValueRunnable<Notification> getLinkAction() {
+        public Consumer<Notification> getLinkAction() {
             return myLinkAction;
         }
     }
