@@ -3,8 +3,8 @@ package com.vladsch.plugin.util.psi;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.vladsch.treeIteration.util.FixedIterationConditions;
-import com.vladsch.treeIteration.util.IterationConditions;
+import com.vladsch.tree.iteration.FixedIterationConditions;
+import com.vladsch.tree.iteration.IterationConditions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
