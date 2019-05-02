@@ -40,7 +40,7 @@ public class AppUtils {
         Version requiredVersion = Version.parseVersion(requiredAppVersion);
         if (build != null && requiredVersion != null) {
             int[] buildComponents = build.getComponents();
-            Version version = new Version(buildComponents[0], buildComponents[1], buildComponents[2], 0);
+            Version version = new Version(buildComponents);
             return version.isOrGreaterThan(requiredVersion.major, requiredVersion.minor, requiredVersion.bugfix);
         }
         return false;

@@ -20,6 +20,13 @@ public class Version implements Comparable<Version> {
         this.major = major;
     }
 
+    public Version(int[] build) {
+        this.major = build.length > 0 ? build[0] : 0;
+        this.minor = build.length > 1 ? build[1] : 0;
+        this.bugfix = build.length > 2 ? build[2] : 0;
+        this.eap = build.length > 3 ? build[3] : 0;
+    }
+
     @Nullable
     public static Version parseVersion(@NotNull String versionString) {
         String[] versions = versionString.split("\\.");
@@ -29,17 +36,17 @@ public class Version implements Comparable<Version> {
             return null;
         }
 
-        int minor = versions.length > 1 ? parseNumber(versions[1], -1) : 0;
+        int minor = versions.length > 1 ? parseNumber(versions[1], 0) : 0;
         if (minor < 0) {
             return new Version(major, 0, 0, 0);
         }
 
-        int patch = versions.length > 2 ? parseNumber(versions[2], -1) : 0;
+        int patch = versions.length > 2 ? parseNumber(versions[2], 0) : 0;
         if (patch < 0) {
             return new Version(major, minor, 0, 0);
         }
 
-        int eap = versions.length > 3 ? parseNumber(versions[3], -1) : 0;
+        int eap = versions.length > 3 ? parseNumber(versions[3], 0) : 0;
         if (eap < 0) {
             return new Version(major, minor, patch, 0);
         }

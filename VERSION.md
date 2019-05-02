@@ -3,9 +3,16 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.0.2](#version-102)
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.0.2
+
+* Fix: Version to take int[] for version parts.
+* Fix: AppUtils version comparison when build numbers have less than 3 parts.
+* Fix: move tree iteration utilities to separate project.
 
 ### Version 1.0.1
 
