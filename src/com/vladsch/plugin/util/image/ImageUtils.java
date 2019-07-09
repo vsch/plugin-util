@@ -1,5 +1,6 @@
 package com.vladsch.plugin.util.image;
 
+import com.intellij.util.ui.UIUtil;
 import com.vladsch.plugin.util.FileIOKt;
 import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderException;
@@ -434,7 +435,7 @@ public class ImageUtils {
 
     public static BufferedImage drawRectangle(BufferedImage image, int x, int y, int w, int h, Color borderColor, int borderWidth, int cornerRadius, float[] dash, float dashPhase) {
         BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        //BufferedImage output = UIUtil.createImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = output.createGraphics();
         boolean invert = borderColor == null;
@@ -475,6 +476,7 @@ public class ImageUtils {
 
     public static BufferedImage overlayImage(BufferedImage imageBack, Image imageFore, int x, int y) {
         BufferedImage output = new BufferedImage(imageBack.getWidth(), imageBack.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = UIUtil.createImage(imageBack.getWidth(), imageBack.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = output.createGraphics();
         g2.drawImage(imageBack, 0, 0, null);
         g2.drawImage(imageFore, x, y, null);
@@ -484,7 +486,7 @@ public class ImageUtils {
 
     public static BufferedImage drawOval(BufferedImage image, int x, int y, int w, int h, Color borderColor, int borderWidth, float[] dash, float dashPhase) {
         BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        //BufferedImage output = UIUtil.createImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = output.createGraphics();
         boolean invert = borderColor == null;
@@ -524,9 +526,8 @@ public class ImageUtils {
             Color borderColor, int borderWidth, int cornerRadius,
             Color innerFillColor
     ) {
-        //BufferedImage output = UIUtil.createImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        //noinspection UndesirableClassUsage
         BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         int imgW = image.getWidth();
         int imgH = image.getHeight();
 
@@ -575,9 +576,8 @@ public class ImageUtils {
             Color borderColor, int borderWidth,
             Color innerFillColor
     ) {
-        //BufferedImage output = UIUtil.createImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        //noinspection UndesirableClassUsage
         BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         int imgW = image.getWidth();
         int imgH = image.getHeight();
 
@@ -617,14 +617,13 @@ public class ImageUtils {
             final int outerCornerRadius,
             boolean applyToImage
     ) {
-        //BufferedImage output = UIUtil.createImage(w, h, BufferedImage.TYPE_INT_ARGB);
         boolean outerFilled = outerFillColor.getAlpha() != 0;
         if (!outerFilled) {
             return outerImage;
         }
 
-        //noinspection UndesirableClassUsage
         BufferedImage output = outerImage != null ? outerImage : new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = outerImage != null ? outerImage : UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         int imgW = image.getWidth();
         int imgH = image.getHeight();
 
@@ -681,8 +680,8 @@ public class ImageUtils {
             return outerImage;
         }
 
-        //noinspection UndesirableClassUsage
         BufferedImage output = outerImage != null ? outerImage : new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = outerImage != null ? outerImage : UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         int imgW = image.getWidth();
         int imgH = image.getHeight();
 
