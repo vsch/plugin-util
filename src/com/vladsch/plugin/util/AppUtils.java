@@ -16,26 +16,38 @@ public class AppUtils {
     public static final String CLIPBOARD_CHANGE_NOTIFICATIONS = "180";
 
     public static boolean isClipboardChangeNotificationsAvailable() {
-        boolean available = isAppVersionGreaterThan(CLIPBOARD_CHANGE_NOTIFICATIONS);
+        boolean available = isAppVersionEqualOrGreaterThan(CLIPBOARD_CHANGE_NOTIFICATIONS);
         LOG.info("ClipboardChangeNotifications " + available);
         return available;
     }
 
     public static boolean isSvgLoadIconAvailable() {
-        boolean available = isAppVersionGreaterThan(LOADS_SVG_ICONS_APP_VERSION);
+        boolean available = isAppVersionEqualOrGreaterThan(LOADS_SVG_ICONS_APP_VERSION);
         LOG.info("SvgIconsAvailable " + available);
         return available;
     }
 
     public static boolean isParameterHintsAvailable() {
-        return isAppVersionGreaterThan(PARAMETER_HINTS_APP_VERSION);
+        return isAppVersionEqualOrGreaterThan(PARAMETER_HINTS_APP_VERSION);
     }
 
     public static boolean isParameterHintsForceUpdateAvailable() {
-        return isAppVersionGreaterThan(PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION);
+        return isAppVersionEqualOrGreaterThan(PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION);
     }
 
+    /**
+     * See if app version is equal or greater than given
+     *
+     * @param requiredAppVersion
+     * @return
+     * @deprecated  Use #isAppVersionEqualOrGreaterThan
+     */
+    @Deprecated
     public static boolean isAppVersionGreaterThan(String requiredAppVersion) {
+        return isAppVersionEqualOrGreaterThan(requiredAppVersion);
+    }
+
+    public static boolean isAppVersionEqualOrGreaterThan(String requiredAppVersion) {
         BuildNumber build = ApplicationInfoEx.getInstance().getBuild();
         Version requiredVersion = Version.parseVersion(requiredAppVersion);
         if (build != null && requiredVersion != null) {

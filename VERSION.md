@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.0.6](#version-106)
 - [Version 1.0.5](#version-105)
 - [Version 1.0.3](#version-103)
 - [Version 1.0.2](#version-102)
@@ -10,9 +11,16 @@
 - [Version 1.0.0](#version-100)
 
 
+### Version 1.0.6
+
+* Fix: update to flexmark-java 0.50.30
+
 ### Version 1.0.5
 
 * Fix: update to flexmark-java 0.50.20
+* Add: `isAppVersionEqualOrGreaterThan` to replace `isAppVersionGreaterThan` which was really
+  comparing versions >=.
+* Deprecate: `isAppVersionGreaterThan`
 
 ### Version 1.0.3
 

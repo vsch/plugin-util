@@ -1,5 +1,5 @@
 <component name="MarkdownNavigator.ProfileManager">
-  <settings default="" pdf-export="PDF" plain-text-search-scope="Markdown Files">
+  <settings pdf-export="PDF" plain-text-search-scope="Markdown Files">
     <scope-profiles>
       <element scope="HTML Notice" profile="HTML Notice" />
       <element scope="Plugin Description" profile="Plugin Description" />
