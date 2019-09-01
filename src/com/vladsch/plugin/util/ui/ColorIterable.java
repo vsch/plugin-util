@@ -7,6 +7,25 @@ import java.awt.Color;
 import java.util.Iterator;
 
 public class ColorIterable implements Iterable<Color> {
+    public static int GRADIENT_HUE_MIN = 0;
+    public static int GRADIENT_HUE_MAX = 360;
+    public static int GRADIENT_HUE_STEPS = 18;
+    public static int GRADIENT_SATURATION_MIN = 30;
+    public static int GRADIENT_SATURATION_MAX = 20;
+    public static int GRADIENT_SATURATION_STEPS = 2;
+    public static int GRADIENT_BRIGHTNESS_MIN = 100;
+    public static int GRADIENT_BRIGHTNESS_MAX = 100;
+    public static int GRADIENT_BRIGHTNESS_STEPS = 1;
+    public static int DARK_GRADIENT_HUE_MIN = 0;
+    public static int DARK_GRADIENT_HUE_MAX = 360;
+    public static int DARK_GRADIENT_HUE_STEPS = 12;
+    public static int DARK_GRADIENT_SATURATION_MIN = 80;
+    public static int DARK_GRADIENT_SATURATION_MAX = 80;
+    public static int DARK_GRADIENT_SATURATION_STEPS = 1;
+    public static int DARK_GRADIENT_BRIGHTNESS_MIN = 40;
+    public static int DARK_GRADIENT_BRIGHTNESS_MAX = 30;
+    public static int DARK_GRADIENT_BRIGHTNESS_STEPS = 2;
+
     private final int myHueMinRaw;
     private final int myHueMaxRaw;
     private final int myHueSteps;
@@ -39,9 +58,24 @@ public class ColorIterable implements Iterable<Color> {
         myBrightnessSteps = HelpersKt.minLimit(1, HelpersKt.min(brightnessMaxRaw >= brightnessMinRaw ? brightnessMaxRaw - brightnessMinRaw : brightnessMinRaw - brightnessMaxRaw, brightnessSteps));
     }
 
+    // use defaults
+    public ColorIterable(boolean darkColors) {
+        this(
+                darkColors ? DARK_GRADIENT_HUE_MIN : GRADIENT_HUE_MIN,
+                darkColors ? DARK_GRADIENT_HUE_MAX : GRADIENT_HUE_MAX,
+                darkColors ? DARK_GRADIENT_HUE_STEPS : GRADIENT_HUE_STEPS,
+                darkColors ? DARK_GRADIENT_SATURATION_MIN : GRADIENT_SATURATION_MIN,
+                darkColors ? DARK_GRADIENT_SATURATION_MAX : GRADIENT_SATURATION_MAX,
+                darkColors ? DARK_GRADIENT_SATURATION_STEPS : GRADIENT_SATURATION_STEPS,
+                darkColors ? DARK_GRADIENT_BRIGHTNESS_MIN : GRADIENT_BRIGHTNESS_MIN,
+                darkColors ? DARK_GRADIENT_BRIGHTNESS_MAX : GRADIENT_BRIGHTNESS_MAX,
+                darkColors ? DARK_GRADIENT_BRIGHTNESS_STEPS : GRADIENT_BRIGHTNESS_STEPS
+        );
+    }
+
     public int getMaxIndex() {
         int maxIndex = myHueSteps * mySaturationSteps * myBrightnessSteps;
-        return maxIndex <= 1024 ? maxIndex : 1024;
+        return Math.min(maxIndex, 1024);
     }
 
     @NotNull
@@ -95,7 +129,7 @@ public class ColorIterable implements Iterable<Color> {
             myBrightnessMaxRaw = brightnessMaxRaw;
             myBrightnessSteps = brightnessSteps;
             int maxIndex = hueSteps * saturationSteps * brightnessSteps;
-            myMaxIndex = maxIndex <= 1024 ? maxIndex : 1024;
+            myMaxIndex = Math.min(maxIndex, 1024);
             myIndex = 0;
             myNextIndex = 0;
         }

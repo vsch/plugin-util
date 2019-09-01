@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.0.7](#version-107)
 - [Version 1.0.6](#version-106)
 - [Version 1.0.5](#version-105)
 - [Version 1.0.3](#version-103)
@@ -10,6 +11,10 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.0.7
+
+* Fix: update to flexmark-java 0.50.34
 
 ### Version 1.0.6
 
