@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.0.8](#version-108)
 - [Version 1.0.7](#version-107)
 - [Version 1.0.6](#version-106)
 - [Version 1.0.5](#version-105)
@@ -11,6 +12,13 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.0.8
+
+* Add: `LineHighlightProvider.addHighlightLines(boolean, int[])` and
+  `LineHighlightProvider.addHighlightLines(boolean, int[])` methods to add an array of lines
+* Add: `LineHighlightProvider.addHighlightLine(int, boolean)` method to add lines only if there
+  are not already in the highlight set.
 
 ### Version 1.0.7
 
