@@ -14,6 +14,11 @@ import org.junit.runners.Suite;
         CropTransformTest.class,
         ScaleTransformTest.class,
         TransformerTest.class,
+        SimpleSelectableShapeTest.class,
+        FancyBorderSelectableShapeTest.class,
+        ImageDrawerTest.class,
+        RubberBandSelectedShapeTest.class,
+        TransparencyTransformTest.class,
 })
 public class ImageTestSuite {
 }

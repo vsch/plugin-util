@@ -44,72 +44,72 @@ class BorderTransformTest : ImageTest() {
 
     @Test
     fun test_Image1() {
-        val trans = BorderTransform(0, 0, Color.BLACK)
         val name = "Image1"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(0, 0, Color.BLACK)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image2() {
-        val trans = BorderTransform(0, 10, Color.BLACK)
         val name = "Image2"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(0, 10, Color.BLACK)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image3() {
-        val trans = BorderTransform(1, 10, null)
         val name = "Image3"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(1, 10, null)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image4() {
-        val trans = BorderTransform(1, 10, TRANSPARENT)
         val name = "Image4"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(1, 10, TRANSPARENT)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image5() {
-        val trans = BorderTransform(1, 0, Color.BLACK)
         val name = "Image5"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(1, 0, Color.BLACK)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image6() {
-        val trans = BorderTransform(2, 0, Color.BLACK)
         val name = "Image6"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(2, 0, Color.BLACK)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image7() {
-        val trans = BorderTransform(1, 10, Color.BLACK)
         val name = "Image7"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(1, 10, Color.BLACK)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image8() {
-        val trans = BorderTransform(2, 20, Color.BLACK)
         val name = "Image8"
-        val image = getSourceImage(name)
+        val trans = BorderTransform(2, 20, Color.BLACK)
+        val image = getSourceImage("Image1")
         val actual = trans.transform(image)
         assertImagesEqual(name, actual)
     }

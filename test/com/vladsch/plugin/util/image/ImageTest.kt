@@ -15,6 +15,7 @@ open class ImageTest {
         val rootDir = "/Users/vlad/src/projects/plugin-util/test-resources/"
 
         val TRANSPARENT = Color(0, 0, 0, 0)
+        val TRANSLUCENT = Color(0, 0, 0, 64)
     }
 
     fun assertEquals(message: String, expected: BufferedImage?, actual: BufferedImage?) {

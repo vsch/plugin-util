@@ -537,7 +537,7 @@ public class ImageUtils {
                 RenderingHints.VALUE_ANTIALIAS_ON
         );
 
-        boolean innerFilled = innerFillColor.getAlpha() != 0;
+        boolean innerFilled = innerFillColor != null && innerFillColor.getAlpha() != 0;
 
         g2.drawImage(image, 0, 0, null);
 
@@ -587,7 +587,7 @@ public class ImageUtils {
                 RenderingHints.VALUE_ANTIALIAS_ON
         );
 
-        boolean innerFilled = innerFillColor.getAlpha() != 0;
+        boolean innerFilled = innerFillColor != null && innerFillColor.getAlpha() != 0;
 
         g2.drawImage(image, 0, 0, null);
 

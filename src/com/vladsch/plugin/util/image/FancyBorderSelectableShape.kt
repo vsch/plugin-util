@@ -56,7 +56,7 @@ class FancyBorderSelectableShape(shapeType: ShapeType, rectangle: Rectangle, bor
                 ImageUtils.drawRectangle(bufferedImageSel, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.BLACK, borderWidthSel, rectangle.intCornerRadius, dashes, phaseScale * dashPhase)
             }
         } else {
-            return super.drawShape(surface)
+            return super.drawShape(surface, false, 0f)
         }
     }
 }
