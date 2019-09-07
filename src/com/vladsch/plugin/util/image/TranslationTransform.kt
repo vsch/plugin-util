@@ -7,7 +7,7 @@ package com.vladsch.plugin.util.image
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class TranslateTransform(val x: Float, val y: Float) : Transform {
+open class TranslationTransform(val x: Float, val y: Float) : Transform {
 
     constructor(x: Int, y: Int) : this(x.toFloat(), y.toFloat())
 
@@ -43,8 +43,8 @@ open class TranslateTransform(val x: Float, val y: Float) : Transform {
         return point.translate(-x, -y)
     }
 
-    override fun reversed(): TranslateTransform {
+    override fun reversed(): TranslationTransform {
         if (x == 0f || y == 0f) return this
-        return TranslateTransform(-x, -y)
+        return TranslationTransform(-x, -y)
     }
 }

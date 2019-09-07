@@ -591,7 +591,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -604,7 +604,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -617,7 +617,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -630,7 +630,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -643,7 +643,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -656,7 +656,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -669,7 +669,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -682,7 +682,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -695,7 +695,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -708,7 +708,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -721,7 +721,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -734,7 +734,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -747,7 +747,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -760,7 +760,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -773,7 +773,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -786,7 +786,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1376,7 +1376,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1389,7 +1389,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1402,7 +1402,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1415,7 +1415,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1428,7 +1428,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1441,7 +1441,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1454,7 +1454,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1467,7 +1467,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1480,7 +1480,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1493,7 +1493,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1506,7 +1506,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1519,7 +1519,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1532,7 +1532,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1545,7 +1545,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1558,7 +1558,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1571,7 +1571,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 }
