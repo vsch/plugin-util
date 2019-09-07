@@ -1,13 +1,20 @@
 package com.vladsch.plugin.util.image;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.image.BufferedImage;
 
 public interface ImageTransform extends Transform {
-    @NotNull BufferedImage transform(@NotNull BufferedImage image);
+    @NotNull
+    BufferedImage transform(@NotNull BufferedImage image);
 
-    final ImageTransform NULL = new ImageTransform() {
+    @Nullable
+    default DrawingShape imageBorders(@NotNull BufferedImage image) {
+        return null;
+    }
+
+    ImageTransform NULL = new ImageTransform() {
         @NotNull
         @Override
         public BufferedImage transform(@NotNull final BufferedImage image) {
@@ -16,13 +23,13 @@ public interface ImageTransform extends Transform {
 
         @NotNull
         @Override
-        public Rectangle transformImage(@NotNull final Rectangle rectangle) {
+        public Rectangle transformBounds(@NotNull final Rectangle rectangle) {
             return rectangle;
         }
 
         @NotNull
         @Override
-        public Rectangle reverseImage(@NotNull final Rectangle rectangle) {
+        public Rectangle reverseBounds(@NotNull final Rectangle rectangle) {
             return rectangle;
         }
 

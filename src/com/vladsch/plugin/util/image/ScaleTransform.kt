@@ -2,13 +2,16 @@ package com.vladsch.plugin.util.image
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class ScaleTransform(val x: Float, val y: Float) : Transform {
-    override fun transformImage(rectangle: Rectangle): Rectangle {
-        return rectangle.scale(x, y).nullIfInverted()
+
+    constructor(scale: Float) : this(scale, scale)
+
+    override fun transformBounds(rectangle: Rectangle): Rectangle {
+        return rectangle.scale(x, y).nullIfInverted().topLeftTo0()
     }
 
-    override fun reverseImage(rectangle: Rectangle): Rectangle {
+    override fun reverseBounds(rectangle: Rectangle): Rectangle {
         if (x == 0f || y == 0f) return rectangle
-        return rectangle.scale(1 / x, 1 / y).nullIfInverted()
+        return rectangle.scale(1 / x, 1 / y).nullIfInverted().topLeftTo0()
     }
 
     override fun transform(rectangle: Rectangle): Rectangle {
@@ -29,7 +32,7 @@ open class ScaleTransform(val x: Float, val y: Float) : Transform {
         return point.scale(1 / x, 1 / y)
     }
 
-    override fun reversed(): Transform {
+    override fun reversed(): ScaleTransform {
         if (x == 0f || y == 0f) return this
         return ScaleTransform(1 / x, 1 / y)
     }

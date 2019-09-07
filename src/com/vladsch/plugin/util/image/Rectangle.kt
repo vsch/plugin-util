@@ -1,15 +1,20 @@
 package com.vladsch.plugin.util.image
 
+import com.vladsch.plugin.util.minLimit
 import com.vladsch.plugin.util.rangeLimit
 import java.awt.image.BufferedImage
+import kotlin.math.abs
+import kotlin.math.absoluteValue
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class Rectangle protected constructor(
-        @JvmField val x0: Float,
-        @JvmField val x1: Float,
-        @JvmField val y0: Float,
-        @JvmField val y1: Float
+    @JvmField val x0: Float,
+    @JvmField val x1: Float,
+    @JvmField val y0: Float,
+    @JvmField val y1: Float,
+    @JvmField val radius: Float
 ) {
 
     val isInvertedY: Boolean
@@ -55,10 +60,10 @@ open class Rectangle protected constructor(
         get() = if (isInvertedY) y0 else y1
 
     val width: Float
-        get() = Math.abs(x1 - x0)
+        get() = abs(x1 - x0)
 
     val height: Float
-        get() = Math.abs(y1 - y0)
+        get() = abs(y1 - y0)
 
     val spanX: Float
         get() = x1 - x0
@@ -67,7 +72,7 @@ open class Rectangle protected constructor(
         get() = y1 - y0
 
     val square: Float
-        get() = Math.min(width, height)
+        get() = min(width, height)
 
     val squareSpanX: Float
         get() = if (isInvertedX) -square else square
@@ -127,36 +132,55 @@ open class Rectangle protected constructor(
             return invert(invX, invY)
         }
 
+    val cornerRadius: Float
+        get() = radius.minLimit(0f)
+
+    val intCornerRadius: Int
+        get() = radius.toInt().minLimit(0)
+
     val round: Rectangle
-        get() = Rectangle.copyOf(this, x0.roundToInt(), x1.roundToInt(), y0.roundToInt(), y1.roundToInt())
+        get() = copyOf(this, x0.roundToInt(), x1.roundToInt(), y0.roundToInt(), y1.roundToInt(), radius.roundToInt())
+
+    fun roundTo(value: Float): Rectangle {
+        return copyOf(this, x0.roundTo(value), x1.roundTo(value), y0.roundTo(value), y1.roundTo(value), radius.roundTo(value))
+    }
 
     fun invert(invX: Boolean, invY: Boolean): Rectangle {
         return when {
-            invX && invY -> Rectangle.of(x1, x0, y1, y0)
-            invX -> Rectangle.of(x1, x0, y0, y1)
-            invY -> Rectangle.of(x0, x1, y1, y0)
+            invX && invY -> copyOf(this, x1, x0, y1, y0, radius)
+            invX -> copyOf(this, x1, x0, y0, y1, radius)
+            invY -> copyOf(this, x0, x1, y1, y0, radius)
             else -> this
         }
     }
 
+    fun withRadius(radius: Float): Rectangle {
+        return copyOf(this,x0, x1, y0, y1, radius)
+    }
+
+    fun withRadius(radius: Int): Rectangle {
+        return withRadius(radius.toFloat())
+    }
+
     fun constrained(): Rectangle {
-        return Rectangle.copyOf(this, x0, x0 + squareSpanX, y0, y0 + squareSpanY)
+        return copyOf(this, x0, x0 + squareSpanX, y0, y0 + squareSpanY, radius)
     }
 
     fun constrained(enable: Boolean): Rectangle {
-        return if (enable) Rectangle.copyOf(this, x0, x0 + squareSpanX, y0, y0 + squareSpanY) else this
+        return if (enable) copyOf(this, x0, x0 + squareSpanX, y0, y0 + squareSpanY, radius) else this
     }
 
     fun clipBy(other: Rectangle): Rectangle {
         val invX = isInvertedX
         val invY = isInvertedY
 
-        val clipped = Rectangle.of(
-                left.rangeLimit(other.left, other.right),
-                right.rangeLimit(other.left, other.right),
-                top.rangeLimit(other.top, other.bottom),
-                bottom.rangeLimit(other.top, other.bottom))
-                .invert(invX, invY)
+        val clipped = of(
+            left.rangeLimit(other.left, other.right),
+            right.rangeLimit(other.left, other.right),
+            top.rangeLimit(other.top, other.bottom),
+            bottom.rangeLimit(other.top, other.bottom),
+            radius)
+            .invert(invX, invY)
 
         return when {
             this == clipped -> this
@@ -174,7 +198,7 @@ open class Rectangle protected constructor(
     }
 
     fun translate(x: Float, y: Float): Rectangle {
-        return if (x != 0f || y != 0f) Rectangle.of(x0 + x, x1 + x, y0 + y, y1 + y) else this
+        return if (x != 0f || y != 0f) of(x0 + x, x1 + x, y0 + y, y1 + y, radius) else this
     }
 
     fun topLeftTo0(): Rectangle {
@@ -189,7 +213,7 @@ open class Rectangle protected constructor(
         return if (isInvertedX || isInvertedY) NULL else this
     }
 
-    open fun shrink(border: Int): Rectangle {
+    fun shrink(border: Int): Rectangle {
         return grow(-border, -border, -border, -border)
     }
 
@@ -201,7 +225,7 @@ open class Rectangle protected constructor(
         return grow(-x0, -x1, -y0, -y1)
     }
 
-    open fun grow(border: Int): Rectangle {
+    fun grow(border: Int): Rectangle {
         return grow(border, border, border, border)
     }
 
@@ -213,7 +237,7 @@ open class Rectangle protected constructor(
         return grow(left.toFloat(), right.toFloat(), top.toFloat(), bottom.toFloat())
     }
 
-    open fun shrink(border: Float): Rectangle {
+    fun shrink(border: Float): Rectangle {
         return grow(-border, -border, -border, -border)
     }
 
@@ -225,7 +249,7 @@ open class Rectangle protected constructor(
         return grow(-x0, -x1, -y0, -y1)
     }
 
-    open fun grow(border: Float): Rectangle {
+    fun grow(border: Float): Rectangle {
         return grow(border, border, border, border)
     }
 
@@ -237,8 +261,9 @@ open class Rectangle protected constructor(
         if (left != 0f || top != 0f || right != 0f || bottom != 0f) {
             val invX = isInvertedX
             val invY = isInvertedY
+            val avg = (left + right + top + bottom) / 4
 
-            return Rectangle.of(this.left - left, this.right + right, this.top - top, this.bottom + bottom).invert(invX, invY)
+            return of(this.left - left, this.right + right, this.top - top, this.bottom + bottom, this.radius + avg).invert(invX, invY)
         }
 
         return this
@@ -250,7 +275,8 @@ open class Rectangle protected constructor(
 
     fun scale(x: Float, y: Float): Rectangle {
         if (x != 0f && y != 0f && (x != 1f || y != 1f)) {
-            return Rectangle.copyOf(this, (x0 * x), (x1 * x), (y0 * y), (y1 * y))
+            val avgScale = ((x + y) / 2).absoluteValue
+            return copyOf(this, (x0 * x), (x1 * x), (y0 * y), (y1 * y), if (avgScale == 0f || avgScale == 1f) radius else radius * avgScale)
         }
         return this
     }
@@ -283,51 +309,51 @@ open class Rectangle protected constructor(
 
     companion object {
         @JvmField
-        val NULL = Rectangle(0f, 0f, 0f, 0f)
+        val NULL = Rectangle(0f, 0f, 0f, 0f, 0f)
 
-        private fun copyOf(other: Rectangle, x0: Float, x1: Float, y0: Float, y1: Float): Rectangle {
-            return if (other.x0 == x0 && other.x1 == x1 && other.y0 == y0 && other.y1 == y1) other
-            else Rectangle.of(x0, x1, y0, y1)
+        private fun copyOf(other: Rectangle, x0: Float, x1: Float, y0: Float, y1: Float, radius: Float): Rectangle {
+            return if (other.x0 == x0 && other.x1 == x1 && other.y0 == y0 && other.y1 == y1 && radius == other.radius) other
+            else of(x0, x1, y0, y1, radius)
+        }
+
+        private fun copyOf(other: Rectangle, x0: Int, x1: Int, y0: Int, y1: Int, radius: Int): Rectangle {
+            return if (other.x0 == x0.toFloat() && other.x1 == x1.toFloat() && other.y0 == y0.toFloat() && other.y1 == y1.toFloat() && other.radius == radius.toFloat()) other
+            else of(x0, x1, y0, y1, radius)
         }
 
         @JvmStatic
-        fun of(x0: Float, x1: Float, y0: Float, y1: Float): Rectangle {
-            return if (x0 == 0f && x1 == 0f && y0 == 0f && y1 == 0f) NULL else Rectangle(x0, x1, y0, y1)
+        fun of(x0: Float, x1: Float, y0: Float, y1: Float, radius: Float): Rectangle {
+            return if (x0 == 0f && x1 == 0f && y0 == 0f && y1 == 0f && radius == 0f) NULL else Rectangle(x0, x1, y0, y1, radius)
         }
 
         @JvmStatic
-        fun fromBottomRight(left: Float, top: Float, right: Float, bottom: Float): Rectangle {
-            return if (left == 0f && right == 0f && top == 0f && bottom == 0f) NULL else Rectangle(left, right, top, bottom)
+        fun fromBottomRight(left: Float, top: Float, right: Float, bottom: Float, radius: Float): Rectangle {
+            return if (left == 0f && right == 0f && top == 0f && bottom == 0f && radius == 0f) NULL else Rectangle(left, right, top, bottom, radius)
         }
 
         @JvmStatic
-        fun fromWidthHeight(left: Float, top: Float, width: Float, height: Float): Rectangle {
-            return if (left == 0f && width == 0f && top == 0f && height == 0f) NULL else Rectangle(left, left + width, top, top + height)
-        }
-
-        private fun copyOf(other: Rectangle, x0: Int, x1: Int, y0: Int, y1: Int): Rectangle {
-            return if (other.x0 == x0.toFloat() && other.x1 == x1.toFloat() && other.y0 == y0.toFloat() && other.y1 == y1.toFloat()) other
-            else Rectangle.of(x0, x1, y0, y1)
+        fun fromWidthHeight(left: Float, top: Float, width: Float, height: Float, radius: Float): Rectangle {
+            return if (left == 0f && width == 0f && top == 0f && height == 0f && radius == 0f) NULL else Rectangle(left, left + width, top, top + height, radius)
         }
 
         @JvmStatic
-        fun of(x0: Int, x1: Int, y0: Int, y1: Int): Rectangle {
-            return Rectangle.of(x0.toFloat(), x1.toFloat(), y0.toFloat(), y1.toFloat())
+        fun of(x0: Int, x1: Int, y0: Int, y1: Int, radius: Int): Rectangle {
+            return of(x0.toFloat(), x1.toFloat(), y0.toFloat(), y1.toFloat(), radius.toFloat())
+        }
+
+        @JvmStatic
+        fun fromBottomRight(left: Int, top: Int, right: Int, bottom: Int, radius: Int): Rectangle {
+            return fromBottomRight(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat(), radius.toFloat())
+        }
+
+        @JvmStatic
+        fun fromWidthHeight(left: Int, top: Int, width: Int, height: Int, radius: Int): Rectangle {
+            return fromWidthHeight(left.toFloat(), top.toFloat(), width.toFloat(), height.toFloat(), radius.toFloat())
         }
 
         @JvmStatic
         fun of(image: BufferedImage): Rectangle {
-            return Rectangle.of(0, image.width, 0, image.height)
-        }
-
-        @JvmStatic
-        fun fromBottomRight(left: Int, top: Int, right: Int, bottom: Int): Rectangle {
-            return Rectangle.fromBottomRight(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
-        }
-
-        @JvmStatic
-        fun fromWidthHeight(left: Int, top: Int, width: Int, height: Int): Rectangle {
-            return Rectangle.fromWidthHeight(left.toFloat(), top.toFloat(), width.toFloat(), height.toFloat())
+            return of(0, image.width, 0, image.height, 0)
         }
     }
 }

@@ -14,16 +14,16 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
 
     fun clipBy(other: Rectangle): Point {
         val clipped = Point.of(
-                x.rangeLimit(other.left, other.right),
-                y.rangeLimit(other.top, other.bottom));
+            x.rangeLimit(other.left, other.right),
+            y.rangeLimit(other.top, other.bottom))
 
         return if (this == clipped) this else clipped
     }
 
     fun clipOut(other: Rectangle): Point {
         val clipped = Point.of(
-                x.rangeLimit(other.left, other.right),
-                y.rangeLimit(other.top, other.bottom));
+            x.rangeLimit(other.left, other.right),
+            y.rangeLimit(other.top, other.bottom))
 
         return if (this == clipped) this else NULL
     }
@@ -45,6 +45,10 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
 
     val round: Point
         get() = myCopy(Point.of(x.roundToInt(), y.roundToInt()))
+
+    fun roundTo(value: Float): Point {
+        return copyOf(this, x.roundTo(value), x.roundTo(value))
+    }
 
     fun scale(scale: Float): Point {
         return scale(scale, scale)
@@ -87,6 +91,11 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
         @JvmField
         val NULL = Point(0f, 0f)
 
+        private fun copyOf(other: Point, x: Float, y: Float): Point {
+            return if (other.x == x && other.y == y) other
+            else of(x, y)
+        }
+
         @JvmStatic
         fun of(x: Float, y: Float): Point {
             return if (x == 0f && y == 0f) NULL else Point(x, y)
@@ -98,3 +107,4 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
         }
     }
 }
+

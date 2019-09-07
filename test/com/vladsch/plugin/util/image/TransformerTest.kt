@@ -8,27 +8,27 @@ class TransformerTest {
     @Test
     fun test_transImage() {
         val scale = ScaleTransform(2f, 5f)
-        val crop = CropTransform(Rectangle.of(1, 2, 5, 0))
+        val crop = CropTransform(Rectangle.of(1, 2, 5, 0,0))
         val border = BorderTransform(1)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val rect = Rectangle.of(0, 10, 0, 20)
-        assertEquals(border.transformImage(scale.transformImage(crop.transformImage(rect))), trans.transformImage(rect))
-        assertEquals(crop.reverseImage(scale.reverseImage(border.reverseImage(rect))), trans.reverseImage(rect))
-        assertEquals(border.transformImage(scale.transformImage(crop.transformImage(rect))), trans.reversed().reverseImage(rect))
-        assertEquals(crop.reverseImage(scale.reverseImage(border.reverseImage(rect))), trans.reversed().transformImage(rect))
-        assertEquals(rect, trans.transformImage(trans.reverseImage(rect)))
-        assertEquals(rect, trans.reverseImage(trans.transformImage(rect)))
+        val rect = Rectangle.of(0, 10, 0, 20, 1)
+        assertEquals(border.transformBounds(scale.transformBounds(crop.transformBounds(rect))), trans.transformBounds(rect))
+        assertEquals(crop.reverseBounds(scale.reverseBounds(border.reverseBounds(rect))), trans.reverseBounds(rect))
+        assertEquals(border.transformBounds(scale.transformBounds(crop.transformBounds(rect))), trans.reversed().reverseBounds(rect))
+        assertEquals(crop.reverseBounds(scale.reverseBounds(border.reverseBounds(rect))), trans.reversed().transformBounds(rect))
+        assertEquals(rect, trans.transformBounds(trans.reverseBounds(rect)).roundTo(0.00001f))
+        assertEquals(rect, trans.reverseBounds(trans.transformBounds(rect)).roundTo(0.00001f))
     }
 
     @Test
     fun test_transRect() {
         val scale = ScaleTransform(2f, 5f)
-        val crop = CropTransform(Rectangle.of(1, 2, 5, 0))
+        val crop = CropTransform(Rectangle.of(1, 2, 5, 0,0))
         val border = BorderTransform(1)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val rect = Rectangle.of(0, 10, 0, 20)
+        val rect = Rectangle.of(0, 10, 0, 20,2)
 
         println("trans rect: $rect transformed: ${trans.transform(rect)}")
         println("trans rect: $rect reversed: ${trans.reverse(rect)}")
@@ -37,14 +37,14 @@ class TransformerTest {
         assertEquals(crop.reverse(scale.reverse(border.reverse(rect))), trans.reverse(rect))
         assertEquals(border.transform(scale.transform(crop.transform(rect))), trans.reversed().reverse(rect))
         assertEquals(crop.reverse(scale.reverse(border.reverse(rect))), trans.reversed().transform(rect))
-        assertEquals(rect, trans.reverse(trans.transform(rect)))
-        assertEquals(rect, trans.transform(trans.reverse(rect)).round)
+        assertEquals(rect, trans.reverse(trans.transform(rect)).roundTo(0.00001f))
+        assertEquals(rect, trans.transform(trans.reverse(rect)).roundTo(0.00001f))
     }
 
     @Test
     fun test_transPoint() {
         val scale = ScaleTransform(2f, 5f)
-        val crop = CropTransform(Rectangle.of(1, 2, 5, 0))
+        val crop = CropTransform(Rectangle.of(1, 2, 5, 0,0))
         val border = BorderTransform(1)
         val trans = Transformer(listOf(crop, scale, border))
 

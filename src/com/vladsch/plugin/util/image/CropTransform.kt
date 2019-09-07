@@ -2,11 +2,12 @@ package com.vladsch.plugin.util.image
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class CropTransform(val margins: Rectangle) : Transform {
-    override fun transformImage(rectangle: Rectangle): Rectangle {
+
+    override fun transformBounds(rectangle: Rectangle): Rectangle {
         return rectangle.grow(-margins.x0, -margins.x1, -margins.y0, -margins.y1).nullIfInverted().topLeftTo0()
     }
 
-    override fun reverseImage(rectangle: Rectangle): Rectangle {
+    override fun reverseBounds(rectangle: Rectangle): Rectangle {
         return rectangle.grow(margins.x0, margins.x1, margins.y0, margins.y1).nullIfInverted().topLeftTo0()
     }
 
@@ -26,7 +27,7 @@ open class CropTransform(val margins: Rectangle) : Transform {
         return point.translate(margins.x0, margins.y0)
     }
 
-    override fun reversed(): Transform {
-        return CropTransform(margins.scale(-1f));
+    override fun reversed(): CropTransform {
+        return CropTransform(margins.scale(-1f))
     }
 }

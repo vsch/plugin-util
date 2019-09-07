@@ -3,13 +3,17 @@ package com.vladsch.plugin.util.image;
 import org.jetbrains.annotations.NotNull;
 
 public interface Transform {
-    @NotNull Rectangle transformImage(@NotNull Rectangle rectangle);
-    @NotNull Rectangle reverseImage(@NotNull Rectangle rectangle);
+    // imaging surface bounds transformations
+    // @formatter:off
+    @NotNull Rectangle transformBounds(@NotNull Rectangle rectangle);
+    @NotNull Rectangle reverseBounds(@NotNull Rectangle rectangle);
 
+    // shapes on imaging surface transformations
     @NotNull Rectangle transform(@NotNull Rectangle rectangle);
     @NotNull Rectangle reverse(@NotNull Rectangle rectangle);
     @NotNull Point transform(@NotNull Point point);
     @NotNull Point reverse(@NotNull Point point);
+    // @formatter:on
 
     @NotNull
     Transform reversed();
@@ -17,13 +21,13 @@ public interface Transform {
     Transform NULL = new Transform() {
         @NotNull
         @Override
-        public Rectangle transformImage(@NotNull final Rectangle rectangle) {
+        public Rectangle transformBounds(@NotNull final Rectangle rectangle) {
             return rectangle;
         }
 
         @NotNull
         @Override
-        public Rectangle reverseImage(@NotNull final Rectangle rectangle) {
+        public Rectangle reverseBounds(@NotNull final Rectangle rectangle) {
             return rectangle;
         }
 

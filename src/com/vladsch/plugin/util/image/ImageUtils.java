@@ -1,6 +1,5 @@
 package com.vladsch.plugin.util.image;
 
-import com.intellij.util.ui.UIUtil;
 import com.vladsch.plugin.util.FileIOKt;
 import org.apache.batik.transcoder.SVGAbstractTranscoder;
 import org.apache.batik.transcoder.TranscoderException;

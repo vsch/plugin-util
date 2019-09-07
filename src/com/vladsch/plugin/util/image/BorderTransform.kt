@@ -5,12 +5,12 @@ open class BorderTransform(val borderWidth: Int) : Transform {
 
     constructor(borderWidth: Float) : this(borderWidth.toInt())
 
-    override fun transformImage(rectangle: Rectangle): Rectangle {
-        return rectangle
+    override fun transformBounds(rectangle: Rectangle): Rectangle {
+        return rectangle.grow(borderWidth).topLeftTo0()
     }
 
-    override fun reverseImage(rectangle: Rectangle): Rectangle {
-        return rectangle
+    override fun reverseBounds(rectangle: Rectangle): Rectangle {
+        return rectangle.grow(-borderWidth).topLeftTo0()
     }
 
     override fun transform(rectangle: Rectangle): Rectangle {
@@ -29,7 +29,7 @@ open class BorderTransform(val borderWidth: Int) : Transform {
         return point.translate(-borderWidth, -borderWidth)
     }
 
-    override fun reversed(): Transform {
-        return BorderTransform(-borderWidth);
+    override fun reversed(): BorderTransform {
+        return BorderTransform(-borderWidth)
     }
 }
