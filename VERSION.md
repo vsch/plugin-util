@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.1.0](#version-110)
 - [Version 1.0.9](#version-109)
 - [Version 1.0.8](#version-108)
 - [Version 1.0.7](#version-107)
@@ -13,6 +14,10 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.1.0
+
+* Add: image transforms and drawing transforms primitives
 
 ### Version 1.0.9
 
