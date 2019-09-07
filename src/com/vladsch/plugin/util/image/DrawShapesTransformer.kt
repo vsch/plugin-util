@@ -5,7 +5,7 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-class ImageDrawer constructor(val transform: Transform, val shapes: List<SelectableDrawableShape>) : Transform by transform {
+class DrawShapesTransformer constructor(val transform: Transform, val shapes: List<SelectableDrawableShape>) : Transform by transform {
 
     override fun transform(image: BufferedImage): BufferedImage {
         var result = transform.transform(image)

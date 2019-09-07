@@ -47,33 +47,51 @@ class CropTransformTest : ImageTest() {
         val trans = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
         val image = getSourceImage("Image1")
         val actual = trans.transform(image)
-        assertImagesEqual("Cropped", name, actual)
+        assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image2() {
         val name = "Image2"
-        val trans = CropTransform(Rectangle.of(2, 4, 1, 3, 0))
+        val trans = CropTransform(Rectangle.of(20, 0, 0, 0, 0))
         val image = getSourceImage("Image1")
         val actual = trans.transform(image)
-        assertImagesEqual("Cropped", name, actual)
+        assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image3() {
         val name = "Image3"
-        val trans = CropTransform(Rectangle.of(2, 4, 1, 3, 10))
+        val trans = CropTransform(Rectangle.of(0, 40, 0, 0, 10))
         val image = getSourceImage("Image1")
         val actual = trans.transform(image)
-        assertImagesEqual("Cropped", name, actual)
+        assertImagesEqual(name, actual)
     }
 
     @Test
     fun test_Image4() {
         val name = "Image4"
-        val trans = CropTransform(Rectangle.of(2, 4, 1, 3, 20))
+        val trans = CropTransform(Rectangle.of(0, 0, 10, 0, 20))
         val image = getSourceImage("Image1")
         val actual = trans.transform(image)
-        assertImagesEqual("Cropped", name, actual)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_Image5() {
+        val name = "Image5"
+        val trans = CropTransform(Rectangle.of(0, 0, 0, 20, 20))
+        val image = getSourceImage("Image1")
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_Image6() {
+        val name = "Image6"
+        val trans = CropTransform(Rectangle.of(20, 40, 10, 20, 20))
+        val image = getSourceImage("Image1")
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
     }
 }
