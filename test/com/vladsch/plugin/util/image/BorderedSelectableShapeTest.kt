@@ -1,9 +1,13 @@
+/*
+ *
+ */
+
 package com.vladsch.plugin.util.image
 
 import org.junit.Test
 import java.awt.Color
 
-class SimpleSelectableShapeTest : ImageTest() {
+class BorderedSelectableShapeTest : ImageTest() {
 
     @Test
     fun test_drawRect1() {
@@ -11,7 +15,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -22,7 +26,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -33,7 +37,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -44,7 +48,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -55,7 +59,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -66,7 +70,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -77,7 +81,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -88,7 +92,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -99,7 +103,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -110,7 +114,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -121,7 +125,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -132,7 +136,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -143,7 +147,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -154,7 +158,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -165,7 +169,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -176,7 +180,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -187,7 +191,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -199,7 +203,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -211,7 +215,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -223,7 +227,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -235,7 +239,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -247,7 +251,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -259,7 +263,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -271,7 +275,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -283,7 +287,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -295,7 +299,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -307,7 +311,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -319,7 +323,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -331,7 +335,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -343,7 +347,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -355,7 +359,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -367,7 +371,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -379,7 +383,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
 
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
@@ -393,7 +397,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -406,7 +410,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -419,7 +423,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -432,7 +436,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -445,7 +449,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -458,7 +462,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -471,7 +475,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -484,7 +488,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -497,7 +501,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -510,7 +514,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -523,7 +527,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -536,7 +540,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -549,7 +553,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -562,7 +566,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -575,219 +579,11 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
         val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
-    }
-
-    @Test
-    fun test_punch2xRect1() {
-        val name = "punch2xRect1"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xRect2() {
-        val name = "punch2xRect2"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xRect3() {
-        val name = "punch2xRect3"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xRect4() {
-        val name = "punch2xRect4"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xRect5() {
-        val name = "punch2xRect5"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xRect6() {
-        val name = "punch2xRect6"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xRect7() {
-        val name = "punch2xRect7"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xRect8() {
-        val name = "punch2xRect8"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval1() {
-        val name = "punch2xOval1"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval2() {
-        val name = "punch2xOval2"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval3() {
-        val name = "punch2xOval3"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval4() {
-        val name = "punch2xOval4"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval5() {
-        val name = "punch2xOval5"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval6() {
-        val name = "punch2xOval6"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval7() {
-        val name = "punch2xOval7"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xOval8() {
-        val name = "punch2xOval8"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
     }
 
     @Test
@@ -796,7 +592,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -807,7 +603,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -818,7 +614,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -829,7 +625,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -840,7 +636,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -851,7 +647,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -862,7 +658,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -873,7 +669,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -884,7 +680,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -895,7 +691,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -906,7 +702,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -917,7 +713,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -928,7 +724,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -939,7 +735,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -950,7 +746,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -961,7 +757,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
@@ -972,7 +768,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -984,7 +780,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -996,7 +792,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1008,7 +804,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1020,7 +816,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1032,7 +828,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1044,7 +840,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1056,7 +852,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1068,7 +864,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1080,7 +876,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1092,7 +888,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1104,7 +900,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1116,7 +912,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1128,7 +924,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1140,7 +936,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1152,7 +948,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         val actual = shape.punchOutShape(image, null, outerFill, true)
         assertImagesEqual(name, actual)
@@ -1164,7 +960,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
 
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
@@ -1178,7 +974,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1191,7 +987,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1204,7 +1000,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1217,7 +1013,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1230,7 +1026,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1243,7 +1039,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1256,7 +1052,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1269,7 +1065,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1282,7 +1078,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1295,7 +1091,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1308,7 +1104,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1321,7 +1117,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1334,7 +1130,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1347,7 +1143,7 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
@@ -1360,219 +1156,10 @@ class SimpleSelectableShapeTest : ImageTest() {
         val image = getSourceImage("Image1")
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape = BorderedSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
         val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
     }
-
-    @Test
-    fun test_punch2xSquare1() {
-        val name = "punch2xSquare1"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xSquare2() {
-        val name = "punch2xSquare2"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xSquare3() {
-        val name = "punch2xSquare3"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xSquare4() {
-        val name = "punch2xSquare4"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xSquare5() {
-        val name = "punch2xSquare5"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xSquare6() {
-        val name = "punch2xSquare6"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xSquare7() {
-        val name = "punch2xSquare7"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xSquare8() {
-        val name = "punch2xSquare8"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle1() {
-        val name = "punch2xCircle1"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle2() {
-        val name = "punch2xCircle2"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle3() {
-        val name = "punch2xCircle3"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle4() {
-        val name = "punch2xCircle4"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle5() {
-        val name = "punch2xCircle5"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 0)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle6() {
-        val name = "punch2xCircle6"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 10)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle7() {
-        val name = "punch2xCircle7"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
-
-    @Test
-    fun test_punch2xCircle8() {
-        val name = "punch2xCircle8"
-        val image = getSourceImage("Image1")
-        val rect = Rectangle.of(10, 100, 20, 60, 20)
-
-        val shape = SimpleSelectableShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
-        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
-        var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslateTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
-        assertImagesEqual(name, actual)
-    }
 }
-

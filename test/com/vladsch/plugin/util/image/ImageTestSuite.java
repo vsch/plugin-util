@@ -15,7 +15,7 @@ import org.junit.runners.Suite;
         ScaleTransformTest.class,
         TransformerTest.class,
         SimpleSelectableShapeTest.class,
-        FancyBorderSelectableShapeTest.class,
+        BorderedSelectableShapeTest.class,
         DrawShapesTransformerTest.class,
         RubberBandSelectedShapeTest.class,
         TransparencyTransformTest.class,

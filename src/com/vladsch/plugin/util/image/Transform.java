@@ -1,22 +1,35 @@
 package com.vladsch.plugin.util.image;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.awt.image.BufferedImage;
 
 public interface Transform {
     // imaging surface bounds transformations
-    // @formatter:off
-    @NotNull Rectangle transformBounds(@NotNull Rectangle rectangle);
-    @NotNull Rectangle reverseBounds(@NotNull Rectangle rectangle);
+    @NotNull
+    Rectangle transformBounds(@NotNull Rectangle rectangle);
+
+    default @NotNull
+    Rectangle reverseBounds(@NotNull Rectangle rectangle) {
+        return reversed().transformBounds(rectangle);
+    }
 
     // shapes on imaging surface transformations
-    @NotNull Rectangle transform(@NotNull Rectangle rectangle);
-    @NotNull Rectangle reverse(@NotNull Rectangle rectangle);
-    @NotNull Point transform(@NotNull Point point);
-    @NotNull Point reverse(@NotNull Point point);
-    // @formatter:on
+    @NotNull
+    Rectangle transform(@NotNull Rectangle rectangle);
+
+    default @NotNull
+    Rectangle reverse(@NotNull Rectangle rectangle) {
+        return reversed().transform(rectangle);
+    }
+
+    @NotNull
+    Point transform(@NotNull Point point);
+
+    default @NotNull
+    Point reverse(@NotNull Point point) {
+        return reversed().transform(point);
+    }
 
     @NotNull
     Transform reversed();

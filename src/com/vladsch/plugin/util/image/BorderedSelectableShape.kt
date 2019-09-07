@@ -4,15 +4,15 @@ import com.vladsch.flexmark.util.Utils
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-class FancyBorderSelectableShape(shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : SimpleSelectableShape(shapeType, rectangle, borderWidth, borderColor, fillColor) {
+class BorderedSelectableShape(shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : SimpleSelectableShape(shapeType, rectangle, borderWidth, borderColor, fillColor) {
     constructor(other: SimpleSelectableShape) : this(other.shapeType, other.rectangle, other.borderWidth, other.borderColor, other.fillColor)
 
-    override fun transformedBy(transform: Transform): FancyBorderSelectableShape {
-        return FancyBorderSelectableShape(super.transformedBy(transform))
+    override fun transformedBy(transform: Transform): BorderedSelectableShape {
+        return BorderedSelectableShape(super.transformedBy(transform))
     }
 
-    override fun transformedBoundsBy(transform: Transform): FancyBorderSelectableShape {
-        return FancyBorderSelectableShape(super.transformedBoundsBy(transform))
+    override fun transformedBoundsBy(transform: Transform): BorderedSelectableShape {
+        return BorderedSelectableShape(super.transformedBoundsBy(transform))
     }
 
     override fun drawShape(surface: BufferedImage, isSelected: Boolean, dashPhase: Float): BufferedImage {
@@ -48,12 +48,13 @@ class FancyBorderSelectableShape(shapeType: ShapeType, rectangle: Rectangle, bor
                 phaseOffset = (dashes2[0] - dashes[0]) / 2f
             }
 
+            val rect = (if(shapeType.isConstrained) rectangle.constrained() else rectangle).normalized
             return if (shapeType == ShapeType.OVAL) {
-                val bufferedImageSel = ImageUtils.drawOval(surface, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.WHITE, borderWidthSel, dashes2, phaseScale * dashPhase + phaseOffset)
-                ImageUtils.drawOval(bufferedImageSel, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.BLACK, borderWidthSel, dashes, phaseScale * dashPhase)
+                val bufferedImageSel = ImageUtils.drawOval(surface, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.WHITE, borderWidthSel, dashes2, phaseScale * dashPhase + phaseOffset)
+                ImageUtils.drawOval(bufferedImageSel, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.BLACK, borderWidthSel, dashes, phaseScale * dashPhase)
             } else {
-                val bufferedImageSel = ImageUtils.drawRectangle(surface, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.WHITE, borderWidthSel, rectangle.intCornerRadius, dashes2, phaseScale * dashPhase + phaseOffset)
-                ImageUtils.drawRectangle(bufferedImageSel, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.BLACK, borderWidthSel, rectangle.intCornerRadius, dashes, phaseScale * dashPhase)
+                val bufferedImageSel = ImageUtils.drawRectangle(surface, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.WHITE, borderWidthSel, rect.intCornerRadius, dashes2, phaseScale * dashPhase + phaseOffset)
+                ImageUtils.drawRectangle(bufferedImageSel, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.BLACK, borderWidthSel, rect.intCornerRadius, dashes, phaseScale * dashPhase)
             }
         } else {
             return super.drawShape(surface, false, 0f)

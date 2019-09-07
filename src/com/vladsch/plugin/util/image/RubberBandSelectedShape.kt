@@ -14,16 +14,12 @@ class RubberBandSelectedShape(shapeType: ShapeType, rectangle: Rectangle, border
         return RubberBandSelectedShape(super.transformedBoundsBy(transform))
     }
 
-    override fun drawShape(surface: BufferedImage): BufferedImage {
-        return surface
-    }
-
     override fun punchOutShape(surface: BufferedImage, outerFill: BufferedImage?, outerShape: DrawingShape, applyOuterFillToSurface: Boolean): BufferedImage {
         return surface
     }
 
     override fun drawShape(surface: BufferedImage, isSelected: Boolean, dashPhase: Float): BufferedImage {
         if (isEmpty || !isSelected) return surface
-            return super.drawShape(surface,isSelected,dashPhase)
+        return super.drawShape(surface, isSelected, dashPhase)
     }
 }

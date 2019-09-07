@@ -17,7 +17,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -28,7 +28,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -39,7 +39,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -50,7 +50,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -61,7 +61,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -72,7 +72,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -83,7 +83,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -94,7 +94,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = RubberBandSelectedShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -105,7 +105,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -116,7 +116,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -127,7 +127,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -138,7 +138,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -149,7 +149,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -160,7 +160,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -171,7 +171,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -182,7 +182,7 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
-        val actual = shape.drawShape(image)
+        val actual = shape.drawShape(image, false, 0f)
         assertImagesEqual(name, actual)
     }
 
@@ -581,6 +581,583 @@ class RubberBandSelectedShapeTest : ImageTest() {
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = RubberBandSelectedShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_drawSquare1() {
+        val name = "drawSquare1"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawSquare2() {
+        val name = "drawSquare2"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawSquare3() {
+        val name = "drawSquare3"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawSquare4() {
+        val name = "drawSquare4"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawSquare5() {
+        val name = "drawSquare5"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawSquare6() {
+        val name = "drawSquare6"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawSquare7() {
+        val name = "drawSquare7"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawSquare8() {
+        val name = "drawSquare8"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle1() {
+        val name = "drawCircle1"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle2() {
+        val name = "drawCircle2"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle3() {
+        val name = "drawCircle3"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle4() {
+        val name = "drawCircle4"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle5() {
+        val name = "drawCircle5"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle6() {
+        val name = "drawCircle6"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle7() {
+        val name = "drawCircle7"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawCircle8() {
+        val name = "drawCircle8"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val actual = shape.drawShape(image, false, 0f)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare1() {
+        val name = "punchSquare1"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare2() {
+        val name = "punchSquare2"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare3() {
+        val name = "punchSquare3"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare4() {
+        val name = "punchSquare4"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare5() {
+        val name = "punchSquare5"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare6() {
+        val name = "punchSquare6"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare7() {
+        val name = "punchSquare7"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchSquare8() {
+        val name = "punchSquare8"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle1() {
+        val name = "punchCircle1"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle2() {
+        val name = "punchCircle2"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle3() {
+        val name = "punchCircle3"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle4() {
+        val name = "punchCircle4"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle5() {
+        val name = "punchCircle5"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle6() {
+        val name = "punchCircle6"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle7() {
+        val name = "punchCircle7"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_punchCircle8() {
+        val name = "punchCircle8"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        val actual = shape.punchOutShape(image, null, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_selectSquare1() {
+        val name = "selectSquare1"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
+
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectSquare2() {
+        val name = "selectSquare2"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectSquare3() {
+        val name = "selectSquare3"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectSquare4() {
+        val name = "selectSquare4"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectSquare5() {
+        val name = "selectSquare5"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectSquare6() {
+        val name = "selectSquare6"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectSquare7() {
+        val name = "selectSquare7"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectSquare8() {
+        val name = "selectSquare8"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle1() {
+        val name = "selectCircle1"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle2() {
+        val name = "selectCircle2"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle3() {
+        val name = "selectCircle3"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle4() {
+        val name = "selectCircle4"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle5() {
+        val name = "selectCircle5"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 0)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle6() {
+        val name = "selectCircle6"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 10)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle7() {
+        val name = "selectCircle7"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
+        val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
+        val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
+        val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)
+        val actual4 = shape.drawShape(image, true, 4f); assertImagesEqual(name + "_4", actual4)
+    }
+
+    @Test
+    fun test_selectCircle8() {
+        val name = "selectCircle8"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(10, 100, 20, 60, 20)
+
+        val shape = RubberBandSelectedShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val actual1 = shape.drawShape(image, true, 1f); assertImagesEqual(name + "_1", actual1)
         val actual2 = shape.drawShape(image, true, 2f); assertImagesEqual(name + "_2", actual2)
         val actual3 = shape.drawShape(image, true, 3f); assertImagesEqual(name + "_3", actual3)

@@ -5,26 +5,18 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-class DrawShapesTransformer constructor(val transform: Transform, val shapes: List<SelectableDrawableShape>) : Transform by transform {
+class DrawShapesTransformer constructor(val transform: Transform, val shapes: List<DrawableShape>) : Transform by transform {
+
+    var selectedIndex: Int = -1
+    var outerFillColor: Color? = null
+    var dashPhase: Float = 0f
 
     override fun transform(image: BufferedImage): BufferedImage {
-        var result = transform.transform(image)
-        shapes.filter { !it.isEmpty }.forEach {
-            result = it.transformedBy(transform).drawShape(result)
-        }
-        return result
-    }
-
-    fun drawShapes(surface: BufferedImage, selectedIndex: Int, dashPhase: Float): BufferedImage? {
-        return if (selectedIndex < 0 || shapes[selectedIndex].isEmpty) transform(surface) else drawShapes(surface, null, selectedIndex, dashPhase)
-    }
-
-    fun drawShapes(image: BufferedImage, outerFillColor: Color?, selectedIndex: Int, dashPhase: Float): BufferedImage {
         var outerFillImage: BufferedImage? = null
         val selectedShape = if (selectedIndex >= 0) shapes[selectedIndex] else null
         val filtered = shapes.filter { !it.isEmpty }
         var result = transform.transform(image)
-        var selected: SelectableDrawableShape? = null
+        var selected: DrawableShape? = null
         val outerFillShape =
             if (outerFillColor == null) null
             else transform.imageBorders(DrawingShape(Rectangle.of(image), 0, null, outerFillColor)).nullIf { it.isEmpty }
