@@ -4,14 +4,7 @@ import com.vladsch.plugin.util.forEachReversed
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-class Transformer constructor(val transforms: List<ImageTransform>, val reversed: Boolean = false) : ImageTransform, DrawingTransform {
-
-    override fun transform(image: BufferedImage): BufferedImage {
-        var result = image
-        forEach { if (it is DrawingTransform) result = it.transform(result) }
-        return result
-    }
-
+open class Transformer constructor(val transforms: List<Transform>, val reversed: Boolean = false) : Transform {
     override fun transformImage(rectangle: Rectangle): Rectangle {
         var result: Rectangle = rectangle
         if (!reversed) forEach { result = it.transformImage(result) }
@@ -54,15 +47,15 @@ class Transformer constructor(val transforms: List<ImageTransform>, val reversed
         return result
     }
 
-    fun forEach(action: (ImageTransform) -> Unit) {
+    fun forEach(action: (Transform) -> Unit) {
         transforms.forEach { action.invoke(it) }
     }
 
-    fun forEachReversed(action: (ImageTransform) -> Unit) {
+    fun forEachReversed(action: (Transform) -> Unit) {
         transforms.forEachReversed { action.invoke(it) }
     }
 
-    override fun reversed(): ImageTransform {
+    override fun reversed(): Transform {
         return Transformer(transforms, !reversed)
     }
 }

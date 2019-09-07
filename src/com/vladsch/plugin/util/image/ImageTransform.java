@@ -4,18 +4,16 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.image.BufferedImage;
 
-public interface ImageTransform {
-    @NotNull Rectangle transformImage(@NotNull Rectangle rectangle);
-    @NotNull Rectangle reverseImage(@NotNull Rectangle rectangle);
+public interface ImageTransform extends Transform {
+    @NotNull BufferedImage transform(@NotNull BufferedImage image);
 
-    @NotNull Rectangle transform(@NotNull Rectangle rectangle);
-    @NotNull Rectangle reverse(@NotNull Rectangle rectangle);
-    @NotNull Point transform(@NotNull Point point);
-    @NotNull Point reverse(@NotNull Point point);
+    final ImageTransform NULL = new ImageTransform() {
+        @NotNull
+        @Override
+        public BufferedImage transform(@NotNull final BufferedImage image) {
+            return ImageUtils.toBufferedImage(image);
+        }
 
-    @NotNull ImageTransform reversed();
-
-    ImageTransform NULL = new ImageTransform() {
         @NotNull
         @Override
         public Rectangle transformImage(@NotNull final Rectangle rectangle) {

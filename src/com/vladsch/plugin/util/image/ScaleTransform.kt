@@ -1,9 +1,7 @@
 package com.vladsch.plugin.util.image
 
-import java.awt.image.BufferedImage
-
 @Suppress("MemberVisibilityCanBePrivate")
-open class ScaleTransform(val x: Float, val y: Float) : ImageTransform {
+open class ScaleTransform(val x: Float, val y: Float) : Transform {
     override fun transformImage(rectangle: Rectangle): Rectangle {
         return rectangle.scale(x, y).nullIfInverted()
     }
@@ -31,7 +29,7 @@ open class ScaleTransform(val x: Float, val y: Float) : ImageTransform {
         return point.scale(1 / x, 1 / y)
     }
 
-    override fun reversed(): ImageTransform {
+    override fun reversed(): Transform {
         if (x == 0f || y == 0f) return this
         return ScaleTransform(1 / x, 1 / y)
     }

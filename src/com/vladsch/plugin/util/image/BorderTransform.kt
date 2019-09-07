@@ -1,7 +1,7 @@
 package com.vladsch.plugin.util.image
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class BorderTransform(val borderWidth: Int) : ImageTransform {
+open class BorderTransform(val borderWidth: Int) : Transform {
 
     constructor(borderWidth: Float) : this(borderWidth.toInt())
 
@@ -29,7 +29,7 @@ open class BorderTransform(val borderWidth: Int) : ImageTransform {
         return point.translate(-borderWidth, -borderWidth)
     }
 
-    override fun reversed(): ImageTransform {
+    override fun reversed(): Transform {
         return BorderTransform(-borderWidth);
     }
 }

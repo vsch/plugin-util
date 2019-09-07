@@ -2,18 +2,19 @@ package com.vladsch.plugin.util.image;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.image.BufferedImage;
+public interface Transform {
+    @NotNull Rectangle transformImage(@NotNull Rectangle rectangle);
+    @NotNull Rectangle reverseImage(@NotNull Rectangle rectangle);
 
-public interface DrawingTransform extends ImageTransform {
-    @NotNull BufferedImage transform(@NotNull BufferedImage image);
+    @NotNull Rectangle transform(@NotNull Rectangle rectangle);
+    @NotNull Rectangle reverse(@NotNull Rectangle rectangle);
+    @NotNull Point transform(@NotNull Point point);
+    @NotNull Point reverse(@NotNull Point point);
 
-    final DrawingTransform NULL = new DrawingTransform() {
-        @NotNull
-        @Override
-        public BufferedImage transform(@NotNull final BufferedImage image) {
-            return ImageUtils.toBufferedImage(image);
-        }
+    @NotNull
+    Transform reversed();
 
+    Transform NULL = new Transform() {
         @NotNull
         @Override
         public Rectangle transformImage(@NotNull final Rectangle rectangle) {
@@ -52,7 +53,7 @@ public interface DrawingTransform extends ImageTransform {
 
         @NotNull
         @Override
-        public DrawingTransform reversed() {
+        public Transform reversed() {
             return this;
         }
     };
