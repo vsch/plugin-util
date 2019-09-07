@@ -3,16 +3,16 @@ package com.vladsch.plugin.util.image
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ScaleTransformTest {
+class ScaleTransformTest : ImageTest() {
 
     @Test
     fun test_transImage() {
         val trans = ScaleTransform(2f, 5f)
-        val rect = Rectangle.of(0, 10, 0, 20,0)
-        assertEquals(Rectangle.of(0, 20, 0, 100,0), trans.transformBounds(rect))
-        assertEquals(Rectangle.of(0, 5, 0, 4,0), trans.reverseBounds(rect))
-        assertEquals(Rectangle.of(0, 20, 0, 100,0), trans.reversed().reverseBounds(rect))
-        assertEquals(Rectangle.of(0, 5, 0, 4,0), trans.reversed().transformBounds(rect))
+        val rect = Rectangle.of(0, 10, 0, 20, 0)
+        assertEquals(Rectangle.of(0, 20, 0, 100, 0), trans.transformBounds(rect))
+        assertEquals(Rectangle.of(0, 5, 0, 4, 0), trans.reverseBounds(rect))
+        assertEquals(Rectangle.of(0, 20, 0, 100, 0), trans.reversed().reverseBounds(rect))
+        assertEquals(Rectangle.of(0, 5, 0, 4, 0), trans.reversed().transformBounds(rect))
         assertEquals(rect, trans.transformBounds(trans.reverseBounds(rect)))
         assertEquals(rect, trans.reverseBounds(trans.transformBounds(rect)))
     }
@@ -39,5 +39,59 @@ class ScaleTransformTest {
         assertEquals(Point.of(5, 4), trans.reversed().transform(point))
         assertEquals(point, trans.reverse(trans.transform(point)))
         assertEquals(point, trans.transform(trans.reverse(point)))
+    }
+
+    @Test
+    fun test_Image1() {
+        val trans = ScaleTransform(0, 0)
+        val name = "Image1"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_Image2() {
+        val trans = ScaleTransform(0f, 0f)
+        val name = "Image2"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_Image3() {
+        val trans = ScaleTransform(1, 1)
+        val name = "Image3"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_Image4() {
+        val trans = ScaleTransform(1f, 1f)
+        val name = "Image4"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_Image5() {
+        val trans = ScaleTransform(2f, 2f)
+        val name = "Image5"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_Image6() {
+        val trans = ScaleTransform(0.5f, 0.5f)
+        val name = "Image6"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual(name, actual)
     }
 }

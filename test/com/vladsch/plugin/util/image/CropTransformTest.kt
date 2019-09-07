@@ -3,7 +3,7 @@ package com.vladsch.plugin.util.image
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class CropTransformTest {
+class CropTransformTest : ImageTest() {
 
     @Test
     fun test_transImage() {
@@ -39,5 +39,41 @@ class CropTransformTest {
         assertEquals(Point.of(11, 25), trans.reversed().transform(point))
         assertEquals(point, trans.reverse(trans.transform(point)))
         assertEquals(point, trans.transform(trans.reverse(point)))
+    }
+
+    @Test
+    fun test_Image1() {
+        val trans = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
+        val name = "Image1"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual("Cropped", name, actual)
+    }
+
+    @Test
+    fun test_Image2() {
+        val trans = CropTransform(Rectangle.of(2, 4, 1, 3, 0))
+        val name = "Image2"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual("Cropped", name, actual)
+    }
+
+    @Test
+    fun test_Image3() {
+        val trans = CropTransform(Rectangle.of(2, 4, 1, 3, 10))
+        val name = "Image3"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual("Cropped", name, actual)
+    }
+
+    @Test
+    fun test_Image4() {
+        val trans = CropTransform(Rectangle.of(2, 4, 1, 3, 20))
+        val name = "Image4"
+        val image = getSourceImage(name)
+        val actual = trans.transform(image)
+        assertImagesEqual("Cropped", name, actual)
     }
 }

@@ -1,7 +1,23 @@
 package com.vladsch.plugin.util.image
 
+import java.awt.image.BufferedImage
+
 @Suppress("MemberVisibilityCanBePrivate")
 open class CropTransform(val margins: Rectangle) : Transform {
+    override fun transform(image: BufferedImage): BufferedImage {
+        val imageBounds = Rectangle.of(image)
+        if (margins.isIntNull || transformBounds(imageBounds).clipBy(imageBounds).isAnyIntNull) return image
+        var croppedImage = ImageUtils.cropImage(image, margins.intX0, margins.intX1, margins.intY0, margins.intY1)
+        if (margins.radius > 0) {
+            // round corners of cropped image
+            croppedImage = ImageUtils.toBufferedImage(ImageUtils.makeRoundedCorner(croppedImage, margins.intCornerRadius, 0))
+        }
+        return croppedImage
+    }
+
+    override fun isEmpty(): Boolean {
+        return margins.isNull
+    }
 
     override fun transformBounds(rectangle: Rectangle): Rectangle {
         return rectangle.grow(-margins.x0, -margins.x1, -margins.y0, -margins.y1).nullIfInverted().topLeftTo0()

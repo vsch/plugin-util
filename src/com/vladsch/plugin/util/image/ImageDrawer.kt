@@ -5,12 +5,12 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-class ImageDrawer constructor(val transformer: ImageTransform, val shapes: List<SelectableDrawableShape>) : ImageTransform, Transform by transformer {
+class ImageDrawer constructor(val transform: Transform, val shapes: List<SelectableDrawableShape>) : Transform by transform {
 
     override fun transform(image: BufferedImage): BufferedImage {
-        var result = transformer.transform(image)
+        var result = transform.transform(image)
         shapes.filter { !it.isEmpty }.forEach {
-            result = it.transformedBy(transformer).drawShape(result)
+            result = it.transformedBy(transform).drawShape(result)
         }
         return result
     }
@@ -20,33 +20,34 @@ class ImageDrawer constructor(val transformer: ImageTransform, val shapes: List<
     }
 
     fun drawShapes(image: BufferedImage, outerFillColor: Color?, selectedIndex: Int, dashPhase: Float): BufferedImage {
-        var outerFill: BufferedImage? = null
+        var outerFillImage: BufferedImage? = null
         val selectedShape = if (selectedIndex >= 0) shapes[selectedIndex] else null
         val filtered = shapes.filter { !it.isEmpty }
-        var result = transformer.transform(image)
-        var selectedFiltered: SelectableDrawableShape? = null
-        val outerShape =
+        var result = transform.transform(image)
+        var selected: SelectableDrawableShape? = null
+        val outerFillShape =
             if (outerFillColor == null) null
-            else transformer.imageBorders(image)?.withFillColor(outerFillColor).nullIf { it.isEmpty }
+            else transform.imageBorders(DrawingShape(Rectangle.of(image), 0, null, outerFillColor)).nullIf { it.isEmpty }
 
         filtered.forEachIndexed { i, it ->
-            val transformed = it.transformedBy(transformer)
+            val isLastShape = i == filtered.lastIndex
+
+            val transformed = it.transformedBy(transform)
             result = transformed.drawShape(result, false, 0f)
 
             if (it == selectedShape) {
-                selectedFiltered = transformed
+                selected = transformed
             }
 
-            val selected = selectedFiltered
-            if (i == filtered.lastIndex && selected != null) {
-                result = selected.drawShape(result, true, dashPhase)
+            if (isLastShape && selected != null) {
+                result = selected!!.drawShape(result, true, dashPhase)
             }
 
-            if (outerShape != null && !outerShape.isEmpty) {
-                outerFill = transformed.punchOutShape(result, outerFill, outerShape, i == filtered.lastIndex)
+            if (outerFillShape != null && !outerFillShape.isEmpty) {
+                outerFillImage = transformed.punchOutShape(result, outerFillImage, outerFillShape, isLastShape)
             }
         }
 
-        return outerFill ?: result
+        return outerFillImage ?: result
     }
 }

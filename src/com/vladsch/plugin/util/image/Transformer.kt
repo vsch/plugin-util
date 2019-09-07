@@ -1,9 +1,26 @@
 package com.vladsch.plugin.util.image
 
 import com.vladsch.plugin.util.forEachReversed
+import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class Transformer constructor(val transforms: List<Transform>, val reversed: Boolean = false) : Transform {
+
+    override fun isEmpty(): Boolean {
+        return transforms.isEmpty() || transforms.all { it.isEmpty }
+    }
+
+    override fun transform(image: BufferedImage): BufferedImage {
+        var result = image
+        forEach { result = it.transform(result) }
+        return result
+    }
+
+    override fun imageBorders(shape: DrawingShape): DrawingShape {
+        var result: DrawingShape = shape
+        forEach { result = it.imageBorders(result) }
+        return result
+    }
 
     override fun transformBounds(rectangle: Rectangle): Rectangle {
         var result: Rectangle = rectangle

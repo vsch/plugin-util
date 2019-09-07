@@ -1,7 +1,3 @@
-/*
- *
- */
-
 package com.vladsch.plugin.util.ui.highlight;
 
 import com.intellij.openapi.Disposable;

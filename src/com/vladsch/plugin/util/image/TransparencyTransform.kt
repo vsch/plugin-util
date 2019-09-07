@@ -5,13 +5,16 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-class TransparencyImageTransform(val transparentColor: Color, val transparentTolerance: Int) : Transform by Transform.NULL, ImageTransform {
-
+class TransparencyTransform(val transparentColor: Color, val transparentTolerance: Int) : Transform by Transform.NULL {
     override fun transform(image: BufferedImage): BufferedImage {
         return ImageUtils.toTransparent(image, transparentColor, transparentTolerance.rangeLimit(0, 255))
     }
 
-    override fun reversed(): TransparencyImageTransform {
+    override fun isEmpty(): Boolean {
+        return false
+    }
+
+    override fun reversed(): TransparencyTransform {
         return this
     }
 }

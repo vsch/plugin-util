@@ -1,7 +1,3 @@
-/*
- *
- */
-
 package com.vladsch.plugin.util.ui.highlight;
 
 import java.util.EventListener;

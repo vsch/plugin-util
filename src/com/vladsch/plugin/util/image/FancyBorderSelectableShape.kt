@@ -1,30 +1,18 @@
-/*
- *
- */
-
 package com.vladsch.plugin.util.image
 
 import com.vladsch.flexmark.util.Utils
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-class FancyBorderSelectableShape(val shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : DrawingShape(rectangle, borderWidth, borderColor, fillColor), SelectableDrawableShape {
-    override fun isEmpty(): Boolean {
-        return rectangle.isAnyIntNull || (borderWidth == 0 || borderColor == null || borderColor.alpha == 0) && (fillColor == null || fillColor.alpha == 0)
-    }
+class FancyBorderSelectableShape(shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : SimpleSelectableShape(shapeType, rectangle, borderWidth, borderColor, fillColor) {
+    constructor(other: SimpleSelectableShape) : this(other.shapeType, other.rectangle, other.borderWidth, other.borderColor, other.fillColor)
 
     override fun transformedBy(transform: Transform): FancyBorderSelectableShape {
-        return FancyBorderSelectableShape(shapeType, transform.transform(rectangle), borderWidth, borderColor, fillColor)
+        return FancyBorderSelectableShape(super.transformedBy(transform))
     }
 
-    override fun punchOutShape(surface: BufferedImage, outerFill: BufferedImage?, outerShape: DrawingShape, applyOuterFillToSurface: Boolean): BufferedImage {
-        if (isEmpty) return surface
-
-        return if (shapeType == ShapeType.OVAL) {
-            ImageUtils.punchOuterHighlightOval(surface, outerFill, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, borderWidth, outerShape.fillColor, outerShape.borderWidth, outerShape.rectangle.intCornerRadius, applyOuterFillToSurface)
-        } else {
-            ImageUtils.punchOuterHighlightRectangle(surface, outerFill, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, borderWidth, rectangle.intCornerRadius, outerShape.fillColor, outerShape.borderWidth, outerShape.rectangle.intCornerRadius, applyOuterFillToSurface)
-        }
+    override fun transformedBoundsBy(transform: Transform): FancyBorderSelectableShape {
+        return FancyBorderSelectableShape(super.transformedBoundsBy(transform))
     }
 
     override fun drawShape(surface: BufferedImage, isSelected: Boolean, dashPhase: Float): BufferedImage {
@@ -61,18 +49,14 @@ class FancyBorderSelectableShape(val shapeType: ShapeType, rectangle: Rectangle,
             }
 
             return if (shapeType == ShapeType.OVAL) {
-                val bufferedImageSel = ImageUtils.drawOval(surface, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, Color.WHITE, borderWidthSel, dashes2, phaseScale * dashPhase + phaseOffset)
-                ImageUtils.drawOval(bufferedImageSel, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, Color.BLACK, borderWidthSel, dashes, phaseScale * dashPhase)
+                val bufferedImageSel = ImageUtils.drawOval(surface, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.WHITE, borderWidthSel, dashes2, phaseScale * dashPhase + phaseOffset)
+                ImageUtils.drawOval(bufferedImageSel, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.BLACK, borderWidthSel, dashes, phaseScale * dashPhase)
             } else {
-                val bufferedImageSel = ImageUtils.drawRectangle(surface, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, Color.WHITE, borderWidthSel, rectangle.intCornerRadius, dashes2, phaseScale * dashPhase + phaseOffset)
-                ImageUtils.drawRectangle(bufferedImageSel, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, Color.BLACK, borderWidthSel, rectangle.intCornerRadius, dashes, phaseScale * dashPhase)
+                val bufferedImageSel = ImageUtils.drawRectangle(surface, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.WHITE, borderWidthSel, rectangle.intCornerRadius, dashes2, phaseScale * dashPhase + phaseOffset)
+                ImageUtils.drawRectangle(bufferedImageSel, rectangle.intLeft, rectangle.intTop, rectangle.intWidth, rectangle.intHeight, Color.BLACK, borderWidthSel, rectangle.intCornerRadius, dashes, phaseScale * dashPhase)
             }
         } else {
-            return if (shapeType == ShapeType.OVAL) {
-                ImageUtils.drawHighlightOval(surface, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, borderColor, borderWidth, fillColor)
-            } else {
-                ImageUtils.drawHighlightRectangle(surface, rectangle.intX0, rectangle.intY0, rectangle.intWidth, rectangle.intHeight, borderColor, borderWidth, rectangle.intCornerRadius, fillColor)
-            }
+            return super.drawShape(surface)
         }
     }
 }
