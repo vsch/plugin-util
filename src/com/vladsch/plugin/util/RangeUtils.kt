@@ -24,6 +24,7 @@ fun Int.inside(range: NodeSubRange): Boolean = this in (range.start + 1) .. (ran
 
 open class NodeSubRange(val start: Int, val end: Int, val text: CharSequence) {
     val length: Int get() = text.length
+
     init {
         assert(start in 0 .. end)
     }
@@ -52,8 +53,8 @@ open class NodeSubRange(val start: Int, val end: Int, val text: CharSequence) {
 }
 
 class NodeRange(val node: ASTNode, start: Int, end: Int, text: CharSequence) : NodeSubRange(start, end, text) {
-    val nonSpace:NodeSubRange
-    val trailingSpace:NodeSubRange
+    val nonSpace: NodeSubRange
+    val trailingSpace: NodeSubRange
 
     init {
         val spacePos = text.asBased().lastIndexOfAnyNot(BasedSequence.WHITESPACE_NO_EOL_CHARS).indexOrNull()?.plus(1) ?: text.length

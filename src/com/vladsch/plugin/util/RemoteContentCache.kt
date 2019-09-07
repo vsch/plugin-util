@@ -11,11 +11,11 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 
 class RemoteContentCache(
-        var maxFetches: Int,
-        var remoteInvalidUntilFetched: Boolean,
-        var remoteContentCacheExpiration: Int,
-        var outputRemoteFetchExceptions: Boolean,
-        private val onContentChange: (() -> Unit)?
+    var maxFetches: Int,
+    var remoteInvalidUntilFetched: Boolean,
+    var remoteContentCacheExpiration: Int,
+    var outputRemoteFetchExceptions: Boolean,
+    private val onContentChange: (() -> Unit)?
 ) {
 
     private val remoteContentCache = ConcurrentHashMap<String, RemoteContent>()
@@ -232,12 +232,12 @@ class RemoteContentCache(
                     inputStream = urlConnection.getInputStream()
 
                     try {
-                        val reader = BufferedReader(InputStreamReader(inputStream));
-                        val sb = StringBuilder();
+                        val reader = BufferedReader(InputStreamReader(inputStream))
+                        val sb = StringBuilder()
 
                         while (true) {
                             val line = reader.readLine() ?: break
-                            sb.append(line).append('\n');
+                            sb.append(line).append('\n')
                         }
 
                         val content = sb.toString()
@@ -252,19 +252,19 @@ class RemoteContentCache(
                         }
                         return newRemoteContent
                     } catch (e: IOException) {
-                        if (outputRemoteFetchExceptions) e.printStackTrace();
+                        if (outputRemoteFetchExceptions) e.printStackTrace()
                         if (LOG.isDebugEnabled) LOG.debug(e)
                     } finally {
                         try {
-                            inputStream.close();
+                            inputStream.close()
                         } catch (e: IOException) {
-                            if (outputRemoteFetchExceptions) e.printStackTrace();
+                            if (outputRemoteFetchExceptions) e.printStackTrace()
                             if (LOG.isDebugEnabled) LOG.debug(e)
                         }
                     }
                 } catch (e: IOException) {
                     // exists
-                    if (outputRemoteFetchExceptions) e.printStackTrace();
+                    if (outputRemoteFetchExceptions) e.printStackTrace()
                     if (LOG.isDebugEnabled) LOG.debug(e)
                     if (e !is FileNotFoundException) {
                         val newRemoteContent = RemoteContent(useCacheUrl, url, " ", System.currentTimeMillis())
@@ -275,7 +275,7 @@ class RemoteContentCache(
                     }
                 }
             } catch (e: Throwable) {
-                if (outputRemoteFetchExceptions) e.printStackTrace();
+                if (outputRemoteFetchExceptions) e.printStackTrace()
                 if (LOG.isDebugEnabled) LOG.debug(e)
             } finally {
                 synchronized(pendingLock) {
@@ -353,7 +353,7 @@ class RemoteContentCache(
                     }
                 }
 
-                println(message);
+                println(message)
                 if (LOG.isDebugEnabled) LOG.debug(message)
             }
         }

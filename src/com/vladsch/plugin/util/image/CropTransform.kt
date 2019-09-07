@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class CropTransform(val margins: Rectangle) : Transform {
+
     override fun transform(image: BufferedImage): BufferedImage {
         val imageBounds = Rectangle.of(image)
         if (margins.intX0 == 0 && margins.intX1 == 0 && margins.intY0 == 0 && margins.intY1 == 0 || transformBounds(imageBounds).clipBy(imageBounds).isAnyIntNull) return image

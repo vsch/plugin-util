@@ -103,7 +103,7 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
     @NotNull
     @Override
     public E get(@NotNull final JComboBox<String> comboBox) {
-        return findEnum((String)comboBox.getSelectedItem());
+        return findEnum((String) comboBox.getSelectedItem());
     }
 
     @NotNull

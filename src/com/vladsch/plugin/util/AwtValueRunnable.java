@@ -34,7 +34,9 @@ public class AwtValueRunnable<T> implements Consumer<T> {
     public void accept(final T value) {
         if (myAwtThread && !isEventDispatchThread()) {
             //ApplicationManager.getApplication().invokeLater(() -> { run(value); }, ModalityState.any()); }
-            ApplicationManager.getApplication().invokeLater(() -> { accept(value); });
+            ApplicationManager.getApplication().invokeLater(() -> {
+                accept(value);
+            });
         } else {
             myCommand.accept(value);
         }

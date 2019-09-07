@@ -1,6 +1,7 @@
 package com.vladsch.plugin.util;
 
 import com.intellij.openapi.diagnostic.Logger;
+
 import java.util.function.Supplier;
 
 public class TimeIt {

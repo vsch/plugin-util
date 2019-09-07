@@ -19,7 +19,7 @@ public class EnumLike<E extends ComboBoxAdaptable<E>> {
         return displayNames;
     }
 
-    public static interface Factory<F> {
+    public interface Factory<F> {
         F create(@NotNull EnumLike parent, int intValue, @NotNull String displayName);
     }
 

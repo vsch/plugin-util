@@ -4,7 +4,6 @@ import com.intellij.openapi.Disposable;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.TextFieldWithHistory;
 import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
-import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JCheckBox;
@@ -18,6 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, Disposable {
@@ -183,7 +183,6 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
             super(component, component::getColor, component::setColor, getter, setter);
         }
     }
-
 
     public static class TextFieldWithHistorySetter extends JComponentSettable<String> {
         public TextFieldWithHistorySetter(@NotNull TextFieldWithHistory component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {

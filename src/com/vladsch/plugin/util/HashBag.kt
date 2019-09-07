@@ -2,7 +2,7 @@ package com.vladsch.plugin.util
 
 import java.util.*
 
-open class HashBag<T : Any>() : Bag<T> {
+open class HashBag<T : Any> : Bag<T> {
     val elementCounts = HashMap<T, Int>()
 
     override fun get(element: T): Int {

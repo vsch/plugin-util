@@ -8,8 +8,8 @@ class ParamRowGenerator extends ParameterizedRow {
     /**
      * Create a param row generator for accumulating test paramters prefixed with file location
      *
-     * @param locationPrefix  what to prefix the caller's class file name to arrive at an absolute
-     *                        file path of the source file.
+     * @param locationPrefix what to prefix the caller's class file name to arrive at an absolute
+     *                       file path of the source file.
      */
     public ParamRowGenerator(final String locationPrefix) {
         super(locationPrefix);
@@ -17,6 +17,7 @@ class ParamRowGenerator extends ParameterizedRow {
 
     /**
      * Add parametrized test row and prefix with file location information at [0]
+     *
      * @param row an array of objects parameters for the test
      *
      * @return this

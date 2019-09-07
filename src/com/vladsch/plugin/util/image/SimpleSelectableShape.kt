@@ -20,7 +20,7 @@ open class SimpleSelectableShape(val shapeType: ShapeType, rectangle: Rectangle,
     override fun punchOutShape(surface: BufferedImage, outerFill: BufferedImage?, outerShape: DrawingShape, applyOuterFillToSurface: Boolean): BufferedImage {
         if (isEmpty) return surface
 
-        val rect = (if(shapeType.isConstrained) rectangle.constrained() else rectangle).normalized
+        val rect = if (shapeType.isConstrained) rectangle.constrained() else rectangle
         return if (shapeType == ShapeType.OVAL) {
             ImageUtils.punchOuterHighlightOval(surface, outerFill, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, borderWidth, outerShape.fillColor, outerShape.borderWidth, outerShape.rectangle.intCornerRadius, applyOuterFillToSurface)
         } else {
@@ -31,7 +31,7 @@ open class SimpleSelectableShape(val shapeType: ShapeType, rectangle: Rectangle,
     override fun drawShape(surface: BufferedImage, isSelected: Boolean, dashPhase: Float): BufferedImage {
         if (isEmpty) return surface
 
-        val rect = (if(shapeType.isConstrained) rectangle.constrained() else rectangle).normalized
+        val rect = if (shapeType.isConstrained) rectangle.constrained() else rectangle
         if (isSelected) {
             val borderWidthSel =
                 if (borderWidth == 0) 1

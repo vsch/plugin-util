@@ -958,7 +958,7 @@ public class Helpers {
                 BasedSequence charSequence = BasedSequenceImpl.of(editor.getDocument().getCharsSequence());
                 int lineStartOffset = charSequence.startOfLine(startOffset);
                 int lineEndOffset = charSequence.endOfLine(endOffset);
-                lineStartOffset += charSequence.countLeading((String) BasedSequence.WHITESPACE_NO_EOL_CHARS, lineStartOffset, lineEndOffset);
+                lineStartOffset += charSequence.countLeading(BasedSequence.WHITESPACE_NO_EOL_CHARS, lineStartOffset, lineEndOffset);
                 lineEndOffset -= charSequence.countTrailing(BasedSequence.WHITESPACE_NO_EOL_CHARS, lineStartOffset, lineEndOffset);
                 final ItemTextRange<Language> lineStartLanguage = getLanguageRangeAtOffset(file, lineStartOffset);
                 final ItemTextRange<Language> lineEndLanguage = getLanguageRangeAtOffset(file, lineEndOffset);
@@ -980,7 +980,7 @@ public class Helpers {
             sb.append(sep);
             sep = "\n";
             starts.add(sb.length());
-            sb.append(text.substring(lastPos, endPos));
+            sb.append(text, lastPos, endPos);
             ends.add(sb.length());
             lastPos = endPos + 1;
         }
@@ -1125,6 +1125,7 @@ public class Helpers {
      * @param document
      * @param range1
      * @param range2
+     *
      * @return Pair first is range1 (non-overlapping) text and second is range2 non-overlapping text
      */
     @Nullable

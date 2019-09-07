@@ -165,9 +165,7 @@ public class Version implements Comparable<Version> {
         if (eap != version.eap) return false;
         if (bugfix != version.bugfix) return false;
         if (major != version.major) return false;
-        if (minor != version.minor) return false;
-
-        return true;
+        return minor == version.minor;
     }
 
     @Override

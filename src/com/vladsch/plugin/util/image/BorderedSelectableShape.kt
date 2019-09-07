@@ -48,7 +48,7 @@ class BorderedSelectableShape(shapeType: ShapeType, rectangle: Rectangle, border
                 phaseOffset = (dashes2[0] - dashes[0]) / 2f
             }
 
-            val rect = (if(shapeType.isConstrained) rectangle.constrained() else rectangle).normalized
+            val rect = if (shapeType.isConstrained) rectangle.constrained() else rectangle
             return if (shapeType == ShapeType.OVAL) {
                 val bufferedImageSel = ImageUtils.drawOval(surface, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.WHITE, borderWidthSel, dashes2, phaseScale * dashPhase + phaseOffset)
                 ImageUtils.drawOval(bufferedImageSel, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.BLACK, borderWidthSel, dashes, phaseScale * dashPhase)

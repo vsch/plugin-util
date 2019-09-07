@@ -26,7 +26,7 @@ public class Template {
         }
     }
 
-    public static interface Resolver {
+    public interface Resolver {
         String resolve(String[] groups);
     }
 

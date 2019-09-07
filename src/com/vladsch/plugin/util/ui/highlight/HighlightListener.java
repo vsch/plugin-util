@@ -6,5 +6,4 @@ public interface HighlightListener extends EventListener {
     default void highlightsChanged() { }
 
     default void highlightsUpdated() { }
-
 }

@@ -39,8 +39,8 @@ public class AppUtils {
      * See if app version is equal or greater than given
      *
      * @param requiredAppVersion
-     * @return
-     * @deprecated  Use #isAppVersionEqualOrGreaterThan
+     *
+     * @deprecated Use #isAppVersionEqualOrGreaterThan
      */
     @Deprecated
     public static boolean isAppVersionGreaterThan(String requiredAppVersion) {

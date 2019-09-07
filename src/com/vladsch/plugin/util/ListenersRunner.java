@@ -1,9 +1,8 @@
 package com.vladsch.plugin.util;
 
-import java.util.function.Consumer;
-
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
+import java.util.function.Consumer;
 
 public class ListenersRunner<L> {
     final private LinkedHashSet<WeakReference<L>> myListeners = new LinkedHashSet<>();

@@ -1,11 +1,10 @@
 package com.vladsch.plugin.util;
 
 import com.intellij.openapi.application.ApplicationManager;
-
-import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 import static javax.swing.SwingUtilities.isEventDispatchThread;
 
@@ -61,7 +60,9 @@ public class OneTimeValueRunnable<T> extends AwtValueRunnable<T> implements Canc
     public void accept(final T value) {
         if (isAwtThread() && !isEventDispatchThread()) {
             //ApplicationManager.getApplication().invokeLater(() -> { run(value); }, ModalityState.any());
-            ApplicationManager.getApplication().invokeLater(() -> { accept(value); });
+            ApplicationManager.getApplication().invokeLater(() -> {
+                accept(value);
+            });
         } else {
             if (!myHasRun.getAndSet(true)) {
                 super.accept(value);

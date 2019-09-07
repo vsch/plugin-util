@@ -174,7 +174,7 @@ open class ArrayListBag<E : Any, T : Any>(val mapper: Function<E, T>) : MutableL
 
     override fun indexOf(element: E): Int {
         if (contains(element)) return elementList.indexOf(element)
-        return -1;
+        return -1
     }
 
     override fun isEmpty(): Boolean {
@@ -183,6 +183,6 @@ open class ArrayListBag<E : Any, T : Any>(val mapper: Function<E, T>) : MutableL
 
     override fun lastIndexOf(element: E): Int {
         if (contains(element)) return elementList.indexOf(element)
-        return -1;
+        return -1
     }
 }

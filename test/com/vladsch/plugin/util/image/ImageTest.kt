@@ -1,7 +1,3 @@
-/*
- *
- */
-
 package com.vladsch.plugin.util.image
 
 import org.junit.Assert.assertArrayEquals

@@ -19,7 +19,7 @@ class Md5Utils {
                 val toInt = (256 + byte.toInt()) and 255
                 val hexString = Integer.toHexString(toInt)
                 if (hexString.length < 2) sb.append("0")
-                sb.append(hexString);
+                sb.append(hexString)
             }
             return sb.toString().toUpperCase()
         }
@@ -36,7 +36,7 @@ class Md5Utils {
                 val toInt = (256 + byte.toInt()) and 255
                 val hexString = Integer.toHexString(toInt)
                 if (hexString.length < 2) sb.append("0")
-                sb.append(hexString);
+                sb.append(hexString)
             }
             return sb.toString().toUpperCase()
         }

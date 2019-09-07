@@ -1,7 +1,8 @@
 package com.vladsch.plugin.util;
 
-import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.function.Consumer;
 
 public interface CancellableValueRunnable<T> extends Cancellable, Consumer<T> {
     CancellableValueRunnable NULL = new CancellableValueRunnable() {
@@ -36,6 +37,7 @@ public interface CancellableValueRunnable<T> extends Cancellable, Consumer<T> {
     }
 
     boolean cancel();
+
     boolean canRun();
 
     @NotNull

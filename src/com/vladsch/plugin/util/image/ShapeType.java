@@ -1,10 +1,10 @@
 package com.vladsch.plugin.util.image;
 
 public enum ShapeType {
-    RECTANGLE(false,false),
-    SQUARE(false,true),
-    OVAL(true,false),
-    CIRCLE(true,true);
+    RECTANGLE(false, false),
+    SQUARE(false, true),
+    OVAL(true, false),
+    CIRCLE(true, true);
 
     public final boolean isOval;
     public final boolean isConstrained;

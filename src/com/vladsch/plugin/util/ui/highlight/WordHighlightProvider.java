@@ -32,20 +32,33 @@ public interface WordHighlightProvider<T> extends HighlightProvider<T> {
     }
 
     boolean isWordHighlighted(CharSequence word);
+
     @Nullable
     Map<String, Integer> getHighlightWordFlags();
+
     @Nullable
     Map<String, Integer> getHighlightWordIndices();
+
     @Nullable
     Map<String, Integer> getHighlightCaseInsensitiveWordIndices();
+
     Pattern getHighlightPattern();
+
     int getMaxHighlightWordIndex();
+
     int getHighlightWordIndex(final String word);
+
     boolean isHighlightWordsCaseSensitive();
+
     void setHighlightWordsCaseSensitive(boolean highlightWordsCaseSensitive);
+
     void addHighlightWord(CharSequence word, boolean beginWord, boolean endWord, final boolean ideWarning, final boolean ideError, Boolean caseSensitive);
+
     void addHighlightWord(CharSequence word, int flags);
+
     void removeHighlightWord(CharSequence word);
+
     void updateHighlightPattern();
+
     WordHighlighter<T> getHighlighter(@NotNull Editor editor);
 }

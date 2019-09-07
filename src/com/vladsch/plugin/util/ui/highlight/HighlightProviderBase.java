@@ -55,7 +55,8 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
         //myDelayedRunner.addRunnable(messageBusConnection::disconnect);
     }
 
-    protected abstract @Nullable CancelableJobScheduler getCancellableJobScheduler();
+    protected abstract @Nullable
+    CancelableJobScheduler getCancellableJobScheduler();
 
     protected ColorIterable getColors(@NotNull T settings) {
         return new ColorIterable(false);

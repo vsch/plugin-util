@@ -88,7 +88,7 @@ fun String?.prefixWith(prefix: String, ignoreCase: Boolean): String {
 }
 
 fun String?.isIn(vararg list: String): Boolean {
-    return this != null && this in list;
+    return this != null && this in list
 }
 
 fun String?.endsWith(vararg needles: String): Boolean {
@@ -271,7 +271,7 @@ fun StringBuilder.startsWith(prefix: String, ignoreCase: Boolean = false): Boole
 
 fun Array<String>.splice(delimiter: String): String {
     val result = StringBuilder(this.size * (delimiter.length + 10))
-    var first = true;
+    var first = true
     for (elem in this) {
         if (!elem.isEmpty()) {
             if (!first && !elem.startsWith(delimiter) && !result.endsWith(delimiter)) result.append(delimiter)
@@ -285,7 +285,7 @@ fun Array<String>.splice(delimiter: String): String {
 
 fun List<String?>.splice(delimiter: String, skipNullOrEmpty: Boolean = true): String {
     val result = StringBuilder(this.size * (delimiter.length + 10))
-    var first = true;
+    var first = true
     for (elem in this) {
         if (elem != null && !elem.isEmpty() || !skipNullOrEmpty) {
             if (!first && (!skipNullOrEmpty || !elem.startsWith(delimiter) && !result.endsWith(delimiter))) result.append(delimiter)
@@ -299,7 +299,7 @@ fun List<String?>.splice(delimiter: String, skipNullOrEmpty: Boolean = true): St
 
 fun Collection<String?>.splice(delimiter: String, skipNullOrEmpty: Boolean = true): String {
     val result = StringBuilder(this.size * (delimiter.length + 10))
-    var first = true;
+    var first = true
     for (elem in this) {
         if (elem != null && !elem.isEmpty() || !skipNullOrEmpty) {
             if (!first && (!skipNullOrEmpty || !elem.startsWith(delimiter) && !result.endsWith(delimiter))) result.append(delimiter)
@@ -313,7 +313,7 @@ fun Collection<String?>.splice(delimiter: String, skipNullOrEmpty: Boolean = tru
 
 fun Iterator<String>.splice(delimiter: String, skipEmpty: Boolean = true): String {
     val result = StringBuilder(10 * (delimiter.length + 10))
-    var first = true;
+    var first = true
     for (elem in this) {
         if (!elem.isEmpty() || !skipEmpty) {
             if (!first && (!skipEmpty || !elem.startsWith(delimiter) && !result.endsWith(delimiter))) result.append(delimiter)
@@ -354,7 +354,7 @@ fun Int.indexOrNull(): Int? {
     return if (this < 0) null else this
 }
 
-fun Int.indexOr(defaultValue:Int): Int {
+fun Int.indexOr(defaultValue: Int): Int {
     return if (this < 0) defaultValue else this
 }
 
@@ -401,7 +401,7 @@ fun StringBuilder.append(c: CharSequence, count: Int): StringBuilder {
 
 fun <T : Any> Any?.ifNotNull(eval: () -> T?): T? = if (this == null) null else eval()
 
-fun <T : Any, R:Any> T?.ifNull(nullResult: R, elseEval: (R, T) -> R): R = if (this == null) nullResult else elseEval(nullResult, this)
+fun <T : Any, R : Any> T?.ifNull(nullResult: R, elseEval: (R, T) -> R): R = if (this == null) nullResult else elseEval(nullResult, this)
 
 fun <T : String?> T.nullIfEmpty(): T? = if (this != null && !this.isEmpty()) this else null
 fun <T : String?> T.nullIfBlank(): T? = if (this != null && !this.isBlank()) this else null
@@ -432,51 +432,51 @@ fun repeatChar(char: Char, count: Int): String {
 }
 
 fun Int.max(vararg others: Int): Int {
-    var max = this;
+    var max = this
     for (other in others) {
         if (max < other) max = other
     }
-    return max;
+    return max
 }
 
 fun Int.min(vararg others: Int): Int {
-    var min = this;
+    var min = this
     for (other in others) {
         if (min > other) min = other
     }
-    return min;
+    return min
 }
 
 fun Double.max(vararg others: Double): Double {
-    var max = this;
+    var max = this
     for (other in others) {
         if (max < other) max = other
     }
-    return max;
+    return max
 }
 
 fun Double.min(vararg others: Double): Double {
-    var min = this;
+    var min = this
     for (other in others) {
         if (min > other) min = other
     }
-    return min;
+    return min
 }
 
 fun Float.max(vararg others: Float): Float {
-    var max = this;
+    var max = this
     for (other in others) {
         if (max < other) max = other
     }
-    return max;
+    return max
 }
 
 fun Float.min(vararg others: Float): Float {
-    var min = this;
+    var min = this
     for (other in others) {
         if (min > other) min = other
     }
-    return min;
+    return min
 }
 
 fun Int.minLimit(minBound: Int): Int {
@@ -537,7 +537,7 @@ inline fun com.intellij.openapi.diagnostic.Logger.debug(lazyMessage: () -> Strin
     if (this.isDebugEnabled) {
         val message = lazyMessage()
         this.debug(message)
-        System.out.println(message);
+        System.out.println(message)
     }
 }
 

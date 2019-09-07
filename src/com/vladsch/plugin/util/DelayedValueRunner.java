@@ -1,9 +1,8 @@
 package com.vladsch.plugin.util;
 
-import java.util.function.Consumer;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.function.Consumer;
 
 public class DelayedValueRunner<T> {
     final private LinkedHashMap<Object, ArrayList<Consumer<T>>> myRunnables = new LinkedHashMap<>();

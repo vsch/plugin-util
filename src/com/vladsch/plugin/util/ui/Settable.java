@@ -4,8 +4,11 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Settable<T> {
     void reset();
+
     void apply();
+
     boolean isModified();
+
     Object getComponent();
 
     class Configurable<T> implements Settable {

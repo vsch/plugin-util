@@ -14,6 +14,9 @@ public interface DrawableShape extends TransformableShape {
     @Override
     DrawableShape transformedBoundsBy(@NotNull Transform transform);
 
-    @NotNull BufferedImage drawShape(@NotNull BufferedImage surface, final boolean isSelected, float dashPhase);
-    @NotNull BufferedImage punchOutShape(@NotNull BufferedImage surface, @Nullable BufferedImage outerFill, @NotNull DrawingShape outerShape, boolean applyOuterFillToSurface);
+    @NotNull
+    BufferedImage drawShape(@NotNull BufferedImage surface, final boolean isSelected, float dashPhase);
+
+    @NotNull
+    BufferedImage punchOutShape(@NotNull BufferedImage surface, @Nullable BufferedImage outerFill, @NotNull DrawingShape outerShape, boolean applyOuterFillToSurface);
 }

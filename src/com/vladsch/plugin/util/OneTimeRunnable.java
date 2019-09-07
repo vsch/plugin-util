@@ -88,12 +88,13 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
      * the given command will only be executed once, either by the delayed trigger or by the run method.
      * if you want to execute the task early just invoke #run, it will do nothing if the task has already run.
      *
-     *
      * @param scheduler
-     * @param delay   the time from now to delay execution
-     * @param command the task to execute
+     * @param delay     the time from now to delay execution
+     * @param command   the task to execute
+     *
      * @return a {@link OneTimeRunnable} which will run after the given
-     * delay or if {@link #run()} is invoked before {@link #cancel()} is invoked
+     *         delay or if {@link #run()} is invoked before {@link #cancel()} is invoked
+     *
      * @throws NullPointerException if command is null
      */
     public static OneTimeRunnable schedule(final @NotNull CancelableJobScheduler scheduler, @NotNull String id, int delay, @NotNull Runnable command) {

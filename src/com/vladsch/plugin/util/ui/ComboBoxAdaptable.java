@@ -47,7 +47,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
 
         @Override
         public void customize(final JList list, final String value, final int index, final boolean selected, final boolean hasFocus) {
-            E type = myAdapter.findEnum((String) value);
+            E type = myAdapter.findEnum(value);
             this.setText(type.getDisplayName());
             this.setIcon(myIconMapper.apply(type));
         }
@@ -153,7 +153,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
 
         @Override
         public T get(final boolean value) {
-            return value ? ((ComboBoxBooleanAdapter<T>) ADAPTER).getNonDefault() : ((ComboBoxBooleanAdapter<T>) ADAPTER).getDefault();
+            return value ? ((ComboBoxBooleanAdapter<T>) ADAPTER).getNonDefault() : ADAPTER.getDefault();
         }
     }
 }

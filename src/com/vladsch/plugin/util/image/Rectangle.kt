@@ -155,15 +155,15 @@ open class Rectangle protected constructor(
     }
 
     fun withRadius(radius: Float): Rectangle {
-        return copyOf(this,x0, x1, y0, y1, radius)
+        return copyOf(this, x0, x1, y0, y1, radius)
     }
 
     fun withMaxRadius(radius: Float): Rectangle {
-        return if (this.radius < radius) copyOf(this,x0, x1, y0, y1, radius) else this
+        return if (this.radius < radius) copyOf(this, x0, x1, y0, y1, radius) else this
     }
 
     fun withMinRadius(radius: Float): Rectangle {
-        return if (this.radius > radius) copyOf(this,x0, x1, y0, y1, radius) else this
+        return if (this.radius > radius) copyOf(this, x0, x1, y0, y1, radius) else this
     }
 
     fun withRadius(radius: Int): Rectangle {

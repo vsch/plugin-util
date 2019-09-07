@@ -1,7 +1,5 @@
 package com.vladsch.plugin.util.image
 
-import com.vladsch.plugin.util.max
-import com.vladsch.plugin.util.min
 import java.awt.Color
 
 open class DrawingShape(val rectangle: Rectangle, val borderWidth: Int, val borderColor: Color?, val fillColor: Color?) : TransformableShape {

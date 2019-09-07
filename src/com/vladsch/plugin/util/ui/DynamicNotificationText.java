@@ -1,12 +1,12 @@
 package com.vladsch.plugin.util.ui;
 
 import com.intellij.notification.Notification;
-import java.util.function.Supplier;
-import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class DynamicNotificationText {
     private final ArrayList<DynamicNotificationItem> myItems;

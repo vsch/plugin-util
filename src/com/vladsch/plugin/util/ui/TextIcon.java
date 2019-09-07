@@ -39,9 +39,7 @@ public class TextIcon implements Icon {
 
         if (myWidth != icon.myWidth) return false;
         if (!myComponent.equals(icon.myComponent)) return false;
-        if (!myStr.equals(icon.myStr)) return false;
-
-        return true;
+        return myStr.equals(icon.myStr);
     }
 
     @Override

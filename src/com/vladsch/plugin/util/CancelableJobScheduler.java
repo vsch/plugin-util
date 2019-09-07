@@ -1,7 +1,6 @@
 package com.vladsch.plugin.util;
 
 import com.intellij.concurrency.JobScheduler;
-import com.intellij.openapi.components.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

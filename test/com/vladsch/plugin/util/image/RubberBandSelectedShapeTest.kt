@@ -1,10 +1,5 @@
-/*
- *
- */
-
 package com.vladsch.plugin.util.image
 
-import org.junit.Assert.*
 import org.junit.Test
 import java.awt.Color
 
