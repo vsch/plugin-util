@@ -4,17 +4,17 @@ import com.vladsch.flexmark.util.Utils
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-open class SimpleSelectableShape(val shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : DrawingShape(rectangle, borderWidth, borderColor, fillColor), DrawableShape {
+open class SimpleShape(val shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : DrawingShape(rectangle, borderWidth, borderColor, fillColor), DrawableShape {
     override fun isEmpty(): Boolean {
         return rectangle.isAnyIntNull || (borderWidth == 0 || borderColor == null || borderColor.alpha == 0) && (fillColor == null || fillColor.alpha == 0)
     }
 
-    override fun transformedBy(transform: Transform): SimpleSelectableShape {
-        return SimpleSelectableShape(shapeType, transform.transform(rectangle), borderWidth, borderColor, fillColor)
+    override fun transformedBy(transform: Transform): SimpleShape {
+        return SimpleShape(shapeType, transform.transform(rectangle), borderWidth, borderColor, fillColor)
     }
 
-    override fun transformedBoundsBy(transform: Transform): SimpleSelectableShape {
-        return SimpleSelectableShape(shapeType, transform.transformBounds(rectangle), borderWidth, borderColor, fillColor)
+    override fun transformedBoundsBy(transform: Transform): SimpleShape {
+        return SimpleShape(shapeType, transform.transformBounds(rectangle), borderWidth, borderColor, fillColor)
     }
 
     override fun punchOutShape(surface: BufferedImage, outerFill: BufferedImage?, outerShape: DrawingShape, applyOuterFillToSurface: Boolean): BufferedImage {

@@ -3,7 +3,7 @@ package com.vladsch.plugin.util.image
 import org.junit.Test
 import java.awt.Color
 
-class DrawShapesTransformerTest : ImageTest() {
+class DrawTransformerTest : ImageTest() {
     @Test
     fun test_drawShapes1() {
         val name = "drawShapes1"
@@ -14,10 +14,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -33,10 +33,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -52,10 +52,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -71,10 +71,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -90,10 +90,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -109,10 +109,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -128,10 +128,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(5, 20, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -147,10 +147,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(5, 20, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -166,10 +166,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2
@@ -188,10 +188,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2
@@ -210,10 +210,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2
@@ -232,10 +232,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2
@@ -254,10 +254,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2
@@ -276,10 +276,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(0, 0, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2
@@ -298,10 +298,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(5, 20, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2
@@ -320,10 +320,10 @@ class DrawShapesTransformerTest : ImageTest() {
         val border = BorderTransform(5, 20, Color.RED)
         val trans = Transformer(listOf(crop, scale, border))
 
-        val shape1 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
-        val shape2 = BorderedSelectableShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
-        val shape3 = BorderedSelectableShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawShapesTransformer(trans, listOf(shape1, shape2, shape3))
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
 
         shapes.outerFillColor = TRANSLUCENT
         shapes.selectedIndex = 2

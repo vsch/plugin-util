@@ -41,8 +41,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.regex.Pattern;
 
-import static com.vladsch.flexmark.util.Utils.minLimit;
-
 public class ImageUtils {
     public static Color TRANSPARENT = new Color(0, 0, 0, 0);
 
@@ -646,11 +644,11 @@ public class ImageUtils {
         if (cornerRadius > 0) {
             g2.setColor(TRANSPARENT);
             g2.setComposite(AlphaComposite.Src);
-            g2.fillRoundRect(minLimit(0, x - borderWidth / 2), minLimit(0, y - borderWidth / 2), w + borderWidth, h + borderWidth, cornerRadius + borderWidth, cornerRadius + borderWidth);
+            g2.fillRoundRect(x - borderWidth / 2, y - borderWidth / 2, w + borderWidth, h + borderWidth, cornerRadius + borderWidth, cornerRadius + borderWidth);
         } else {
             g2.setColor(TRANSPARENT);
             g2.setComposite(AlphaComposite.Src);
-            g2.fillRect(minLimit(0, x - borderWidth / 2), minLimit(0, y - borderWidth / 2), w + borderWidth, h + borderWidth);
+            g2.fillRect(x - borderWidth / 2, y - borderWidth / 2, w + borderWidth, h + borderWidth);
         }
 
         if (applyToImage) {
@@ -676,7 +674,7 @@ public class ImageUtils {
         //BufferedImage output = UIUtil.createImage(w, h, BufferedImage.TYPE_INT_ARGB);
         boolean outerFilled = outerFillColor.getAlpha() != 0;
         if (!outerFilled) {
-            return outerImage;
+            return applyToImage ? image : outerImage;
         }
 
         BufferedImage output = outerImage != null ? outerImage : new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -703,7 +701,7 @@ public class ImageUtils {
 
         g2.setColor(TRANSPARENT);
         g2.setComposite(AlphaComposite.Src);
-        g2.fillOval(minLimit(0, x - borderWidth / 2), minLimit(0, y - borderWidth / 2), w + borderWidth, h + borderWidth);
+        g2.fillOval(x - borderWidth / 2, y - borderWidth / 2, w + borderWidth, h + borderWidth);
 
         if (applyToImage) {
             // combine with image

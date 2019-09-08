@@ -4,15 +4,15 @@ import com.vladsch.flexmark.util.Utils
 import java.awt.Color
 import java.awt.image.BufferedImage
 
-class BorderedSelectableShape(shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : SimpleSelectableShape(shapeType, rectangle, borderWidth, borderColor, fillColor) {
-    constructor(other: SimpleSelectableShape) : this(other.shapeType, other.rectangle, other.borderWidth, other.borderColor, other.fillColor)
+class BorderedShape(shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : SimpleShape(shapeType, rectangle, borderWidth, borderColor, fillColor) {
+    constructor(other: SimpleShape) : this(other.shapeType, other.rectangle, other.borderWidth, other.borderColor, other.fillColor)
 
-    override fun transformedBy(transform: Transform): BorderedSelectableShape {
-        return BorderedSelectableShape(super.transformedBy(transform))
+    override fun transformedBy(transform: Transform): BorderedShape {
+        return BorderedShape(super.transformedBy(transform))
     }
 
-    override fun transformedBoundsBy(transform: Transform): BorderedSelectableShape {
-        return BorderedSelectableShape(super.transformedBoundsBy(transform))
+    override fun transformedBoundsBy(transform: Transform): BorderedShape {
+        return BorderedShape(super.transformedBoundsBy(transform))
     }
 
     override fun drawShape(surface: BufferedImage, isSelected: Boolean, dashPhase: Float): BufferedImage {
