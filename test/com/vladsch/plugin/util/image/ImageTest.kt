@@ -33,6 +33,7 @@ open class ImageTest {
         if (pos != -1 && pos + 1 < imageName.length) {
             useImageName = useImageName.substring(0, pos + 1) + useImageName.substring(pos + 1, pos + 2).toLowerCase() + useImageName.substring(pos + 2)
         }
+        return useImageName
     }
 
     fun getSourceImage(name: String): BufferedImage {

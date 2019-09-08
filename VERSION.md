@@ -18,6 +18,7 @@
 ### Version 1.1.0
 
 * Add: image transforms and drawing transforms primitives
+* Fix: image utils outer fill punch-out shift
 
 ### Version 1.0.9
 

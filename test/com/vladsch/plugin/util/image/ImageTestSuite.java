@@ -19,7 +19,6 @@ import org.junit.runners.Suite;
         DrawTransformerTest.class,
         RubberBandShapeTest.class,
         TransparencyTransformTest.class,
-        ImageIssueTest.class,
 })
 public class ImageTestSuite {
 }

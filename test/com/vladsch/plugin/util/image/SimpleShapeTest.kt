@@ -2,6 +2,7 @@ package com.vladsch.plugin.util.image
 
 import org.junit.Test
 import java.awt.Color
+import java.awt.image.BufferedImage
 
 class SimpleShapeTest : ImageTest() {
 
@@ -1572,6 +1573,21 @@ class SimpleShapeTest : ImageTest() {
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
         actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_borderedPunchOut() {
+        // Punch-out is shifted when part of the shape border is out of image
+        val name = "borderedPunchOut"
+        val image = getSourceImage("Image1")
+        val rect = Rectangle.of(0, 100, 0, 60, 0)
+
+        val shape = BorderedShape(ShapeType.RECTANGLE, rect, 20, Color.ORANGE, null)
+        val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
+        var actual: BufferedImage = image
+        actual = shape.punchOutShape(actual, null, outerFill, false)
+        actual = shape.drawShape(actual, true, 1f)
         assertImagesEqual(name, actual)
     }
 }
