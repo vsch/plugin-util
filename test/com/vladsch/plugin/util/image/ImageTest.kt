@@ -26,26 +26,27 @@ open class ImageTest {
         assertArrayEquals(expectedBytes, actualBytes)
     }
 
-    fun imageResourcePath(name: String): String {
-        return rootDir + this.javaClass.canonicalName.replace('.', '/') + "/" + name + ".png"
-    }
-
-    fun imageFilePath(name: String): String {
-        return rootDir + this.javaClass.canonicalName.replace('.', '/') + "/" + name + ".png"
+    fun imagePath(name: String): String {
+        val imageName = rootDir + this.javaClass.canonicalName.replace('.', '/') + "/" + name + ".png"
+        var useImageName = imageName
+        val pos = imageName.lastIndexOf('/')
+        if (pos != -1 && pos + 1 < imageName.length) {
+            useImageName = useImageName.substring(0, pos + 1) + useImageName.substring(pos + 1, pos + 2).toLowerCase() + useImageName.substring(pos + 2)
+        }
     }
 
     fun getSourceImage(name: String): BufferedImage {
-        val imagePath = imageResourcePath("original/$name")
+        val imagePath = imagePath("original/$name")
         return ImageIO.read(File(imagePath))
     }
 
     fun getExpectedImage(name: String): BufferedImage {
-        val imagePath = imageResourcePath("expected/$name")
+        val imagePath = imagePath("expected/$name")
         return ImageIO.read(File(imagePath))
     }
 
     fun saveImage(name: String, image: BufferedImage) {
-        val imagePath = imageFilePath("actual/$name")
+        val imagePath = imagePath("actual/$name")
         ImageUtils.save(image, File(imagePath), "PNG")
     }
 

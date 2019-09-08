@@ -3,7 +3,7 @@ package com.vladsch.plugin.util.image
 import org.junit.Test
 import java.awt.Color
 
-class BorderedSelectableShapeTest : ImageTest() {
+class BorderedShapeTest : ImageTest() {
 
     @Test
     fun test_drawRect1() {
