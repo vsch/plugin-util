@@ -3,8 +3,14 @@ package com.vladsch.plugin.util.image;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public interface Transform {
+    @NotNull
+    default Transform andThen(@NotNull Transform transform) {
+        return new TransformList(Arrays.asList(transform, this), false);
+    }
+
     // imaging surface bounds transformations
     @NotNull
     Rectangle transformBounds(@NotNull Rectangle rectangle);

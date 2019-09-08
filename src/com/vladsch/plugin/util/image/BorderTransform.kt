@@ -4,11 +4,10 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 
 @Suppress("MemberVisibilityCanBePrivate")
-open class BorderTransform(val borderWidth: Int, val cornerRadius: Int, val borderColor: Color?) : Transform {
-
-    constructor(borderWidth: Int) : this(borderWidth, 0, null)
-    constructor(borderWidth: Int, cornerRadius: Int) : this(borderWidth, cornerRadius, null)
-    constructor(borderWidth: Float, cornerRadius: Float, borderColor: Color) : this(borderWidth.toInt(), cornerRadius.toInt(), borderColor)
+open class BorderTransform(val borderWidth: Int, val cornerRadius: Int, val borderColor: Color?, val fillColor: Color?) : Transform {
+    constructor(borderWidth: Int) : this(borderWidth, 0, null, null)
+    constructor(borderWidth: Int, cornerRadius: Int) : this(borderWidth, cornerRadius, null, null)
+    constructor(borderWidth: Float, cornerRadius: Float, borderColor: Color) : this(borderWidth.toInt(), cornerRadius.toInt(), borderColor, null)
     constructor(borderWidth: Float, cornerRadius: Float) : this(borderWidth.toInt(), cornerRadius.toInt())
     constructor(borderWidth: Float) : this(borderWidth.toInt())
 
@@ -25,8 +24,8 @@ open class BorderTransform(val borderWidth: Int, val cornerRadius: Int, val bord
     }
 
     override fun imageBorders(shape: DrawingShape): DrawingShape {
-        val drawingShape = DrawingShape(transformBounds(shape.rectangle).withMaxRadius(cornerRadius), borderWidth, borderColor, shape.fillColor)
-        return drawingShape.withMaxBorderWidth(shape.borderWidth, shape.borderColor)
+        val drawingShape = DrawingShape(transformBounds(shape.rectangle).withMaxRadius(cornerRadius), borderWidth, borderColor, fillColor)
+        return drawingShape.withMaxBorderWidth(shape.borderWidth, shape.borderColor).withNotNullFillColor(shape.fillColor)
     }
 
     override fun transformBounds(rectangle: Rectangle): Rectangle {
@@ -54,6 +53,6 @@ open class BorderTransform(val borderWidth: Int, val cornerRadius: Int, val bord
     }
 
     override fun reversed(): BorderTransform {
-        return BorderTransform(-borderWidth, cornerRadius, borderColor)
+        return BorderTransform(-borderWidth, cornerRadius, borderColor, null)
     }
 }

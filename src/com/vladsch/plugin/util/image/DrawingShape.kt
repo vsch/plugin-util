@@ -3,6 +3,11 @@ package com.vladsch.plugin.util.image
 import java.awt.Color
 
 open class DrawingShape(val rectangle: Rectangle, val borderWidth: Int, val borderColor: Color?, val fillColor: Color?) : TransformableShape {
+    companion object {
+        @JvmField
+        val NULL = DrawingShape(Rectangle.NULL, 0,null,null)
+    }
+
     override fun isEmpty(): Boolean {
         return rectangle.isAnyIntNull || (borderWidth <= 0 || borderColor == null || borderColor.alpha == 0) && (fillColor == null || fillColor.alpha == 0)
     }
@@ -36,18 +41,18 @@ open class DrawingShape(val rectangle: Rectangle, val borderWidth: Int, val bord
     }
 
     fun withMinBorderWidth(borderWidth: Int, borderColor: Color?): DrawingShape {
-        return if (this.borderWidth > 0 && this.borderWidth > borderWidth && this.borderColor != null && this.borderColor.alpha != 0) DrawingShape(rectangle, borderWidth, borderColor, fillColor) else this
+        return if (this.borderWidth > borderWidth && this.borderColor != null && this.borderColor.alpha != 0) DrawingShape(rectangle, borderWidth, borderColor, fillColor) else this
     }
 
     fun withMaxBorderWidth(borderWidth: Int, borderColor: Color?): DrawingShape {
-        return if (this.borderWidth <= 0 && this.borderWidth < borderWidth && (this.borderColor == null || this.borderColor.alpha == 0)) DrawingShape(rectangle, borderWidth, borderColor, fillColor) else this
+        return if (this.borderWidth < borderWidth && (this.borderColor == null || this.borderColor.alpha == 0)) DrawingShape(rectangle, borderWidth, borderColor, fillColor) else this
     }
 
     fun withNotNullBorderColor(borderColor: Color?): DrawingShape {
-        return if (this.borderColor == null) DrawingShape(rectangle, borderWidth, borderColor, fillColor) else this
+        return if (borderColor != null && borderColor.alpha != 0) DrawingShape(rectangle, borderWidth, borderColor, fillColor) else this
     }
 
     fun withNotNullFillColor(fillColor: Color?): DrawingShape {
-        return if (this.fillColor == null) DrawingShape(rectangle, borderWidth, this.borderColor, fillColor) else this
+        return if (fillColor != null && fillColor.alpha != 0) DrawingShape(rectangle, borderWidth, this.borderColor, fillColor) else this
     }
 }

@@ -13,10 +13,10 @@ import org.junit.runners.Suite;
         BorderTransformTest.class,
         CropTransformTest.class,
         ScaleTransformTest.class,
-        TransformerTest.class,
+        TransformListTest.class,
         SimpleShapeTest.class,
         BorderedShapeTest.class,
-        DrawTransformerTest.class,
+        DrawShapesTransformTest.class,
         RubberBandShapeTest.class,
         TransparencyTransformTest.class,
 })

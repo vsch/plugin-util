@@ -3,7 +3,7 @@ package com.vladsch.plugin.util.image
 import org.junit.Test
 import java.awt.Color
 
-class DrawTransformerTest : ImageTest() {
+class DrawShapesTransformTest : ImageTest() {
     @Test
     fun test_drawShapes1() {
         val name = "drawShapes1"
@@ -11,13 +11,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(1f, 1f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -30,13 +30,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(2f, 2f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -49,13 +49,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(.5f, .5f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -68,13 +68,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(1f, 1f)
         val crop = CropTransform(Rectangle.of(10, 10, 5, 5, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -87,13 +87,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(2f, 2f)
         val crop = CropTransform(Rectangle.of(10, 10, 5, 5, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -106,13 +106,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(.6f, .6f)
         val crop = CropTransform(Rectangle.of(10, 10, 5, 5, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -125,13 +125,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(1f, 1f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(5, 20, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(5, 20, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -144,13 +144,13 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(2f, 2f)
         val crop = CropTransform(Rectangle.of(5, 10, 5, 15, 0))
-        val border = BorderTransform(5, 20, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(5, 20, Color.RED, null)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
 
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
@@ -163,17 +163,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(1f, 1f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, TRANSLUCENT)
+        val trans = crop.andThen(scale).andThen(border)
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }
@@ -185,17 +182,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(2f, 2f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, TRANSLUCENT)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }
@@ -207,17 +201,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(.5f, .5f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, TRANSLUCENT)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }
@@ -229,17 +220,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(1f, 1f)
         val crop = CropTransform(Rectangle.of(10, 10, 5, 5, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, TRANSLUCENT)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }
@@ -251,17 +239,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(2f, 2f)
         val crop = CropTransform(Rectangle.of(10, 10, 5, 5, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, TRANSLUCENT)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }
@@ -273,17 +258,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(.6f, .6f)
         val crop = CropTransform(Rectangle.of(10, 10, 5, 5, 0))
-        val border = BorderTransform(0, 0, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(0, 0, Color.RED, TRANSLUCENT)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }
@@ -295,17 +277,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(1f, 1f)
         val crop = CropTransform(Rectangle.of(0, 0, 0, 0, 0))
-        val border = BorderTransform(5, 20, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(5, 20, Color.RED, TRANSLUCENT)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }
@@ -317,17 +296,14 @@ class DrawTransformerTest : ImageTest() {
 
         val scale = ScaleTransform(2f, 2f)
         val crop = CropTransform(Rectangle.of(5, 10, 5, 15, 0))
-        val border = BorderTransform(5, 20, Color.RED)
-        val trans = Transformer(listOf(crop, scale, border))
+        val border = BorderTransform(5, 20, Color.RED, TRANSLUCENT)
+        val trans = TransformList(listOf(crop, scale, border))
 
         val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
         val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
         val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
-        val shapes = DrawTransformer(trans, listOf(shape1, shape2, shape3))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3), 2, 0f)
 
-        shapes.outerFillColor = TRANSLUCENT
-        shapes.selectedIndex = 2
-        shapes.dashPhase = 0f
         val actual = shapes.transform(image)
         assertImagesEqual(name, actual)
     }

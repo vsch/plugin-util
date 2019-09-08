@@ -18,7 +18,7 @@ open class SimpleShape(val shapeType: ShapeType, rectangle: Rectangle, borderWid
     }
 
     override fun punchOutShape(surface: BufferedImage, outerFill: BufferedImage?, outerShape: DrawingShape, applyOuterFillToSurface: Boolean): BufferedImage {
-        if (isEmpty) return surface
+        if (isEmpty || outerShape.fillColor == null || outerShape.fillColor.alpha == 0) return surface
 
         val rect = if (shapeType.isConstrained) rectangle.constrained() else rectangle
         return if (shapeType == ShapeType.OVAL) {
