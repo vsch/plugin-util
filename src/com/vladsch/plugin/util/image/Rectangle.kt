@@ -132,6 +132,11 @@ open class Rectangle protected constructor(
             return invert(invX, invY)
         }
 
+    val topLeft: Point get() = Point.of(top, left)
+    val topRight: Point get() = Point.of(top, right)
+    val bottomLeft: Point get() = Point.of(bottom, left)
+    val bottomRight: Point get() = Point.of(bottom, right)
+
     val cornerRadius: Float
         get() = radius.minLimit(0f)
 
@@ -340,6 +345,11 @@ open class Rectangle protected constructor(
         @JvmStatic
         fun of(x0: Float, x1: Float, y0: Float, y1: Float, radius: Float): Rectangle {
             return if (x0 == 0f && x1 == 0f && y0 == 0f && y1 == 0f && radius == 0f) NULL else Rectangle(x0, x1, y0, y1, radius)
+        }
+
+        @JvmStatic
+        fun of(topLeft: Point, bottomRight: Point): Rectangle {
+            return of(topLeft.x, bottomRight.x, topLeft.y, bottomRight.y, 0f)
         }
 
         @JvmStatic

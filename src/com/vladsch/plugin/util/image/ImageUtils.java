@@ -42,6 +42,7 @@ import java.util.Base64;
 import java.util.regex.Pattern;
 
 public class ImageUtils {
+    @SuppressWarnings("UseJBColor")
     public static Color TRANSPARENT = new Color(0, 0, 0, 0);
 
     public static Image getImageFromClipboard() {
@@ -405,7 +406,7 @@ public class ImageUtils {
         Graphics2D g2 = output.createGraphics();
         g2.setColor(borderColor);
         g2.drawImage(image, borderWidth, borderWidth, image.getWidth(), image.getHeight(), null);
-        //UIUtil.drawImage(g2, image, 0, 0, null);
+
         g2.setStroke(new BasicStroke(borderWidth, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, borderWidth));
         g2.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING,
@@ -421,7 +422,6 @@ public class ImageUtils {
             g2.drawRect(halfBorder, halfBorder, width, height);
         }
         g2.dispose();
-        //output.setRGB(3, 3, 123);
         return output;
     }
 
@@ -435,16 +435,8 @@ public class ImageUtils {
         //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = output.createGraphics();
-        boolean invert = borderColor == null;
-
-        if (invert) {
-            // invert
-            final int rgb = image.getRGB(x + w / 2, y + h / 2);
-            borderColor = Color.getColor("", ~(rgb & 0xFFFFFF));
-        }
 
         g2.drawImage(image, 0, 0, null);
-        //UIUtil.drawImage(g2, image, 0, 0, null);
         if (dash != null) {
             g2.setStroke(new BasicStroke(borderWidth, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, borderWidth, dash, dashPhase));
         } else {
@@ -456,10 +448,6 @@ public class ImageUtils {
                 RenderingHints.VALUE_ANTIALIAS_ON
         );
 
-        if (invert) {
-            //g2.setXORMode(Color.WHITE);
-        }
-
         g2.setColor(borderColor);
         if (cornerRadius > 0) {
             g2.drawRoundRect(x, y, w, h, cornerRadius, cornerRadius);
@@ -467,7 +455,6 @@ public class ImageUtils {
             g2.drawRect(x, y, w, h);
         }
         g2.dispose();
-        //output.setRGB(3, 3, 123);
         return output;
     }
 
@@ -486,16 +473,9 @@ public class ImageUtils {
         //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2 = output.createGraphics();
-        boolean invert = borderColor == null;
-
-        if (invert) {
-            // invert
-            final int rgb = image.getRGB(x + w / 2, y + h / 2);
-            borderColor = Color.getColor("", ~(rgb & 0xFFFFFF));
-        }
 
         g2.drawImage(image, 0, 0, null);
-        //UIUtil.drawImage(g2, image, 0, 0, null);
+
         if (dash != null) {
             g2.setStroke(new BasicStroke(borderWidth, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, borderWidth, dash, dashPhase));
         } else {
@@ -506,10 +486,6 @@ public class ImageUtils {
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON
         );
-
-        if (invert) {
-            //g2.setXORMode(Color.WHITE);
-        }
 
         g2.setColor(borderColor);
         g2.drawOval(x, y, w, h);
@@ -525,8 +501,6 @@ public class ImageUtils {
     ) {
         BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        int imgW = image.getWidth();
-        int imgH = image.getHeight();
 
         Graphics2D g2 = output.createGraphics();
 
@@ -575,8 +549,6 @@ public class ImageUtils {
     ) {
         BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
-        int imgW = image.getWidth();
-        int imgH = image.getHeight();
 
         Graphics2D g2 = output.createGraphics();
 
@@ -635,8 +607,10 @@ public class ImageUtils {
             // first one, we need to fill it
             g2.setColor(outerFillColor);
             if (outerCornerRadius > 0) {
+                //noinspection SuspiciousNameCombination
                 g2.fillRoundRect(outerBorderWidth, outerBorderWidth, imgW - 2 * outerBorderWidth, imgH - 2 * outerBorderWidth, outerCornerRadius, outerCornerRadius);
             } else {
+                //noinspection SuspiciousNameCombination
                 g2.fillRect(outerBorderWidth, outerBorderWidth, imgW - 2 * outerBorderWidth, imgH - 2 * outerBorderWidth);
             }
         }
@@ -693,8 +667,10 @@ public class ImageUtils {
             // first one, we need to fill it
             g2.setColor(outerFillColor);
             if (outerCornerRadius > 0) {
+                //noinspection SuspiciousNameCombination
                 g2.fillRoundRect(outerBorderWidth, outerBorderWidth, imgW - 2 * outerBorderWidth, imgH - 2 * outerBorderWidth, outerCornerRadius, outerCornerRadius);
             } else {
+                //noinspection SuspiciousNameCombination
                 g2.fillRect(outerBorderWidth, outerBorderWidth, imgW - 2 * outerBorderWidth, imgH - 2 * outerBorderWidth);
             }
         }

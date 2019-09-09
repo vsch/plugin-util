@@ -33,16 +33,14 @@ open class SimpleShape(val shapeType: ShapeType, rectangle: Rectangle, borderWid
 
         val rect = if (shapeType.isConstrained) rectangle.constrained() else rectangle
         if (isSelected) {
-            val borderWidthSel =
-                if (borderWidth == 0) 1
-                else Utils.minLimit(1, borderWidth)
+            val borderWidthSel = Utils.minLimit(1, borderWidth)
 
             return if (shapeType == ShapeType.OVAL) {
                 val bufferedImageSel = ImageUtils.drawHighlightOval(surface, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.WHITE, borderWidthSel, null)
-                ImageUtils.drawOval(bufferedImageSel, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, null, borderWidthSel, DASHES, 1.5f * dashPhase)
+                ImageUtils.drawOval(bufferedImageSel, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.BLACK, borderWidthSel, DASHES, 1.5f * dashPhase)
             } else {
                 val bufferedImageSel = ImageUtils.drawRectangle(surface, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.WHITE, borderWidthSel, rect.intCornerRadius)
-                ImageUtils.drawRectangle(bufferedImageSel, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, null, borderWidthSel, rect.intCornerRadius, DASHES, 1.5f * dashPhase)
+                ImageUtils.drawRectangle(bufferedImageSel, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, Color.BLACK, borderWidthSel, rect.intCornerRadius, DASHES, 1.5f * dashPhase)
             }
         } else {
             return if (shapeType == ShapeType.OVAL) {
@@ -51,6 +49,29 @@ open class SimpleShape(val shapeType: ShapeType, rectangle: Rectangle, borderWid
                 ImageUtils.drawHighlightRectangle(surface, rect.intLeft, rect.intTop, rect.intWidth, rect.intHeight, borderColor, borderWidth, rect.intCornerRadius, fillColor)
             }
         }
+    }
+
+    // TEST: add tests
+    override fun isInside(point: Point?): Boolean {
+        if (point == null) return false
+
+        val rect: Rectangle = rectangle
+            .grow(if (borderWidth > 0 && borderColor != null && borderColor.alpha > 0) borderWidth / 2f else 0f)
+            .constrained(shapeType.isConstrained)
+
+        if (!rect.isAnyIntNull) {
+            if (shapeType.isOval) {
+                val cw = rect.intWidth / 2f
+                val ch = rect.intHeight / 2f
+                val cx: Float = point.intX - (rect.intLeft + cw)
+                val cy: Float = point.intY - (rect.intTop + ch)
+                val f = cx / cw * (cx / cw) + cy / ch * (cy / ch)
+                return f < 1.0
+            } else {
+                return point.isInside(rect)
+            }
+        }
+        return false
     }
 
     companion object {

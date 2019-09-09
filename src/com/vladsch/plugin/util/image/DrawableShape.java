@@ -19,4 +19,8 @@ public interface DrawableShape extends TransformableShape {
 
     @NotNull
     BufferedImage punchOutShape(@NotNull BufferedImage surface, @Nullable BufferedImage outerFill, @NotNull DrawingShape outerShape, boolean applyOuterFillToSurface);
+
+
+    // test if inside shape
+    boolean isInside(@Nullable Point point);
 }

@@ -12,11 +12,11 @@ open class BorderTransform(val borderWidth: Int, val cornerRadius: Int, val bord
     constructor(borderWidth: Float) : this(borderWidth.toInt())
 
     override fun transform(image: BufferedImage): BufferedImage {
-        if (borderWidth <= 0 || borderColor == null || borderColor.alpha == 0) return image
-
         var bufferedImage = image
+
         if (cornerRadius > 0) bufferedImage = ImageUtils.makeRoundedCorner(bufferedImage, cornerRadius, borderWidth)
-        return ImageUtils.addBorder(bufferedImage, borderColor, borderWidth, cornerRadius)
+        if (borderWidth > 0 && borderColor != null && borderColor.alpha != 0) bufferedImage = ImageUtils.addBorder(bufferedImage, borderColor, borderWidth, cornerRadius)
+        return bufferedImage
     }
 
     override fun isEmpty(): Boolean {

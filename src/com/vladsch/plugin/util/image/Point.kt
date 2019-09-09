@@ -44,7 +44,7 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
     }
 
     val round: Point
-        get() = myCopy(Point.of(x.roundToInt(), y.roundToInt()))
+        get() = copy(Point.of(x.roundToInt(), y.roundToInt()))
 
     fun roundTo(value: Float): Point {
         return copyOf(this, x.roundTo(value), x.roundTo(value))
@@ -56,13 +56,17 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
 
     fun scale(x: Float, y: Float): Point {
         if (x != 1f || y != 1f) {
-            return myCopy(Point.of((this.x * x), (this.y * y)))
+            return copy(Point.of((this.x * x), (this.y * y)))
         }
         return this
     }
 
-    fun myCopy(other: Point): Point {
+    fun copy(other: Point): Point {
         return if (this == other) this else other
+    }
+
+    fun isInside(rect:Rectangle):Boolean {
+        return x >= rect.left && x < rect.right && y >= rect.top && y < rect.bottom
     }
 
     override fun equals(other: Any?): Boolean {
