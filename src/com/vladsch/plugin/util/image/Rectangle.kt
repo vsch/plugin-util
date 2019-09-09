@@ -191,17 +191,43 @@ open class Rectangle protected constructor(
         return if (enable) copyOf(this, x0, x0 + squareSpanX, y0, y0 + squareSpanY, radius) else this
     }
 
+    // TEST: needs tests
     fun clipBy(other: Rectangle): Rectangle {
+        return inclusiveClipBy(other, false)
+    }
+
+    // TEST: needs tests
+    fun inclusiveClipBy(other: Rectangle): Rectangle {
+        return inclusiveClipBy(other, true)
+    }
+
+    // TEST: needs tests
+    fun inclusiveClipBy(other: Rectangle, inclusive: Boolean): Rectangle {
         val invX = isInvertedX
         val invY = isInvertedY
 
-        val clipped = of(
-            left.rangeLimit(other.left, other.right),
-            right.rangeLimit(other.left, other.right),
-            top.rangeLimit(other.top, other.bottom),
-            bottom.rangeLimit(other.top, other.bottom),
-            radius)
+        val normThis = normalized
+        val normOther = other.normalized
+
+        val clipped = normThis.normClipBy(normOther, inclusive)
             .invert(invX, invY)
+
+        return when {
+            this == clipped -> this
+            other == clipped -> other
+            else -> clipped
+        }
+    }
+
+    private fun normClipBy(other: Rectangle, inclusive: Boolean): Rectangle {
+        val rightMax = if (inclusive && other.width > 0) other.right - 1 else other.right
+        val bottomMax = if (inclusive && other.height > 0) other.bottom - 1 else other.bottom
+        val clipped = of(
+            left.rangeLimit(other.left, rightMax),
+            right.rangeLimit(other.left, rightMax),
+            top.rangeLimit(other.top, bottomMax),
+            bottom.rangeLimit(other.top, bottomMax),
+            radius)
 
         return when {
             this == clipped -> this
