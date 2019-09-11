@@ -459,6 +459,8 @@ public class ImageUtils {
     }
 
     public static BufferedImage createCheckeredBackground(BufferedImage image, int checkerSize, Color checkeredColor1, Color checkeredColor2) {
+        assert checkerSize > 1;
+
         BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = output.createGraphics();
