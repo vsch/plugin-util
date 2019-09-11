@@ -3,6 +3,10 @@ HOME_DIR="/Users/vlad/src/projects/plugin-util"
 
 cd ${HOME_DIR} || exit
 
+cp plugin-util.jar "/Volumes/Pegasus/Data"
+cp lib/flexmark-util.jar "/Volumes/Pegasus/Data"
+echo updated plugin-util.jar in "/Volumes/Pegasus/Data"
+
 cp plugin-util.jar ../MissingInActions/lib
 cp lib/flexmark-util.jar ../MissingInActions/lib
 echo updated plugin-util.jar in ../MissingInActions/lib

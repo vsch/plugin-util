@@ -458,6 +458,32 @@ public class ImageUtils {
         return output;
     }
 
+    public static BufferedImage createCheckeredBackground(BufferedImage image, int checkerSize, Color checkeredColor1, Color checkeredColor2) {
+        BufferedImage output = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        //BufferedImage output = UIUtil.createImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = output.createGraphics();
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        int rMax = height / checkerSize + Math.abs(height % checkerSize);
+        int cMax = width / checkerSize + Math.abs(width % checkerSize);
+
+        for (int r = 0; r < rMax; r++) {
+            for (int c = 0; c < cMax; c++) {
+                int x = c * checkerSize;
+                int y = r * checkerSize;
+
+                g2.setColor((r & 1) == (c & 1) ? checkeredColor1 : checkeredColor2);
+                g2.fillRect(x, y, checkerSize, checkerSize);
+            }
+        }
+
+        g2.drawImage(image, 0, 0, null);
+        g2.dispose();
+        return output;
+    }
+
     public static BufferedImage overlayImage(BufferedImage imageBack, Image imageFore, int x, int y) {
         BufferedImage output = new BufferedImage(imageBack.getWidth(), imageBack.getHeight(), BufferedImage.TYPE_INT_ARGB);
         //BufferedImage output = UIUtil.createImage(imageBack.getWidth(), imageBack.getHeight(), BufferedImage.TYPE_INT_ARGB);

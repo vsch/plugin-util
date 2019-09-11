@@ -86,4 +86,13 @@ class TransparencyTransformTest : ImageTest() {
         val actual = trans.transform(image)
         assertImagesEqual("Cropped", name, actual)
     }
+
+    @Test
+    fun test_Image6() {
+        val name = "Image6"
+        val trans = TransparencyTransform(Color(0xE8FCE3), 4, 4, Color.GRAY, Color.WHITE)
+        val image = getSourceImage("Image1")
+        val actual = trans.transform(image)
+        assertImagesEqual("Cropped", name, actual)
+    }
 }
