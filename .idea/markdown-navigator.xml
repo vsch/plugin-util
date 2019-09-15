@@ -1,21 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="MarkdownNavigatorHistory">
-    <PasteImageHistory filename="Image6" directory="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/ScaleTransformTest/expected" onPasteImageTargetRef="3" onPasteLinkText="0" onPasteImageElement="2" onPasteLinkElement="2" onPasteReferenceElement="0" cornerRadius="20" borderColor="-16777216" transparentColor="-14869219" borderWidth="2" trimTop="1" trimBottom="3" trimLeft="2" trimRight="4" transparent="false" roundCorners="false" showPreview="true" bordered="false" scaled="true" cropped="false" hideInapplicableOperations="true" preserveLinkFormat="true" scale="50" scalingInterpolation="1" transparentTolerance="20" saveAsDefaultOnOK="true" linkFormat="3" addHighlights="false" showHighlightCoordinates="true" showHighlights="false" mouseSelectionAddsHighlight="true" outerFilled="true" outerFillColor="-16777216" outerFillTransparent="true" outerFillAlpha="30">
+    <PasteImageHistory filename="Image1" directory="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/checkeredBackgroundTransformTest/original" onPasteImageTargetRef="3" onPasteLinkText="0" onPasteImageElement="2" onPasteLinkElement="2" onPasteReferenceElement="0" cornerRadius="20" borderColor="-16777216" transparentColor="-1246235" borderWidth="2" trimTop="1" trimBottom="3" trimLeft="2" trimRight="4" transparent="false" roundCorners="false" showPreview="true" bordered="false" scaled="false" cropped="false" hideInapplicableOperations="true" preserveLinkFormat="true" scale="250" scalingInterpolation="1" transparentTolerance="64" saveAsDefaultOnOK="true" linkFormat="3" addHighlights="false" showHighlightCoordinates="true" showHighlights="false" mouseSelectionAddsHighlight="true" outerFilled="true" outerFillColor="-16777216" outerFillTransparent="true" outerFillAlpha="30">
       <highlightList>
         <ImageHighlight top="155" left="258" right="500" bottom="173" roundCorners="true" cornerRadius="10" bordered="true" borderColor="-2752436" borderWidth="1" innerFilled="false" innerFillColor="-256" innerFillTransparent="true" innerFillAlpha="30" shape="1" />
       </highlightList>
       <directories>
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/ScaleTransformTest" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/ScaleTransformTest/expected" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/ScaleTransformTest/actual" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/BorderTransformTest/expected" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/BorderTransformTest" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/BorderTransformTest/actual" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/CropTransformTest/expected" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/CropTransformTest" />
-        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/CropTransformTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/checkeredBackgroundTransformTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/simpleShapeTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/simpleShapeTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/rubberBandShapeTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/rubberBandShapeTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/borderedShapeTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/borderedShapeTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/drawShapesTransformTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/drawShapesTransformTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/borderTransformTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/borderTransformTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/cropTransformTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/checkeredBackgroundTransformTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/transparencyTransformTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/scaleTransformTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/transparencyTransformTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/cropTransformTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/checkeredBackgroundTransformTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/scaleTransformTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/transformListTest/actual" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/transformListTest/expected" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/rubberBandShapeTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/scaleTransformTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/transparencyTransformTest/original" />
         <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/transformListTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/borderedShapeTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/simpleShapeTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/borderTransformTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/drawShapesTransformTest/original" />
+        <option name="$PROJECT_DIR$/test-resources/com/vladsch/plugin/util/image/cropTransformTest/original" />
       </directories>
       <filenames />
     </PasteImageHistory>

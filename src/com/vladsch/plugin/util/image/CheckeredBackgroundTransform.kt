@@ -1,10 +1,5 @@
-/*
- *
- */
-
 package com.vladsch.plugin.util.image
 
-import com.vladsch.plugin.util.rangeLimit
 import java.awt.Color
 import java.awt.image.BufferedImage
 

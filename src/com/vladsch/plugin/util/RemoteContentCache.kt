@@ -104,7 +104,7 @@ class RemoteContentCache(
 
             if (entry == null) break
 
-            val content = getRemoteContent(entry!!.value.url, entry!!.value.content != null)
+            getRemoteContent(entry!!.value.url, entry!!.value.content != null)
         }
     }
 
@@ -181,7 +181,7 @@ class RemoteContentCache(
                 fetchingRemoteContent[useCacheUrl] = true
             }
 
-            var inputStream: InputStream? = null
+            val inputStream: InputStream?
             try {
                 val httpConfigurable = ApplicationManager.getApplication().getComponent(HttpConfigurable::class.java)
                 val urlConnection = if (httpConfigurable.USE_HTTP_PROXY) httpConfigurable.openConnection(url) else URL(url).openConnection()
@@ -192,7 +192,6 @@ class RemoteContentCache(
                 urlConnection.connect()
 
                 val httpConnection = urlConnection as? HttpURLConnection
-                val responseCode = httpConnection?.responseCode
                 var movedTo: String? = null
 
                 if (httpConnection != null && httpConnection.responseCode == 301) {
@@ -201,9 +200,7 @@ class RemoteContentCache(
 
                     // TODO: ??? make it not expire naturally so we don't fetch it again unless cache cleared manually???
                     val oldRemoteContent = remoteContentCache[movedTo]
-                    if (oldRemoteContent != null && oldRemoteContent.fixUrl == url) {
-                        // messed up, reporting moved to in a loop, ignore and just load it
-                    } else {
+                    if (oldRemoteContent == null || oldRemoteContent.fixUrl != url) {
                         val newRemoteContent = RemoteContent(useCacheUrl, url, null, System.currentTimeMillis(), MOVED_PERMANENTLY, movedTo)
                         remoteContentCache[useCacheUrl] = newRemoteContent
                         if (url == movedTo) return newRemoteContent
@@ -225,6 +222,8 @@ class RemoteContentCache(
                             }
                         }
                         return redirectedContent
+                        //} else {
+                        // messed up, reporting moved to in a loop, ignore and just load it
                     }
                 }
 
@@ -310,6 +309,7 @@ class RemoteContentCache(
                     used += remoteContent.content.length
                 } else {
                     // must be map of string->string, guestimate size from two strings
+                    @Suppress("UNCHECKED_CAST")
                     (remoteContent.content as? Map<String, String>)?.forEach { entry ->
                         used += entry.key.length + entry.value.length
                     }
@@ -345,9 +345,11 @@ class RemoteContentCache(
                     }
                     else -> {
                         contentType = "Anchor List"
+                        @Suppress("UNCHECKED_CAST")
                         val count = (content as? Map<String, String>)?.size ?: 0
-                        (content as? Map<String, String>)?.forEach { entry ->
-                            contentSize += entry.key.length + entry.value.length
+                        @Suppress("UNCHECKED_CAST")
+                        (content as? Map<String, String>)?.forEach { it ->
+                            contentSize += it.key.length + it.value.length
                         }
                         message = String.format("    cachedKey: %s, contentType: %s, totalSize: %,d, count: %,d, contentSize: %,d", entry.key, contentType, totalSize + contentSize, count, contentSize)
                     }

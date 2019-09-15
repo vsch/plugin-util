@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$</output-path>
     <root id="archive" name="plugin-util.jar">
       <element id="module-output" name="plugin-util" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/flexmark-util.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
