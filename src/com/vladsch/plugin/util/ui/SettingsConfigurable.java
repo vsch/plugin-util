@@ -1,9 +1,12 @@
 package com.vladsch.plugin.util.ui;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface SettingsConfigurable<T> {
-    void reset(T instance);
+    void reset(@NotNull T instance);
 
-    T apply(T instance);
+    @SuppressWarnings("UnusedReturnValue")
+    @NotNull T apply(@NotNull T instance);
 
-    boolean isModified(T instance);
+    boolean isModified(@NotNull T instance);
 }

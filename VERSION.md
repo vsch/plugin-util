@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.1.4](#version-114)
 - [Version 1.1.2](#version-112)
 - [Version 1.1.0](#version-110)
 - [Version 1.0.9](#version-109)
@@ -15,6 +16,11 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.1.4
+
+* Add: `SettingsComponents<T>` type params
+* Add: support for `EditorTextField` components to `SettingsComponents<T>`
 
 ### Version 1.1.2
 

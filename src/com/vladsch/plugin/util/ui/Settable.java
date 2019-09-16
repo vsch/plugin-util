@@ -9,7 +9,7 @@ public interface Settable<T> {
 
     boolean isModified();
 
-    Object getComponent();
+    T getComponent();
 
     class Configurable<T> implements Settable {
         private final SettingsConfigurable<T> myComponents;
@@ -36,7 +36,7 @@ public interface Settable<T> {
         }
 
         @Override
-        public Object getComponent() {
+        public T getComponent() {
             return myInstance;
         }
     }
