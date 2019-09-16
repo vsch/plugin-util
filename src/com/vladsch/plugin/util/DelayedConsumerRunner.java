@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.function.Consumer;
 
-public class DelayedValueRunner<T> {
+public class DelayedConsumerRunner<T> {
     final private LinkedHashMap<Object, ArrayList<Consumer<T>>> myRunnables = new LinkedHashMap<>();
     final private Object myUnnamedKey = new Object();
 
-    public DelayedValueRunner() {
+    public DelayedConsumerRunner() {
 
     }
 
@@ -35,9 +35,9 @@ public class DelayedValueRunner<T> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DelayedValueRunner)) return false;
+        if (!(o instanceof DelayedConsumerRunner)) return false;
 
-        DelayedValueRunner runner = (DelayedValueRunner) o;
+        DelayedConsumerRunner<?> runner = (DelayedConsumerRunner<?>) o;
 
         return myRunnables.equals(runner.myRunnables);
     }

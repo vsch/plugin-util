@@ -16,19 +16,19 @@ import static javax.swing.SwingUtilities.isEventDispatchThread;
  * <p>
  * Useful for triggering actions after a delay that may need to be run before the delay triggers
  */
-public class OneTimeValueRunnable<T> extends AwtValueRunnable<T> implements CancellableValueRunnable<T> {
+public class OneTimeConsumerRunnable<T> extends AwtValueRunnable<T> implements CancellableConsumerRunnable<T> {
     final private AtomicBoolean myHasRun;
     final private @NotNull String myId;
 
-    public OneTimeValueRunnable(@NotNull Consumer<T> command) {
+    public OneTimeConsumerRunnable(@NotNull Consumer<T> command) {
         this("", false, command);
     }
 
-    public OneTimeValueRunnable(@NotNull String id, @NotNull Consumer<T> command) {
+    public OneTimeConsumerRunnable(@NotNull String id, @NotNull Consumer<T> command) {
         this(id, false, command);
     }
 
-    public OneTimeValueRunnable(@NotNull String id, boolean awtThread, Consumer<T> command) {
+    public OneTimeConsumerRunnable(@NotNull String id, boolean awtThread, Consumer<T> command) {
         super(awtThread, command);
         myHasRun = new AtomicBoolean(false);
         myId = id;

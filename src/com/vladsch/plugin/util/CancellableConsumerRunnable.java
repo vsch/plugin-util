@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
-public interface CancellableValueRunnable<T> extends Cancellable, Consumer<T> {
-    CancellableValueRunnable NULL = new CancellableValueRunnable() {
+public interface CancellableConsumerRunnable<T> extends Cancellable, Consumer<T> {
+    CancellableConsumerRunnable<Object> NULL = new CancellableConsumerRunnable<Object>() {
         @Override
         public boolean cancel() {
             return false;
@@ -28,13 +28,19 @@ public interface CancellableValueRunnable<T> extends Cancellable, Consumer<T> {
         }
     };
 
+    static <V> CancellableConsumerRunnable<V> nullRunnable() {
+        //noinspection unchecked
+        return (CancellableConsumerRunnable<V>) NULL;
+    }
+
     default boolean isNull() {
-        return this == CancellableValueRunnable.NULL;
+        return this == CancellableConsumerRunnable.NULL;
     }
 
     default boolean isNotNull() {
-        return this != CancellableValueRunnable.NULL;
+        return this != CancellableConsumerRunnable.NULL;
     }
+
 
     boolean cancel();
 
