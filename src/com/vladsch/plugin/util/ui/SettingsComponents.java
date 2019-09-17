@@ -5,6 +5,8 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import com.intellij.ui.EditorTextField;
 import com.intellij.ui.TextFieldWithHistory;
 import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
+import com.vladsch.flexmark.util.sequence.BasedSequence;
+import com.vladsch.flexmark.util.sequence.BasedSequenceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,6 +19,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -111,7 +114,13 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     @NotNull public TextFieldWithHistorySetter component(@NotNull TextFieldWithHistory component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistorySetter(component, getter, setter); }
     @NotNull public TextFieldWithBrowseButtonSetter component(@NotNull TextFieldWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithBrowseButtonSetter(component, getter, setter); }
     @NotNull public TextFieldWithHistoryWithBrowseButtonSetter component(@NotNull TextFieldWithHistoryWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistoryWithBrowseButtonSetter(component, getter, setter); }
-    @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter); }
+    @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter,
+            (o1, o2) -> {
+                BasedSequence b1 = BasedSequenceImpl.of(o1);
+                BasedSequence b2 = BasedSequenceImpl.of(o2);
+                return b1.trimTailBlankLines().compareTo(b2.trimTailBlankLines());
+            }); }
+    @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter, @NotNull Comparator<String> comparator) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter, comparator); }
     // @formatter:on
 
     @NotNull
@@ -205,19 +214,30 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         }
     }
 
-    public static class EditorTextFieldSetter<V extends EditorTextField, T> implements Settable<V> {
+    public static class EditorTextFieldSetter<V extends EditorTextField, T extends Comparable<T>> implements Settable<V> {
         private final @NotNull V myInstance;
         private final @NotNull JComponentGetter<V, T> myComponentGetter;
         private final @NotNull JComponentSetter<V, T> myComponentSetter;
         private final @NotNull Getter<T> myGetter;
         private final @NotNull Setter<T> mySetter;
+        private final @NotNull Comparator<T> myComparator;
 
         public EditorTextFieldSetter(@NotNull V component, @NotNull JComponentGetter<V, T> componentGetter, @NotNull JComponentSetter<V, T> componentSetter, @NotNull Getter<T> getter, @NotNull Setter<T> setter) {
+            this(component, componentGetter, componentSetter, getter, setter, new Comparator<T>() {
+                @Override
+                public int compare(final T o1, final T o2) {
+                    return o1.compareTo(o2);
+                }
+            });
+        }
+
+        public EditorTextFieldSetter(@NotNull V component, @NotNull JComponentGetter<V, T> componentGetter, @NotNull JComponentSetter<V, T> componentSetter, @NotNull Getter<T> getter, @NotNull Setter<T> setter, @NotNull Comparator<T> comparator) {
             myInstance = component;
             myComponentGetter = componentGetter;
             myComponentSetter = componentSetter;
             myGetter = getter;
             mySetter = setter;
+            myComparator = comparator;
         }
 
         @Override
@@ -239,7 +259,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         @Override
         public boolean isModified() {
             if (myInstance.isVisible()) {
-                return !Objects.equals(myGetter.get(), myComponentGetter.get(myInstance));
+                return myComparator.compare(myGetter.get(), myComponentGetter.get(myInstance)) != 0;
             }
             return false;
         }
