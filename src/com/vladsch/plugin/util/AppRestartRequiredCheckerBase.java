@@ -11,18 +11,18 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.openapi.diagnostic.Logger.getInstance;
 
 @SuppressWarnings("WeakerAccess")
-public abstract class AppRestartRequiredChecker<T> {
+public abstract class AppRestartRequiredCheckerBase<T> {
     static final Logger LOG = getInstance("com.vladsch.plugin.util.restart");
 
     boolean restartCheckPending = false;
     long restartNeededShownFlags = 0;
     final String restartNeededTitle;
 
-    public AppRestartRequiredChecker() {
+    public AppRestartRequiredCheckerBase() {
         this(UtilBundle.message("ide.restart.required.title"));
     }
 
-    public AppRestartRequiredChecker(final String restartNeededTitle) {
+    public AppRestartRequiredCheckerBase(final String restartNeededTitle) {
         this.restartNeededTitle = restartNeededTitle;
     }
 
