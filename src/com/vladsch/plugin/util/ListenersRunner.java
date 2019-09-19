@@ -36,7 +36,7 @@ public class ListenersRunner<L> {
         if (this == o) return true;
         if (!(o instanceof ListenersRunner)) return false;
 
-        ListenersRunner runner = (ListenersRunner) o;
+        ListenersRunner<?> runner = (ListenersRunner<?>) o;
 
         return myListeners.equals(runner.myListeners);
     }
