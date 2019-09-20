@@ -19,8 +19,8 @@ cp plugin-util.jar ../CLionArduinoPlugin/lib
 cp lib/flexmark-util.jar ../CLionArduinoPlugin/lib
 echo updated plugin-util.jar in ../CLionArduinoPlugin/lib
 
-cp plugin-util.jar ../idea-multimarkdown3/lib
-echo updated plugin-util.jar in ../idea-multimarkdown3/lib
+#cp plugin-util.jar ../idea-multimarkdown3/lib
+#echo updated plugin-util.jar in ../idea-multimarkdown3/lib
 
 cp plugin-util.jar ../idea-multimarkdown2/lib
 echo updated plugin-util.jar in ../idea-multimarkdown2/lib
