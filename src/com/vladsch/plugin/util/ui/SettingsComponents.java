@@ -21,9 +21,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, Disposable {
@@ -111,9 +114,9 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     @NotNull public TextBoxSetter component(JTextComponent component, Getter<String> getter, @NotNull Setter<String> setter) { return new TextBoxSetter(component, getter, setter); }
     @NotNull public ColorCheckBoxSetter component(@NotNull CheckBoxWithColorChooser component, @NotNull Getter<Color> getter, @NotNull Setter<Color> setter) { return new ColorCheckBoxSetter(component, getter, setter); }
     @NotNull public ColorCheckBoxEnabledSetter componentEnabled(@NotNull CheckBoxWithColorChooser component, @NotNull Getter<Boolean> getter, @NotNull Setter<Boolean> setter) { return new ColorCheckBoxEnabledSetter(component, getter, setter); }
-    @NotNull public TextFieldWithHistorySetter component(@NotNull TextFieldWithHistory component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistorySetter(component, getter, setter); }
+    @NotNull public TextFieldWithHistorySetter component(@NotNull TextFieldWithHistory component, @NotNull Getter<List<String>> historyGetter, @NotNull Setter<List<String>> historySetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistorySetter(component, historyGetter, historySetter, getter, setter); }
     @NotNull public TextFieldWithBrowseButtonSetter component(@NotNull TextFieldWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithBrowseButtonSetter(component, getter, setter); }
-    @NotNull public TextFieldWithHistoryWithBrowseButtonSetter component(@NotNull TextFieldWithHistoryWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistoryWithBrowseButtonSetter(component, getter, setter); }
+    @NotNull public TextFieldWithHistoryWithBrowseButtonSetter component(@NotNull TextFieldWithHistoryWithBrowseButton component, @NotNull Getter<List<String>> historyGetter, @NotNull Setter<List<String>> historySetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistoryWithBrowseButtonSetter(component, historyGetter, historySetter, getter, setter); }
     @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter,
             (o1, o2) -> {
                 BasedSequence b1 = BasedSequenceImpl.of(o1);
@@ -196,21 +199,74 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         }
     }
 
-    public static class TextFieldWithHistorySetter extends JComponentSettable<TextFieldWithHistory, String> {
-        public TextFieldWithHistorySetter(@NotNull TextFieldWithHistory component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
-            super(component, component::getText, component::setTextAndAddToHistory, getter, setter);
-        }
-    }
-
     public static class TextFieldWithBrowseButtonSetter extends JComponentSettable<TextFieldWithBrowseButton, String> {
         public TextFieldWithBrowseButtonSetter(@NotNull TextFieldWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
             super(component, component::getText, component::setText, getter, setter);
         }
     }
 
-    public static class TextFieldWithHistoryWithBrowseButtonSetter extends JComponentSettable<TextFieldWithHistoryWithBrowseButton, String> {
-        public TextFieldWithHistoryWithBrowseButtonSetter(@NotNull TextFieldWithHistoryWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) {
-            super(component, component::getText, component::setTextAndAddToHistory, getter, setter);
+    public static class TextFieldWithHistorySetterBase<T> implements Settable<T> {
+        //            super(component, component::getText, component::setTextAndAddToHistory, getter, setter);
+        private final @NotNull T myInstance;
+        private final @NotNull Function<T, List<String>> myCompHistoryGetter;
+        private final @NotNull BiConsumer<T, List<String>> myCompHistorySetter;
+        private final @NotNull Function<T, String> myTextGetter;
+        private final @NotNull BiConsumer<T, String> myTextSetter;
+        private final @NotNull Getter<List<String>> myHistoryGetter;
+        private final @NotNull Setter<List<String>> myHistorySetter;
+        private final @NotNull Getter<String> myGetter;
+        private final @NotNull Setter<String> mySetter;
+
+        public TextFieldWithHistorySetterBase(@NotNull final T instance, @NotNull Function<T, List<String>> compHistoryGetter, @NotNull BiConsumer<T, List<String>> compHistorySetter, @NotNull Function<T, String> textGetter, @NotNull BiConsumer<T, String> textSetter, @NotNull final Getter<List<String>> historyGetter, @NotNull final Setter<List<String>> historySetter, @NotNull final Getter<String> getter, @NotNull final Setter<String> setter) {
+            myInstance = instance;
+            myCompHistoryGetter = compHistoryGetter;
+            myCompHistorySetter = compHistorySetter;
+            myTextGetter = textGetter;
+            myTextSetter = textSetter;
+            myHistoryGetter = historyGetter;
+            myHistorySetter = historySetter;
+            myGetter = getter;
+            mySetter = setter;
+        }
+
+        @Override
+        public void reset() {
+            myCompHistorySetter.accept(myInstance, myHistoryGetter.get());
+            myTextSetter.accept(myInstance, myGetter.get());
+        }
+
+        @Override
+        public void apply() {
+            myHistorySetter.set(myCompHistoryGetter.apply(myInstance));
+            mySetter.set(myTextGetter.apply(myInstance));
+        }
+
+        @Override
+        public boolean isModified() {
+            return !myGetter.get().equals(myTextGetter.apply(myInstance)) || !myHistoryGetter.get().equals(myCompHistoryGetter.apply(myInstance));
+        }
+
+        @Override
+        public T getComponent() {
+            return myInstance;
+        }
+    }
+
+    public static class TextFieldWithHistorySetter extends TextFieldWithHistorySetterBase<TextFieldWithHistory> {
+        public TextFieldWithHistorySetter(@NotNull final TextFieldWithHistory instance, @NotNull final Getter<List<String>> historyGetter, @NotNull final Setter<List<String>> historySetter, @NotNull final Getter<String> getter, @NotNull final Setter<String> setter) {
+            super(instance,
+                    TextFieldWithHistory::getHistory, TextFieldWithHistory::setHistory,
+                    TextFieldWithHistory::getText, TextFieldWithHistory::setTextAndAddToHistory,
+                    historyGetter, historySetter, getter, setter);
+        }
+    }
+
+    public static class TextFieldWithHistoryWithBrowseButtonSetter extends TextFieldWithHistorySetterBase<TextFieldWithHistoryWithBrowseButton> {
+        public TextFieldWithHistoryWithBrowseButtonSetter(@NotNull final TextFieldWithHistoryWithBrowseButton instance, @NotNull final Getter<List<String>> historyGetter, @NotNull final Setter<List<String>> historySetter, @NotNull final Getter<String> getter, @NotNull final Setter<String> setter) {
+            super(instance,
+                    comp->comp.getChildComponent().getHistory(),(comp, value)->comp.getChildComponent().setHistory(value),
+                    TextFieldWithHistoryWithBrowseButton::getText, TextFieldWithHistoryWithBrowseButton::setTextAndAddToHistory,
+                    historyGetter, historySetter, getter, setter);
         }
     }
 

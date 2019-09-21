@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.1.5](#version-115)
 - [Version 1.1.4](#version-114)
 - [Version 1.1.2](#version-112)
 - [Version 1.1.0](#version-110)
@@ -16,6 +17,10 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.1.5
+
+* Fix: text fields with history settable to reset/apply history of components
 
 ### Version 1.1.4
 
