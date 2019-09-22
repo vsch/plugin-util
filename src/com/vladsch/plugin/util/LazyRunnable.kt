@@ -15,12 +15,11 @@
 
 package com.vladsch.plugin.util
 
-class LazyRunnable(val runnable: () -> Unit) {
-    constructor(runnable: Runnable) : this({ runnable.run() })
+class LazyRunnable(private val runnable: Runnable) {
 
     // getting this value will run the runnable in Java
     val hasRun:Boolean by lazy {
-        runnable()
+        runnable.run()
         true
     }
 }

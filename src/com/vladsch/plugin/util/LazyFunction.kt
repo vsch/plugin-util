@@ -17,14 +17,13 @@ package com.vladsch.plugin.util
 
 import java.util.function.Function
 
-class LazyFunction<T : Any, R : Any>(val computable: (T) -> R) {
-    constructor(computable: Function<T, R>) : this({ computable.apply(it) })
+class LazyFunction<T : Any, R : Any>(private val computable: Function<T, R>) {
 
     // getting this value will do the computation on first request
     private var argument: T? = null
 
     private val _value: R by lazy {
-        computable(argument!!)
+        computable.apply(argument!!)
     }
 
     /**

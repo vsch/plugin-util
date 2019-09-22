@@ -5,15 +5,15 @@ import com.intellij.openapi.ui.DialogWrapper;
 import javax.swing.JComponent;
 
 public abstract class DialogWrapperParams<T> extends DialogWrapper {
-    protected final T mySettings;
+    protected final T myParams;
 
-    public DialogWrapperParams(JComponent parent, boolean canBeParent, final T settings) {
+    public DialogWrapperParams(JComponent parent, boolean canBeParent, final T params) {
         super(parent, canBeParent);
 
-        this.mySettings = settings;
+        this.myParams = params;
     }
 
-    public T getSettings() {
-        return mySettings;
+    public T getParams() {
+        return myParams;
     }
 }
