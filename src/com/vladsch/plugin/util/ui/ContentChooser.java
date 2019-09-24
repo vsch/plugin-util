@@ -105,6 +105,11 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
 
     }
 
+    // user deleted an item
+    protected void listItemDeleted() {
+
+    }
+
     @Override
     protected JComponent createCenterPanel() {
         final int selectionMode = myAllowMultipleSelections ? ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
@@ -142,6 +147,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
                         }
                     }
 
+
                     rebuildListContent();
                     if (myAllContents.isEmpty()) {
                         close(CANCEL_EXIT_CODE);
@@ -149,6 +155,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
                     }
                     newSelectionIndex = Math.min(newSelectionIndex, myAllContents.size() - 1);
                     myList.setSelectedIndex(newSelectionIndex);
+                    listItemDeleted();
                 } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     doOKAction();
                 } else {

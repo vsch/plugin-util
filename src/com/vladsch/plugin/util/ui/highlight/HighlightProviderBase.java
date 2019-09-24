@@ -25,6 +25,7 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     protected int myInUpdateRegion = 0;
     protected boolean myPendingChanged = false;
     protected @NotNull T mySettings;
+    private int myInSet = 0;
 
     private OneTimeRunnable myHighlightRunner = OneTimeRunnable.NULL;
     private final HashSet<HighlightListener> myHighlightListeners;
@@ -48,30 +49,18 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
         };
     }
 
-    protected void subscribeSettingsChanged() {
-        ////noinspection ThisEscapedInObjectConstruction
-        //MessageBusConnection messageBusConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
-        //messageBusConnection.subscribe(ApplicationSettingsListener.TOPIC, settings1 -> settingsChanged(getColors(settings1), settings1));
-        //myDelayedRunner.addRunnable(messageBusConnection::disconnect);
+    @NotNull
+    public DelayedRunner getDelayedRunner() {
+        return myDelayedRunner;
     }
 
-    protected abstract @Nullable
-    CancelableJobScheduler getCancellableJobScheduler();
+    @Nullable
+    protected abstract CancelableJobScheduler getCancellableJobScheduler();
 
-    protected ColorIterable getColors(@NotNull T settings) {
-        return new ColorIterable(false);
-        //return new ColorIterable(
-        //        settings.getHueMin(),
-        //        settings.getHueMax(),
-        //        settings.getHueSteps(),
-        //        settings.getSaturationMin(),
-        //        settings.getSaturationMax(),
-        //        settings.getSaturationSteps(),
-        //        settings.getBrightnessMin(),
-        //        settings.getBrightnessMax(),
-        //        settings.getBrightnessSteps()
-        //);
-    }
+    protected abstract void subscribeSettingsChanged();
+
+    @NotNull
+    protected abstract ColorIterable getColors(@NotNull T settings);
 
     public void initComponent() {
         LafManager.getInstance().addLafManagerListener(myLafManagerListener);
@@ -122,6 +111,28 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     @Override
     public void removeHighlightListener(@NotNull HighlightListener highlightListener) {
         myHighlightListeners.remove(highlightListener);
+    }
+
+    public void startHighlightSet() {
+        startHighlightSet(0);
+    }
+
+    abstract protected void skipHighlightSets(int skipSets);
+
+    public boolean isInHighlightSet() {
+        return myInSet > 0;
+    }
+
+    public void startHighlightSet(int skipSets) {
+        if (skipSets > 0) skipHighlightSets(skipSets);
+        myInSet++;
+    }
+
+    public void endHighlightSet() {
+        if (myInSet > 0) {
+            myInSet--;
+            if (myInSet == 0) skipHighlightSets(1);
+        }
     }
 
     @Override

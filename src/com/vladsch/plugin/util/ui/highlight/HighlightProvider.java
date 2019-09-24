@@ -43,4 +43,25 @@ public interface HighlightProvider<T> {
     TextAttributes getHighlightAttributes(int index, final int flags, int startOffset, int endOffset, @Nullable Color foregroundColor, @Nullable Color effectColor, @Nullable EffectType effectType, int fontType);
 
     Highlighter<T> getHighlighter(@NotNull Editor editor);
+
+    default void startHighlightSet() {
+        startHighlightSet(0);
+    }
+
+    void startHighlightSet(int skipSets);
+
+    void endHighlightSet();
+
+    default void highlightSet(@NotNull Runnable runnable) {
+        highlightSet(0, runnable);
+    }
+
+    default void highlightSet(int skipSets, @NotNull Runnable runnable) {
+        try {
+            startHighlightSet(skipSets);
+            runnable.run();
+        } finally {
+            endHighlightSet();
+        }
+    }
 }
