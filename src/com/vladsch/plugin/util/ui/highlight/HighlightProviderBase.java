@@ -39,7 +39,7 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
             UIManager.LookAndFeelInfo lookAndFeel = LafManager.getInstance().getCurrentLookAndFeel();
 
             @Override
-            public void lookAndFeelChanged(final LafManager source) {
+            public void lookAndFeelChanged(@NotNull final LafManager source) {
                 UIManager.LookAndFeelInfo newLookAndFeel = source.getCurrentLookAndFeel();
                 if (lookAndFeel != newLookAndFeel) {
                     lookAndFeel = newLookAndFeel;
