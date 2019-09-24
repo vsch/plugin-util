@@ -32,7 +32,7 @@ public class SearchPattern {
     }
 
     public static String getPatternText(String text, boolean isRegex, boolean caseSensitive) {
-        return isRegex ? text : caseSensitive ? String.format("\\Q%s\\E", text) : String.format("(?i:\\Q%s\\E)", text);
+        return isRegex ? (caseSensitive ? text : String.format("(?i:%s)", text)) : caseSensitive ? String.format("\\Q%s\\E", text) : String.format("(?i:\\Q%s\\E)", text);
     }
 
     public Pattern getPattern() {
