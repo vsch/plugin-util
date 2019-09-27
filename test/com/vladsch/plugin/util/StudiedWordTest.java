@@ -32,6 +32,39 @@ public class StudiedWordTest {
     }
 
     @Test
+    public void test_isMixedSnakeCase() throws Exception {
+        assertEquals(false, StudiedWord.of("_a", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("A", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(true, StudiedWord.of("Abc_Def", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(true, StudiedWord.of("Abc_def", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("_123a", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("_123a", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("_123", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("123", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("a", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("A", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("_A", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of("_123A", StudiedWord.UNDER).isMixedSnakeCase());
+        assertEquals(false, StudiedWord.of(" _A", StudiedWord.UNDER).isMixedSnakeCase());
+    }
+
+    @Test
+    public void test_isFirstCapSnakeCase() throws Exception {
+        assertEquals(false, StudiedWord.of("_a", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("A", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("Abc_Def", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(true, StudiedWord.of("Abc_def", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("_123a", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("_123", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("123", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("a", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("A", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("_A", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of("_123A", StudiedWord.UNDER).isFirstCapSnakeCase());
+        assertEquals(false, StudiedWord.of(" _A", StudiedWord.UNDER).isFirstCapSnakeCase());
+    }
+
+    @Test
     public void test_isCamelCase() throws Exception {
         assertEquals(true, StudiedWord.of("aA", StudiedWord.UNDER).isCamelCase());
         assertEquals(true, StudiedWord.of("Aa", StudiedWord.UNDER).isCamelCase());
@@ -191,6 +224,15 @@ public class StudiedWordTest {
         assertEquals("ABC", StudiedWord.of("ABC", StudiedWord.UNDER).makeMixedSnakeCase());
         assertEquals("abc_Def_Hij", StudiedWord.of("abcDefHij", StudiedWord.UNDER).makeMixedSnakeCase());
         assertEquals("Abc_Def_Hij", StudiedWord.of("AbcDefHij", StudiedWord.UNDER).makeMixedSnakeCase());
+    }
+
+    @Test
+    public void test_makeFirstCapSnakeCase() throws Exception {
+        assertEquals("A_b", StudiedWord.of("aB", StudiedWord.UNDER).makeFirstCapSnakeCase());
+        assertEquals("A_bc", StudiedWord.of("aBc", StudiedWord.UNDER).makeFirstCapSnakeCase());
+        assertEquals("Abc", StudiedWord.of("ABC", StudiedWord.UNDER).makeFirstCapSnakeCase());
+        assertEquals("Abc_def_hij", StudiedWord.of("abcDefHij", StudiedWord.UNDER).makeFirstCapSnakeCase());
+        assertEquals("Abc_def_hij", StudiedWord.of("AbcDefHij", StudiedWord.UNDER).makeFirstCapSnakeCase());
     }
 
     @Test
