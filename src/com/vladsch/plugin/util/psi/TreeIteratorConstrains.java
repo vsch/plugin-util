@@ -3,8 +3,8 @@ package com.vladsch.plugin.util.psi;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
-import com.vladsch.tree.iteration.FixedIterationConditions;
-import com.vladsch.tree.iteration.IterationConditions;
+import com.vladsch.flexmark.tree.iteration.FixedIterationConditions;
+import com.vladsch.flexmark.tree.iteration.IterationConditions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,8 +13,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class TreeIteratorConstrains<N> {
-    public static final Predicate NOT_LEAF_PSI = n -> n instanceof LeafPsiElement;
-    public static final Predicate LEAF_PSI = n -> !(n instanceof LeafPsiElement);
+    public static final Predicate<Object> NOT_LEAF_PSI = n -> n instanceof LeafPsiElement;
+    public static final Predicate<Object> LEAF_PSI = n -> !(n instanceof LeafPsiElement);
 
     final Function<? super N, N> NEXT_SIBLING;
     final Function<? super N, N> PREV_SIBLING;
@@ -44,7 +44,7 @@ public class TreeIteratorConstrains<N> {
         }
     }
 
-    final IterationFunctions[] ourIterators;
+    @SuppressWarnings("rawtypes") final IterationFunctions[] ourIterators;
 
     private TreeIteratorConstrains(final Function<? super N, N> NEXT_SIBLING, final Function<? super N, N> PREV_SIBLING, final Function<? super N, N> FIRST_CHILD, final Function<? super N, N> LAST_CHILD, final Function<? super N, N> PARENT) {
         this.NEXT_SIBLING = NEXT_SIBLING;
@@ -54,15 +54,16 @@ public class TreeIteratorConstrains<N> {
         this.PARENT = PARENT;
 
         ourIterators = new IterationFunctions[MAX_CONSTRAINTS];
-        ourIterators[ITERATE_CHILDREN] = new IterationFunctions<N>(ITERATE_CHILDREN, FIRST_CHILD, NEXT_SIBLING, LAST_CHILD, PREV_SIBLING);
-        ourIterators[ITERATE_CHILDREN_REV] = new IterationFunctions<N>(ITERATE_CHILDREN_REV, LAST_CHILD, PREV_SIBLING, FIRST_CHILD, NEXT_SIBLING);
-        ourIterators[ITERATE_SIBLINGS] = new IterationFunctions<N>(ITERATE_SIBLINGS, NEXT_SIBLING, NEXT_SIBLING, PREV_SIBLING, PREV_SIBLING);
-        ourIterators[ITERATE_SIBLINGS_REV] = new IterationFunctions<N>(ITERATE_SIBLINGS_REV, PREV_SIBLING, PREV_SIBLING, NEXT_SIBLING, NEXT_SIBLING);
+        ourIterators[ITERATE_CHILDREN] = new IterationFunctions<>(ITERATE_CHILDREN, FIRST_CHILD, NEXT_SIBLING, LAST_CHILD, PREV_SIBLING);
+        ourIterators[ITERATE_CHILDREN_REV] = new IterationFunctions<>(ITERATE_CHILDREN_REV, LAST_CHILD, PREV_SIBLING, FIRST_CHILD, NEXT_SIBLING);
+        ourIterators[ITERATE_SIBLINGS] = new IterationFunctions<>(ITERATE_SIBLINGS, NEXT_SIBLING, NEXT_SIBLING, PREV_SIBLING, PREV_SIBLING);
+        ourIterators[ITERATE_SIBLINGS_REV] = new IterationFunctions<>(ITERATE_SIBLINGS_REV, PREV_SIBLING, PREV_SIBLING, NEXT_SIBLING, NEXT_SIBLING);
     }
 
-    final IterationConditions[] myConstraints = new IterationConditions[MAX_CONSTRAINTS];
+    @SuppressWarnings("rawtypes") final IterationConditions[] myConstraints = new IterationConditions[MAX_CONSTRAINTS];
 
     IterationConditions<N> getOrComputeConstraint(int index) {
+        //noinspection rawtypes
         IterationConditions constraints = myConstraints[index];
         if (constraints == null) {
             //noinspection unchecked
@@ -96,7 +97,7 @@ public class TreeIteratorConstrains<N> {
         return n -> null;
     }
 
-    final private static HashMap<Class, TreeIteratorConstrains> ourCachedBuilders = new HashMap<>();
+    @SuppressWarnings("rawtypes") final private static HashMap<Class<?>, TreeIteratorConstrains> ourCachedBuilders = new HashMap<>();
     final public static Function<? super PsiElement, PsiElement> PSI_NEXT_SIBLING = element -> element.isValid() ? element.getNextSibling() : null;
     final public static Function<? super PsiElement, PsiElement> PSI_PREV_SIBLING = element -> element.isValid() ? element.getPrevSibling() : null;
     final public static Function<? super PsiElement, PsiElement> PSI_FIRST_CHILD = element -> element.isValid() ? element.getFirstChild() : null;

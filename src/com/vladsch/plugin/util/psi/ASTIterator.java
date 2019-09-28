@@ -2,12 +2,12 @@ package com.vladsch.plugin.util.psi;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.TokenSet;
-import com.vladsch.tree.iteration.IterationConditions;
-import com.vladsch.tree.iteration.MappedIterator;
-import com.vladsch.tree.iteration.TreeIterator;
-import com.vladsch.tree.iteration.ValueIterationAdapter;
-import com.vladsch.tree.iteration.ValueIterationAdapterImpl;
-import com.vladsch.tree.iteration.ValueIterationFilter;
+import com.vladsch.flexmark.tree.iteration.IterationConditions;
+import com.vladsch.flexmark.tree.iteration.MappedIterator;
+import com.vladsch.flexmark.tree.iteration.TreeIterator;
+import com.vladsch.flexmark.tree.iteration.ValueIterationAdapter;
+import com.vladsch.flexmark.tree.iteration.ValueIterationAdapterImpl;
+import com.vladsch.flexmark.tree.iteration.ValueIterationFilter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
