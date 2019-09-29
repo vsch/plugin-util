@@ -21,8 +21,11 @@ class LazyFunction<T : Any, R : Any>(private val computable: Function<T, R>) {
 
     // getting this value will do the computation on first request
     private var argument: T? = null
+    var wasRun = false
+    private set
 
     private val _value: R by lazy {
+        wasRun = true
         computable.apply(argument!!)
     }
 

@@ -18,7 +18,11 @@ package com.vladsch.plugin.util
 class LazyRunnable(private val runnable: Runnable) {
 
     // getting this value will run the runnable in Java
-    val hasRun:Boolean by lazy {
+    var wasRun = false
+        private set
+
+    val hasRun: Boolean by lazy {
+        wasRun = true
         runnable.run()
         true
     }

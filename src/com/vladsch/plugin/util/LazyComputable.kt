@@ -17,10 +17,14 @@ package com.vladsch.plugin.util
 
 import java.util.function.Supplier
 
-class LazyComputable<T:Any>(private val computable: Supplier<T>) {
+class LazyComputable<T : Any>(private val computable: Supplier<T>) {
 
     // getting this value will do the computation on first request
-    val value:T by lazy {
+    var wasRun = false
+        private set
+
+    val value: T by lazy {
+        wasRun = true
         computable.get()
     }
 }
