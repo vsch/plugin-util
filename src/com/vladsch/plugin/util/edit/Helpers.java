@@ -696,12 +696,7 @@ public class Helpers {
         Caret[] carets = rangeMap.keySet().toArray(new Caret[rangeMap.size()]);
         Range prevRange = null;
 
-        Arrays.sort(carets, new Comparator<Caret>() {
-            @Override
-            public int compare(final Caret o1, final Caret o2) {
-                return o1.getLogicalPosition().compareTo(o2.getLogicalPosition());
-            }
-        });
+        Arrays.sort(carets, (o1, o2) -> o1.getLogicalPosition().compareTo(o2.getLogicalPosition()));
 
         if (!backwards) {
             for (int i = carets.length; i-- > 0; ) {

@@ -189,12 +189,9 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         ScrollingUtil.installActions(myList);
         ScrollingUtil.ensureSelectionExists(myList);
         updateViewerForSelection();
-        myList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                myUpdateAlarm.cancelAllRequests();
-                myUpdateAlarm.addRequest(() -> updateViewerForSelection(), 100);
-            }
+        myList.addListSelectionListener(e -> {
+            myUpdateAlarm.cancelAllRequests();
+            myUpdateAlarm.addRequest(() -> updateViewerForSelection(), 100);
         });
 
         mySplitter.setPreferredSize(JBUI.size(500, 500));

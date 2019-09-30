@@ -107,9 +107,55 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         forAllTargets(i, targets, Settable::reset);
     }
 
+    @NotNull
+    @SuppressWarnings("rawtypes")
+    public TraceComponent trace(@NotNull String name, @NotNull Settable component) {return new TraceComponent(name, component, true); }
+    public <C> C named(@NotNull String name, @NotNull C component) { return component; }
+
+    @SuppressWarnings("rawtypes")
+    static class TraceComponent implements Settable {
+        final public @NotNull String myName;
+        final public @NotNull Settable myComponent;
+        public boolean myTrace = false;
+
+        public TraceComponent(@NotNull final String name, @NotNull final Settable component, final boolean trace) {
+            myName = name;
+            myComponent = component;
+            myTrace = trace;
+        }
+
+        public TraceComponent(final @NotNull String name, final @NotNull Settable component) {
+            myName = name;
+            myComponent = component;
+        }
+
+        @Override
+        public void reset() {
+            myComponent.reset();
+        }
+
+        @Override
+        public void apply() {
+            myComponent.apply();
+        }
+
+        @Override
+        public boolean isModified() {
+            boolean modified = myComponent.isModified();
+            if (myTrace && modified) System.out.println("component " + myName + " is modified.");
+            return modified;
+        }
+
+        @Override
+        public Object getComponent() {
+            return null;
+        }
+    }
+
     // @formatter:off
     @NotNull public CheckBoxSetter component(@NotNull JCheckBox component, @NotNull Getter<Boolean> getter, @NotNull Setter<Boolean> setter) { return new CheckBoxSetter(component, getter, setter); }
     @NotNull public RadioButtonSetter component(@NotNull JRadioButton component, @NotNull Getter<Boolean> getter, @NotNull Setter<Boolean> setter) { return new RadioButtonSetter(component, getter, setter); }
+    @NotNull public <V extends Comparable<V>> FieldSetter<V> component(@NotNull Getter<V> fieldGetter, @NotNull Setter<V> fieldSetter, @NotNull Getter<V> getter, @NotNull Setter<V> setter) { return new FieldSetter<>(fieldGetter, fieldSetter, getter, setter); }
     @NotNull public <V> SpinnerSetter<V> component(@NotNull JSpinner component, @NotNull Getter<V> getter, @NotNull Setter<V> setter) { return new SpinnerSetter<V>(component, getter, setter); }
     @NotNull public TextBoxSetter component(JTextComponent component, Getter<String> getter, @NotNull Setter<String> setter) { return new TextBoxSetter(component, getter, setter); }
     @NotNull public ColorCheckBoxSetter component(@NotNull CheckBoxWithColorChooser component, @NotNull Getter<Color> getter, @NotNull Setter<Color> setter) { return new ColorCheckBoxSetter(component, getter, setter); }
@@ -117,13 +163,13 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     @NotNull public TextFieldWithHistorySetter component(@NotNull TextFieldWithHistory component, @NotNull Getter<List<String>> historyGetter, @NotNull Setter<List<String>> historySetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistorySetter(component, historyGetter, historySetter, getter, setter); }
     @NotNull public TextFieldWithBrowseButtonSetter component(@NotNull TextFieldWithBrowseButton component, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithBrowseButtonSetter(component, getter, setter); }
     @NotNull public TextFieldWithHistoryWithBrowseButtonSetter component(@NotNull TextFieldWithHistoryWithBrowseButton component, @NotNull Getter<List<String>> historyGetter, @NotNull Setter<List<String>> historySetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new TextFieldWithHistoryWithBrowseButtonSetter(component, historyGetter, historySetter, getter, setter); }
+    @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter, @NotNull Comparator<String> comparator) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter, comparator); }
     @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter,
             (o1, o2) -> {
                 BasedSequence b1 = BasedSequenceImpl.of(o1);
                 BasedSequence b2 = BasedSequenceImpl.of(o2);
                 return b1.trimTailBlankLines().compareTo(b2.trimTailBlankLines());
             }); }
-    @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter, @NotNull Comparator<String> comparator) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter, comparator); }
     // @formatter:on
 
     @NotNull
@@ -264,7 +310,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     public static class TextFieldWithHistoryWithBrowseButtonSetter extends TextFieldWithHistorySetterBase<TextFieldWithHistoryWithBrowseButton> {
         public TextFieldWithHistoryWithBrowseButtonSetter(@NotNull final TextFieldWithHistoryWithBrowseButton instance, @NotNull final Getter<List<String>> historyGetter, @NotNull final Setter<List<String>> historySetter, @NotNull final Getter<String> getter, @NotNull final Setter<String> setter) {
             super(instance,
-                    comp->comp.getChildComponent().getHistory(),(comp, value)->comp.getChildComponent().setHistory(value),
+                    comp -> comp.getChildComponent().getHistory(), (comp, value) -> comp.getChildComponent().setHistory(value),
                     TextFieldWithHistoryWithBrowseButton::getText, TextFieldWithHistoryWithBrowseButton::setTextAndAddToHistory,
                     historyGetter, historySetter, getter, setter);
         }
@@ -279,12 +325,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         private final @NotNull Comparator<T> myComparator;
 
         public EditorTextFieldSetter(@NotNull V component, @NotNull JComponentGetter<V, T> componentGetter, @NotNull JComponentSetter<V, T> componentSetter, @NotNull Getter<T> getter, @NotNull Setter<T> setter) {
-            this(component, componentGetter, componentSetter, getter, setter, new Comparator<T>() {
-                @Override
-                public int compare(final T o1, final T o2) {
-                    return o1.compareTo(o2);
-                }
-            });
+            this(component, componentGetter, componentSetter, getter, setter, (o1, o2) -> o1.compareTo(o2));
         }
 
         public EditorTextFieldSetter(@NotNull V component, @NotNull JComponentGetter<V, T> componentGetter, @NotNull JComponentSetter<V, T> componentSetter, @NotNull Getter<T> getter, @NotNull Setter<T> setter, @NotNull Comparator<T> comparator) {
@@ -411,6 +452,45 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         @Override
         public SettableForm<S> getComponent() {
             return myInstance;
+        }
+    }
+
+    public static class FieldSetter<V extends Comparable<V>> implements Settable<Object> {
+        private final @NotNull Getter<V> myFieldGetter;
+        private final @NotNull Setter<V> myFieldSetter;
+        private final @NotNull Getter<V> myGetter;
+        private final @NotNull Setter<V> mySetter;
+
+        public FieldSetter(@NotNull Getter<V> fieldGetter, @NotNull Setter<V> fieldSetter, @NotNull Getter<V> getter, @NotNull Setter<V> setter) {
+            myFieldGetter = fieldGetter;
+            myFieldSetter = fieldSetter;
+            myGetter = getter;
+            mySetter = setter;
+        }
+
+        @NotNull
+        @Override
+        public Object getComponent() {
+            return this;
+        }
+
+        @Override
+        public void reset() {
+            if (!myGetter.get().equals(myFieldGetter.get())) {
+                myFieldSetter.set(myGetter.get());
+            }
+        }
+
+        @Override
+        public void apply() {
+            if (!myGetter.get().equals(myFieldGetter.get())) {
+                mySetter.set(myFieldGetter.get());
+            }
+        }
+
+        @Override
+        public boolean isModified() {
+            return !Objects.equals(myGetter.get(), myFieldGetter.get());
         }
     }
 }

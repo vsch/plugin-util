@@ -5,13 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Template {
-    final public static Resolver MAP_RESOLVER = new Resolver() {
-
-        @Override
-        public String resolve(final String[] groups) {
-            return null;
-        }
-    };
+    final public static Resolver MAP_RESOLVER = groups -> null;
 
     public static class MappedResolver implements Resolver {
         final private Map<String, String> myMap;

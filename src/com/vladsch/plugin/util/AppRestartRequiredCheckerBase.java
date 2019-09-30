@@ -66,21 +66,18 @@ public abstract class AppRestartRequiredCheckerBase<T> {
     public void informRestartIfNeeded(T settings) {
         if (!restartCheckPending) {
             restartCheckPending = true;
-            ApplicationManagerEx.getApplication().invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    restartCheckPending = false;
-                    long restartNeededReasons = getRestartNeededReasons(settings);
+            ApplicationManagerEx.getApplication().invokeLater(() -> {
+                restartCheckPending = false;
+                long restartNeededReasons = getRestartNeededReasons(settings);
 
-                    if ((restartNeededReasons & ~restartNeededShownFlags) != 0) {
-                        if (showRestartDialog() == Messages.YES) {
-                            ApplicationManagerEx.getApplicationEx().restart(true);
-                        } else {
-                            restartNeededShownFlags = restartNeededReasons;
-                        }
+                if ((restartNeededReasons & ~restartNeededShownFlags) != 0) {
+                    if (showRestartDialog() == Messages.YES) {
+                        ApplicationManagerEx.getApplicationEx().restart(true);
                     } else {
                         restartNeededShownFlags = restartNeededReasons;
                     }
+                } else {
+                    restartNeededShownFlags = restartNeededReasons;
                 }
             }, ModalityState.NON_MODAL);
         }

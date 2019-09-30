@@ -99,12 +99,7 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     public void addHighlightListener(@NotNull HighlightListener highlightListener, @NotNull Disposable parent) {
         if (!myHighlightListeners.contains(highlightListener)) {
             myHighlightListeners.add(highlightListener);
-            Disposer.register(parent, new Disposable() {
-                @Override
-                public void dispose() {
-                    myHighlightListeners.remove(highlightListener);
-                }
-            });
+            Disposer.register(parent, () -> myHighlightListeners.remove(highlightListener));
         }
     }
 

@@ -37,14 +37,11 @@ public abstract class CheckboxAction extends ToggleAction implements CustomCompo
         JCheckBox checkBox = new JCheckBox();
         checkBox.setOpaque(false);
 
-        checkBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JCheckBox checkBox = (JCheckBox) e.getSource();
-                ActionToolbar actionToolbar = UIUtil.getParentOfType(ActionToolbar.class, checkBox);
-                DataContext dataContext = actionToolbar != null ? actionToolbar.getToolbarDataContext() : DataManager.getInstance().getDataContext(checkBox);
-                CheckboxAction.this.actionPerformed(AnActionEvent.createFromAnAction(CheckboxAction.this, null, ActionPlaces.UNKNOWN, dataContext));
-            }
+        checkBox.addActionListener(e -> {
+            JCheckBox checkBox1 = (JCheckBox) e.getSource();
+            ActionToolbar actionToolbar = UIUtil.getParentOfType(ActionToolbar.class, checkBox1);
+            DataContext dataContext = actionToolbar != null ? actionToolbar.getToolbarDataContext() : DataManager.getInstance().getDataContext(checkBox1);
+            CheckboxAction.this.actionPerformed(AnActionEvent.createFromAnAction(CheckboxAction.this, null, ActionPlaces.UNKNOWN, dataContext));
         });
         updateCustomComponent(checkBox, presentation);
         return checkBox;
