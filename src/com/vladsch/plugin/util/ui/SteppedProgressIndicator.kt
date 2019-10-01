@@ -73,6 +73,7 @@ class SteppedProgressIndicator(progressIndicator: ProgressIndicator?) : Progress
     }
 
     override fun startNonCancelableSection() {
+        @Suppress("DEPRECATION")
         myProgressIndicator?.startNonCancelableSection()
     }
 
@@ -89,6 +90,7 @@ class SteppedProgressIndicator(progressIndicator: ProgressIndicator?) : Progress
     }
 
     override fun finishNonCancelableSection() {
+        @Suppress("DEPRECATION")
         myProgressIndicator?.finishNonCancelableSection()
     }
 

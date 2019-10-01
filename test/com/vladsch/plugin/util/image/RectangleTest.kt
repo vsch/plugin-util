@@ -230,8 +230,8 @@ class RectangleTest {
         val rect00f = rect1.grow(0f)
         val rect11f = rect1.grow(1f)
 
-        val rect1_01 = Rectangle.of(10, 30, 20 - 1, 50 + 1, 7)
-        val rect1_10 = Rectangle.of(10 - 1, 30 + 1, 20, 50, 7)
+//        val rect1_01 = Rectangle.of(10, 30, 20 - 1, 50 + 1, 7)
+//        val rect1_10 = Rectangle.of(10 - 1, 30 + 1, 20, 50, 7)
         val rect1_11 = Rectangle.of(10 - 1, 30 + 1, 20 - 1, 50 + 1, 7)
 
         assertSame(rect1, rect00)
@@ -311,8 +311,8 @@ class RectangleTest {
         val rect00f = rect1.shrink(0f)
         val rect11f = rect1.shrink(-1f)
 
-        val rect1_01 = Rectangle.of(10, 30, 20 - 1, 50 + 1, 10)
-        val rect1_10 = Rectangle.of(10 - 1, 30 + 1, 20, 50, 10)
+//        val rect1_01 = Rectangle.of(10, 30, 20 - 1, 50 + 1, 10)
+//        val rect1_10 = Rectangle.of(10 - 1, 30 + 1, 20, 50, 10)
         val rect1_11 = Rectangle.of(10 - 1, 30 + 1, 20 - 1, 50 + 1, 10)
 
         assertSame(rect1, rect00)

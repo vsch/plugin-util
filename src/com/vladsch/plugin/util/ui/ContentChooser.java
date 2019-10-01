@@ -191,7 +191,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         updateViewerForSelection();
         myList.addListSelectionListener(e -> {
             myUpdateAlarm.cancelAllRequests();
-            myUpdateAlarm.addRequest(() -> updateViewerForSelection(), 100);
+            myUpdateAlarm.addRequest(this::updateViewerForSelection, 100);
         });
 
         mySplitter.setPreferredSize(JBUI.size(500, 500));

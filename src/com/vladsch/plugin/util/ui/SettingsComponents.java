@@ -325,7 +325,7 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         private final @NotNull Comparator<T> myComparator;
 
         public EditorTextFieldSetter(@NotNull V component, @NotNull JComponentGetter<V, T> componentGetter, @NotNull JComponentSetter<V, T> componentSetter, @NotNull Getter<T> getter, @NotNull Setter<T> setter) {
-            this(component, componentGetter, componentSetter, getter, setter, (o1, o2) -> o1.compareTo(o2));
+            this(component, componentGetter, componentSetter, getter, setter, Comparable::compareTo);
         }
 
         public EditorTextFieldSetter(@NotNull V component, @NotNull JComponentGetter<V, T> componentGetter, @NotNull JComponentSetter<V, T> componentSetter, @NotNull Getter<T> getter, @NotNull Setter<T> setter, @NotNull Comparator<T> comparator) {
