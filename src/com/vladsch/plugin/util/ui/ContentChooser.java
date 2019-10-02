@@ -41,8 +41,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.event.KeyAdapter;
@@ -58,7 +56,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
 
     final boolean myUseIdeaEditor;
 
-    final JBList myList;
+    final JBList<Item> myList;
     private final JBSplitter mySplitter;
     private final Project myProject;
     private final boolean myAllowMultipleSelections;
@@ -77,8 +75,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         myUpdateAlarm = new Alarm(getDisposable());
         mySplitter = new JBSplitter(true, 0.3f);
         mySplitter.setSplitterProportionKey(getDimensionServiceKey() + ".splitter");
-        //noinspection unchecked
-        myList = new JBList(new CollectionListModel<Item>());
+        myList = new JBList<>(new CollectionListModel<>());
         myList.setExpandableItemsEnabled(false);
 
         setOKButtonText(CommonBundle.getOkButtonText());
@@ -132,7 +129,6 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
             }
         }.installOn(myList);
 
-        //noinspection unchecked
         myList.setCellRenderer(new MyListCellRenderer());
         myList.addKeyListener(new KeyAdapter() {
             @Override
@@ -146,7 +142,6 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
                             newSelectionIndex = i;
                         }
                     }
-
 
                     rebuildListContent();
                     if (myAllContents.isEmpty()) {
@@ -178,7 +173,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
 
         // needed for 2016.3 since speed search wrapper is not compatible with 2019.1
         try {
-            final JComponent wrappedList = ListWithFilter.wrap(myList, scrollPane, o -> ((Item) o).longText);
+            final JComponent wrappedList = ListWithFilter.wrap(myList, scrollPane, o -> o.longText);
             mySplitter.setFirstComponent(wrappedList);
         } catch (Throwable ignored) {
             mySplitter.setFirstComponent(scrollPane);
@@ -339,22 +334,20 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
             }
         }
         myAllContents = contents;
-        ListModel listModel = myList.getModel();
+        ListModel<Item> listModel = myList.getModel();
         if (listModel instanceof FilteringListModel) {
-            FilteringListModel filteringListModel = (FilteringListModel) listModel;
-            ((CollectionListModel) filteringListModel.getOriginalModel()).removeAll();
-            //noinspection unchecked
+            FilteringListModel<Item> filteringListModel = (FilteringListModel<Item>) listModel;
+            ((CollectionListModel<Item>) filteringListModel.getOriginalModel()).removeAll();
             filteringListModel.addAll(items);
-            ListWithFilter listWithFilter = UIUtil.getParentOfType(ListWithFilter.class, myList);
+            ListWithFilter<?> listWithFilter = UIUtil.getParentOfType(ListWithFilter.class, myList);
             if (listWithFilter != null) {
                 listWithFilter.getSpeedSearch().update();
                 if (filteringListModel.getSize() == 0) listWithFilter.resetFilter();
             }
         } else if (listModel instanceof CollectionListModel) {
-            // needed for 2016.3 since speed search wrapper is not compatible with 2019.1
-            ((CollectionListModel) listModel).removeAll();
-            //noinspection unchecked
-            ((CollectionListModel) listModel).add(items);
+            // DEPRECATED: needed for 2016.3 since speed search wrapper is not compatible with 2019.1
+            ((CollectionListModel<Item>) listModel).removeAll();
+            ((CollectionListModel<Item>) listModel).add(items);
         }
     }
 
@@ -363,8 +356,8 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
     protected abstract List<Data> getContents();
 
     public int getSelectedIndex() {
-        Object o = myList.getSelectedValue();
-        return o == null ? -1 : ((Item) o).index;
+        Item item = myList.getSelectedValue();
+        return item == null ? -1 : item.index;
     }
 
     public void setSelectedIndex(int index) {
@@ -379,11 +372,11 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
 
     @NotNull
     public int[] getSelectedIndices() {
-        List values = myList.getSelectedValuesList();
+        List<Item> values = myList.getSelectedValuesList();
         int iMax = values.size();
         int[] result = new int[iMax];
         for (int i = 0; i < iMax; i++) {
-            result[i] = ((Item) values.get(i)).index;
+            result[i] = values.get(i).index;
         }
         return result;
     }
@@ -410,9 +403,11 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         return sb.toString();
     }
 
-    private class MyListCellRenderer extends ColoredListCellRenderer {
+    private class MyListCellRenderer extends ColoredListCellRenderer<Item> {
+        MyListCellRenderer() {}
+
         @Override
-        protected void customizeCellRenderer(@NotNull JList list, Object value, int index, boolean selected, boolean hasFocus) {
+        protected void customizeCellRenderer(@NotNull JList<? extends Item> list, Item value, int index, boolean selected, boolean hasFocus) {
             setIcon(getListEntryIcon(myAllContents.get(index)));
             if (myUseIdeaEditor) {
                 int max = list.getModel().getSize();
@@ -422,12 +417,12 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
                 Arrays.fill(spaces, ' ');
                 String prefix = indexString + new String(spaces) + "  ";
                 append(prefix, SimpleTextAttributes.GRAYED_ATTRIBUTES);
-            } else if (UIUtil.isUnderGTKLookAndFeel()) {
-                // Fix GTK background
-                Color background = selected ? UIUtil.getListSelectionBackground() : UIUtil.getListBackground();
-                UIUtil.changeBackGround(this, background);
+//            } else if (UIUtil.isUnderGTKLookAndFeel()) {
+//                // Fix GTK background
+//                Color background = selected ? UIUtil.getListSelectionBackground() : UIUtil.getListBackground();
+//                UIUtil.changeBackGround(this, background);
             }
-            String text = ((Item) value).shortText;
+            String text = value.shortText;
 
             FontMetrics metrics = list.getFontMetrics(list.getFont());
             int charWidth = metrics.charWidth('m');

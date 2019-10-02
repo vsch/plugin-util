@@ -60,7 +60,7 @@ public class CheckBoxWithColorChooser extends JPanel {
     }
 
     public CheckBoxWithColorChooser(String text, boolean selected) {
-        this(text, selected, Color.WHITE);
+        this(text, selected, JBColor.WHITE);
     }
 
     public CheckBoxWithColorChooser(String text) {
@@ -161,6 +161,8 @@ public class CheckBoxWithColorChooser extends JPanel {
             final Color color = g.getColor();
             int width = getWidth() - LEFT_MARGIN;
             int height = getHeight();
+            // DEPRECATED: replacement JBUIScale#scale appeared in 2019-06-10
+            //noinspection deprecation
             float scale = JBUI.scale(1.0f);
             if (scale != 1.0f) {
                 final Graphics2D g2d = (Graphics2D) g.create(LEFT_MARGIN, 0, width, height);
@@ -173,7 +175,7 @@ public class CheckBoxWithColorChooser extends JPanel {
                 g2d.setColor(myCheckbox.isSelected() || myUnselectedColor == null ? myColor : myUnselectedColor);
                 RoundRectangle2D.Double shape = new RoundRectangle2D.Double(0, 0, (width - 1) * s, (height - 1) * s, iSize * s, iSize * s);
                 g2d.fill(shape);
-                g2d.setColor(ColorUtil.withAlpha(Color.BLACK, .40));
+                g2d.setColor(ColorUtil.withAlpha(JBColor.BLACK, .40));
                 g2d.draw(shape);
 
                 graphicsConfig.restore();

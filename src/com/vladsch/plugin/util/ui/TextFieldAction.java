@@ -47,6 +47,8 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
 
     }
 
+    // DEPRECATED: replacement appeared in 2019-02-15
+    @SuppressWarnings("deprecation")
     @NotNull
     @Override
     public JComponent createCustomComponent(@NotNull final Presentation presentation) {
@@ -70,7 +72,7 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
 
         textField.getDocument().addDocumentListener(new DocumentAdapter() {
             @Override
-            protected void textChanged(final DocumentEvent e) {
+            protected void textChanged(@NotNull final DocumentEvent e) {
                 String text = textField.getText();
                 if (!text.equals(presentation.getText())) {
                     presentation.setText(text);
@@ -92,7 +94,7 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
     }
 
     @Override
-    public void update(final AnActionEvent e) {
+    public void update(@NotNull final AnActionEvent e) {
         super.update(e);
         Presentation presentation = e.getPresentation();
         Object property = presentation.getClientProperty(CustomComponentAction.CUSTOM_COMPONENT_PROPERTY);

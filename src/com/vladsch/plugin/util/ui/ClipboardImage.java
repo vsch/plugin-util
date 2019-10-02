@@ -5,6 +5,8 @@
 
 package com.vladsch.plugin.util.ui;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -33,6 +35,7 @@ public class ClipboardImage implements ClipboardOwner {
             myImage = image;
         }
 
+        @NotNull
         public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
             if (flavor.equals(DataFlavor.imageFlavor) && myImage != null) {
                 return myImage;

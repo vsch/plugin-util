@@ -11,6 +11,7 @@ import javax.swing.JList;
 import java.util.function.Function;
 
 public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
+    @SuppressWarnings("rawtypes")
     ComboBoxAdaptable[] EMPTY = new ComboBoxAdaptable[0];
 
     @NotNull
@@ -36,6 +37,8 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         return getAdapter().setComboBoxSelection(comboBox, this);
     }
 
+    // DEPRECATED: replacement com.intellij.ui.SimpleListCellRenderer appeared in 2019-4-19
+    @SuppressWarnings("deprecation")
     class IconCellRenderer<E extends ComboBoxAdaptable<E>> extends ListCellRendererWrapper<String> {
         final @NotNull ComboBoxAdapter<E> myAdapter;
         final @NotNull Function<E, Icon> myIconMapper;

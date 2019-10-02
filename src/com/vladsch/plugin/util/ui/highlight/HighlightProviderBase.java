@@ -3,7 +3,9 @@ package com.vladsch.plugin.util.ui.highlight;
 import com.intellij.ide.ui.LafManager;
 import com.intellij.ide.ui.LafManagerListener;
 import com.intellij.openapi.Disposable;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.util.messages.MessageBusConnection;
 import com.vladsch.plugin.util.AwtRunnable;
 import com.vladsch.plugin.util.CancelableJobScheduler;
 import com.vladsch.plugin.util.DelayedRunner;
@@ -62,11 +64,20 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     @NotNull
     protected abstract ColorIterable getColors(@NotNull T settings);
 
+    @SuppressWarnings("deprecation")
     public void initComponent() {
-        LafManager.getInstance().addLafManagerListener(myLafManagerListener);
-        myDelayedRunner.addRunnable(() -> {
-            LafManager.getInstance().removeLafManagerListener(myLafManagerListener);
-        });
+        MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
+
+        try {
+            settingsConnection.subscribe(LafManagerListener.TOPIC, myLafManagerListener);
+        } catch (NoSuchFieldError ignored) {
+            // DEPRECATED: replacement appeared in 2019-07-20
+            LafManager.getInstance().addLafManagerListener(myLafManagerListener);
+            myDelayedRunner.addRunnable(() -> {
+                // DEPRECATED: replacement appeared in 2019-07-20
+                LafManager.getInstance().removeLafManagerListener(myLafManagerListener);
+            });
+        }
 
         settingsChanged(getColors(mySettings), mySettings);
     }

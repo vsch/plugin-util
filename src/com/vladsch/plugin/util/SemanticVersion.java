@@ -1,6 +1,7 @@
 package com.vladsch.plugin.util;
 
 import com.vladsch.flexmark.util.Utils;
+import org.jetbrains.annotations.NotNull;
 
 import static com.vladsch.flexmark.util.Utils.parseIntOrNull;
 
@@ -27,7 +28,7 @@ public class SemanticVersion implements Comparable<SemanticVersion> {
         tailSignificant = tailIsSignificant;
     }
 
-    public int compareTo(final SemanticVersion o) {
+    public int compareTo(@NotNull final SemanticVersion o) {
         int val = Utils.compareNullable(major, o.major);
         if (val == 0) {
             val = Utils.compareNullable(minor, o.minor);
