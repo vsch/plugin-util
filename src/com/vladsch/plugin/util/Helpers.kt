@@ -3,6 +3,9 @@
  */
 package com.vladsch.plugin.util
 
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.LocalFileSystem
+import com.intellij.openapi.vfs.VirtualFile
 import com.vladsch.flexmark.util.sequence.BasedSequence
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 import org.jdom.Element
@@ -580,4 +583,12 @@ fun <T> List<T>.forEachReversed(action: (T) -> Unit) {
     while (i-- > 0) {
         action.invoke(get(i))
     }
+}
+
+fun Project.getProjectBaseDirectory(): VirtualFile? {
+    val basePath = this.basePath
+    if (basePath != null) {
+        return LocalFileSystem.getInstance().findFileByPath(basePath)
+    }
+    return null
 }
