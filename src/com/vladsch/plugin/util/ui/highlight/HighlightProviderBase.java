@@ -28,6 +28,7 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     protected boolean myPendingChanged = false;
     protected @NotNull T mySettings;
     private int myInSet = 0;
+    private int mySavedHighlightIndex = -1;
 
     private OneTimeRunnable myHighlightRunner = OneTimeRunnable.NULL;
     private final HashSet<HighlightListener> myHighlightListeners;
@@ -124,6 +125,8 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     }
 
     abstract protected void skipHighlightSets(int skipSets);
+    abstract protected void setHighlightIndex(int index);
+    abstract protected int getHighlightIndex();
 
     public boolean isInHighlightSet() {
         return myInSet > 0;
@@ -131,13 +134,33 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
 
     public void startHighlightSet(int skipSets) {
         if (skipSets > 0) skipHighlightSets(skipSets);
+        if (!isInHighlightSet()) {
+            mySavedHighlightIndex = -1;
+        }
+        myInSet++;
+    }
+
+    public void restartHighlightSet(int index) {
+        if (index >= 0) {
+            if (!isInHighlightSet()) {
+                mySavedHighlightIndex = getHighlightIndex();
+            }
+            setHighlightIndex(index);
+        }
         myInSet++;
     }
 
     public void endHighlightSet() {
         if (myInSet > 0) {
             myInSet--;
-            if (myInSet == 0) skipHighlightSets(1);
+            if (!isInHighlightSet()) {
+                if (mySavedHighlightIndex != -1) {
+                    setHighlightIndex(mySavedHighlightIndex);
+                    mySavedHighlightIndex = -1;
+                } else {
+                    skipHighlightSets(1);
+                }
+            }
         }
     }
 

@@ -213,6 +213,16 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
         myOriginalOrderIndex += skipSets;
     }
 
+    @Override
+    protected void setHighlightIndex(int index) {
+        myOriginalOrderIndex = index;
+    }
+
+    @Override
+    protected int getHighlightIndex() {
+        return myOriginalOrderIndex;
+    }
+
     protected abstract void highlightRangeRemoved(R range);
 
     @Override

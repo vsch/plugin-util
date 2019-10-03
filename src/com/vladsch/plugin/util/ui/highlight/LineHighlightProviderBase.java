@@ -129,6 +129,16 @@ public abstract class LineHighlightProviderBase<T> extends HighlightProviderBase
     }
 
     @Override
+    protected void setHighlightIndex(int index) {
+        myOriginalOrderIndex = index;
+    }
+
+    @Override
+    protected int getHighlightIndex() {
+        return myOriginalOrderIndex;
+    }
+
+    @Override
     public void removeHighlightLine(final int line) {
         if (myHighlightLines != null) {
             if (myHighlightLines.containsKey(line)) {

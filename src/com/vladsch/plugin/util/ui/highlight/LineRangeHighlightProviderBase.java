@@ -151,6 +151,16 @@ public abstract class LineRangeHighlightProviderBase<T> extends HighlightProvide
 
     }
 
+    @Override
+    protected void setHighlightIndex(int index) {
+
+    }
+
+    @Override
+    protected int getHighlightIndex() {
+        return -1;
+    }
+
     @Nullable
     @Override
     public BitSet removeHighlightLines(@Nullable final BitSet bitSet) {

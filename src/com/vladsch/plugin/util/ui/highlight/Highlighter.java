@@ -67,6 +67,16 @@ public abstract class Highlighter<T> {
         return null;
     }
 
+    public int getRangeHighlighterIndex(RangeHighlighter rangeHighlighter) {
+        if (myHighlighters != null && myHighlighterIndexList != null) {
+            int index = myHighlighters.indexOf(rangeHighlighter);
+            if (index >= 0 && index < myHighlighterIndexList.size() ) {
+                return myHighlighterIndexList.get(index);
+            }
+        }
+        return -1;
+    }
+
     public RangeHighlighter getPreviousRangeHighlighter(int offset) {
         if (myHighlighters != null) {
             int iMax = myHighlighters.size();

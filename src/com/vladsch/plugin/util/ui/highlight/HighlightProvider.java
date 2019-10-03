@@ -50,6 +50,12 @@ public interface HighlightProvider<T> {
 
     void startHighlightSet(int skipSets);
 
+    /**
+     * Provide an index, if > than last will change last to this value
+     * @param index color index
+     */
+    void restartHighlightSet(int index);
+
     void endHighlightSet();
 
     default void highlightSet(@NotNull Runnable runnable) {
