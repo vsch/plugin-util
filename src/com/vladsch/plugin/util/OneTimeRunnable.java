@@ -1,7 +1,9 @@
 package com.vladsch.plugin.util;
 
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.application.ModalityState;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -22,24 +24,30 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
     final private AtomicBoolean myHasRun;
     final private @NotNull String myId;
 
+    public OneTimeRunnable(@NotNull String id, ModalityState modalityState, Runnable command) {
+        this(id, false, modalityState, command);
+    }
+
     public OneTimeRunnable(@NotNull Runnable command) {
-        this("", false, command);
+        this("", false, null, command);
     }
 
     public OneTimeRunnable(@NotNull String id, @NotNull Runnable command) {
-        this(id, false, command);
+        this(id, false, null, command);
     }
 
     public OneTimeRunnable(@NotNull String id, boolean awtThread, Runnable command) {
-        super(awtThread, command);
-        myHasRun = new AtomicBoolean(false);
-        myId = id;
+        this(id, awtThread, null, command);
     }
 
     public OneTimeRunnable(boolean awtThread, Runnable command) {
-        super(awtThread, command);
+        this("",  awtThread, null, command);
+    }
+
+    public OneTimeRunnable(@NotNull String id, boolean awtThread, @Nullable ModalityState modalityState, Runnable command) {
+        super(awtThread, command, modalityState);
         myHasRun = new AtomicBoolean(false);
-        myId = "";
+        myId = id;
     }
 
     /**
@@ -57,7 +65,7 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
     /**
      * Tests whether it has run or been cancelled
      *
-     * @return true if cancelled, false if it has already run
+     * @return false if cancelled or has run, true still can run later
      */
     @Override
     public boolean canRun() {
