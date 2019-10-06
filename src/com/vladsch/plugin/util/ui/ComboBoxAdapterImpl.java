@@ -60,7 +60,6 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
         for (E item : myDefault.getValues()) {
             if (!excluded.contains(item)) {
                 String displayName = item.getDisplayName();
-                //noinspection unchecked
                 comboBox.addItem(displayName);
             }
         }

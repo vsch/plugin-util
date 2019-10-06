@@ -22,7 +22,6 @@ public class ComboBoxBooleanAdapterImpl<E extends ComboBoxAdaptable<E>> extends 
         comboBox.removeAllItems();
         for (E item : myDefault.getValues()) {
             if (item == myDefault || item == myNonDefault) {
-                //noinspection unchecked
                 comboBox.addItem(item.getDisplayName());
             }
         }
