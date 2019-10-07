@@ -110,7 +110,8 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     @NotNull
     @SuppressWarnings("rawtypes")
     public TraceComponent trace(@NotNull String name, @NotNull Settable component) {return new TraceComponent(name, component, true); }
-    public <C> C named(@NotNull String name, @NotNull C component) { return component; }
+
+    public <C> C notrace(@NotNull String name, @NotNull C component) { return component; }
 
     @SuppressWarnings("rawtypes")
     static class TraceComponent implements Settable {
@@ -415,7 +416,9 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         @Override
         public boolean isModified() {
             if (myInstance.isVisible()) {
-                return !Objects.equals(myGetter.get(), myComponentGetter.get());
+                if (!Objects.equals(myGetter.get(), myComponentGetter.get())) {
+                    return true;
+                }
             }
             return false;
         }
