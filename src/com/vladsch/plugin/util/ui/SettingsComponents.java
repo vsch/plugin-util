@@ -143,7 +143,10 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
         @Override
         public boolean isModified() {
             boolean modified = myComponent.isModified();
-            if (myTrace && modified) System.out.println("component " + myName + " is modified.");
+            if (myTrace && modified) {
+                myComponent.isModified();
+                System.out.println("component " + myName + " is modified.");
+            }
             return modified;
         }
 
