@@ -25,6 +25,7 @@ import com.intellij.openapi.editor.colors.EditorColorsManager;
 import com.intellij.openapi.editor.colors.EditorColorsScheme;
 import com.intellij.openapi.editor.markup.EffectType;
 import com.intellij.openapi.editor.markup.TextAttributes;
+import com.vladsch.flexmark.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,10 +43,41 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
         super(settings);
     }
 
+    @Nullable
+    protected HashMap<R, Pair<Integer, Integer>> getHighlightState() {
+        if (myHighlightRangeFlags != null && myOriginalIndexMap != null) {
+            HashMap<R, Pair<Integer, Integer>> state = new HashMap<>(myHighlightRangeFlags.size());
+            for (R key : myHighlightRangeFlags.keySet()) {
+                state.put(key, Pair.of(myHighlightRangeFlags.get(key), myOriginalIndexMap.get(key)));
+            }
+            return state;
+        }
+        return null;
+    }
+
+    protected void setHighlightState(Map<R, Pair<Integer, Integer>> state) {
+        clearHighlightsRaw();
+        myHighlightRangeFlags = new LinkedHashMap<>();
+        myOriginalIndexMap = new LinkedHashMap<>();
+        int index = 0;
+
+        for (R key : state.keySet()) {
+            Pair<Integer, Integer> pair = state.get(key);
+            if (pair != null && pair.getFirst() != null && pair.getSecond() != null) {
+                int flags = pair.getFirst();
+                int originalIndex = pair.getSecond();
+                myHighlightRangeFlags.put(key, flags);
+                myOriginalIndexMap.put(key, originalIndex);
+                index = Math.max(index, originalIndex);
+            }
+        }
+
+        myOriginalOrderIndex = index + 1;
+    }
+
     @Override
     public void disposeComponent() {
         clearHighlights();
-
         super.disposeComponent();
     }
 
@@ -62,7 +94,6 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
         myHighlightRangeFlags = null;
         myOriginalIndexMap = null;
         myOriginalOrderIndex = 0;
-        fireHighlightsChanged();
     }
 
     @Override

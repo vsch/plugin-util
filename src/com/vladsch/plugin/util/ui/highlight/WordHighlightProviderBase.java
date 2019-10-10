@@ -22,6 +22,7 @@
 package com.vladsch.plugin.util.ui.highlight;
 
 import com.intellij.openapi.editor.Editor;
+import com.vladsch.flexmark.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,19 +48,34 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
         return new WordHighlighter<>(this, editor);
     }
 
+    @Nullable
+    protected HashMap<String, Pair<Integer, Integer>> getHighlightState() {
+        return super.getHighlightState();
+    }
+
+    @Override
+    protected void setHighlightState(Map<String, Pair<Integer, Integer>> state) {
+         super.setHighlightState(state);
+    }
+
     @Override
     public void disposeComponent() {
-        clearHighlights();
+        clearHighlightsRaw();
 
         super.disposeComponent();
     }
 
     @Override
-    public void clearHighlights() {
+    public void clearHighlightsRaw() {
         super.clearHighlightsRaw();
         myHighlightPattern = null;
         myHighlightCaseSensitiveWordIndices = null;
         myHighlightCaseInsensitiveWordIndices = null;
+    }
+
+    @Override
+    public void clearHighlights() {
+        clearHighlightsRaw();
         fireHighlightsChanged();
     }
 

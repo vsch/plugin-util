@@ -127,4 +127,23 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
         CancellableRunnable cancellableJob = scheduler.schedule(delay, command);
         return command;
     }
+
+    /**
+     * Creates a one-shot runnable that will run after a delay, can be run early, or cancelled
+     * <p>
+     * the given command will only be executed once, either by the delayed trigger or by the run method. if you want to execute the task early just invoke #run, it will do nothing if the task has already run.
+     *
+     * @param scheduler
+     * @param delay     the time from now to delay execution
+     * @param command   the task to execute
+     *
+     * @return a {@link CancellableRunnable} which will run after the given delay on the AwtThread if {@link #run()} is invoked before {@link CancellableRunnable#cancel()}
+     *
+     * @throws NullPointerException if command is null
+     */
+    public static OneTimeRunnable schedule(final CancelableJobScheduler scheduler, @NotNull String id, int delay, @Nullable ModalityState modalityState, @NotNull Runnable command) {
+        OneTimeRunnable runnable = command instanceof OneTimeRunnable ? (OneTimeRunnable) command : new OneTimeRunnable(command);
+        scheduler.schedule(id, delay, runnable);
+        return runnable;
+    }
 }
