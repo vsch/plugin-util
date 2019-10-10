@@ -683,9 +683,7 @@ public class Helpers {
             }
         }
 
-        if (start > end) {
-            int tmp = 0;
-        } else {
+        if (start <= end) {
             range = new Range(start, end);
         }
         return range;

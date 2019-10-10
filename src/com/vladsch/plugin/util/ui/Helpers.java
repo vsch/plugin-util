@@ -67,8 +67,8 @@ public class Helpers {
                                 if (imageIcon != null) {
                                     ourLoadPng = isBlackAndWhite(imageIcon);
                                 }
-                            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                                int tmp = 0;
+                            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
+
                             }
                         }
                     }
