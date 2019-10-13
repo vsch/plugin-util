@@ -54,7 +54,7 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
             @NotNull JList<T> list, @NotNull JScrollPane scrollPane, @Nullable Function<? super T, String> namer,
             boolean highlightAllOccurrences
     ) {
-        return new ListWithFilter<T>(list, scrollPane, namer, highlightAllOccurrences);
+        return new ListWithFilter<>(list, scrollPane, namer, highlightAllOccurrences);
     }
 
     // DEPRECATED: replacement appeared in 2019-03-04
@@ -87,7 +87,7 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
         int selectedIndex = myList.getSelectedIndex();
         int modelSize = myList.getModel().getSize();
         // DEPRECATED: replacement appeared in 2019-03-04
-        myModel = new NameFilteringListModel<T>(myList, namer, mySpeedSearch::shouldBeShowing, mySpeedSearch);
+        myModel = new NameFilteringListModel<>(myList, namer, mySpeedSearch::shouldBeShowing, mySpeedSearch);
         if (myModel.getSize() == modelSize) {
             myList.setSelectedIndex(selectedIndex);
         }

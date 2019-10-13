@@ -41,7 +41,7 @@ public class EnumLike<E extends ComboBoxAdaptable<E>> {
             i++;
         }
 
-        ADAPTER = new ComboBoxAdaptable.Static<E>(new ComboBoxAdapterImpl<>(values[0]));
+        ADAPTER = new ComboBoxAdaptable.Static<>(new ComboBoxAdapterImpl<>(values[0]));
     }
 
     public EnumLike(List<String> valueList, Factory<E> factory, final boolean addEmpty) {

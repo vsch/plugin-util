@@ -135,6 +135,6 @@ public class TreeIteratorConstrains<N> {
         //}
 
         //noinspection unchecked
-        return ourCachedBuilders.computeIfAbsent(clazz, (c) -> new TreeIteratorConstrains<N>(NEXT_SIBLING, PREV_SIBLING, FIRST_CHILD, LAST_CHILD, PARENT));
+        return ourCachedBuilders.computeIfAbsent(clazz, (c) -> new TreeIteratorConstrains<>(NEXT_SIBLING, PREV_SIBLING, FIRST_CHILD, LAST_CHILD, PARENT));
     }
 }

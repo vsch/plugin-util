@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashSet;
 
 public class ListenerNotifier<L> {
-    final protected HashSet<WeakReference<L>> listeners = new HashSet<WeakReference<L>>();
+    final protected HashSet<WeakReference<L>> listeners = new HashSet<>();
 
     public HashSet<WeakReference<L>> getListeners() {
         return listeners;
@@ -31,7 +31,7 @@ public class ListenerNotifier<L> {
     public void addListener(@NotNull final L listener, @Nullable RunnableNotifier<L> runnableNotifier) {
         synchronized (listeners) {
             removeListener(listener);
-            listeners.add(new WeakReference<L>(listener));
+            listeners.add(new WeakReference<>(listener));
 
             // the delegate should check for necessary conditions for listener update
             if (runnableNotifier != null) runnableNotifier.notify(listener);
