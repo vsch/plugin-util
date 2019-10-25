@@ -11,6 +11,10 @@ public class DelayedRunner {
 
     }
 
+    public void clear() {
+        myRunnables.clear();
+    }
+
     public void runAll() {
         final Object[] keys = myRunnables.keySet().toArray();
         for (Object key : keys) {
