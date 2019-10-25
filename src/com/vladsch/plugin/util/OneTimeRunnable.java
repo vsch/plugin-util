@@ -21,6 +21,10 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
     final public static OneTimeRunnable NULL = new OneTimeRunnable(() -> {
     });
 
+    static {
+        NULL.myHasRun.set(true);
+    }
+
     final private AtomicBoolean myHasRun;
     final private @NotNull String myId;
 

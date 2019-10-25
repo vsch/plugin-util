@@ -18,6 +18,10 @@ public class DelayedRunner {
         }
     }
 
+    public boolean containsRunnableFor(Object key) {
+        return myRunnables.containsKey(key);
+    }
+
     public void runAllFor() {
         runAllFor(myUnnamedKey);
     }
