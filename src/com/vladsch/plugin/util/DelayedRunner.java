@@ -15,6 +15,15 @@ public class DelayedRunner {
         myRunnables.clear();
     }
 
+    public boolean isEmpty() {
+        return myRunnables.isEmpty();
+    }
+
+    public boolean isEmptyFor(Object key) {
+        ArrayList<Runnable> runnables = myRunnables.get(key);
+        return runnables.isEmpty();
+    }
+
     public void runAll() {
         final Object[] keys = myRunnables.keySet().toArray();
         for (Object key : keys) {
@@ -63,4 +72,5 @@ public class DelayedRunner {
     public int hashCode() {
         return myRunnables.hashCode();
     }
+
 }
