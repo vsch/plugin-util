@@ -26,18 +26,24 @@ import com.vladsch.flexmark.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightProviderBase<String, T> implements WordHighlightProvider<T> {
-    protected boolean myHighlightWordsCaseSensitive = true;
-    @Nullable protected Pattern myHighlightPattern;
-    @Nullable private Map<String, Integer> myHighlightCaseSensitiveWordIndices;
-    @Nullable protected Map<String, Integer> myHighlightCaseInsensitiveWordIndices;
+    public static final String[] EMPTY_STRINGS = new String[0];
+    final private @NotNull Map<String, LinkedHashSet<String>> myHighlightCaseSensitiveWords = new HashMap<>();
+    final private @NotNull Map<String, LinkedHashSet<String>> myHighlightCaseUnspecifiedWords = new HashMap<>();
+    final private @NotNull Set<String> myHighlightCaseInsensitiveWords = new HashSet<>();
+
+    private boolean myHighlightCaseSensitive = true;
+    private boolean myHighlightWordsMatchBoundary = true;
+    private @Nullable Pattern myHighlightPattern;
 
     public WordHighlightProviderBase(@NotNull T settings) {
         super(settings);
@@ -55,7 +61,7 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
 
     @Override
     protected void setHighlightState(Map<String, Pair<Integer, Integer>> state) {
-         super.setHighlightState(state);
+        super.setHighlightState(state);
     }
 
     @Override
@@ -68,9 +74,12 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
     @Override
     public void clearHighlightsRaw() {
         super.clearHighlightsRaw();
+
+        myHighlightCaseSensitiveWords.clear();
+        myHighlightCaseInsensitiveWords.clear();
+        myHighlightCaseUnspecifiedWords.clear();
+
         myHighlightPattern = null;
-        myHighlightCaseSensitiveWordIndices = null;
-        myHighlightCaseInsensitiveWordIndices = null;
     }
 
     @Override
@@ -79,35 +88,15 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
         fireHighlightsChanged();
     }
 
-    @Override
-    public boolean isRangeHighlighted(String word) {
-        if (getHighlightRangeFlags() == null) return false;
-        if (getHighlightRangeFlags().containsKey(word)) return true;
-
-        if (!myHighlightWordsCaseSensitive) {
-            updateHighlightPattern();
-            return myHighlightCaseInsensitiveWordIndices != null && myHighlightCaseInsensitiveWordIndices.containsKey(word.toLowerCase());
-        }
-        return false;
-    }
-
-    @Override
-    @Nullable
-    public Map<String, Integer> getHighlightCaseSensitiveWordIndices() {
-        return myHighlightCaseSensitiveWordIndices;
-    }
-
-    @Override
-    @Nullable
-    public Map<String, Integer> getHighlightCaseInsensitiveWordIndices() {
-        updateHighlightPattern();
-        return myHighlightCaseInsensitiveWordIndices;
-    }
-
     @Nullable
     public Pattern getHighlightPattern() {
         updateHighlightPattern();
         return myHighlightPattern;
+    }
+
+    @Override
+    final public boolean isRangeHighlighted(String range) {
+        return super.isRangeHighlighted(getAdjustedRange(range));
     }
 
     /**
@@ -120,24 +109,92 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
      */
     @Override
     public int getHighlightRangeIndex(final String range) {
-        return super.getHighlightRangeIndex(range);
+        return super.getHighlightRangeIndex(getAdjustedRange(range));
     }
 
     @Override
-    public boolean isHighlightWordsCaseSensitive() {
-        return myHighlightWordsCaseSensitive;
+    public boolean isHighlightCaseSensitive() {
+        return myHighlightCaseSensitive;
     }
 
     @Override
-    public void setHighlightWordsCaseSensitive(final boolean highlightWordsCaseSensitive) {
-        if (myHighlightWordsCaseSensitive != highlightWordsCaseSensitive) {
-            myHighlightWordsCaseSensitive = highlightWordsCaseSensitive;
+    public void setHighlightCaseSensitive(final boolean highlightCaseSensitive) {
+        if (myHighlightCaseSensitive != highlightCaseSensitive) {
+            myHighlightCaseSensitive = highlightCaseSensitive;
             myHighlightPattern = null;
-            myHighlightCaseSensitiveWordIndices = null;
-            myHighlightCaseInsensitiveWordIndices = null;
+
             if (haveHighlights()) {
                 fireHighlightsChanged();
             }
+        }
+    }
+
+    @Override
+    public boolean isHighlightWordsMatchBoundary() {
+        return myHighlightWordsMatchBoundary;
+    }
+
+    @Override
+    public void setHighlightWordsMatchBoundary(final boolean highlightWordsMatchBoundary) {
+        if (myHighlightWordsMatchBoundary != highlightWordsMatchBoundary) {
+            myHighlightWordsMatchBoundary = highlightWordsMatchBoundary;
+            myHighlightPattern = null;
+
+            if (haveHighlights()) {
+                fireHighlightsChanged();
+            }
+        }
+    }
+
+    @NotNull
+    private static String getFirstRange(@NotNull Map<String, LinkedHashSet<String>> listMap, @NotNull String lowerCase) {
+        LinkedHashSet<String> ranges = listMap.get(lowerCase);
+        if (ranges != null) {
+            for (String range : ranges) {
+                return range;
+            }
+        }
+        return lowerCase;
+    }
+
+    private void removeHighlightRanges(@NotNull Map<String, LinkedHashSet<String>> listMap, @NotNull String lowerCase) {
+        // remove all case sensitive and unspecified words matching this one
+        LinkedHashSet<String> caseSensitive = listMap.remove(lowerCase);
+        if (caseSensitive != null) {
+            for (String word : caseSensitive) {
+                super.removeHighlightRange(word);
+            }
+        }
+    }
+
+    private void removeHighlightRanges(@NotNull Set<String> listSet, @NotNull String lowerCase) {
+        // remove all case sensitive and unspecified words matching this one
+        super.removeHighlightRange(lowerCase);
+        listSet.remove(lowerCase);
+    }
+
+    private static void addHighlightRanges(@NotNull Map<String, LinkedHashSet<String>> listMap, @NotNull String lowerCase, @NotNull String range) {
+        // remove all case sensitive and unspecified words matching this one
+        LinkedHashSet<String> list = listMap.computeIfAbsent(lowerCase, k -> new LinkedHashSet<>());
+        list.remove(range);
+        list.add(range);
+    }
+
+    private static void addHighlightRanges(@NotNull Set<String> listMap, @NotNull String lowerCase, @NotNull String range) {
+        // remove all case sensitive and unspecified words matching this one
+        listMap.remove(lowerCase);
+        listMap.add(lowerCase);
+    }
+
+    @NotNull
+    @Override
+    public String getAdjustedRange(@NotNull String range) {
+        String lowerCase = range.toLowerCase();
+        if (myHighlightCaseUnspecifiedWords.containsKey(lowerCase)) {
+            // have to use the first range for it
+            return myHighlightCaseSensitive ? range : getFirstRange(myHighlightCaseUnspecifiedWords, lowerCase);
+        } else {
+            return myHighlightCaseInsensitiveWords.contains(lowerCase) ? lowerCase : range;
         }
     }
 
@@ -151,69 +208,97 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
             flags &= ~WordHighlighterFlags.END_WORD.mask;
         }
 
-        myHighlightCaseInsensitiveWordIndices = null;
+        String useRange;
+        String lowerCase = range.toLowerCase();
 
-        return super.addHighlightRange(range, flags, originalIndex);
+        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_SENSITIVE)) {
+            // remove all case insensitive and unspecified words matching this one
+            removeHighlightRanges(myHighlightCaseInsensitiveWords, lowerCase);
+            removeHighlightRanges(myHighlightCaseUnspecifiedWords, lowerCase);
+
+            addHighlightRanges(myHighlightCaseSensitiveWords, lowerCase, range);
+            useRange = range;
+        } else if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_INSENSITIVE)) {
+            // remove all case sensitive and unspecified words matching this one
+            removeHighlightRanges(myHighlightCaseSensitiveWords, lowerCase);
+            removeHighlightRanges(myHighlightCaseUnspecifiedWords, lowerCase);
+
+            addHighlightRanges(myHighlightCaseInsensitiveWords, lowerCase, range);
+            flags &= ~WordHighlighterFlags.CASE_SENSITIVE.mask;
+            useRange = lowerCase;
+        } else {
+            // remove all case sensitive and insensitive words matching this one
+            removeHighlightRanges(myHighlightCaseInsensitiveWords, lowerCase);
+            removeHighlightRanges(myHighlightCaseSensitiveWords, lowerCase);
+
+            addHighlightRanges(myHighlightCaseUnspecifiedWords, lowerCase, range);
+            useRange = range;
+        }
+
+        return super.addHighlightRange(useRange, flags, originalIndex);
     }
 
     @Override
     final public void removeHighlightRange(String range) {
-        super.removeHighlightRange(range);
+        String lowerCase = range.toLowerCase();
+
+        if (myHighlightCaseInsensitiveWords.contains(lowerCase)) {
+            removeHighlightRanges(myHighlightCaseInsensitiveWords, lowerCase);
+        } else if (myHighlightCaseSensitiveWords.containsKey(lowerCase)) {
+            removeHighlightRanges(myHighlightCaseSensitiveWords, lowerCase);
+        } else if (myHighlightCaseUnspecifiedWords.containsKey(lowerCase)) {
+            removeHighlightRanges(myHighlightCaseUnspecifiedWords, lowerCase);
+        }
     }
 
     @Override
     protected void highlightRangeAdded(String range, int flags, int originalOrderIndex) {
         myHighlightPattern = null;
-        myHighlightCaseSensitiveWordIndices = null;
-        myHighlightCaseInsensitiveWordIndices = null;
     }
 
     @Override
     protected void highlightRangeRemoved(String range) {
         myHighlightPattern = null;
-        myHighlightCaseSensitiveWordIndices = null;
-        myHighlightCaseInsensitiveWordIndices = null;
     }
 
     @Override
     public void updateHighlightPattern() {
-        if (myHighlightPattern == null && getHighlightRangeFlags() != null && !getHighlightRangeFlags().isEmpty() && getOriginalIndexMap() != null) {
+        Map<String, Integer> highlightRangeFlags = getHighlightRangeFlags();
+
+        if (myHighlightPattern == null && highlightRangeFlags != null && !highlightRangeFlags.isEmpty() && getOriginalIndexMap() != null) {
             StringBuilder sb = new StringBuilder();
             String sep = "";
-            int iMax = getHighlightRangeFlags().size();
-            myHighlightCaseSensitiveWordIndices = new HashMap<>(iMax);
-            myHighlightCaseInsensitiveWordIndices = new HashMap<>(iMax);
             boolean isCaseSensitive = true;
 
-            ArrayList<Entry<String, Integer>> entries = new ArrayList<>(getHighlightRangeFlags().entrySet());
+            String[] ranges = highlightRangeFlags.keySet().toArray(EMPTY_STRINGS);
 
-            entries.sort(Comparator.comparing((entry) -> -entry.getKey().length()));
+            Arrays.sort(ranges, Comparator.naturalOrder());
 
-            for (Entry<String, Integer> entry : entries) {
+            for (String range : ranges) {
                 sb.append(sep);
                 sep = "|";
 
-                boolean nextCaseSensitive = myHighlightWordsCaseSensitive;
-                if (WordHighlighterFlags.haveFlags(entry.getValue(), WordHighlighterFlags.CASE_INSENSITIVE)) {
+                boolean nextCaseSensitive;
+
+                String adjustedRange = getAdjustedRange(range);
+
+                int flags = highlightRangeFlags.get(adjustedRange);
+
+                if (myHighlightCaseSensitive) {
+                    if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_SENSITIVE)) nextCaseSensitive = true;
+                    else nextCaseSensitive = !WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_INSENSITIVE);
+                } else {
                     nextCaseSensitive = false;
                 }
-                if (WordHighlighterFlags.haveFlags(entry.getValue(), WordHighlighterFlags.CASE_SENSITIVE)) {
-                    nextCaseSensitive = true;
-                }
+
                 if (isCaseSensitive != nextCaseSensitive) {
                     isCaseSensitive = nextCaseSensitive;
                     sb.append(isCaseSensitive ? "(?-i)" : "(?i)");
                 }
 
-                if (WordHighlighterFlags.haveFlags(entry.getValue(), WordHighlighterFlags.BEGIN_WORD)) sb.append("\\b");
-                sb.append("\\Q").append(entry.getKey()).append("\\E");
-                if (WordHighlighterFlags.haveFlags(entry.getValue(), WordHighlighterFlags.END_WORD)) sb.append("\\b");
-
-                if (isCaseSensitive) {
-                    myHighlightCaseSensitiveWordIndices.put(entry.getKey(), getOriginalIndexMap().get(entry.getKey()));
-                } else {
-                    myHighlightCaseInsensitiveWordIndices.put(entry.getKey().toLowerCase(), getOriginalIndexMap().get(entry.getKey()));
-                }
+                if (myHighlightWordsMatchBoundary && WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.BEGIN_WORD)) sb.append("\\b");
+                sb.append("\\Q").append(range).append("\\E");
+                if (myHighlightWordsMatchBoundary && WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.END_WORD)) sb.append("\\b");
             }
 
             myHighlightPattern = Pattern.compile(sb.toString());

@@ -49,13 +49,9 @@ public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<St
 
     void updateHighlightPattern();
 
-    @Nullable
-    Map<String, Integer> getHighlightCaseSensitiveWordIndices();
+    boolean isHighlightCaseSensitive();
+    void setHighlightCaseSensitive(boolean highlightCaseSensitive);
 
-    @Nullable
-    Map<String, Integer> getHighlightCaseInsensitiveWordIndices();
-
-    boolean isHighlightWordsCaseSensitive();
-
-    void setHighlightWordsCaseSensitive(boolean highlightWordsCaseSensitive);
+    boolean isHighlightWordsMatchBoundary();
+    void setHighlightWordsMatchBoundary(boolean highlightWordsMatchBoundary);
 }

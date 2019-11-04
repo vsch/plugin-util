@@ -33,6 +33,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightProviderBase<T> implements TypedRangeHighlightProvider<R, T> {
     @Nullable private Map<R, Integer> myHighlightRangeFlags;
@@ -104,9 +105,7 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
 
     @Override
     public boolean isRangeHighlighted(R range) {
-        if (myHighlightRangeFlags == null) return false;
-        if (myHighlightRangeFlags.containsKey(range)) return true;
-        return false;
+        return myHighlightRangeFlags != null && myHighlightRangeFlags.containsKey(range);
     }
 
     @Override
@@ -256,6 +255,11 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
 
     protected abstract void highlightRangeRemoved(R range);
 
+    /**
+     * NOTE: does not call getAdjustedRange() because the subclass needs to take care of all adjustments here
+     *
+     * @param range range to remove
+     */
     @Override
     public void removeHighlightRange(R range) {
         if (myHighlightRangeFlags != null) {

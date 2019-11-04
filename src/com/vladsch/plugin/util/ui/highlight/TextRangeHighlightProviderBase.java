@@ -51,4 +51,10 @@ public abstract class TextRangeHighlightProviderBase<T> extends TypedRangeHighli
     protected void highlightRangeRemoved(final TextRange range) {
 
     }
+
+    @NotNull
+    @Override
+    public TextRange getAdjustedRange(@NotNull TextRange range) {
+        return range;
+    }
 }

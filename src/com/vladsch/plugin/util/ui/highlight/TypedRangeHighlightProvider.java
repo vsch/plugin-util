@@ -14,7 +14,7 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
     TextAttributesKey WARNING_ATTRIBUTES_KEY = TYPO_ATTRIBUTES_KEY;// CodeInsightColors.WEAK_WARNING_ATTRIBUTES;
 
     default int addHighlightRange(R range, int flags) {
-       return addHighlightRange(range, flags, -1);
+        return addHighlightRange(range, flags, -1);
     }
 
     int addHighlightRange(R range, int flags, int orderIndex);
@@ -29,9 +29,33 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
 
     void removeHighlightRange(R range);
 
+    /**
+     * CAUTION: Do Not Use range value get flags for highlighting because implementors are free to modify the range before lookup, like change case
+     *
+     * NOTE: for lookup use value returned by getAdjustedRange()
+     *
+     * @return map of range to highlight flags
+     */
     @Nullable
     Map<R, Integer> getHighlightRangeFlags();
 
+    /**
+     * CAUTION: Do Not Use range value get flags for highlighting because implementors are free to modify the range before lookup, like change case
+     *
+     * NOTE: for lookup use value returned by getAdjustedRange()
+     *
+     * @return map of range to highlight flags
+     */
     @Nullable
     Map<R, Integer> getHighlightRangeIndices();
+
+    /**
+     * Used to adjust for things like case sensitivity otherwise in case insensitive mode the lookup in the map will fail
+     *
+     * @param range range to look up
+     *
+     * @return adjusted range
+     */
+    @NotNull
+    R getAdjustedRange(@NotNull R range);
 }

@@ -55,7 +55,7 @@ public class WordHighlighter<T> extends TypedRangeHighlighter<String, T> {
             int startOffset = matcher.start();
             int endOffset = matcher.end();
 
-            Integer flags = highlightWordFlags.get(group);
+            Integer flags = highlightWordFlags.get(highlightProvider.getAdjustedRange(group));
             if (flags == null) flags = 0;
 
             int index = highlightProvider.getHighlightRangeIndex(group);
