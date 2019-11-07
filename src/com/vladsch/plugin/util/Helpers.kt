@@ -8,6 +8,8 @@ import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.vladsch.flexmark.util.sequence.BasedSequence
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
+import com.vladsch.flexmark.util.sequence.RichCharSequence
+import com.vladsch.flexmark.util.sequence.RichCharSequenceImpl
 import org.jdom.Element
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
@@ -264,6 +266,8 @@ fun String.removePrefixIncluding(delimiter: String): String {
 }
 
 fun CharSequence.asBased(): BasedSequence = BasedSequenceImpl.of(this)
+
+fun CharSequence.asRich(): RichCharSequenceImpl = RichCharSequenceImpl.of(this)
 
 fun Int.indexOrNull(): Int? = if (this < 0) null else this
 

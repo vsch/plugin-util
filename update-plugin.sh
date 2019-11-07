@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-HOME_DIR="/Users/vlad/src/projects/plugin-util"
+HOME_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-cd ${HOME_DIR} || exit
+cd "${HOME_DIR}" || exit
 
 cp plugin-util.jar "/Volumes/Pegasus/Data"
 cp lib/flexmark-util.jar "/Volumes/Pegasus/Data"
