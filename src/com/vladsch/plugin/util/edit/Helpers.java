@@ -1131,8 +1131,8 @@ public class Helpers {
                 Range effectiveRange1 = range1.exclude(range2);
                 Range effectiveRange2 = range2.exclude(range1);
                 CharSequence chars = document.getCharsSequence();
-                String text2 = effectiveRange2.subSequence(chars).toString();
-                String text1 = effectiveRange1.subSequence(chars).toString();
+                String text2 = chars.subSequence(effectiveRange2.getStart(), effectiveRange2.getEnd()).toString();
+                String text1 = chars.subSequence(effectiveRange1.getStart(), effectiveRange1.getEnd()).toString();
                 pair[0] = Pair.create(text1, text2);
             });
 
