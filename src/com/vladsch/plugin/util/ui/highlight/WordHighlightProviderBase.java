@@ -272,7 +272,7 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
 
             String[] ranges = highlightRangeFlags.keySet().toArray(EMPTY_STRINGS);
 
-            Arrays.sort(ranges, Comparator.naturalOrder());
+            Arrays.sort(ranges, Comparator.reverseOrder());
 
             for (String range : ranges) {
                 sb.append(sep);
