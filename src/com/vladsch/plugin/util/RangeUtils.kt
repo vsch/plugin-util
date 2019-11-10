@@ -57,7 +57,7 @@ class NodeRange(val node: ASTNode, start: Int, end: Int, text: CharSequence) : N
     val trailingSpace: NodeSubRange
 
     init {
-        val spacePos = text.asBased().lastIndexOfAnyNot(BasedSequence.WHITESPACE_NO_EOL_CHARS).indexOrNull()?.plus(1) ?: text.length
+        val spacePos = text.asBased().lastIndexOfAnyNot(BasedSequence.SPACE_TAB).indexOrNull()?.plus(1) ?: text.length
         nonSpace = NodeSubRange(start, end - (text.length - spacePos), text.subSequence(0, spacePos))
         trailingSpace = NodeSubRange(nonSpace.end, end, text.subSequence(spacePos, length))
     }

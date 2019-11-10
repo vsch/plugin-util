@@ -951,8 +951,8 @@ public class Helpers {
                 BasedSequence charSequence = BasedSequenceImpl.of(editor.getDocument().getCharsSequence());
                 int lineStartOffset = charSequence.startOfLine(startOffset);
                 int lineEndOffset = charSequence.endOfLine(endOffset);
-                lineStartOffset += charSequence.countLeading(BasedSequence.WHITESPACE_NO_EOL_CHARS, lineStartOffset, lineEndOffset);
-                lineEndOffset -= charSequence.countTrailing(BasedSequence.WHITESPACE_NO_EOL_CHARS, lineStartOffset, lineEndOffset);
+                lineStartOffset += charSequence.countLeading(BasedSequence.SPACE_TAB, lineStartOffset, lineEndOffset);
+                lineEndOffset -= charSequence.countTrailing(BasedSequence.SPACE_TAB, lineStartOffset, lineEndOffset);
                 final ItemTextRange<Language> lineStartLanguage = getLanguageRangeAtOffset(file, lineStartOffset);
                 final ItemTextRange<Language> lineEndLanguage = getLanguageRangeAtOffset(file, lineEndOffset);
                 Commenter commenter = CommentByBlockCommentHandler.getCommenter(file, editor, lineStartLanguage.getItem(), lineEndLanguage.getItem());

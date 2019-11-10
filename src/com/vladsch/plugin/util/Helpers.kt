@@ -9,7 +9,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.vladsch.flexmark.util.sequence.BasedSequence
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 import com.vladsch.flexmark.util.sequence.RichSequence
-import com.vladsch.flexmark.util.sequence.RichSequenceImpl
 import org.jdom.Element
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
@@ -37,6 +36,7 @@ fun <T : Any?> Boolean.ifElse(ifTrue: T, ifFalse: T): T = if (this) ifTrue else 
 fun <T : Any?> Boolean.ifElse(ifTrue: () -> T, ifFalse: () -> T): T = if (this) ifTrue() else ifFalse()
 fun <T : Any?> Boolean.ifElse(ifTrue: T, ifFalse: () -> T): T = if (this) ifTrue else ifFalse()
 fun <T : Any?> Boolean.ifElse(ifTrue: () -> T, ifFalse: T): T = if (this) ifTrue() else ifFalse
+fun <T : Any> Boolean.ifElseNull(ifTrue: T): T? = if (this) ifTrue else null
 
 fun <T : Any?> T?.isIn(vararg list: T): Boolean = this != null && this in list
 fun <T : Any?> T?.ifNullOr(condition: Boolean, altValue: T): T = if (this == null || condition) altValue else this
@@ -267,7 +267,7 @@ fun String.removePrefixIncluding(delimiter: String): String {
 
 fun CharSequence.asBased(): BasedSequence = BasedSequenceImpl.of(this)
 
-fun CharSequence.asRich(): RichSequenceImpl = RichSequenceImpl.of(this)
+fun CharSequence.asRich(): RichSequence = RichSequence.of(this)
 
 fun Int.indexOrNull(): Int? = if (this < 0) null else this
 
@@ -460,3 +460,4 @@ fun Project.getProjectBaseDirectory(): VirtualFile? {
     }
     return null
 }
+
