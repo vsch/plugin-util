@@ -265,7 +265,7 @@ fun String.removePrefixIncluding(delimiter: String): String {
     return this
 }
 
-fun CharSequence.asBased(): BasedSequence = BasedSequenceImpl.of(this)
+fun CharSequence.asBased(): BasedSequence = BasedSequence.of(this)
 
 fun CharSequence.asRich(): RichSequence = RichSequence.of(this)
 

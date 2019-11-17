@@ -170,8 +170,8 @@ public abstract class SettingsComponents<T> implements SettingsConfigurable<T>, 
     @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter, @NotNull Comparator<String> comparator) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter, comparator); }
     @NotNull public <V extends EditorTextField> EditorTextFieldSetter<V, String> component(@NotNull V component, @NotNull JComponentGetter<V, String> componentGetter, @NotNull JComponentSetter<V, String> componentSetter, @NotNull Getter<String> getter, @NotNull Setter<String> setter) { return new EditorTextFieldSetter<>(component, componentGetter, componentSetter, getter, setter,
             (o1, o2) -> {
-                BasedSequence b1 = BasedSequenceImpl.of(o1);
-                BasedSequence b2 = BasedSequenceImpl.of(o2);
+                BasedSequence b1 = BasedSequence.of(o1);
+                BasedSequence b2 = BasedSequence.of(o2);
                 return b1.trimTailBlankLines().compareTo(b2.trimTailBlankLines());
             }); }
     // @formatter:on
