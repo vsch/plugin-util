@@ -200,11 +200,11 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
 
     @Override
     public int addHighlightRange(String range, int flags, int originalIndex) {
-        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.BEGIN_WORD) && (range.length() == 0 || range.charAt(0) == '$')) {
+        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.BEGIN_WORD) && (range.length() == 0 || (!Character.isUnicodeIdentifierPart(range.charAt(0)) || range.charAt(0) == '$'))) {
             flags &= ~WordHighlighterFlags.BEGIN_WORD.mask;
         }
 
-        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.END_WORD) && (range.length() == 0 || range.charAt(range.length() - 1) == '$')) {
+        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.END_WORD) && (range.length() == 0 || (!Character.isUnicodeIdentifierPart(range.charAt(range.length() - 1)) || range.charAt(range.length() - 1) == '$'))) {
             flags &= ~WordHighlighterFlags.END_WORD.mask;
         }
 
