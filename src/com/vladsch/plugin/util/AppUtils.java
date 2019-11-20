@@ -1,5 +1,7 @@
 package com.vladsch.plugin.util;
 
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ex.ApplicationInfoEx;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.BuildNumber;
@@ -16,46 +18,50 @@ public class AppUtils {
     public static final String CLIPBOARD_CHANGE_NOTIFICATIONS = "180";
 
     public static boolean isClipboardChangeNotificationsAvailable() {
-        boolean available = isAppVersionEqualOrGreaterThan(CLIPBOARD_CHANGE_NOTIFICATIONS);
+        boolean available = isAppVersionEqualOrGreaterThan(CLIPBOARD_CHANGE_NOTIFICATIONS, true);
         LOG.info("ClipboardChangeNotifications " + available);
         return available;
     }
 
     public static boolean isSvgLoadIconAvailable() {
-        boolean available = isAppVersionEqualOrGreaterThan(LOADS_SVG_ICONS_APP_VERSION);
+        boolean available = isAppVersionEqualOrGreaterThan(LOADS_SVG_ICONS_APP_VERSION, true);
         LOG.info("SvgIconsAvailable " + available);
         return available;
     }
 
     public static boolean isParameterHintsAvailable() {
-        return isAppVersionEqualOrGreaterThan(PARAMETER_HINTS_APP_VERSION);
+        return isAppVersionEqualOrGreaterThan(PARAMETER_HINTS_APP_VERSION, true);
     }
 
     public static boolean isParameterHintsForceUpdateAvailable() {
-        return isAppVersionEqualOrGreaterThan(PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION);
+        return isAppVersionEqualOrGreaterThan(PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION, true);
     }
 
     /**
      * See if app version is equal or greater than given
      *
      * @param requiredAppVersion
-     *
+     * @param defaultUnderTest
      * @deprecated Use #isAppVersionEqualOrGreaterThan
      */
     @Deprecated
-    public static boolean isAppVersionGreaterThan(String requiredAppVersion) {
-        return isAppVersionEqualOrGreaterThan(requiredAppVersion);
+    public static boolean isAppVersionGreaterThan(String requiredAppVersion, boolean defaultUnderTest) {
+        return isAppVersionEqualOrGreaterThan(requiredAppVersion, defaultUnderTest);
     }
 
-    public static boolean isAppVersionEqualOrGreaterThan(String requiredAppVersion) {
-        BuildNumber build = ApplicationInfoEx.getInstance().getBuild();
-        Version requiredVersion = Version.parseVersion(requiredAppVersion);
-        if (build != null && requiredVersion != null) {
-            int[] buildComponents = build.getComponents();
-            Version version = new Version(buildComponents);
-            return version.isOrGreaterThan(requiredVersion.major, requiredVersion.minor, requiredVersion.bugfix);
+    public static boolean isAppVersionEqualOrGreaterThan(String requiredAppVersion, boolean defaultUnderTest) {
+        Application application = ApplicationManager.getApplication();
+        if (application != null && !application.isUnitTestMode()) {
+            BuildNumber build = ApplicationInfoEx.getInstance().getBuild();
+            Version requiredVersion = Version.parseVersion(requiredAppVersion);
+            if (build != null && requiredVersion != null) {
+                int[] buildComponents = build.getComponents();
+                Version version = new Version(buildComponents);
+                return version.isOrGreaterThan(requiredVersion.major, requiredVersion.minor, requiredVersion.bugfix);
+            }
+            return false;
         }
-        return false;
+        return defaultUnderTest;
     }
 
     public static int compareVersions(String versionString1, String versionString2) {
