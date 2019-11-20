@@ -134,12 +134,26 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_DELETE) {
+                    List<Item> list = myList.getSelectedValuesList();
+
+                    // delete should be done in reverse order so as not to affect the index of following deletes
+                    int[] indices = new int[list.size()];
+
+                    int iMax = 0;
+                    for (Object o : list) {
+                        int index = ((Item) o).index;
+                        indices[iMax++] = index;
+                    }
+
+                    Arrays.sort(indices);
+
                     int newSelectionIndex = -1;
-                    for (Object o : myList.getSelectedValuesList()) {
-                        int i = ((Item) o).index;
-                        removeContentAt(myAllContents.get(i));
+
+                    for (int i = iMax; i-- > 0; ) {
+                        int index = indices[i];
+                        removeContentAt(myAllContents.get(index));
                         if (newSelectionIndex < 0) {
-                            newSelectionIndex = i;
+                            newSelectionIndex = index;
                         }
                     }
 
