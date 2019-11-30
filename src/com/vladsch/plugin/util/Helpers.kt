@@ -3,17 +3,18 @@
  */
 package com.vladsch.plugin.util
 
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
 import com.vladsch.flexmark.util.sequence.BasedSequence
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl
 import com.vladsch.flexmark.util.sequence.RichSequence
 import org.jdom.Element
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.function.Function
+import java.util.function.Supplier
 
 fun <T : Any> Any?.ifNotNull(eval: () -> T?): T? = if (this == null) null else eval()
 
@@ -408,7 +409,7 @@ inline fun com.intellij.openapi.diagnostic.Logger.debug(lazyMessage: () -> Strin
     if (this.isDebugEnabled) {
         val message = lazyMessage()
         this.debug(message)
-        System.out.println(message)
+        if (ApplicationManager.getApplication().isUnitTestMode) println(message)
     }
 }
 
