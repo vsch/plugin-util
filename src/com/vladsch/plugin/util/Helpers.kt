@@ -14,7 +14,6 @@ import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.net.URLEncoder
 import java.util.function.Function
-import java.util.function.Supplier
 
 fun <T : Any> Any?.ifNotNull(eval: () -> T?): T? = if (this == null) null else eval()
 
@@ -409,7 +408,8 @@ inline fun com.intellij.openapi.diagnostic.Logger.debug(lazyMessage: () -> Strin
     if (this.isDebugEnabled) {
         val message = lazyMessage()
         this.debug(message)
-        if (ApplicationManager.getApplication().isUnitTestMode) println(message)
+        val application = ApplicationManager.getApplication()
+        if (application == null || application.isUnitTestMode) println(message)
     }
 }
 
