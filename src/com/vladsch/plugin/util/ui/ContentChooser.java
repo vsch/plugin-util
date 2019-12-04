@@ -4,7 +4,6 @@
 package com.vladsch.plugin.util.ui;
 
 import com.intellij.CommonBundle;
-import com.intellij.icons.AllIcons;
 import com.intellij.ide.ui.SplitterProportionsDataImpl;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -61,13 +60,13 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
     private final Project myProject;
     private final boolean myAllowMultipleSelections;
     final Alarm myUpdateAlarm;
-    private Icon myListEntryIcon = AllIcons.FileTypes.Text;
+    private Icon myListEntryIcon;
 
-    public ContentChooser(Project project, String title, boolean useIdeaEditor) {
-        this(project, title, useIdeaEditor, false);
+    public ContentChooser(Project project, String title, Icon icon, boolean useIdeaEditor) {
+        this(project, title, icon, useIdeaEditor, false);
     }
 
-    public ContentChooser(Project project, String title, boolean useIdeaEditor, boolean allowMultipleSelections) {
+    public ContentChooser(Project project, String title, Icon icon, boolean useIdeaEditor, boolean allowMultipleSelections) {
         super(project, true);
         myProject = project;
         myUseIdeaEditor = useIdeaEditor;
@@ -77,6 +76,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         mySplitter.setSplitterProportionKey(getDimensionServiceKey() + ".splitter");
         myList = new JBList<>(new CollectionListModel<>());
         myList.setExpandableItemsEnabled(false);
+        myListEntryIcon = icon;
 
         setOKButtonText(CommonBundle.getOkButtonText());
         setTitle(title);

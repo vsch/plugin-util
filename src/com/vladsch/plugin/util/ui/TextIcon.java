@@ -80,11 +80,11 @@ public class TextIcon implements Icon {
 
     @Override
     public int getIconWidth() {
-        return AllIcons.Ide.Notification.NoEvents.getIconWidth();
+        return AllIcons.FileTypes.Text.getIconWidth();
     }
 
     @Override
     public int getIconHeight() {
-        return AllIcons.Ide.Notification.NoEvents.getIconHeight();
+        return AllIcons.FileTypes.Text.getIconHeight();
     }
 }
