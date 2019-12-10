@@ -50,11 +50,11 @@ public class TestUtils {
     final public static String CARET_MARKUP = START_STRING + CARET_STRING + END_STRING;
     final public static CharPredicate CARET_MARKUP_SET = CharPredicate.anyOf(TestUtils.CARET_MARKUP);
 
-    public static String replaceCaretMarkers(@NotNull CharSequence input) {
+    public static String replaceCaretMarkers(@NotNull CharSequence input, boolean withTestCaretMarkup) {
         return input.toString()
-                .replace(CARET_STRING, "<caret>")
-                .replace(START_STRING, "<selection>")
-                .replace(END_STRING, "</selection>");
+                .replace(withTestCaretMarkup ? TEST_CARET_STRING : CARET_STRING, "<caret>")
+                .replace(withTestCaretMarkup ? TEST_START_STRING : START_STRING, "<selection>")
+                .replace(withTestCaretMarkup ? TEST_END_STRING : END_STRING, "</selection>");
     }
 
     @NotNull

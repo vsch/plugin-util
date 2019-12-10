@@ -25,8 +25,9 @@ public class AppUtils {
     // application components which are now services starting with given version
     private static final HashMap<String, String> APP_COMPONENT_SERVICES = new HashMap<>();
     static {
-        APP_COMPONENT_SERVICES.put("com.intellij.openapi.keymap.KeymapManager", "193.5662");
-        APP_COMPONENT_SERVICES.put("com.intellij.util.net.HttpConfigurable", "193.5662");
+        APP_COMPONENT_SERVICES.put("com.intellij.openapi.keymap.KeymapManager", "193.5662.15");
+        APP_COMPONENT_SERVICES.put("com.intellij.util.net.HttpConfigurable", "193.5662.15");
+        APP_COMPONENT_SERVICES.put("com.intellij.diagnostic.DebugLogManager", "193.5662.15");
     }
     public static <T> T getApplicationComponentOrService(Class<T> componentClass) {
         Application application = ApplicationManager.getApplication();
