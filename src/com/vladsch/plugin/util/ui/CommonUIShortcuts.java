@@ -10,6 +10,7 @@ import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.keymap.KeymapManager;
 import com.intellij.openapi.keymap.KeymapUtil;
+import com.vladsch.plugin.util.AppUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.KeyStroke;
@@ -59,8 +60,7 @@ public class CommonUIShortcuts {
 
     @NotNull
     private static CustomShortcutSet shortcutsById(String actionId) {
-        Application application = ApplicationManager.getApplication();
-        KeymapManager keymapManager = application == null ? null : application.getComponent(KeymapManager.class);
+        KeymapManager keymapManager = AppUtils.getApplicationComponentOrService(KeymapManager.class);
         if (keymapManager == null) {
             return new CustomShortcutSet(Shortcut.EMPTY_ARRAY);
         }

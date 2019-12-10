@@ -6,6 +6,9 @@ import com.intellij.openapi.application.ex.ApplicationInfoEx;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.BuildNumber;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 import static com.intellij.openapi.diagnostic.Logger.getInstance;
 
 @SuppressWarnings("WeakerAccess")
@@ -16,6 +19,33 @@ public class AppUtils {
     public static final String PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION = "172.1909";
     public static final String LOADS_SVG_ICONS_APP_VERSION = "180";
     public static final String CLIPBOARD_CHANGE_NOTIFICATIONS = "180";
+
+    // class names which by version were determined to be services not components
+    private static final HashSet<String> APP_SERVICES = new HashSet<>();
+    // application components which are now services starting with given version
+    private static final HashMap<String, String> APP_COMPONENT_SERVICES = new HashMap<>();
+    static {
+        APP_COMPONENT_SERVICES.put("com.intellij.openapi.keymap.KeymapManager", "193.5662");
+        APP_COMPONENT_SERVICES.put("com.intellij.util.net.HttpConfigurable", "193.5662");
+    }
+    public static <T> T getApplicationComponentOrService(Class<T> componentClass) {
+        Application application = ApplicationManager.getApplication();
+        if (application != null) {
+            if (APP_SERVICES.contains(componentClass.getName())) {
+                return application.getService(componentClass);
+            } else {
+                String serviceAppVersion = APP_COMPONENT_SERVICES.get(componentClass.getName());
+
+                if (serviceAppVersion == null || !isAppVersionEqualOrGreaterThan(serviceAppVersion, true)) {
+                    return application.getComponent(componentClass);
+                } else {
+                    APP_SERVICES.add(componentClass.getName());
+                    return application.getService(componentClass);
+                }
+            }
+        }
+        return null;
+    }
 
     public static boolean isClipboardChangeNotificationsAvailable() {
         boolean available = isAppVersionEqualOrGreaterThan(CLIPBOARD_CHANGE_NOTIFICATIONS, true);
@@ -42,6 +72,7 @@ public class AppUtils {
      *
      * @param requiredAppVersion
      * @param defaultUnderTest
+     *
      * @deprecated Use #isAppVersionEqualOrGreaterThan
      */
     @Deprecated
