@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.Color;
 
-public interface HighlightProvider<T> {
+public interface HighlightProvider<T> extends Disposable {
     void settingsChanged(final ColorIterable colors, final T settings);
 
     void clearHighlights();

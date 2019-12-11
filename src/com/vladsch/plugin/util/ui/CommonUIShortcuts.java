@@ -6,11 +6,8 @@ import com.intellij.openapi.actionSystem.CustomShortcutSet;
 import com.intellij.openapi.actionSystem.KeyboardShortcut;
 import com.intellij.openapi.actionSystem.Shortcut;
 import com.intellij.openapi.actionSystem.ShortcutSet;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.keymap.KeymapManager;
 import com.intellij.openapi.keymap.KeymapUtil;
-import com.vladsch.plugin.util.AppUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.KeyStroke;
@@ -19,16 +16,18 @@ public class CommonUIShortcuts {
     public static final String ACTION_MOVE_LINE_UP_ACTION = "MoveLineUp";
     public static final String ACTION_MOVE_LINE_DOWN_ACTION = "MoveLineDown";
 
-    // @formatter:off
-    public static final ShortcutSet ALT_ENTER = CommonShortcuts.ALT_ENTER;
-    public static final ShortcutSet CTRL_ENTER = CommonShortcuts.CTRL_ENTER;
-    public static final ShortcutSet DOUBLE_CLICK_1 = CommonShortcuts.DOUBLE_CLICK_1;
-    public static final ShortcutSet ENTER = CommonShortcuts.ENTER;
-    public static final ShortcutSet ESCAPE = CommonShortcuts.ESCAPE;
-    public static final ShortcutSet INSERT = CommonShortcuts.INSERT;
-    public static final ShortcutSet MOVE_DOWN = CommonShortcuts.MOVE_DOWN;
-    public static final ShortcutSet MOVE_UP = CommonShortcuts.MOVE_UP;
+    public static class ShortcutSets {
+        public static final ShortcutSet ALT_ENTER = CommonShortcuts.ALT_ENTER;
+        public static final ShortcutSet CTRL_ENTER = CommonShortcuts.CTRL_ENTER;
+        public static final ShortcutSet DOUBLE_CLICK_1 = CommonShortcuts.DOUBLE_CLICK_1;
+        public static final ShortcutSet ENTER = CommonShortcuts.ENTER;
+        public static final ShortcutSet ESCAPE = CommonShortcuts.ESCAPE;
+        public static final ShortcutSet INSERT = CommonShortcuts.INSERT;
+        public static final ShortcutSet MOVE_DOWN = CommonShortcuts.MOVE_DOWN;
+        public static final ShortcutSet MOVE_UP = CommonShortcuts.MOVE_UP;
+    }
 
+    // @formatter:off
     public static KeyStroke getInsertKeystroke() { return CommonShortcuts.getInsertKeystroke(); }
     public static ShortcutSet getCloseActiveWindow() { return CommonShortcuts.getCloseActiveWindow(); }
     public static ShortcutSet getContextHelp() { return CommonShortcuts.getContextHelp(); }
@@ -56,11 +55,12 @@ public class CommonUIShortcuts {
     public static ShortcutSet getMoveLineUp() { return shortcutsById("MoveLineUp"); }
     public static ShortcutSet getMoveLineDown() { return shortcutsById("MoveLineDown"); }
     public static ShortcutSet getMultiplePaste() { return shortcutsById("PasteMultiple"); }
-    // @formatter:on
+
+// @formatter:on
 
     @NotNull
     private static CustomShortcutSet shortcutsById(String actionId) {
-        KeymapManager keymapManager = AppUtils.getApplicationComponentOrService(KeymapManager.class);
+        KeymapManager keymapManager = KeymapManager.getInstance();
         if (keymapManager == null) {
             return new CustomShortcutSet(Shortcut.EMPTY_ARRAY);
         }

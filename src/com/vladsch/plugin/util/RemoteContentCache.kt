@@ -50,11 +50,11 @@ class RemoteContentCache(
             val cachedContent = getCachedContent(url, cacheContent)
             if (cachedContent != null) {
                 if (cachedContent.fixUrl != null && cachedContent.fixUrl != cachedContent.url) {
-                    val oldRemoteContent = remoteContentCache[cachedContent.fixUrl]
+                    val oldRemoteContent = remoteContentCache[cachedContent.fixUrl as String]
                     if (oldRemoteContent != null && oldRemoteContent.fixUrl == url) {
                         // messed up, reporting moved to in a loop, ignore
                     } else {
-                        return fetchRemoteContent(cachedContent.fixUrl, cacheContent)
+                        return fetchRemoteContent(cachedContent.fixUrl as String, cacheContent)
                     }
                 }
                 return cachedContent
@@ -139,7 +139,8 @@ class RemoteContentCache(
 
             val cachedContent = remoteContentCache[useCacheUrl]
             if (cachedContent != null) {
-                if (cachedContent.timeStamp + remoteContentCacheExpiration < currentTimeMillis || cacheContent && /*!cachedContent.noContent &&*/ (cachedContent.content is CharSequence && cachedContent.content.isEmpty())) {
+                val content = cachedContent.content
+                if (cachedContent.timeStamp + remoteContentCacheExpiration < currentTimeMillis || cacheContent && /*!cachedContent.noContent &&*/ (content is CharSequence && content.isEmpty())) {
                     // either stale or did not cache content
                     remoteContentCache.remove(useCacheUrl)
                 } else {
@@ -148,11 +149,11 @@ class RemoteContentCache(
                     }
 
                     if (allowRedirect && cachedContent.fixUrl != null && cachedContent.fixUrl != cachedContent.url) {
-                        val oldRemoteContent = remoteContentCache[cachedContent.fixUrl]
+                        val oldRemoteContent = remoteContentCache[cachedContent.fixUrl as String]
                         if (oldRemoteContent != null && oldRemoteContent.fixUrl == url) {
                             // messed up, reporting moved to in a loop, ignore
                         } else {
-                            return getCachedContent(cachedContent.fixUrl, cacheContent, true)
+                            return getCachedContent(cachedContent.fixUrl as String, cacheContent, true)
                         }
                     }
 
@@ -170,7 +171,7 @@ class RemoteContentCache(
             if (remoteContent != null) {
                 if (remoteContent.error == MOVED_PERMANENTLY && remoteContent.fixUrl != null && remoteContent.fixUrl != url) {
                     // load the right URL
-                    return getRemoteContent(remoteContent.fixUrl, cacheContent)
+                    return getRemoteContent(remoteContent.fixUrl as String, cacheContent)
                 }
                 return remoteContent
             }
@@ -183,7 +184,7 @@ class RemoteContentCache(
 
             val inputStream: InputStream?
             try {
-                val httpConfigurable = ApplicationManager.getApplication().getComponent(HttpConfigurable::class.java)
+                val httpConfigurable = HttpConfigurable.getInstance()
                 val urlConnection = if (httpConfigurable.USE_HTTP_PROXY) httpConfigurable.openConnection(url) else URL(url).openConnection()
 
                 urlConnection.doOutput = false
@@ -198,7 +199,7 @@ class RemoteContentCache(
                     // moved permanently
                     movedTo = urlConnection.getHeaderField("Location").removeSuffix("/")
 
-                    // TODO: ??? make it not expire naturally so we don't fetch it again unless cache cleared manually???
+                    // QUERY: make it not expire naturally so we don't fetch it again unless cache cleared manually???
                     val oldRemoteContent = remoteContentCache[movedTo]
                     if (oldRemoteContent == null || oldRemoteContent.fixUrl != url) {
                         val newRemoteContent = RemoteContent(useCacheUrl, url, null, System.currentTimeMillis(), MOVED_PERMANENTLY, movedTo)
@@ -304,13 +305,14 @@ class RemoteContentCache(
         var used = 0L
         for ((key, remoteContent) in remoteContentCache) {
             used += key.length
-            if (remoteContent.content != null) {
-                if (remoteContent.content is CharSequence) {
-                    used += remoteContent.content.length
+            val content = remoteContent.content
+            if (content != null) {
+                if (content is CharSequence) {
+                    used += content.length
                 } else {
                     // must be map of string->string, guestimate size from two strings
                     @Suppress("UNCHECKED_CAST")
-                    (remoteContent.content as? Map<String, String>)?.forEach { entry ->
+                    (content as? Map<String, String>)?.forEach { entry ->
                         used += entry.key.length + entry.value.length
                     }
                 }
