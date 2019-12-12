@@ -246,7 +246,7 @@ public class Helpers {
                 (stopAtEndOfLine && lineNumber > minLineNumber ? document.getLineEndOffset(minLineNumber) : stopAtStartOfLine ? document.getLineStartOffset(minLineNumber) : 0);
 
         // if virtual spaces are enabled the caret can be after the end so we should pretend it is on the next char after the end
-        int newOffset = stopAtIndent > offset - 1 ? stopAtIndent : offset - 1;
+        int newOffset = Math.max(stopAtIndent, offset - 1);
         if (newOffset < minOffset) return;
 
         boolean done = false;
@@ -684,7 +684,7 @@ public class Helpers {
         }
 
         if (start <= end) {
-            range = new Range(start, end);
+            range = Range.of(start, end);
         }
         return range;
     }
