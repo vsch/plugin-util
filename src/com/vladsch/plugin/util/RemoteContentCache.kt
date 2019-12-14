@@ -49,12 +49,13 @@ class RemoteContentCache(
         if (isRemoteContentUrl(url)) {
             val cachedContent = getCachedContent(url, cacheContent)
             if (cachedContent != null) {
-                if (cachedContent.fixUrl != null && cachedContent.fixUrl != cachedContent.url) {
-                    val oldRemoteContent = remoteContentCache[cachedContent.fixUrl as String]
+                val fixUrl = cachedContent.fixUrl
+                if (fixUrl != null && fixUrl != cachedContent.url) {
+                    val oldRemoteContent = remoteContentCache[fixUrl]
                     if (oldRemoteContent != null && oldRemoteContent.fixUrl == url) {
                         // messed up, reporting moved to in a loop, ignore
                     } else {
-                        return fetchRemoteContent(cachedContent.fixUrl as String, cacheContent)
+                        return fetchRemoteContent(fixUrl, cacheContent) ?: cachedContent
                     }
                 }
                 return cachedContent
@@ -148,12 +149,13 @@ class RemoteContentCache(
                         pendingRemoteContentFetch.remove(useCacheUrl)
                     }
 
-                    if (allowRedirect && cachedContent.fixUrl != null && cachedContent.fixUrl != cachedContent.url) {
-                        val oldRemoteContent = remoteContentCache[cachedContent.fixUrl as String]
+                    val fixUrl = cachedContent.fixUrl
+                    if (allowRedirect && fixUrl != null && fixUrl != cachedContent.url) {
+                        val oldRemoteContent = remoteContentCache[fixUrl]
                         if (oldRemoteContent != null && oldRemoteContent.fixUrl == url) {
                             // messed up, reporting moved to in a loop, ignore
                         } else {
-                            return getCachedContent(cachedContent.fixUrl as String, cacheContent, true)
+                            return getCachedContent(fixUrl, cacheContent, true)
                         }
                     }
 
@@ -169,9 +171,10 @@ class RemoteContentCache(
         if (isRemoteContentUrl(url)) {
             val remoteContent = getCachedContent(url, cacheContent)
             if (remoteContent != null) {
-                if (remoteContent.error == MOVED_PERMANENTLY && remoteContent.fixUrl != null && remoteContent.fixUrl != url) {
+                val fixUrl = remoteContent.fixUrl
+                if (remoteContent.error == MOVED_PERMANENTLY && fixUrl != null && fixUrl != url) {
                     // load the right URL
-                    return getRemoteContent(remoteContent.fixUrl as String, cacheContent)
+                    return getRemoteContent(fixUrl, cacheContent)
                 }
                 return remoteContent
             }
@@ -229,7 +232,7 @@ class RemoteContentCache(
                 }
 
                 try {
-                    inputStream = urlConnection.getInputStream()
+                    inputStream = urlConnection.getInputStream()!!
 
                     try {
                         val reader = BufferedReader(InputStreamReader(inputStream))
