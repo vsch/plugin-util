@@ -96,6 +96,15 @@ public class AppUtils {
         return defaultUnderTest;
     }
 
+    public static boolean isCommunity(boolean defaultUnderTest) {
+        Application application = ApplicationManager.getApplication();
+        if (application != null && !application.isUnitTestMode()) {
+            String build = ApplicationInfoEx.getInstance().getBuild().toString();
+            return build.startsWith("IC-") || build.startsWith("PC-") || build.startsWith("IE-") || build.startsWith("PE-");
+        }
+        return defaultUnderTest;
+    }
+
     public static int compareVersions(String versionString1, String versionString2) {
         Version version1 = versionString1 == null ? null : Version.parseVersion(versionString1);
         Version version2 = versionString2 == null ? null : Version.parseVersion(versionString2);
