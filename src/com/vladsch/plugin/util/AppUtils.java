@@ -3,6 +3,7 @@ package com.vladsch.plugin.util;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ex.ApplicationInfoEx;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.BuildNumber;
 
@@ -20,7 +21,7 @@ public class AppUtils {
     public static final String LOADS_SVG_ICONS_APP_VERSION = "180";
     public static final String CLIPBOARD_CHANGE_NOTIFICATIONS = "180";
 
-    // class names which by version were determined to be services not components
+    // class names which were determined by their version to be services not components
     private static final HashSet<String> APP_SERVICES = new HashSet<>();
     // application components which are now services starting with given version
     private static final HashMap<String, String> APP_COMPONENT_SERVICES = new HashMap<>();
@@ -33,7 +34,7 @@ public class AppUtils {
         Application application = ApplicationManager.getApplication();
         if (application != null) {
             if (APP_SERVICES.contains(componentClass.getName())) {
-                return application.getService(componentClass);
+                return ServiceManager.getService(componentClass);
             } else {
                 String serviceAppVersion = APP_COMPONENT_SERVICES.get(componentClass.getName());
 
@@ -41,7 +42,7 @@ public class AppUtils {
                     return application.getComponent(componentClass);
                 } else {
                     APP_SERVICES.add(componentClass.getName());
-                    return application.getService(componentClass);
+                    return ServiceManager.getService(componentClass);
                 }
             }
         }

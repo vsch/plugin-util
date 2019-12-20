@@ -87,7 +87,7 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
         int selectedIndex = myList.getSelectedIndex();
         int modelSize = myList.getModel().getSize();
         // DEPRECATED: replacement appeared in 2019-03-04
-        myModel = new NameFilteringListModel<>(myList, namer, mySpeedSearch::shouldBeShowing, mySpeedSearch);
+        myModel = new NameFilteringListModel<T>(myList, namer, mySpeedSearch::shouldBeShowing, mySpeedSearch);
         if (myModel.getSize() == modelSize) {
             myList.setSelectedIndex(selectedIndex);
         }
