@@ -17,7 +17,6 @@ package com.vladsch.plugin.util.ui.highlight;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.security.cert.X509Certificate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +35,6 @@ public enum WordHighlighterFlags {
     final public int invert;
     final public @Nullable RangeHighlighterFlags rangeFlags;
 
-
     WordHighlighterFlags(int mask, int invert, @Nullable RangeHighlighterFlags rangeFlags) {
         this.mask = mask;
         this.invert = invert;
@@ -44,7 +42,7 @@ public enum WordHighlighterFlags {
     }
 
     WordHighlighterFlags(int mask, int invert) {
-        this(mask,invert, null);
+        this(mask, invert, null);
     }
 
     WordHighlighterFlags(RangeHighlighterFlags flags) {

@@ -56,24 +56,26 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
         return null;
     }
 
-    protected void setHighlightState(Map<R, Pair<Integer, Integer>> state) {
+    /**
+     * Restore highlight state
+     *
+     * @param state highlight state previously returned by {@link #getHighlightState()}
+     */
+    protected void setHighlightState(@NotNull Map<R, Pair<Integer, Integer>> state) {
         clearHighlightsRaw();
         myHighlightRangeFlags = new LinkedHashMap<>();
         myOriginalIndexMap = new LinkedHashMap<>();
-        int index = 0;
 
         for (R key : state.keySet()) {
             Pair<Integer, Integer> pair = state.get(key);
             if (pair != null && pair.getFirst() != null && pair.getSecond() != null) {
                 int flags = pair.getFirst();
                 int originalIndex = pair.getSecond();
-                myHighlightRangeFlags.put(key, flags);
-                myOriginalIndexMap.put(key, originalIndex);
-                index = Math.max(index, originalIndex);
+
+                // call add highlight range to ensure sub-classes build their structures from saved data
+                addHighlightRange(key, flags, originalIndex);
             }
         }
-
-        myOriginalOrderIndex = index + 1;
     }
 
     @Override

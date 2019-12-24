@@ -17,6 +17,13 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
         return addHighlightRange(range, flags, -1);
     }
 
+    /**
+     * Add highlight range
+     * @param range range object for highlight
+     * @param flags flags for the highlight
+     * @param orderIndex index to use if &gt;0, else use next index
+     * @return order index used for the highlight
+     */
     int addHighlightRange(R range, int flags, int orderIndex);
 
     TypedRangeHighlighter<R, T> getHighlighter(@NotNull Editor editor);

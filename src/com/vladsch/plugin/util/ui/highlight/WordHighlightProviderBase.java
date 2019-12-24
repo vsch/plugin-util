@@ -56,12 +56,31 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
 
     @Nullable
     protected HashMap<String, Pair<Integer, Integer>> getHighlightState() {
-        return super.getHighlightState();
+        HashMap<String, Pair<Integer, Integer>> highlightState = super.getHighlightState();
+        if (highlightState != null) {
+            // add our highlight case and boundary flags
+            int flags = 0;
+            if (myHighlightCaseSensitive) flags |= WordHighlighterFlags.CASE_INSENSITIVE.mask;
+            if (myHighlightWordsMatchBoundary) flags |= WordHighlighterFlags.BEGIN_WORD.mask;
+
+            highlightState.put("", Pair.of(flags, 0));
+        }
+
+        return highlightState;
     }
 
     @Override
-    protected void setHighlightState(Map<String, Pair<Integer, Integer>> state) {
+    protected void setHighlightState(@NotNull Map<String, Pair<Integer, Integer>> state) {
+        Pair<Integer, Integer> flagPair = state.remove("");
+
         super.setHighlightState(state);
+
+        // Need to update internal state here
+        if (flagPair != null) {
+            int flags = flagPair.getFirst();
+            myHighlightCaseSensitive = (flags & WordHighlighterFlags.CASE_INSENSITIVE.mask) != 0;
+            myHighlightWordsMatchBoundary = (flags & WordHighlighterFlags.BEGIN_WORD.mask) != 0;
+        }
     }
 
     @Override
