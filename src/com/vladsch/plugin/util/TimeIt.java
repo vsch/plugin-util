@@ -4,6 +4,8 @@ import com.intellij.openapi.diagnostic.Logger;
 
 import java.util.function.Supplier;
 
+import static com.intellij.openapi.application.ApplicationManager.getApplication;
+
 public class TimeIt {
     public static void logTime(Logger LOG, String message, Runnable runnable) {
         if (LOG.isDebugEnabled()) {
@@ -12,7 +14,7 @@ public class TimeIt {
             long end = System.nanoTime();
             String fullMessage = message + String.format(" in %3.3fms", (end - start) / 10000000.0);
             LOG.debug(fullMessage);
-            System.out.println(fullMessage);
+            if (getApplication() == null || getApplication().isUnitTestMode()) System.out.println(fullMessage);
         } else {
             runnable.run();
         }
@@ -27,7 +29,7 @@ public class TimeIt {
             long end = System.nanoTime();
             String fullMessage = message + String.format(" in %3.3fms", (end - start) / 10000000.0);
             LOG.debug(fullMessage);
-            System.out.println(fullMessage);
+            if (getApplication() == null || getApplication().isUnitTestMode()) System.out.println(fullMessage);
         } else {
             result = runnable.get();
         }
