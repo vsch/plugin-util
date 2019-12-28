@@ -12,6 +12,7 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
     TextAttributesKey TYPO_ATTRIBUTES_KEY = TextAttributesKey.createTextAttributesKey("TYPO");
     TextAttributesKey ERROR_ATTRIBUTES_KEY = CodeInsightColors.ERRORS_ATTRIBUTES; // CodeInsightColors.MARKED_FOR_REMOVAL_ATTRIBUTES; // this one is only defined in 2018.1
     TextAttributesKey WARNING_ATTRIBUTES_KEY = TYPO_ATTRIBUTES_KEY;// CodeInsightColors.WEAK_WARNING_ATTRIBUTES;
+    TextAttributesKey IGNORED_ATTRIBUTES_KEY = CodeInsightColors.NOT_USED_ELEMENT_ATTRIBUTES; // CodeInsightColors.MARKED_FOR_REMOVAL_ATTRIBUTES; // this one is only defined in 2018.1
 
     default int addHighlightRange(R range, int flags) {
         return addHighlightRange(range, flags, -1);

@@ -17,9 +17,10 @@ package com.vladsch.plugin.util.ui.highlight;
 
 public enum RangeHighlighterFlags {
     NONE(0, 0),
-    IDE_WARNING(1, 2),    // marks this highlight as using standard ide warning highlight
-    IDE_ERROR(2, 1),      // marks this highlight as using standard ide error highlight
-    IDE_HIGHLIGHT(3, 3),  // remove highlight as using standard ide highlights
+    IDE_WARNING(1, 6),    // marks this highlight as using standard ide warning highlight
+    IDE_ERROR(2, 5),      // marks this highlight as using standard ide error highlight
+    IDE_IGNORED(4, 3),      // marks this highlight as using standard ide error highlight
+    IDE_HIGHLIGHT(7, 7),  // remove highlight as using standard ide highlights
     ;
 
     final public int mask;
@@ -37,6 +38,7 @@ public enum RangeHighlighterFlags {
     public static RangeHighlighterFlags fromFlags(int flags) {
         if (haveFlags(flags, IDE_ERROR)) return IDE_ERROR;
         if (haveFlags(flags, IDE_WARNING)) return IDE_WARNING;
+        if (haveFlags(flags, IDE_IGNORED)) return IDE_IGNORED;
         return NONE;
     }
 }

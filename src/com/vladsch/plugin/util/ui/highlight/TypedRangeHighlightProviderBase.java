@@ -178,6 +178,9 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
             case IDE_WARNING:
                 return uiTheme.getAttributes(WARNING_ATTRIBUTES_KEY);
 
+            case IDE_IGNORED:
+                return uiTheme.getAttributes(IGNORED_ATTRIBUTES_KEY);
+
             default:
                 throw new IllegalStateException("Unhandled IDE_HIGHLIGHT combination " + (flags & RangeHighlighterFlags.IDE_HIGHLIGHT.mask));
         }
