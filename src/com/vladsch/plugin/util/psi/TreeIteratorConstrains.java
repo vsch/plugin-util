@@ -126,7 +126,7 @@ public class TreeIteratorConstrains<N> {
 
     @NotNull
     public static <N> TreeIteratorConstrains<N> createFor(Class<N> clazz, final Function<? super N, N> NEXT_SIBLING, final Function<? super N, N> PREV_SIBLING, final Function<? super N, N> FIRST_CHILD, final Function<? super N, N> LAST_CHILD, final Function<? super N, N> PARENT) {
-        // TODO: decide if need to access builders by sub-class then on first subclass add the subclass entry for the superclass builder
+        // FIX: decide if need to access builders by sub-class then on first subclass add the subclass entry for the superclass builder
         //LoopConstrainsBuilder builder = ourCachedBuilders.get(clazz);
         //if (builder == null) {
         //    // see if there are super classes defined or interfaces
