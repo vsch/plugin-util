@@ -33,7 +33,6 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightProviderBase<T> implements TypedRangeHighlightProvider<R, T> {
     @Nullable private Map<R, Integer> myHighlightRangeFlags;
@@ -166,23 +165,22 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
 
     @Nullable
     public static TextAttributes getIdeAttributes(final int flags) {
-        final RangeHighlighterFlags highlighterFlags = RangeHighlighterFlags.fromFlags(flags);
         EditorColorsScheme uiTheme = EditorColorsManager.getInstance().getGlobalScheme();
 
-        switch (highlighterFlags) {
-            case NONE:
+        switch (flags & F_IDE_HIGHLIGHT) {
+            case F_NONE:
                 return null;
-            case IDE_ERROR:
+            case F_IDE_ERROR:
                 return uiTheme.getAttributes(ERROR_ATTRIBUTES_KEY);
 
-            case IDE_WARNING:
+            case F_IDE_WARNING:
                 return uiTheme.getAttributes(WARNING_ATTRIBUTES_KEY);
 
-            case IDE_IGNORED:
+            case F_IDE_IGNORED:
                 return uiTheme.getAttributes(IGNORED_ATTRIBUTES_KEY);
 
             default:
-                throw new IllegalStateException("Unhandled IDE_HIGHLIGHT combination " + (flags & RangeHighlighterFlags.IDE_HIGHLIGHT.mask));
+                throw new IllegalStateException("Unhandled IDE_HIGHLIGHT combination " + (flags & F_IDE_HIGHLIGHT));
         }
     }
 

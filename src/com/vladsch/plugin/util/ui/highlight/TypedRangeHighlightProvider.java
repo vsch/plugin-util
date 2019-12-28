@@ -3,12 +3,45 @@ package com.vladsch.plugin.util.ui.highlight;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.CodeInsightColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
+import com.vladsch.flexmark.util.collection.BitField;
+import com.vladsch.flexmark.util.collection.BitFieldSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
 public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> {
+    enum Flags implements BitField {
+        IDE_HIGHLIGHT(8),   // reserved for RangeHighlighter IDE flags
+        ;
+
+        final public int bits;
+
+        Flags() {
+            this(1);
+        }
+
+        Flags(int bits) {
+            this.bits = bits;
+        }
+
+        @Override
+        public int getBits() {
+            return bits;
+        }
+    }
+    Flags IDE_HIGHLIGHT = Flags.IDE_HIGHLIGHT;
+
+    int F_IDE_HIGHLIGHT = BitFieldSet.intMask(IDE_HIGHLIGHT);
+    int F_NONE = 0;
+    int F_IDE_WARNING = 1;    // marks this highlight as using standard ide warning highlight
+    int F_IDE_ERROR = 2;      // marks this highlight as using standard ide error highlight
+    int F_IDE_IGNORED = 3;    // marks this highlight as using standard ide error highlight
+
+    static int ideHighlight(int flags) {
+        return flags & F_IDE_HIGHLIGHT;
+    }
+
     TextAttributesKey TYPO_ATTRIBUTES_KEY = TextAttributesKey.createTextAttributesKey("TYPO");
     TextAttributesKey ERROR_ATTRIBUTES_KEY = CodeInsightColors.ERRORS_ATTRIBUTES; // CodeInsightColors.MARKED_FOR_REMOVAL_ATTRIBUTES; // this one is only defined in 2018.1
     TextAttributesKey WARNING_ATTRIBUTES_KEY = TYPO_ATTRIBUTES_KEY;// CodeInsightColors.WEAK_WARNING_ATTRIBUTES;
@@ -66,4 +99,5 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
      */
     @NotNull
     R getAdjustedRange(@NotNull R range);
+
 }

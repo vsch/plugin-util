@@ -1,48 +1,69 @@
 package com.vladsch.plugin.util.ui.highlight;
 
-import org.jetbrains.annotations.NotNull;
+import com.vladsch.flexmark.util.collection.BitField;
+import com.vladsch.flexmark.util.collection.BitFieldSet;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<String, T> {
-    default int encodeFlags(boolean beginWord, boolean endWord, final boolean ideWarning, final boolean ideError, Boolean caseSensitive) {
+    enum Flags implements BitField {
+        IDE_HIGHLIGHT(TypedRangeHighlightProvider.IDE_HIGHLIGHT.bits),   // reserved for RangeHighlighter IDE flags
+        BEGIN_WORD(1),
+        END_WORD(1),
+        CASE_SENSITIVITY(2),
+        ;
+
+        final public int bits;
+
+        Flags() {
+            this(1);
+        }
+
+        Flags(int bits) {
+            this.bits = bits;
+        }
+
+        @Override
+        public int getBits() {
+            return bits;
+        }
+    }
+
+    Flags BEGIN_WORD = Flags.BEGIN_WORD;
+    Flags END_WORD = Flags.END_WORD;
+    Flags CASE_SENSITIVITY = Flags.CASE_SENSITIVITY;
+
+    int F_BEGIN_WORD = BitFieldSet.intMask(BEGIN_WORD);
+    int F_END_WORD = BitFieldSet.intMask(END_WORD);
+
+    int F_CASE_SENSITIVITY = BitFieldSet.intMask(CASE_SENSITIVITY);
+    int F_CASE_INSENSITIVE = BitFieldSet.setInt(0, CASE_SENSITIVITY, -2);
+    int F_CASE_SENSITIVE = BitFieldSet.setInt(0, CASE_SENSITIVITY, 1);
+
+    static int ideHighlight(int flags) {
+        return flags & F_IDE_HIGHLIGHT;
+    }
+
+    default int encodeFlags(boolean beginWord, boolean endWord, int ideHighlight, @Nullable Boolean caseSensitive) {
         //noinspection PointlessBitwiseExpression
         return 0
-                | (beginWord ? WordHighlighterFlags.BEGIN_WORD.mask : 0)
-                | (endWord ? WordHighlighterFlags.END_WORD.mask : 0)
-                | (ideError ? WordHighlighterFlags.IDE_ERROR.mask : (ideWarning ? WordHighlighterFlags.IDE_WARNING.mask : 0))
-                | (caseSensitive == null ? 0 : caseSensitive ? WordHighlighterFlags.CASE_SENSITIVE.mask : WordHighlighterFlags.CASE_INSENSITIVE.mask);
+                | (beginWord ? F_BEGIN_WORD : 0)
+                | (endWord ? F_END_WORD : 0)
+                | BitFieldSet.setInt(0, IDE_HIGHLIGHT, ideHighlight)
+                | (caseSensitive == null ? 0 : caseSensitive ? F_CASE_SENSITIVE : F_CASE_INSENSITIVE);
     }
 
-    default int encodeFlags(final boolean ideWarning, final boolean ideError) {
-        return (ideError ? RangeHighlighterFlags.IDE_ERROR.mask : (ideWarning ? RangeHighlighterFlags.IDE_WARNING.mask : 0));
+    default int encodeFlags(int ideHighlight) {
+        return BitFieldSet.setInt(0, IDE_HIGHLIGHT, ideHighlight);
     }
 
-    default int encodeFlags(@NotNull WordHighlighterFlags... flags) {
-        int mask = 0;
-        for (WordHighlighterFlags flag : flags) {
-            mask |= flag.mask;
-            mask &= ~flag.invert;
-        }
-        return mask;
+    default int addHighlightRange(String range, boolean beginWord, boolean endWord, int ideHighlight, @Nullable Boolean caseSensitive) {
+        return addHighlightRange(range, encodeFlags(beginWord, endWord, ideHighlight, caseSensitive));
     }
 
-    default int addHighlightRange(String range, boolean beginWord, boolean endWord, final boolean ideWarning, final boolean ideError, Boolean caseSensitive) {
-        return addHighlightRange(range, encodeFlags(beginWord, endWord, ideWarning, ideError, caseSensitive));
-    }
-
-    default int addHighlightRange(String range, int orderIndex, boolean beginWord, boolean endWord, final boolean ideWarning, final boolean ideError, Boolean caseSensitive) {
-        return addHighlightRange(range, encodeFlags(beginWord, endWord, ideWarning, ideError, caseSensitive), orderIndex);
-    }
-
-    default int addHighlightRange(String range, WordHighlighterFlags... flags) {
-        return addHighlightRange(range, encodeFlags(flags));
-    }
-
-    default int addHighlightRange(String range, int orderIndex, WordHighlighterFlags... flags) {
-        return addHighlightRange(range, encodeFlags(flags), orderIndex);
+    default int addHighlightRange(String range, int orderIndex, boolean beginWord, boolean endWord, int ideHighlight, @Nullable Boolean caseSensitive) {
+        return addHighlightRange(range, encodeFlags(beginWord, endWord, ideHighlight, caseSensitive), orderIndex);
     }
 
     Pattern getHighlightPattern();
@@ -50,8 +71,10 @@ public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<St
     void updateHighlightPattern();
 
     boolean isHighlightCaseSensitive();
+
     void setHighlightCaseSensitive(boolean highlightCaseSensitive);
 
     boolean isHighlightWordsMatchBoundary();
+
     void setHighlightWordsMatchBoundary(boolean highlightWordsMatchBoundary);
 }

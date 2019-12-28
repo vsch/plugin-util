@@ -23,6 +23,7 @@ package com.vladsch.plugin.util.ui.highlight;
 
 import com.intellij.openapi.editor.Editor;
 import com.vladsch.flexmark.util.Pair;
+import com.vladsch.flexmark.util.collection.BitFieldSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,8 +61,8 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
         if (highlightState != null) {
             // add our highlight case and boundary flags
             int flags = 0;
-            if (myHighlightCaseSensitive) flags |= WordHighlighterFlags.CASE_INSENSITIVE.mask;
-            if (myHighlightWordsMatchBoundary) flags |= WordHighlighterFlags.BEGIN_WORD.mask;
+            if (myHighlightCaseSensitive) flags |= WordHighlightProvider.F_CASE_INSENSITIVE;
+            if (myHighlightWordsMatchBoundary) flags |= F_BEGIN_WORD;
 
             highlightState.put("", Pair.of(flags, 0));
         }
@@ -78,8 +79,8 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
         // Need to update internal state here
         if (flagPair != null) {
             int flags = flagPair.getFirst();
-            myHighlightCaseSensitive = (flags & WordHighlighterFlags.CASE_INSENSITIVE.mask) != 0;
-            myHighlightWordsMatchBoundary = (flags & WordHighlighterFlags.BEGIN_WORD.mask) != 0;
+            myHighlightCaseSensitive = (flags & WordHighlightProvider.F_CASE_INSENSITIVE) != 0;
+            myHighlightWordsMatchBoundary = (flags & F_BEGIN_WORD) != 0;
         }
     }
 
@@ -219,31 +220,32 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
 
     @Override
     public int addHighlightRange(String range, int flags, int originalIndex) {
-        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.BEGIN_WORD) && (range.length() == 0 || (!Character.isUnicodeIdentifierPart(range.charAt(0)) || range.charAt(0) == '$'))) {
-            flags &= ~WordHighlighterFlags.BEGIN_WORD.mask;
+        if (BitFieldSet.any(flags, F_BEGIN_WORD) && (range.length() == 0 || (!Character.isUnicodeIdentifierPart(range.charAt(0)) || range.charAt(0) == '$'))) {
+            flags &= ~F_BEGIN_WORD;
         }
 
-        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.END_WORD) && (range.length() == 0 || (!Character.isUnicodeIdentifierPart(range.charAt(range.length() - 1)) || range.charAt(range.length() - 1) == '$'))) {
-            flags &= ~WordHighlighterFlags.END_WORD.mask;
+        if (BitFieldSet.any(flags, F_END_WORD) && (range.length() == 0 || (!Character.isUnicodeIdentifierPart(range.charAt(range.length() - 1)) || range.charAt(range.length() - 1) == '$'))) {
+            flags &= ~F_END_WORD;
         }
 
         String useRange;
         String lowerCase = range.toLowerCase();
 
-        if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_SENSITIVE)) {
+        int caseSensitivity = flags & F_CASE_SENSITIVITY;
+
+        if (caseSensitivity == F_CASE_SENSITIVE) {
             // remove all case insensitive and unspecified words matching this one
             removeHighlightRanges(myHighlightCaseInsensitiveWords, lowerCase);
             removeHighlightRanges(myHighlightCaseUnspecifiedWords, lowerCase);
 
             addHighlightRanges(myHighlightCaseSensitiveWords, lowerCase, range);
             useRange = range;
-        } else if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_INSENSITIVE)) {
+        } else if (caseSensitivity == F_CASE_INSENSITIVE) {
             // remove all case sensitive and unspecified words matching this one
             removeHighlightRanges(myHighlightCaseSensitiveWords, lowerCase);
             removeHighlightRanges(myHighlightCaseUnspecifiedWords, lowerCase);
 
             addHighlightRanges(myHighlightCaseInsensitiveWords, lowerCase, range);
-            flags &= ~WordHighlighterFlags.CASE_SENSITIVE.mask;
             useRange = lowerCase;
         } else {
             // remove all case sensitive and insensitive words matching this one
@@ -251,6 +253,7 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
             removeHighlightRanges(myHighlightCaseSensitiveWords, lowerCase);
 
             addHighlightRanges(myHighlightCaseUnspecifiedWords, lowerCase, range);
+            flags &= ~F_CASE_SENSITIVITY;
             useRange = range;
         }
 
@@ -304,8 +307,7 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
                 int flags = highlightRangeFlags.get(adjustedRange);
 
                 if (myHighlightCaseSensitive) {
-                    if (WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_SENSITIVE)) nextCaseSensitive = true;
-                    else nextCaseSensitive = !WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.CASE_INSENSITIVE);
+                    nextCaseSensitive = (flags & F_CASE_SENSITIVITY) != F_CASE_INSENSITIVE;
                 } else {
                     nextCaseSensitive = false;
                 }
@@ -315,9 +317,9 @@ public abstract class WordHighlightProviderBase<T> extends TypedRangeHighlightPr
                     sb.append(isCaseSensitive ? "(?-i)" : "(?i)");
                 }
 
-                if (myHighlightWordsMatchBoundary && WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.BEGIN_WORD)) sb.append("\\b");
+                if (myHighlightWordsMatchBoundary && BitFieldSet.any(flags, F_BEGIN_WORD)) sb.append("\\b");
                 sb.append("\\Q").append(range).append("\\E");
-                if (myHighlightWordsMatchBoundary && WordHighlighterFlags.haveFlags(flags, WordHighlighterFlags.END_WORD)) sb.append("\\b");
+                if (myHighlightWordsMatchBoundary && BitFieldSet.any(flags, F_END_WORD)) sb.append("\\b");
             }
 
             myHighlightPattern = Pattern.compile(sb.toString());
