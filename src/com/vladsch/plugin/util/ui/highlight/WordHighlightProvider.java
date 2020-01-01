@@ -38,8 +38,8 @@ public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<St
     int F_END_WORD = BitFieldSet.intMask(END_WORD);
 
     int F_CASE_SENSITIVITY = BitFieldSet.intMask(CASE_SENSITIVITY);
-    int F_CASE_INSENSITIVE = BitFieldSet.setInt(0, CASE_SENSITIVITY, -2);
-    int F_CASE_SENSITIVE = BitFieldSet.setInt(0, CASE_SENSITIVITY, 1);
+    int F_CASE_SENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, 1);
+    int F_CASE_INSENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, 2);
 
     static int ideHighlight(int flags) {
         return flags & F_IDE_HIGHLIGHT;
@@ -50,12 +50,12 @@ public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<St
         return 0
                 | (beginWord ? F_BEGIN_WORD : 0)
                 | (endWord ? F_END_WORD : 0)
-                | BitFieldSet.setInt(0, IDE_HIGHLIGHT, ideHighlight)
+                | BitFieldSet.setBitField(0, IDE_HIGHLIGHT, ideHighlight)
                 | (caseSensitive == null ? 0 : caseSensitive ? F_CASE_SENSITIVE : F_CASE_INSENSITIVE);
     }
 
     default int encodeFlags(int ideHighlight) {
-        return BitFieldSet.setInt(0, IDE_HIGHLIGHT, ideHighlight);
+        return BitFieldSet.setBitField(0, IDE_HIGHLIGHT, ideHighlight);
     }
 
     default int addHighlightRange(String range, boolean beginWord, boolean endWord, int ideHighlight, @Nullable Boolean caseSensitive) {
