@@ -85,7 +85,7 @@ public class TestUtils {
 
 //            // NOTE: Math.min() is only need if document content is reverted to original after mods by actions in test mode only and if document sequence has not been accessed after document creation
 //            inserts.add(Pair.of(Math.min(length, caret.getOffset()), 'c'));
-            inserts.add(Pair.of(caret.getOffset(), 'c'));
+            inserts.add(Pair.of(caret.getOffset(), 'C'));
 
             if (caret.hasSelection()) {
                 inserts.add(Pair.of(caret.getSelectionStart(), 's'));
@@ -94,7 +94,7 @@ public class TestUtils {
         }
 
         inserts.sort((o1, o2) -> {
-            int offsetCompare = o1.getFirst().compareTo(o1.getFirst());
+            int offsetCompare = o1.getFirst().compareTo(o2.getFirst());
             if (offsetCompare == 0) {
                 // put carets ahead of selection start and after selection end
                 return o1.getSecond().compareTo(o2.getSecond());
@@ -103,24 +103,33 @@ public class TestUtils {
         });
 
         int iMax = inserts.size();
-        int lastPos = 0;
-        StringBuilder sb = new StringBuilder();
+        int lastPos = fileText.length();
+        ArrayList<CharSequence> segments = new ArrayList<>();
         for (int i = iMax; i-- > 0; ) {
             Pair<Integer, Character> insert = inserts.get(i);
             int offset = insert.getFirst();
             char c = insert.getSecond();
-            String text = withTestCaretMarkup ? c == 'c' ? TEST_CARET_STRING : c == 's' ? TEST_START_STRING : c == 'S' ? TEST_END_STRING : null : c == 'c' ? CARET_STRING : c == 's' ? START_STRING : c == 'S' ? END_STRING : null;
+            String text;
+
+            if (withTestCaretMarkup) text = c == 'C' ? TEST_CARET_STRING : c == 's' ? TEST_START_STRING : c == 'S' ? TEST_END_STRING : null;
+            else text = c == 'C' ? CARET_STRING : c == 's' ? START_STRING : c == 'S' ? END_STRING : null;
+
             assert (text != null);
 
-            if (lastPos < offset) {
-                sb.append(fileText.subSequence(lastPos, offset));
+            if (lastPos > offset) {
+                segments.add(fileText.subSequence(offset, lastPos));
             }
-            sb.append(text);
+            segments.add(text);
             lastPos = offset;
         }
 
-        if (lastPos < length) sb.append(fileText.subSequence(lastPos, length));
+        if (lastPos > 0) segments.add(fileText.subSequence(0, lastPos));
 
+        iMax = segments.size();
+        StringBuilder sb = new StringBuilder();
+        for (int i = iMax; i-- > 0; ) {
+            sb.append(segments.get(i));
+        }
         return sb.toString();
     }
 }
