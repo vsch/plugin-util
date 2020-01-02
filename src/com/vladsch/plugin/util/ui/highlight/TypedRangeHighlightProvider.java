@@ -10,42 +10,63 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
+import static com.vladsch.plugin.util.ui.highlight.TypedRangeHighlightProvider.IdeHighlight.IDE_ERROR;
+import static com.vladsch.plugin.util.ui.highlight.TypedRangeHighlightProvider.IdeHighlight.IDE_IGNORED;
+import static com.vladsch.plugin.util.ui.highlight.TypedRangeHighlightProvider.IdeHighlight.IDE_WARNING;
+import static com.vladsch.plugin.util.ui.highlight.TypedRangeHighlightProvider.IdeHighlight.NONE;
+
 public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> {
-    enum Flags implements BitField {
-        IDE_HIGHLIGHT(8),   // reserved for RangeHighlighter IDE flags
-        ;
-
-        final public int bits;
-
-        Flags() {
-            this(1);
-        }
-
-        Flags(int bits) {
-            this.bits = bits;
-        }
-
-        @Override
-        public int getBits() {
-            return bits;
-        }
-    }
-    Flags IDE_HIGHLIGHT = Flags.IDE_HIGHLIGHT;
-
-    int F_IDE_HIGHLIGHT = BitFieldSet.intMask(IDE_HIGHLIGHT);
-    int F_NONE = 0;
-    int F_IDE_WARNING = 1;    // marks this highlight as using standard ide warning highlight
-    int F_IDE_ERROR = 2;      // marks this highlight as using standard ide error highlight
-    int F_IDE_IGNORED = 3;    // marks this highlight as using standard ide error highlight
-
-    static int ideHighlight(int flags) {
-        return flags & F_IDE_HIGHLIGHT;
-    }
-
     TextAttributesKey TYPO_ATTRIBUTES_KEY = TextAttributesKey.createTextAttributesKey("TYPO");
     TextAttributesKey ERROR_ATTRIBUTES_KEY = CodeInsightColors.ERRORS_ATTRIBUTES; // CodeInsightColors.MARKED_FOR_REMOVAL_ATTRIBUTES; // this one is only defined in 2018.1
     TextAttributesKey WARNING_ATTRIBUTES_KEY = TYPO_ATTRIBUTES_KEY;// CodeInsightColors.WEAK_WARNING_ATTRIBUTES;
     TextAttributesKey IGNORED_ATTRIBUTES_KEY = CodeInsightColors.NOT_USED_ELEMENT_ATTRIBUTES; // CodeInsightColors.MARKED_FOR_REMOVAL_ATTRIBUTES; // this one is only defined in 2018.1
+
+    enum Flags implements BitField {
+        IDE_HIGHLIGHT(8),   // reserved for TypedRangeHighlighter IDE flags
+        ;
+
+        final public int bits;
+
+        Flags() { this(1); }
+
+        Flags(int bits) { this.bits = bits; }
+
+        @Override
+        public int getBits() { return bits; }
+    }
+
+    Flags IDE_HIGHLIGHT = Flags.IDE_HIGHLIGHT;
+
+    enum IdeHighlight {
+        NONE(null),
+        IDE_WARNING(WARNING_ATTRIBUTES_KEY),    // marks this highlight as using standard ide warning highlight
+        IDE_ERROR(ERROR_ATTRIBUTES_KEY),        // marks this highlight as using standard ide error highlight
+        IDE_IGNORED(IGNORED_ATTRIBUTES_KEY),    // marks this highlight as using standard ide unused variable highlight
+        ;
+
+        final TextAttributesKey attributesKey;
+
+        IdeHighlight(TextAttributesKey attributesKey) {
+            this.attributesKey = attributesKey;
+        }
+
+        @NotNull
+        public static IdeHighlight get(int ordinal) {
+            if (ordinal > values().length)
+                throw new IllegalArgumentException(String.format("Ordinal %d is not in IdeHighlight enum", ordinal));
+            return values()[ordinal];
+        }
+    }
+
+    int F_IDE_HIGHLIGHT = BitFieldSet.intMask(IDE_HIGHLIGHT);
+    int F_NONE = NONE.ordinal();
+    int F_IDE_WARNING = IDE_WARNING.ordinal();
+    int F_IDE_ERROR = IDE_ERROR.ordinal();
+    int F_IDE_IGNORED = IDE_IGNORED.ordinal();
+
+    static int ideHighlight(int flags) {
+        return flags & F_IDE_HIGHLIGHT;
+    }
 
     default int addHighlightRange(R range, int flags) {
         return addHighlightRange(range, flags, -1);
@@ -53,9 +74,11 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
 
     /**
      * Add highlight range
-     * @param range range object for highlight
-     * @param flags flags for the highlight
+     *
+     * @param range      range object for highlight
+     * @param flags      flags for the highlight
      * @param orderIndex index to use if &gt;0, else use next index
+     *
      * @return order index used for the highlight
      */
     int addHighlightRange(R range, int flags, int orderIndex);
@@ -99,5 +122,4 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
      */
     @NotNull
     R getAdjustedRange(@NotNull R range);
-
 }

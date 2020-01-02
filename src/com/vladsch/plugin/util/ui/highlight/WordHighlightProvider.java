@@ -9,25 +9,25 @@ import java.util.regex.Pattern;
 public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<String, T> {
     enum Flags implements BitField {
         IDE_HIGHLIGHT(TypedRangeHighlightProvider.IDE_HIGHLIGHT.bits),   // reserved for RangeHighlighter IDE flags
-        BEGIN_WORD(1),
-        END_WORD(1),
+        BEGIN_WORD,
+        END_WORD,
         CASE_SENSITIVITY(2),
         ;
 
         final public int bits;
 
-        Flags() {
-            this(1);
-        }
+        Flags() { this(1); }
 
-        Flags(int bits) {
-            this.bits = bits;
-        }
+        Flags(int bits) { this.bits = bits; }
 
         @Override
-        public int getBits() {
-            return bits;
-        }
+        public int getBits() { return bits; }
+    }
+
+    enum CaseSensitivity {
+        NONE,
+        SENSITIVE,
+        INSENSITIVE,
     }
 
     Flags BEGIN_WORD = Flags.BEGIN_WORD;
@@ -36,14 +36,11 @@ public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<St
 
     int F_BEGIN_WORD = BitFieldSet.intMask(BEGIN_WORD);
     int F_END_WORD = BitFieldSet.intMask(END_WORD);
+    int F_WORD = F_BEGIN_WORD | F_END_WORD;
 
     int F_CASE_SENSITIVITY = BitFieldSet.intMask(CASE_SENSITIVITY);
-    int F_CASE_SENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, 1);
-    int F_CASE_INSENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, 2);
-
-    static int ideHighlight(int flags) {
-        return flags & F_IDE_HIGHLIGHT;
-    }
+    int F_CASE_SENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, CaseSensitivity.SENSITIVE.ordinal());
+    int F_CASE_INSENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, CaseSensitivity.INSENSITIVE.ordinal());
 
     default int encodeFlags(boolean beginWord, boolean endWord, int ideHighlight, @Nullable Boolean caseSensitive) {
         //noinspection PointlessBitwiseExpression

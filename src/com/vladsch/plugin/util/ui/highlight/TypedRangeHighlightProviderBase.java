@@ -166,22 +166,8 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
     @Nullable
     public static TextAttributes getIdeAttributes(final int flags) {
         EditorColorsScheme uiTheme = EditorColorsManager.getInstance().getGlobalScheme();
-
-        switch (flags & F_IDE_HIGHLIGHT) {
-            case F_NONE:
-                return null;
-            case F_IDE_ERROR:
-                return uiTheme.getAttributes(ERROR_ATTRIBUTES_KEY);
-
-            case F_IDE_WARNING:
-                return uiTheme.getAttributes(WARNING_ATTRIBUTES_KEY);
-
-            case F_IDE_IGNORED:
-                return uiTheme.getAttributes(IGNORED_ATTRIBUTES_KEY);
-
-            default:
-                throw new IllegalStateException("Unhandled IDE_HIGHLIGHT combination " + (flags & F_IDE_HIGHLIGHT));
-        }
+        IdeHighlight highlight = IdeHighlight.get(flags & F_IDE_HIGHLIGHT);
+        return highlight.attributesKey == null ? null : uiTheme.getAttributes(highlight.attributesKey);
     }
 
     /**
