@@ -2,6 +2,7 @@ package com.vladsch.plugin.util.ui.highlight;
 
 import com.vladsch.flexmark.util.collection.BitField;
 import com.vladsch.flexmark.util.collection.BitFieldSet;
+import com.vladsch.flexmark.util.html.LineInfo;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Pattern;
@@ -28,6 +29,13 @@ public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<St
         NONE,
         SENSITIVE,
         INSENSITIVE,
+        ;
+
+        public final int mask;
+
+        CaseSensitivity() {
+            mask = BitFieldSet.setBitField(0, Flags.CASE_SENSITIVITY, ordinal());
+        }
     }
 
     Flags BEGIN_WORD = Flags.BEGIN_WORD;
@@ -39,8 +47,8 @@ public interface WordHighlightProvider<T> extends TypedRangeHighlightProvider<St
     int F_WORD = F_BEGIN_WORD | F_END_WORD;
 
     int F_CASE_SENSITIVITY = BitFieldSet.intMask(CASE_SENSITIVITY);
-    int F_CASE_SENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, CaseSensitivity.SENSITIVE.ordinal());
-    int F_CASE_INSENSITIVE = BitFieldSet.setBitField(0, CASE_SENSITIVITY, CaseSensitivity.INSENSITIVE.ordinal());
+    int F_CASE_SENSITIVE = CaseSensitivity.SENSITIVE.mask;
+    int F_CASE_INSENSITIVE = CaseSensitivity.INSENSITIVE.mask;
 
     default int encodeFlags(boolean beginWord, boolean endWord, int ideHighlight, @Nullable Boolean caseSensitive) {
         //noinspection PointlessBitwiseExpression

@@ -166,7 +166,7 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
     @Nullable
     public static TextAttributes getIdeAttributes(final int flags) {
         EditorColorsScheme uiTheme = EditorColorsManager.getInstance().getGlobalScheme();
-        IdeHighlight highlight = IdeHighlight.get(flags & F_IDE_HIGHLIGHT);
+        IdeHighlight highlight = IdeHighlight.get(flags);
         return highlight.attributesKey == null ? null : uiTheme.getAttributes(highlight.attributesKey);
     }
 

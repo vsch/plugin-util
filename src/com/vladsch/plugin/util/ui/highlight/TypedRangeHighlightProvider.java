@@ -44,15 +44,19 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
         IDE_IGNORED(IGNORED_ATTRIBUTES_KEY),    // marks this highlight as using standard ide unused variable highlight
         ;
 
-        final TextAttributesKey attributesKey;
+        final public int mask;
+        final public @Nullable TextAttributesKey attributesKey;
 
-        IdeHighlight(TextAttributesKey attributesKey) {
+        IdeHighlight(@Nullable TextAttributesKey attributesKey) {
+            mask = BitFieldSet.setBitField(0, Flags.IDE_HIGHLIGHT, ordinal());
             this.attributesKey = attributesKey;
         }
 
         @NotNull
-        public static IdeHighlight get(int ordinal) {
-            if (ordinal > values().length)
+        public static IdeHighlight get(int flags) {
+            int ordinal = flags & F_IDE_HIGHLIGHT;
+
+            if (ordinal >= values().length)
                 throw new IllegalArgumentException(String.format("Ordinal %d is not in IdeHighlight enum", ordinal));
             return values()[ordinal];
         }
@@ -60,13 +64,9 @@ public interface TypedRangeHighlightProvider<R, T> extends HighlightProvider<T> 
 
     int F_IDE_HIGHLIGHT = BitFieldSet.intMask(IDE_HIGHLIGHT);
     int F_NONE = NONE.ordinal();
-    int F_IDE_WARNING = IDE_WARNING.ordinal();
-    int F_IDE_ERROR = IDE_ERROR.ordinal();
-    int F_IDE_IGNORED = IDE_IGNORED.ordinal();
-
-    static int ideHighlight(int flags) {
-        return flags & F_IDE_HIGHLIGHT;
-    }
+    int F_IDE_WARNING = IDE_WARNING.mask;
+    int F_IDE_ERROR = IDE_ERROR.mask;
+    int F_IDE_IGNORED = IDE_IGNORED.mask;
 
     default int addHighlightRange(R range, int flags) {
         return addHighlightRange(range, flags, -1);
