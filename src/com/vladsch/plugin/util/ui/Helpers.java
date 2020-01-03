@@ -12,7 +12,7 @@ import com.intellij.openapi.util.IconLoader.CachedImageIcon;
 import com.intellij.ui.JBColor;
 import com.intellij.util.ui.GraphicsUtil;
 import com.intellij.util.ui.UIUtil;
-import com.vladsch.flexmark.util.ImageUtils;
+import com.vladsch.flexmark.util.misc.ImageUtils;
 import com.vladsch.flexmark.util.html.ui.HtmlHelpers;
 import com.vladsch.plugin.util.AppUtils;
 import org.jetbrains.annotations.NotNull;

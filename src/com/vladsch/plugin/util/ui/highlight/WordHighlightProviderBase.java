@@ -22,8 +22,8 @@
 package com.vladsch.plugin.util.ui.highlight;
 
 import com.intellij.openapi.editor.Editor;
-import com.vladsch.flexmark.util.Pair;
-import com.vladsch.flexmark.util.collection.BitFieldSet;
+import com.vladsch.flexmark.util.misc.Pair;
+import com.vladsch.flexmark.util.misc.BitFieldSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,9 +1,9 @@
 package com.vladsch.plugin.util;
 
-import com.vladsch.flexmark.util.Utils;
+import com.vladsch.flexmark.util.misc.Utils;
 import org.jetbrains.annotations.NotNull;
 
-import static com.vladsch.flexmark.util.Utils.parseIntOrNull;
+import static com.vladsch.flexmark.util.sequence.SequenceUtils.parseIntOrNull;
 
 public class SemanticVersion implements Comparable<SemanticVersion> {
     public final Integer major;

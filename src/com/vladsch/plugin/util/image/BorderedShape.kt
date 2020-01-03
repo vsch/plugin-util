@@ -1,6 +1,6 @@
 package com.vladsch.plugin.util.image
 
-import com.vladsch.flexmark.util.Utils
+import com.vladsch.flexmark.util.misc.Utils
 import java.awt.Color
 import java.awt.image.BufferedImage
 

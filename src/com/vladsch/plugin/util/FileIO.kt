@@ -1,6 +1,6 @@
 package com.vladsch.plugin.util
 
-import com.vladsch.flexmark.util.FileUtil
+import com.vladsch.flexmark.util.misc.FileUtil
 import java.io.*
 
 fun getResourceFiles(resourceClass: Class<*>, path: String, prefixPath: Boolean = false): List<String> {

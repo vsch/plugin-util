@@ -1,6 +1,6 @@
 package com.vladsch.plugin.util
 
-import com.vladsch.flexmark.util.TemplateUtil
+import com.vladsch.flexmark.util.misc.TemplateUtil
 import java.util.regex.Pattern
 
 class VariableExpander {

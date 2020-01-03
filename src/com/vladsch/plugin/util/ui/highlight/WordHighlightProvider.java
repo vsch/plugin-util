@@ -1,8 +1,7 @@
 package com.vladsch.plugin.util.ui.highlight;
 
-import com.vladsch.flexmark.util.collection.BitField;
-import com.vladsch.flexmark.util.collection.BitFieldSet;
-import com.vladsch.flexmark.util.html.LineInfo;
+import com.vladsch.flexmark.util.misc.BitField;
+import com.vladsch.flexmark.util.misc.BitFieldSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Pattern;

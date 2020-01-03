@@ -3,8 +3,8 @@ package com.vladsch.plugin.util.ui.highlight;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.colors.CodeInsightColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
-import com.vladsch.flexmark.util.collection.BitField;
-import com.vladsch.flexmark.util.collection.BitFieldSet;
+import com.vladsch.flexmark.util.misc.BitField;
+import com.vladsch.flexmark.util.misc.BitFieldSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
