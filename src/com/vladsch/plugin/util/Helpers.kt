@@ -7,9 +7,13 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
+import com.vladsch.flexmark.util.html.ui.HtmlHelpers
+import com.vladsch.flexmark.util.misc.Utils
 import com.vladsch.flexmark.util.sequence.BasedSequence
 import com.vladsch.flexmark.util.sequence.RichSequence
+import com.vladsch.flexmark.util.sequence.SequenceUtils
 import org.jdom.Element
+import java.awt.Color
 import java.io.UnsupportedEncodingException
 import java.net.URLDecoder
 import java.net.URLEncoder
@@ -79,6 +83,21 @@ fun String?.startsWith(ignoreCase: Boolean, vararg needles: String): Boolean {
     for (needle in needles) {
         if (startsWith(needle, ignoreCase)) {
             return true
+        }
+    }
+    return false
+}
+
+fun String?.startsWithNotEqual(vararg needles: String): Boolean {
+    return startsWithNotEqual(false, *needles)
+}
+
+fun String?.startsWithNotEqual(ignoreCase: Boolean, vararg needles: String): Boolean {
+    if (this == null) return false
+
+    for (needle in needles) {
+        if (startsWith(needle, ignoreCase)) {
+            return !equals(needle, ignoreCase)
         }
     }
     return false
@@ -161,15 +180,14 @@ fun String?.ifEmpty(arg: () -> String): String = if (this != null && this.isNotE
 
 fun String?.ifEmpty(ifEmptyArg: () -> String?, ifNotEmptyArg: () -> String?): String? = if (this == null || this.isEmpty()) ifEmptyArg() else ifNotEmptyArg()
 
-fun String?.removeStart(prefix: Char): String = this?.removePrefix(prefix.toString()) ?: ""
+fun String?.removePrefix(prefix: Char): String = this?.removePrefix(prefix.toString()) ?: ""
+fun String?.removeSuffix(prefix: Char): String = this?.removeSuffix(prefix.toString()) ?: ""
 
 fun <T> Collection<T>.stringSorted(stringer: Function<T, String>): List<T> = this.sortedBy { stringer.apply(it) }
 
-fun String?.removeStart(prefix: String): String = this?.removePrefix(prefix) ?: ""
+fun String?.removePrefix(prefix: String): String = if (this == null) "" else if (SequenceUtils.startsWith(this, prefix)) this.substring(prefix.length) else this
 
-fun String?.removeEnd(prefix: Char): String = this?.removeSuffix(prefix.toString()) ?: ""
-
-fun String?.removeEnd(prefix: String): String = this?.removeSuffix(prefix) ?: ""
+fun String?.removeSuffix(suffix: String): String = if (this == null) "" else if (SequenceUtils.endsWith(this, suffix)) this.substring(0, this.length - suffix.length) else this
 
 fun String?.regexGroup(): String = "(?:" + this.orEmpty() + ")"
 
@@ -265,9 +283,9 @@ fun String.removePrefixIncluding(delimiter: String): String {
     return this
 }
 
-fun CharSequence.asBased(): BasedSequence = BasedSequence.of(this)
+fun CharSequence.toBased(): BasedSequence = BasedSequence.of(this)
 
-fun CharSequence.asRich(): RichSequence = RichSequence.of(this)
+fun CharSequence.toRich(): RichSequence = RichSequence.of(this)
 
 fun Int.indexOrNull(): Int? = if (this < 0) null else this
 
@@ -462,3 +480,53 @@ fun Project.getProjectBaseDirectory(): VirtualFile? {
     return null
 }
 
+fun Color?.toRgbString(): String {
+    return HtmlHelpers.toRgbString(this)
+}
+
+fun Color?.toHtmlString(): String {
+    return HtmlHelpers.toRgbString(this)
+}
+
+fun String.withContext(context: String, pos: Int, prefix: String = "", suffix: String = ""): String {
+    return HtmlHelpers.withContext(this, context, pos, prefix, suffix)
+}
+
+@JvmOverloads
+fun String?.toHtmlError(withContext: Boolean = true): String? {
+    return HtmlHelpers.toHtmlError(this, withContext)
+}
+
+fun <K, V> MutableMap<K, V>.removeIf(removeFilter: (key: K, value: V) -> Boolean) {
+    Utils.removeIf(this, removeFilter)
+}
+
+fun <K, V> MutableMap<K, V>.removeIf(removeFilter: (key: K) -> Boolean) {
+    Utils.removeIf(this) { it ->
+        removeFilter.invoke(it.key)
+    }
+}
+
+inline fun com.intellij.openapi.diagnostic.Logger.debugOne(vararg others: com.intellij.openapi.diagnostic.Logger, lazyMessage: () -> String) {
+    if (this.isDebugEnabled) this.debug(lazyMessage())
+    else {
+        for (LOG in others) {
+            if (LOG.isDebugEnabled) {
+                LOG.debug(lazyMessage())
+                break
+            }
+        }
+    }
+}
+
+inline fun com.intellij.openapi.diagnostic.Logger.debugOne(vararg others: com.intellij.openapi.diagnostic.Logger, e: Throwable, lazyMessage: () -> String) {
+    if (this.isDebugEnabled) this.debug(lazyMessage(), e)
+    else {
+        for (LOG in others) {
+            if (LOG.isDebugEnabled) {
+                LOG.debug(lazyMessage(), e)
+                break
+            }
+        }
+    }
+}
