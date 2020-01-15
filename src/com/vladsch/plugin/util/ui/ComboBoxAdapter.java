@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.JComboBox;
 
+@SuppressWarnings("rawtypes")
 public interface ComboBoxAdapter<E extends ComboBoxAdaptable<E>> {
     boolean isAdaptable(@NotNull ComboBoxAdaptable type);
 
@@ -17,7 +18,7 @@ public interface ComboBoxAdapter<E extends ComboBoxAdaptable<E>> {
     void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable... exclude);
 
     @SuppressWarnings("UnusedReturnValue")
-    boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, final @NotNull ComboBoxAdaptable selection);
+    boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, final @Nullable ComboBoxAdaptable selection);
 
     @NotNull
     E findEnum(int intValue);

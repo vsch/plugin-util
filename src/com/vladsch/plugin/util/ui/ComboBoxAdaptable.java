@@ -111,7 +111,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable[] exclude) { ADAPTER.fillComboBox(comboBox, exclude); }
 
         @Override
-        public boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, @NotNull final ComboBoxAdaptable selection) {
+        public boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, @Nullable final ComboBoxAdaptable selection) {
             return ADAPTER.setComboBoxSelection(comboBox, selection);
         }
 
@@ -147,7 +147,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @Override
-        public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @NotNull final ComboBoxAdaptable selection) {
+        public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @Nullable final ComboBoxAdaptable selection) {
             return ADAPTER.setComboBoxSelection(comboBox, selection);
         }
 

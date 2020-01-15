@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("rawtypes")
 public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements ComboBoxAdapter<E> {
     protected E myDefault;
 
@@ -66,15 +67,16 @@ public class ComboBoxAdapterImpl<E extends ComboBoxAdaptable<E>> implements Comb
     }
 
     @Override
-    public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @NotNull final ComboBoxAdaptable selection) {
+    public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @Nullable final ComboBoxAdaptable selection) {
         int iMax = comboBox.getItemCount();
         int defaultIndex = 0;
         for (int i = 0; i < iMax; i++) {
             final Object item = comboBox.getItemAt(i);
-            if (item.equals(selection.getDisplayName())) {
+            if (selection != null && item.equals(selection.getDisplayName())) {
                 comboBox.setSelectedIndex(i);
                 return true;
             }
+
             if (item.equals(myDefault.getDisplayName())) {
                 defaultIndex = i;
             }
