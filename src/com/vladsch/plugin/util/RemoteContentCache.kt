@@ -28,7 +28,7 @@ class RemoteContentCache(
     private val fetchesInProgress = AtomicInteger(0)
 
     companion object {
-        private val LOG = Logger.getInstance("com.vladsch.idea.multimarkdown.remote")
+        private val LOG = Logger.getInstance("com.vladsch.plugin.util.remote")
         const val MOVED_PERMANENTLY = "301: Moved Permanently"
         fun isRemoteContentUrl(url: String) = url.startsWith("http:") || url.startsWith("https:")
         fun cacheUrlKey(url: String) = url.removeSuffix("/") //if (url.startsWith("http:")) url.substring("http:".length) else url.substring("https:".length)
