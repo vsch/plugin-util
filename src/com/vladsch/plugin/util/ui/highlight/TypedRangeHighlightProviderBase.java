@@ -254,6 +254,7 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
         if (myHighlightRangeFlags != null) {
             if (myHighlightRangeFlags.containsKey(range)) {
                 myHighlightRangeFlags.remove(range);
+                if (myOriginalIndexMap != null) myOriginalIndexMap.remove(range);
                 highlightRangeRemoved(range);
                 fireHighlightsChanged();
             }

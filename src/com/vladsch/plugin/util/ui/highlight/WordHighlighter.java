@@ -40,14 +40,18 @@ public class WordHighlighter<T> extends TypedRangeHighlighter<String, T> {
 
     @Override
     protected void generateAttributeRanges(@NotNull final HighlighterAttributeConsumer<String> consumer) {
+        Document document = myEditor.getDocument();
+        generateAttributeRanges(document.getImmutableCharSequence(), consumer);
+    }
+
+    public void generateAttributeRanges(@NotNull CharSequence charSequence, @NotNull final HighlighterAttributeConsumer<String> consumer) {
         WordHighlightProvider<T> highlightProvider = (WordHighlightProvider<T>) myHighlightProvider;
         Pattern pattern = highlightProvider.getHighlightPattern();
         Map<String, Integer> highlightWordFlags = highlightProvider.getHighlightRangeFlags();
 
         assert pattern != null && highlightWordFlags != null;
 
-        Document document = myEditor.getDocument();
-        Matcher matcher = pattern.matcher(document.getCharsSequence());
+        Matcher matcher = pattern.matcher(charSequence);
 
         while (matcher.find()) {
             // create a highlighter
