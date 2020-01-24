@@ -18,6 +18,7 @@ package com.vladsch.plugin.util;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.util.Key;
 import com.vladsch.flexmark.util.misc.Pair;
 import com.vladsch.flexmark.util.misc.Utils;
 import com.vladsch.flexmark.util.format.TableFormatOptions;
@@ -49,6 +50,7 @@ public class TestUtils {
     final public static String NULL_STRING = Character.toString(SequenceUtils.NUL);
     final public static String CARET_MARKUP = START_STRING + CARET_STRING + END_STRING;
     final public static CharPredicate CARET_MARKUP_SET = CharPredicate.anyOf(TestUtils.CARET_MARKUP);
+    public static final Key<String[]> TEST_INTENTION_OPTIONS = Key.create("TEST_INTENTION_OPTIONS");
 
     public static String replaceCaretMarkers(@NotNull CharSequence input, boolean withTestCaretMarkup) {
         return input.toString()
