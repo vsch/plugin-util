@@ -12,8 +12,6 @@ import static com.intellij.openapi.diagnostic.Logger.getInstance;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class AppRestartRequiredCheckerBase<T> {
-    static final Logger LOG = getInstance("com.vladsch.plugin.util.restart");
-
     boolean restartCheckPending = false;
     long restartNeededShownFlags = 0;
     final String restartNeededTitle;
