@@ -26,9 +26,7 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiWhiteSpace;
-import com.vladsch.flexmark.util.misc.CharPredicate;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
-import com.vladsch.flexmark.util.sequence.BasedSequenceImpl;
 import com.vladsch.flexmark.util.sequence.Range;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -692,10 +690,10 @@ public class Helpers {
 
     public static Map<Caret, Range> limitCaretRange(boolean backwards, Map<Caret, Range> rangeMap, boolean wantEmptyRanges) {
         HashMap<Caret, Range> map = new HashMap<>(rangeMap.size());
-        Caret[] carets = rangeMap.keySet().toArray(new Caret[rangeMap.size()]);
+        Caret[] carets = rangeMap.keySet().toArray(new Caret[0]);
         Range prevRange = null;
 
-        Arrays.sort(carets, (o1, o2) -> o1.getLogicalPosition().compareTo(o2.getLogicalPosition()));
+        Arrays.sort(carets, Comparator.comparing(Caret::getLogicalPosition));
 
         if (!backwards) {
             for (int i = carets.length; i-- > 0; ) {
@@ -716,8 +714,7 @@ public class Helpers {
                 }
             }
         } else {
-            for (int i = 0; i < carets.length; i++) {
-                Caret caret = carets[i];
+            for (Caret caret : carets) {
                 Range range = rangeMap.get(caret);
                 if (range == null) continue;
 
@@ -828,7 +825,6 @@ public class Helpers {
         if (start < 0) start = 0;
         if (end > charSequence.length()) end = charSequence.length();
         if (start > end) start = end;
-        if (end < start) end = start;
 
         int startOffset = getWordStartAtOffset(charSequence, start, wordType, isCamel, stopIfNonWord);
         int endOffset = getWordEndAtOffset(charSequence, Math.max(startOffset, end), wordType, isCamel, stopIfNonWord);
@@ -871,36 +867,6 @@ public class Helpers {
     public static boolean isPasswordEditor(@Nullable Editor editor) {
         return editor != null && editor.getContentComponent() instanceof JPasswordField;
     }
-
-/*
-    @NotNull
-    public static String getFormatterOnTag(@NotNull Project project) {
-        return CodeStyleSettingsManager.getSettings(project).FORMATTER_ON_TAG;
-    }
-
-    @NotNull
-    public static String getFormatterOffTag(@NotNull Project project) {
-        return CodeStyleSettingsManager.getSettings(project).FORMATTER_OFF_TAG;
-    }
-
-    public static boolean getFormatterTagsEnabled(@NotNull Project project) {
-        return CodeStyleSettingsManager.getSettings(project).FORMATTER_TAGS_ENABLED;
-    }
-
-    public static boolean getFormatterRegExEnabled(@NotNull Project project) {
-        return CodeStyleSettingsManager.getSettings(project).FORMATTER_TAGS_ACCEPT_REGEXP;
-    }
-
-    @Nullable
-    public static Pattern getFormatterOnPattern(@NotNull Project project) {
-        return CodeStyleSettingsManager.getSettings(project).getFormatterOnPattern();
-    }
-
-    @Nullable
-    public static Pattern getFormatterOffPattern(@NotNull Project project) {
-        return CodeStyleSettingsManager.getSettings(project).getFormatterOffPattern();
-    }
-*/
 
     public static int getStartOfLineOffset(@NotNull CharSequence charSequence, int offset) {
         return BasedSequence.of(charSequence).startOfLine(offset);
@@ -952,8 +918,8 @@ public class Helpers {
                 BasedSequence charSequence = BasedSequence.of(editor.getDocument().getCharsSequence());
                 int lineStartOffset = charSequence.startOfLine(startOffset);
                 int lineEndOffset = charSequence.endOfLine(endOffset);
-                lineStartOffset += charSequence.countLeading(CharPredicate.SPACE_TAB, lineStartOffset, lineEndOffset);
-                lineEndOffset -= charSequence.countTrailing(CharPredicate.SPACE_TAB, lineStartOffset, lineEndOffset);
+                lineStartOffset += charSequence.countLeadingSpaceTab(lineStartOffset, lineEndOffset);
+                lineEndOffset -= charSequence.countTrailingSpaceTab(lineStartOffset, lineEndOffset);
                 final ItemTextRange<Language> lineStartLanguage = getLanguageRangeAtOffset(file, lineStartOffset);
                 final ItemTextRange<Language> lineEndLanguage = getLanguageRangeAtOffset(file, lineEndOffset);
                 Commenter commenter = CommentByBlockCommentHandler.getCommenter(file, editor, lineStartLanguage.getItem(), lineEndLanguage.getItem());
@@ -1001,20 +967,17 @@ public class Helpers {
         while (i-- > 0) endOffsets[i] = ends.get(i);
 
         transferableData.add(new CaretStateTransferableData(startOffsets, endOffsets));
-        final Transferable transferable = new TextBlockTransferable(sb.toString(), transferableData, null);
-        return transferable;
+        return new TextBlockTransferable(sb.toString(), transferableData, null);
     }
 
     private static Transferable getTransferable(String text, int lengthOffset) {
         final List<TextBlockTransferableData> transferableData = new ArrayList<>();
         int[] startOffsets = new int[1];
         int[] endOffsets = new int[1];
-        startOffsets[0] = 0;
         endOffsets[0] = text.length() + lengthOffset;
 
         transferableData.add(new CaretStateTransferableData(startOffsets, endOffsets));
-        final Transferable transferable = new TextBlockTransferable(text, transferableData, null);
-        return transferable;
+        return new TextBlockTransferable(text, transferableData, null);
     }
 
     public static Couple<Integer> duplicateLineOrSelectedBlockAtCaret(Editor editor, final Document document, @NotNull Caret caret, final boolean moveCaret) {
