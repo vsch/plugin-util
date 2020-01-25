@@ -1,6 +1,7 @@
 package com.vladsch.plugin.util
 
 import com.intellij.lang.ASTNode
+import com.vladsch.flexmark.util.misc.CharPredicate
 import com.vladsch.flexmark.util.sequence.BasedSequence
 
 fun Int.after(other: Int): Boolean = this > other
@@ -57,7 +58,7 @@ class NodeRange(val node: ASTNode, start: Int, end: Int, text: CharSequence) : N
     val trailingSpace: NodeSubRange
 
     init {
-        val spacePos = text.toBased().lastIndexOfAnyNot(BasedSequence.SPACE_TAB_SET).indexOrNull()?.plus(1) ?: text.length
+        val spacePos = text.toBased().lastIndexOfAnyNot(CharPredicate.SPACE_TAB).indexOrNull()?.plus(1) ?: text.length
         nonSpace = NodeSubRange(start, end - (text.length - spacePos), text.subSequence(0, spacePos))
         trailingSpace = NodeSubRange(nonSpace.end, end, text.subSequence(spacePos, length))
     }

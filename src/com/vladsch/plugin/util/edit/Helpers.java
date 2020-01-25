@@ -26,6 +26,7 @@ import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiWhiteSpace;
+import com.vladsch.flexmark.util.misc.CharPredicate;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 import com.vladsch.flexmark.util.sequence.BasedSequenceImpl;
 import com.vladsch.flexmark.util.sequence.Range;
@@ -951,8 +952,8 @@ public class Helpers {
                 BasedSequence charSequence = BasedSequence.of(editor.getDocument().getCharsSequence());
                 int lineStartOffset = charSequence.startOfLine(startOffset);
                 int lineEndOffset = charSequence.endOfLine(endOffset);
-                lineStartOffset += charSequence.countLeading(BasedSequence.SPACE_TAB_SET, lineStartOffset, lineEndOffset);
-                lineEndOffset -= charSequence.countTrailing(BasedSequence.SPACE_TAB_SET, lineStartOffset, lineEndOffset);
+                lineStartOffset += charSequence.countLeading(CharPredicate.SPACE_TAB, lineStartOffset, lineEndOffset);
+                lineEndOffset -= charSequence.countTrailing(CharPredicate.SPACE_TAB, lineStartOffset, lineEndOffset);
                 final ItemTextRange<Language> lineStartLanguage = getLanguageRangeAtOffset(file, lineStartOffset);
                 final ItemTextRange<Language> lineEndLanguage = getLanguageRangeAtOffset(file, lineEndOffset);
                 Commenter commenter = CommentByBlockCommentHandler.getCommenter(file, editor, lineStartLanguage.getItem(), lineEndLanguage.getItem());
