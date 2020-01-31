@@ -162,14 +162,20 @@ public class ImageUtils {
         try {
             ImageIO.write(image, "PNG", bos);
             byte[] imageBytes = bos.toByteArray();
-            // diagnostic/2553 on windows its \r\n
-            imageString = Base64.getEncoder().encodeToString(imageBytes).replace("\r", "").replace("\n", "");
-            //imageString = javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
             bos.close();
+            imageString = base64Encode(imageBytes);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        return "data:image/png;base64," + imageString;
+    }
+
+    public static String base64Encode(byte[] imageBytes) {
+        String imageString = null;
+        // diagnostic/2553 on windows its \r\n
+        imageString = Base64.getEncoder().encodeToString(imageBytes).replace("\r", "").replace("\n", "");
+        //imageString = javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
         return "data:image/png;base64," + imageString;
     }
 
