@@ -42,6 +42,7 @@ import java.util.Base64;
 import java.util.regex.Pattern;
 
 public class ImageUtils {
+    public static final String PNG_BASE_64_PREFIX = "data:image/png;base64,";
     @SuppressWarnings("UseJBColor")
     public static Color TRANSPARENT = new Color(0, 0, 0, 0);
 
@@ -156,7 +157,7 @@ public class ImageUtils {
     }
 
     public static String base64Encode(BufferedImage image) {
-        String imageString = null;
+        String imageString = PNG_BASE_64_PREFIX;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {
@@ -168,15 +169,14 @@ public class ImageUtils {
             e.printStackTrace();
         }
 
-        return "data:image/png;base64," + imageString;
+        return imageString;
     }
 
     public static String base64Encode(byte[] imageBytes) {
         String imageString = null;
         // diagnostic/2553 on windows its \r\n
         imageString = Base64.getEncoder().encodeToString(imageBytes).replace("\r", "").replace("\n", "");
-        //imageString = javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
-        return "data:image/png;base64," + imageString;
+        return PNG_BASE_64_PREFIX + imageString;
     }
 
     public static String base64Encode(File file) {
@@ -188,9 +188,7 @@ public class ImageUtils {
             FileInputStream fileInputStreamReader = new FileInputStream(file);
             byte[] imageBytes = new byte[(int) file.length()];
             if (fileInputStreamReader.read(imageBytes) != -1) {
-                // diagnostic/2553 on windows its \r\n
-                return "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes).replace("\r", "").replace("\n", "");
-                //return "data:image/png;base64," + javax.xml.bind.DatatypeConverter.printBase64Binary(imageBytes);
+                return base64Encode(imageBytes);
             }
             return null;
         } catch (Throwable e) {
