@@ -20,6 +20,7 @@ public class AppUtils {
     public static final String PARAMETER_HINTS_FORCE_UPDATE_APP_VERSION = "172.1909";
     public static final String LOADS_SVG_ICONS_APP_VERSION = "180";
     public static final String CLIPBOARD_CHANGE_NOTIFICATIONS = "180";
+    public static final String JETBRAINS_MARKETPLACE_APP_VERSION = "191";
 
     // class names which were determined by their version to be services not components
     private static final HashSet<String> APP_SERVICES = new HashSet<>();
