@@ -35,7 +35,7 @@ public class AppUtils {
         Application application = ApplicationManager.getApplication();
         if (application != null) {
             if (APP_SERVICES.contains(componentClass.getName())) {
-                return ServiceManager.getService(componentClass);
+                return application.getComponent(componentClass);
             } else {
                 String serviceAppVersion = APP_COMPONENT_SERVICES.get(componentClass.getName());
 
@@ -43,7 +43,7 @@ public class AppUtils {
                     return application.getComponent(componentClass);
                 } else {
                     APP_SERVICES.add(componentClass.getName());
-                    return ServiceManager.getService(componentClass);
+                    return application.getComponent(componentClass);
                 }
             }
         }

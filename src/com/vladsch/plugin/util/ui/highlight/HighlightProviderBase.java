@@ -69,16 +69,16 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     public void initComponent() {
         MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
 
-        try {
-            settingsConnection.subscribe(LafManagerListener.TOPIC, myLafManagerListener);
-        } catch (NoSuchFieldError ignored) {
+        //try {
+        //    settingsConnection.subscribe(LafManagerListener.TOPIC, myLafManagerListener);
+        //} catch (NoSuchFieldError ignored) {
             // DEPRECATED: replacement appeared in 2019-07-20
             LafManager.getInstance().addLafManagerListener(myLafManagerListener);
             myDelayedRunner.addRunnable(() -> {
                 // DEPRECATED: replacement appeared in 2019-07-20
                 LafManager.getInstance().removeLafManagerListener(myLafManagerListener);
             });
-        }
+        //}
 
         settingsChanged(getColors(mySettings), mySettings);
     }
