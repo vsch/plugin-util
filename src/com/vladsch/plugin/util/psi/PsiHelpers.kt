@@ -2,6 +2,7 @@ package com.vladsch.plugin.util.psi
 
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 
@@ -16,3 +17,5 @@ fun PsiElement?.isIn(elementType: IElementType) = PsiUtils.isTypeOf(this, elemen
 fun PsiElement?.isNullOrIn(elementType: IElementType) = PsiUtils.isNullOrTypeOf(this, elementType)
 fun ASTNode?.isTypeIn(elementType: IElementType) = PsiUtils.isTypeOf(this, elementType)
 fun ASTNode?.isNullOrTypeIn(elementType: IElementType) = PsiUtils.isNullOrTypeOf(this, elementType)
+
+fun ASTNode?.isParentOfTypeIn(tokenSet: TokenSet) = this != null && TreeUtil.findParent(this, tokenSet) != null
