@@ -40,6 +40,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.regex.Pattern;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterOutputStream;
 
 public class ImageUtils {
     public static final String PNG_BASE_64_PREFIX = "data:image/png;base64,";
@@ -801,6 +805,40 @@ public class ImageUtils {
             e.printStackTrace();
         }
 
+        return null;
+    }
+    
+    static @Nullable String encodeKroki(String text) {
+        try {
+            ByteArrayOutputStream compressedStream = new ByteArrayOutputStream();
+            DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(compressedStream, new Deflater());
+            deflaterOutputStream.write(text.getBytes());
+            deflaterOutputStream.close();
+            compressedStream.close();
+            return new String(Base64.getUrlEncoder().encode(compressedStream.toByteArray()), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+     static @Nullable String decodeKroki(String url) {
+        try {
+            byte[] decoded = Base64.getUrlDecoder().decode(url.getBytes());
+            ByteArrayOutputStream decompressedStream = new ByteArrayOutputStream();
+            Inflater decompress = new Inflater();
+            InflaterOutputStream inflaterOutputStream = new InflaterOutputStream(decompressedStream, decompress);
+            inflaterOutputStream.write(decoded);
+            inflaterOutputStream.close();
+            decompressedStream.close();
+            return new String(decompressedStream.toByteArray(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
