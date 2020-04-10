@@ -811,7 +811,7 @@ public class ImageUtils {
         return null;
     }
     
-    static @Nullable String encodeKroki(String text) {
+    public static @Nullable String encodeKroki(String text) {
         try {
             ByteArrayOutputStream compressedStream = new ByteArrayOutputStream();
             DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(compressedStream, new Deflater());
@@ -827,7 +827,7 @@ public class ImageUtils {
         return null;
     }
 
-     static @Nullable String decodeKroki(String url) {
+     public static @Nullable String decodeKroki(String url) {
         try {
             byte[] decoded = Base64.getUrlDecoder().decode(url.getBytes());
             ByteArrayOutputStream decompressedStream = new ByteArrayOutputStream();
