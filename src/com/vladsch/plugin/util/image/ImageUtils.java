@@ -40,6 +40,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.regex.Pattern;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterOutputStream;
 
 public class ImageUtils {
     public static final String PNG_BASE_64_PREFIX = "data:image/png;base64,";
@@ -255,15 +259,15 @@ public class ImageUtils {
         }
     }
 
-    public static BufferedImage loadSvgImageFromURL(String imageURL) {
+    public static BufferedImage loadSvgImageFromURL(@NotNull String imageURL) {
         return loadSvgImageFromURL(imageURL, 1.0f, false);
     }
 
-    public static BufferedImage loadSvgImageFromURL(String imageURL, final float scale) {
+    public static BufferedImage loadSvgImageFromURL(@NotNull String imageURL, final float scale) {
         return loadSvgImageFromURL(imageURL, scale, false);
     }
 
-    public static BufferedImage loadSvgImageFromURL(String imageURL, final float scale, boolean logImageProcessing) {
+    public static BufferedImage loadSvgImageFromURL(@NotNull String imageURL, final float scale, boolean logImageProcessing) {
         BufferedImage image = loadSvgImageFromURL(imageURL, null, logImageProcessing);
         if (image != null && scale != 0f) {
             image = loadSvgImageFromURL(imageURL, new Point((int) (image.getWidth() * scale), (int) (image.getHeight() * scale)), logImageProcessing);
@@ -271,19 +275,27 @@ public class ImageUtils {
         return image;
     }
 
-    public static BufferedImage loadSvgImageFromURLSized(String imageURL, final float sizeX, float sizeY, boolean logImageProcessing) {
+    public static BufferedImage loadSvgImageFromURLSized(@NotNull String imageURL, final float sizeX, float sizeY, boolean logImageProcessing) {
         return loadSvgImage(new TranscoderInput(imageURL), sizeX, sizeY, logImageProcessing);
     }
 
-    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final float sizeX, float sizeY, boolean logImageProcessing) {
+    public static BufferedImage loadSvgImageFromStream(@NotNull InputStream svgInputStream, final float sizeX, float sizeY, boolean logImageProcessing) {
         return loadSvgImage(new TranscoderInput(svgInputStream), sizeX, sizeY, logImageProcessing);
     }
 
-    public static BufferedImage loadSvgImageFromURL(String imageURL, final Point size, boolean logImageProcessing) {
+    public static BufferedImage loadSvgImageFromURL(@NotNull String imageURL, final @Nullable Point size, boolean logImageProcessing) {
         return loadSvgImage(new TranscoderInput(imageURL), size, logImageProcessing);
     }
 
-    public static BufferedImage loadSvgImageFromStream(InputStream svgInputStream, final Point size, boolean logImageProcessing) {
+    public static BufferedImage loadSvgImageFromStream(@NotNull InputStream svgInputStream, final float scale, boolean logImageProcessing) {
+        BufferedImage image = loadSvgImageFromStream(svgInputStream, null, logImageProcessing);
+        if (image != null && scale != 0f) {
+            image = loadSvgImageFromStream(svgInputStream, new Point((int) (image.getWidth() * scale), (int) (image.getHeight() * scale)), logImageProcessing);
+        }
+        return image;
+    }
+
+    public static BufferedImage loadSvgImageFromStream(@NotNull InputStream svgInputStream, final @Nullable Point size, boolean logImageProcessing) {
         return loadSvgImage(new TranscoderInput(svgInputStream), size, logImageProcessing);
     }
 
@@ -326,14 +338,9 @@ public class ImageUtils {
             ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
             image = ImageIO.read(bis);
             bis.close();
-        } catch (IOException | TranscoderException e) {
+        } catch (Throwable e) {
             if (logImageProcessing) {
                 e.printStackTrace();
-            }
-            image = null;
-        } catch (Throwable t) {
-            if (logImageProcessing) {
-                t.printStackTrace();
             }
             image = null;
         }
@@ -801,6 +808,40 @@ public class ImageUtils {
             e.printStackTrace();
         }
 
+        return null;
+    }
+    
+    public static @Nullable String encodeKroki(String text) {
+        try {
+            ByteArrayOutputStream compressedStream = new ByteArrayOutputStream();
+            DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(compressedStream, new Deflater());
+            deflaterOutputStream.write(text.getBytes());
+            deflaterOutputStream.close();
+            compressedStream.close();
+            return new String(Base64.getUrlEncoder().encode(compressedStream.toByteArray()), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+     public static @Nullable String decodeKroki(String url) {
+        try {
+            byte[] decoded = Base64.getUrlDecoder().decode(url.getBytes());
+            ByteArrayOutputStream decompressedStream = new ByteArrayOutputStream();
+            Inflater decompress = new Inflater();
+            InflaterOutputStream inflaterOutputStream = new InflaterOutputStream(decompressedStream, decompress);
+            inflaterOutputStream.write(decoded);
+            inflaterOutputStream.close();
+            decompressedStream.close();
+            return new String(decompressedStream.toByteArray(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
