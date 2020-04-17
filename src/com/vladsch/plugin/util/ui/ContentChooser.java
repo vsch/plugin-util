@@ -3,7 +3,6 @@
  */
 package com.vladsch.plugin.util.ui;
 
-import com.intellij.CommonBundle;
 import com.intellij.ide.ui.SplitterProportionsDataImpl;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
@@ -29,6 +28,7 @@ import com.intellij.util.Alarm;
 import com.intellij.util.ObjectUtils;
 import com.intellij.util.ui.JBUI;
 import com.intellij.util.ui.UIUtil;
+import com.vladsch.plugin.util.UtilBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -78,7 +78,7 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         myList.setExpandableItemsEnabled(false);
         myListEntryIcon = icon;
 
-        setOKButtonText(CommonBundle.getOkButtonText());
+        setOKButtonText(UtilBundle.message("button.ok"));
         setTitle(title);
 
         init();
