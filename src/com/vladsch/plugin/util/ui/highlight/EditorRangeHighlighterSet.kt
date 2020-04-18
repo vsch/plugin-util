@@ -55,7 +55,7 @@ class EditorRangeHighlighterSet(val editor: Editor) : MutableSet<RangeHighlighte
     ): RangeHighlighterEx {
         val rangeHighlighter = editor.markupModel.addRangeHighlighter(startOffset, endOffset.rangeLimit(0, editor.document.textLength), highlighterLayer, attributes, targetArea)
         rangeHighlighters.add(rangeHighlighter as RangeHighlighterEx)
-        return rangeHighlighter as RangeHighlighterEx
+        return rangeHighlighter
     }
 
     override fun add(element: RangeHighlighterEx): Boolean {
