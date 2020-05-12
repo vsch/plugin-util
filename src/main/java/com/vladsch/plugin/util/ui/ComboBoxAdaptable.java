@@ -1,7 +1,7 @@
 package com.vladsch.plugin.util.ui;
 
 import com.intellij.openapi.ui.ComboBox;
-import com.intellij.ui.ListCellRendererWrapper;
+import com.intellij.ui.SimpleListCellRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,9 +37,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         return getAdapter().setComboBoxSelection(comboBox, this);
     }
 
-    // DEPRECATED: replacement com.intellij.ui.SimpleListCellRenderer appeared in 2019-4-19
-    @SuppressWarnings("deprecation")
-    class IconCellRenderer<E extends ComboBoxAdaptable<E>> extends ListCellRendererWrapper<String> {
+    class IconCellRenderer<E extends ComboBoxAdaptable<E>> extends SimpleListCellRenderer<String> {
         final @NotNull ComboBoxAdapter<E> myAdapter;
         final @NotNull Function<E, Icon> myIconMapper;
 
@@ -49,7 +47,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @Override
-        public void customize(final JList list, final String value, final int index, final boolean selected, final boolean hasFocus) {
+        public void customize(@NotNull final JList list, final String value, final int index, final boolean selected, final boolean hasFocus) {
             E type = myAdapter.findEnum(value);
             this.setText(type.getDisplayName());
             this.setIcon(myIconMapper.apply(type));

@@ -9,6 +9,7 @@ import com.intellij.ui.ClickListener;
 import com.intellij.ui.ColorChooser;
 import com.intellij.ui.ColorUtil;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.scale.JBUIScale;
 import com.intellij.util.ui.JBUI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -161,19 +162,16 @@ public class CheckBoxWithColorChooser extends JPanel {
             final Color color = g.getColor();
             int width = getWidth() - LEFT_MARGIN;
             int height = getHeight();
-            // DEPRECATED: replacement JBUIScale#scale appeared in 2019-06-10
-            //noinspection deprecation
-            float scale = JBUI.scale(1.0f);
+            float scale = JBUIScale.scale(1.0f);
             if (scale != 1.0f) {
                 final Graphics2D g2d = (Graphics2D) g.create(LEFT_MARGIN, 0, width, height);
                 final GraphicsConfig graphicsConfig = new GraphicsConfig(g2d);
                 graphicsConfig.setAntialiasing(true);
-                float s = scale;
-                g2d.scale(1 / s, 1 / s);
+                g2d.scale(1 / scale, 1 / scale);
 
                 int iSize = CORNER_RADIUS;
                 g2d.setColor(myCheckbox.isSelected() || myUnselectedColor == null ? myColor : myUnselectedColor);
-                RoundRectangle2D.Double shape = new RoundRectangle2D.Double(0, 0, (width - 1) * s, (height - 1) * s, iSize * s, iSize * s);
+                RoundRectangle2D.Double shape = new RoundRectangle2D.Double(0, 0, (width - 1) * scale, (height - 1) * scale, iSize * scale, iSize * scale);
                 g2d.fill(shape);
                 g2d.setColor(ColorUtil.withAlpha(JBColor.BLACK, .40));
                 g2d.draw(shape);
