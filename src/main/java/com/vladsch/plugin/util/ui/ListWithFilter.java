@@ -6,6 +6,7 @@ package com.vladsch.plugin.util.ui;
 import com.intellij.openapi.actionSystem.DataProvider;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.util.PopupUtil;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.LightColors;
@@ -57,8 +58,6 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
         return new ListWithFilter<>(list, scrollPane, namer, highlightAllOccurrences);
     }
 
-    // DEPRECATED: replacement appeared in 2019-03-04
-    @SuppressWarnings("deprecation")
     private ListWithFilter(
             @NotNull JList<T> list,
             @NotNull JScrollPane scrollPane,
@@ -86,14 +85,12 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
         myList.addKeyListener(mySpeedSearch);
         int selectedIndex = myList.getSelectedIndex();
         int modelSize = myList.getModel().getSize();
-        // DEPRECATED: replacement appeared in 2019-03-04
-        myModel = new NameFilteringListModel<>(myList, namer, mySpeedSearch::shouldBeShowing, mySpeedSearch);
+        myModel = new NameFilteringListModel<>(myList.getModel(), namer, mySpeedSearch::shouldBeShowing, () -> StringUtil.notNullize(mySpeedSearch.getEnteredPrefix()));
         if (myModel.getSize() == modelSize) {
             myList.setSelectedIndex(selectedIndex);
         }
 
         setBackground(list.getBackground());
-        //setFocusable(true);
     }
 
     @Override

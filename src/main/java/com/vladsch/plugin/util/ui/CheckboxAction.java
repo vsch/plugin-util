@@ -7,14 +7,13 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.actionSystem.ToggleAction;
+import com.intellij.openapi.actionSystem.Toggleable;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author max
@@ -31,11 +30,9 @@ public abstract class CheckboxAction extends ToggleAction implements CustomCompo
         super(text, description, icon);
     }
 
-    // DEPRECATED: replacement appeared in 2019-02-15
-    @SuppressWarnings("deprecation")
     @NotNull
     @Override
-    public JComponent createCustomComponent(@NotNull Presentation presentation) {
+    public JComponent createCustomComponent(@NotNull Presentation presentation, @NotNull String place) {
         // this component cannot be stored right here because of action system architecture:
         // one action can be shown on multiple toolbars simultaneously
         JCheckBox checkBox = new JCheckBox();
@@ -67,7 +64,7 @@ public abstract class CheckboxAction extends ToggleAction implements CustomCompo
         checkBox.setToolTipText(presentation.getDescription());
         checkBox.setMnemonic(presentation.getMnemonic());
         checkBox.setDisplayedMnemonicIndex(presentation.getDisplayedMnemonicIndex());
-        checkBox.setSelected(Boolean.TRUE.equals(presentation.getClientProperty(SELECTED_PROPERTY)));
+        checkBox.setSelected(Toggleable.isSelected(presentation));
         checkBox.setEnabled(presentation.isEnabled());
         checkBox.setVisible(presentation.isVisible());
     }

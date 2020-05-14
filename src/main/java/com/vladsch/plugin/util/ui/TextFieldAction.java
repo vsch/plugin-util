@@ -47,11 +47,9 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
 
     }
 
-    // DEPRECATED: replacement appeared in 2019-02-15
-    @SuppressWarnings("deprecation")
     @NotNull
     @Override
-    public JComponent createCustomComponent(@NotNull final Presentation presentation) {
+    public JComponent createCustomComponent(@NotNull final Presentation presentation, @NotNull String place) {
         // this component cannot be stored right here because of action system architecture:
         // one action can be shown on multiple toolbars simultaneously
         final JTextField textField = new JTextField();
