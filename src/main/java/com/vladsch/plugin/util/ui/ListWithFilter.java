@@ -57,8 +57,6 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
         return new ListWithFilter<>(list, scrollPane, namer, highlightAllOccurrences);
     }
 
-    // DEPRECATED: replacement appeared in 2019-03-04
-    @SuppressWarnings("deprecation")
     private ListWithFilter(
             @NotNull JList<T> list,
             @NotNull JScrollPane scrollPane,
@@ -86,14 +84,12 @@ public class ListWithFilter<T> extends JPanel implements DataProvider {
         myList.addKeyListener(mySpeedSearch);
         int selectedIndex = myList.getSelectedIndex();
         int modelSize = myList.getModel().getSize();
-        // DEPRECATED: replacement appeared in 2019-03-04
         myModel = new NameFilteringListModel<>(myList, namer, mySpeedSearch::shouldBeShowing, mySpeedSearch);
         if (myModel.getSize() == modelSize) {
             myList.setSelectedIndex(selectedIndex);
         }
 
         setBackground(list.getBackground());
-        //setFocusable(true);
     }
 
     @Override

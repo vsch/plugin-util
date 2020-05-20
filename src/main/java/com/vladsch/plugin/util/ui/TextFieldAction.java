@@ -47,8 +47,6 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
 
     }
 
-    // DEPRECATED: replacement appeared in 2019-02-15
-    @SuppressWarnings("deprecation")
     @NotNull
     @Override
     public JComponent createCustomComponent(@NotNull final Presentation presentation) {

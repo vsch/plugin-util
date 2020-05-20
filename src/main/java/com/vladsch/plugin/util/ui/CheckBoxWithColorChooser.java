@@ -161,8 +161,6 @@ public class CheckBoxWithColorChooser extends JPanel {
             final Color color = g.getColor();
             int width = getWidth() - LEFT_MARGIN;
             int height = getHeight();
-            // DEPRECATED: replacement JBUIScale#scale appeared in 2019-06-10
-            //noinspection deprecation
             float scale = JBUI.scale(1.0f);
             if (scale != 1.0f) {
                 final Graphics2D g2d = (Graphics2D) g.create(LEFT_MARGIN, 0, width, height);

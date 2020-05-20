@@ -65,20 +65,13 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     @NotNull
     protected abstract ColorIterable getColors(@NotNull T settings);
 
-    @SuppressWarnings("deprecation")
     public void initComponent() {
         MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
 
-        //try {
-        //    settingsConnection.subscribe(LafManagerListener.TOPIC, myLafManagerListener);
-        //} catch (NoSuchFieldError ignored) {
-            // DEPRECATED: replacement appeared in 2019-07-20
             LafManager.getInstance().addLafManagerListener(myLafManagerListener);
             myDelayedRunner.addRunnable(() -> {
-                // DEPRECATED: replacement appeared in 2019-07-20
                 LafManager.getInstance().removeLafManagerListener(myLafManagerListener);
             });
-        //}
 
         settingsChanged(getColors(mySettings), mySettings);
     }
@@ -125,7 +118,9 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     }
 
     abstract protected void skipHighlightSets(int skipSets);
+
     abstract protected void setHighlightIndex(int index);
+
     abstract protected int getHighlightIndex();
 
     public boolean isInHighlightSet() {
