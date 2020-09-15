@@ -1,6 +1,6 @@
 package com.vladsch.plugin.util;
 
-import com.intellij.CommonBundle;
+import com.intellij.BundleBase;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
 
@@ -21,14 +21,14 @@ public class UtilBundle {
     }
 
     public static String getString(String key, Object... params) {
-        return CommonBundle.message(BUNDLE, key, params);
+        return BundleBase.messageOrDefault(BUNDLE, key, null, params);
     }
 
     public static String message(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... params) {
-        return CommonBundle.message(BUNDLE, key, params);
+        return BundleBase.messageOrDefault(BUNDLE, key, null, params);
     }
 
     public static String messageOrBlank(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... params) {
-        return CommonBundle.messageOrDefault(BUNDLE, key, "", params);
+        return BundleBase.messageOrDefault(BUNDLE, key, "", params);
     }
 }
