@@ -3,15 +3,12 @@ package com.vladsch.plugin.util;
 import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.application.ApplicationNamesInfo;
 import com.intellij.openapi.application.ex.ApplicationManagerEx;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.function.Predicate;
-
-import static com.intellij.openapi.diagnostic.Logger.getInstance;
 
 @SuppressWarnings("WeakerAccess")
 public class AppRestartRequiredChecker<T> {
@@ -43,7 +40,7 @@ public class AppRestartRequiredChecker<T> {
     }
 
     public void clear() {
-       myRestartPredicates.clear();
+        myRestartPredicates.clear();
     }
 
     long getRestartNeededReasons(T setting) {
