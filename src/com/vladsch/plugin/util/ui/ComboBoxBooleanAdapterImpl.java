@@ -16,12 +16,12 @@ public class ComboBoxBooleanAdapterImpl<E extends ComboBoxAdaptable<E>> extends 
     }
 
     @Override
-    public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable... exclude) {
-        Set<ComboBoxAdaptable> excluded = new HashSet<>(Arrays.asList(exclude));
+    public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable<?>... exclude) {
+        Set<ComboBoxAdaptable<?>> excluded = new HashSet<>(Arrays.asList(exclude));
 
         comboBox.removeAllItems();
         for (E item : myDefault.getValues()) {
-            if (item == myDefault || item == myNonDefault) {
+            if ((item == myDefault || item == myNonDefault) || !excluded.contains(item)) {
                 comboBox.addItem(item.getDisplayName());
             }
         }

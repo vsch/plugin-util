@@ -20,14 +20,15 @@ public class UtilBundle {
     }
 
     public static String getString(String key, Object... params) {
-        return CommonBundle.message(BUNDLE, key, params);
+        return CommonBundle.messageOrNull(BUNDLE, key, params);
     }
 
     public static String message(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... params) {
-        return CommonBundle.message(BUNDLE, key, params);
+        return CommonBundle.messageOrNull(BUNDLE, key, params);
     }
 
     public static String messageOrBlank(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... params) {
-        return CommonBundle.messageOrDefault(BUNDLE, key, "", params);
+        String value = CommonBundle.messageOrNull(BUNDLE, key, params);
+        return value == null ? "" : value;
     }
 }
