@@ -95,7 +95,7 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
     public void update(@NotNull final AnActionEvent e) {
         super.update(e);
         Presentation presentation = e.getPresentation();
-        Object property = presentation.getClientProperty(CustomComponentAction.CUSTOM_COMPONENT_PROPERTY);
+        Object property = presentation.getClientProperty(CustomComponentAction.CUSTOM_COMPONENT_PROPERTY_KEY);
         if (property instanceof JTextField) {
             JTextField textField = (JTextField) property;
             updateCustomComponent(textField, presentation);

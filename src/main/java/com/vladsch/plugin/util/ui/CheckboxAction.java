@@ -52,7 +52,7 @@ public abstract class CheckboxAction extends ToggleAction implements CustomCompo
     public void update(@NotNull final AnActionEvent e) {
         super.update(e);
         Presentation presentation = e.getPresentation();
-        Object property = presentation.getClientProperty(CUSTOM_COMPONENT_PROPERTY);
+        Object property = presentation.getClientProperty(CUSTOM_COMPONENT_PROPERTY_KEY);
         if (property instanceof JCheckBox) {
             JCheckBox checkBox = (JCheckBox) property;
             updateCustomComponent(checkBox, presentation);
