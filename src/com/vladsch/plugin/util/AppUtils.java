@@ -3,14 +3,17 @@ package com.vladsch.plugin.util;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.ex.ApplicationInfoEx;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.BuildNumber;
+import com.intellij.util.ui.UIUtil;
+import com.vladsch.flexmark.util.html.ui.BackgroundColor;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
 import static com.intellij.openapi.diagnostic.Logger.getInstance;
+import static com.vladsch.plugin.util.ui.Helpers.errorColor;
+import static com.vladsch.plugin.util.ui.Helpers.warningColor;
 
 @SuppressWarnings("WeakerAccess")
 public class AppUtils {
@@ -26,16 +29,14 @@ public class AppUtils {
     private static final HashSet<String> APP_SERVICES = new HashSet<>();
     // application components which are now services starting with given version
     private static final HashMap<String, String> APP_COMPONENT_SERVICES = new HashMap<>();
-
     static {
         APP_COMPONENT_SERVICES.put("com.intellij.diagnostic.DebugLogManager", "193.5662.15");
     }
-
     public static <T> T getApplicationComponentOrService(Class<T> componentClass) {
         Application application = ApplicationManager.getApplication();
         if (application != null) {
             if (APP_SERVICES.contains(componentClass.getName())) {
-                return ServiceManager.getService(componentClass);
+                return ApplicationManager.getApplication().getService(componentClass);
             } else {
                 String serviceAppVersion = APP_COMPONENT_SERVICES.get(componentClass.getName());
 
@@ -43,7 +44,7 @@ public class AppUtils {
                     return application.getComponent(componentClass);
                 } else {
                     APP_SERVICES.add(componentClass.getName());
-                    return ServiceManager.getService(componentClass);
+                    return ApplicationManager.getApplication().getService(componentClass);
                 }
             }
         }
@@ -118,5 +119,25 @@ public class AppUtils {
             return -1;
         }
         return 0;
+    }
+
+    public static BackgroundColor getInvalidTextFieldBackground() {
+        return BackgroundColor.of(errorColor(UIUtil.getTextFieldBackground()));
+    }
+
+    public static BackgroundColor getWarningTextFieldBackground() {
+        return BackgroundColor.of(warningColor(UIUtil.getTextFieldBackground()));
+    }
+
+    public static BackgroundColor getValidTextFieldBackground() {
+        return BackgroundColor.of(UIUtil.getTextFieldBackground());
+    }
+
+    public static BackgroundColor getInvalidTableBackground(boolean isSelected) {
+        return BackgroundColor.of(errorColor(getTableBackground(isSelected)));
+    }
+
+    public static BackgroundColor getTableBackground(boolean isSelected) {
+        return BackgroundColor.of(!isSelected ? UIUtil.getTableBackground() : UIUtil.getTableSelectionBackground(true));
     }
 }

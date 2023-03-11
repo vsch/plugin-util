@@ -1146,21 +1146,21 @@ public class Helpers {
     }
 
     public static DataContext simpleDataContext(@Nullable Project project, @Nullable VirtualFile virtualFile, @Nullable Editor editor) {
-        HashMap<String, Object> dataMap = new HashMap<>();
+        SimpleDataContext.Builder builder = SimpleDataContext.builder();
         if (project != null) {
-            dataMap.put(CommonDataKeys.PROJECT.getName(), project);
+            builder.add(CommonDataKeys.PROJECT, project);
             if (project.getBasePath() != null) {
                 VirtualFile baseDir = VirtualFileManager.getInstance().findFileByUrl("file://" + project.getBasePath());
-                dataMap.put(PlatformDataKeys.PROJECT_FILE_DIRECTORY.getName(), baseDir);
+                builder.add(PlatformDataKeys.PROJECT_FILE_DIRECTORY, baseDir);
             }
         }
 
         if (virtualFile != null) {
-            dataMap.put(CommonDataKeys.VIRTUAL_FILE.getName(), virtualFile);
+            builder.add(CommonDataKeys.VIRTUAL_FILE, virtualFile);
         }
 
-        if (editor != null) dataMap.put(CommonDataKeys.EDITOR.getName(), editor);
+        if (editor != null) builder.add(CommonDataKeys.EDITOR, editor);
 
-        return SimpleDataContext.getSimpleContext(dataMap, null);
+        return builder.build();
     }
 }
