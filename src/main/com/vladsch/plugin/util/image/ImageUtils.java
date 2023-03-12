@@ -810,7 +810,7 @@ public class ImageUtils {
 
         return null;
     }
-    
+
     public static @Nullable String encodeKroki(String text) {
         try {
             ByteArrayOutputStream compressedStream = new ByteArrayOutputStream();
