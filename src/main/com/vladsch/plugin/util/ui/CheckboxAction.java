@@ -7,14 +7,13 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.actionSystem.ToggleAction;
+import com.intellij.openapi.actionSystem.Toggleable;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author max
@@ -55,19 +54,19 @@ public abstract class CheckboxAction extends ToggleAction implements CustomCompo
     public void update(@NotNull final AnActionEvent e) {
         super.update(e);
         Presentation presentation = e.getPresentation();
-        Object property = presentation.getClientProperty(CUSTOM_COMPONENT_PROPERTY);
+        Object property = presentation.getClientProperty(CUSTOM_COMPONENT_PROPERTY_KEY);
         if (property instanceof JCheckBox) {
             JCheckBox checkBox = (JCheckBox) property;
             updateCustomComponent(checkBox, presentation);
         }
     }
 
-    protected void updateCustomComponent(JCheckBox checkBox, Presentation presentation) {
+    protected static void updateCustomComponent(JCheckBox checkBox, Presentation presentation) {
         checkBox.setText(presentation.getText());
         checkBox.setToolTipText(presentation.getDescription());
         checkBox.setMnemonic(presentation.getMnemonic());
         checkBox.setDisplayedMnemonicIndex(presentation.getDisplayedMnemonicIndex());
-        checkBox.setSelected(Boolean.TRUE.equals(presentation.getClientProperty(SELECTED_PROPERTY)));
+        checkBox.setSelected(Boolean.TRUE.equals(Toggleable.isSelected(presentation)));
         checkBox.setEnabled(presentation.isEnabled());
         checkBox.setVisible(presentation.isVisible());
     }

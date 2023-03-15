@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.openapi.util.Key;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.util.ui.UIUtil;
 import org.jetbrains.annotations.NotNull;
@@ -22,8 +23,8 @@ import java.awt.event.FocusListener;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class TextFieldAction extends AnAction implements CustomComponentAction {
-    public static final String TEXT_FIELD_ORIGINAL = "textFieldOriginal";
-    public static final String TEXT_FIELD_BACKGROUND = "textFieldBackground";
+    public static final Key<String> TEXT_FIELD_ORIGINAL_KEY = new Key<>("textFieldOriginal");
+    public static final Key<Object> TEXT_FIELD_BACKGROUND_KEY = new Key<>("textFieldBackground");
 
     protected TextFieldAction() {}
 
@@ -60,7 +61,7 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
         textField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(final FocusEvent e) {
-                presentation.putClientProperty(TEXT_FIELD_ORIGINAL, textField.getText());
+                presentation.putClientProperty(TEXT_FIELD_ORIGINAL_KEY, textField.getText());
                 updateOnFocusGained(textField.getText(), presentation);
             }
 
@@ -97,14 +98,14 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
     public void update(@NotNull final AnActionEvent e) {
         super.update(e);
         Presentation presentation = e.getPresentation();
-        Object property = presentation.getClientProperty(CustomComponentAction.CUSTOM_COMPONENT_PROPERTY);
+        Object property = presentation.getClientProperty(CustomComponentAction.CUSTOM_COMPONENT_PROPERTY_KEY);
         if (property instanceof JTextField) {
             JTextField textField = (JTextField) property;
             updateCustomComponent(textField, presentation);
         }
     }
 
-    private void updateCustomComponent(JTextField textField, Presentation presentation) {
+    private static void updateCustomComponent(JTextField textField, Presentation presentation) {
         String text = presentation.getText();
         if (!textField.getText().equals(text)) {
             ApplicationManager.getApplication().invokeLater(() -> {
@@ -114,7 +115,7 @@ public abstract class TextFieldAction extends AnAction implements CustomComponen
 
         textField.setToolTipText(presentation.getDescription());
 
-        Object background = presentation.getClientProperty(TEXT_FIELD_BACKGROUND);
+        Object background = presentation.getClientProperty(TEXT_FIELD_BACKGROUND_KEY);
         if (background instanceof Color) {
             textField.setBackground((Color) background);
         }

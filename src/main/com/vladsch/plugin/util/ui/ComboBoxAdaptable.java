@@ -1,7 +1,7 @@
 package com.vladsch.plugin.util.ui;
 
 import com.intellij.openapi.ui.ComboBox;
-import com.intellij.ui.ListCellRendererWrapper;
+import com.intellij.ui.SimpleListCellRenderer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,9 +37,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         return getAdapter().setComboBoxSelection(comboBox, this);
     }
 
-    // DEPRECATED: replacement com.intellij.ui.SimpleListCellRenderer appeared in 2019-4-19
-    @SuppressWarnings("deprecation")
-    class IconCellRenderer<E extends ComboBoxAdaptable<E>> extends ListCellRendererWrapper<String> {
+    class IconCellRenderer<E extends ComboBoxAdaptable<E>> extends SimpleListCellRenderer<String> {
         final @NotNull ComboBoxAdapter<E> myAdapter;
         final @NotNull Function<E, Icon> myIconMapper;
 
@@ -49,7 +47,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @Override
-        public void customize(final JList list, final String value, final int index, final boolean selected, final boolean hasFocus) {
+        public void customize(@NotNull final JList list, final String value, final int index, final boolean selected, final boolean hasFocus) {
             E type = myAdapter.findEnum(value);
             this.setText(type.getDisplayName());
             this.setIcon(myIconMapper.apply(type));
@@ -70,11 +68,11 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
 
         @NotNull
         @Override
-        public T valueOf(String name) {return ADAPTER.valueOf(name);}
+        public T valueOf(String name) { return ADAPTER.valueOf(name); }
 
         @NotNull
         @Override
-        public T getDefault() {return ADAPTER.getDefault();}
+        public T getDefault() { return ADAPTER.getDefault(); }
 
         @Override
         public void setDefaultValue(@NotNull final T defaultValue) {
@@ -94,7 +92,7 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @NotNull
-        public JComboBox<String> createComboBox(@NotNull ComboBoxAdaptable... exclude) {
+        public JComboBox<String> createComboBox(@NotNull ComboBoxAdaptable<?>... exclude) {
             JComboBox<String> comboBox = new ComboBox<>();
             ADAPTER.fillComboBox(comboBox, exclude);
             return comboBox;
@@ -105,13 +103,13 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @Override
-        public boolean isAdaptable(@NotNull ComboBoxAdaptable type) { return ADAPTER.isAdaptable(type); }
+        public boolean isAdaptable(@NotNull ComboBoxAdaptable<?> type) { return ADAPTER.isAdaptable(type); }
 
         @Override
-        public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable[] exclude) { ADAPTER.fillComboBox(comboBox, exclude); }
+        public void fillComboBox(@NotNull JComboBox<String> comboBox, @NotNull ComboBoxAdaptable<?>[] exclude) { ADAPTER.fillComboBox(comboBox, exclude); }
 
         @Override
-        public boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, @Nullable final ComboBoxAdaptable selection) {
+        public boolean setComboBoxSelection(@NotNull JComboBox<String> comboBox, @Nullable final ComboBoxAdaptable<?> selection) {
             return ADAPTER.setComboBoxSelection(comboBox, selection);
         }
 
@@ -147,12 +145,12 @@ public interface ComboBoxAdaptable<E extends ComboBoxAdaptable<E>> {
         }
 
         @Override
-        public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @Nullable final ComboBoxAdaptable selection) {
+        public boolean setComboBoxSelection(@NotNull final JComboBox<String> comboBox, @Nullable final ComboBoxAdaptable<?> selection) {
             return ADAPTER.setComboBoxSelection(comboBox, selection);
         }
 
         @Override
-        public T getNonDefault() {return ((ComboBoxBooleanAdapter<T>) ADAPTER).getNonDefault();}
+        public T getNonDefault() { return ((ComboBoxBooleanAdapter<T>) ADAPTER).getNonDefault(); }
 
         @Override
         public T get(final boolean value) {
