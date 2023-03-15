@@ -264,7 +264,7 @@ public class StudiedWord {
     }
 
     public static String makeProperFirstCapCase(String s) {
-        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+        return s.length() == 0 ? "" : s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
     public String makeMixedSnakeCase() {
@@ -316,8 +316,10 @@ public class StudiedWord {
                 }
             }
         } else if (only(UPPER | DIGITS) && first(UPPER)) {
-            sb.append(myWord.charAt(0));
-            sb.append(myWord.toString().substring(1).toLowerCase());
+            if (myWord.length() != 0) {
+                sb.append(myWord.charAt(0));
+                sb.append(myWord.toString().substring(1).toLowerCase());
+            }
         } else {
             sb.append(myWord);
         }
@@ -326,12 +328,12 @@ public class StudiedWord {
 
     public String makeProperCamelCase() {
         String s = makeCamelCase();
-        return s.substring(0, 1).toLowerCase() + s.substring(1);
+        return s.length() == 0 ? "" : s.substring(0, 1).toLowerCase() + s.substring(1);
     }
 
     public String makePascalCase() {
         String s = makeCamelCase();
-        return s.substring(0, 1).toUpperCase() + s.substring(1);
+        return s.length() == 0 ? "" : s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
     public String makeScreamingSnakeCase() {

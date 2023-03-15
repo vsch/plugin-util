@@ -67,6 +67,7 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
 
     public void initComponent() {
         MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
+
         settingsConnection.subscribe(LafManagerListener.TOPIC, myLafManagerListener);
         settingsChanged(getColors(mySettings), mySettings);
     }
@@ -113,9 +114,7 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     }
 
     abstract protected void skipHighlightSets(int skipSets);
-
     abstract protected void setHighlightIndex(int index);
-
     abstract protected int getHighlightIndex();
 
     public boolean isInHighlightSet() {
