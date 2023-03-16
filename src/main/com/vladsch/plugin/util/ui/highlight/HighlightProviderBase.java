@@ -178,7 +178,6 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     @Override
     public void fireHighlightsChanged() {
         myHighlightRunner.cancel();
-        
         if (myInUpdateRegion <= 0) {
             if (!myHighlightListeners.isEmpty()) {
                 enterUpdateRegion();
@@ -193,7 +192,6 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
                     }));
                 }
                 
-//                myPendingChanged = false;  // we just updated, assume all is good, otherwise we can get into an infinite loop
                 leaveUpdateRegion();
             }
         } else {
@@ -204,9 +202,7 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     @Override
     public void fireHighlightsUpdated() {
         myHighlightRunner.cancel();
-        
         if (myInUpdateRegion <= 0) {
-            
             if (!myHighlightListeners.isEmpty()) {
                 enterUpdateRegion();
 
