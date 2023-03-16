@@ -114,7 +114,9 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     }
 
     abstract protected void skipHighlightSets(int skipSets);
+
     abstract protected void setHighlightIndex(int index);
+
     abstract protected int getHighlightIndex();
 
     public boolean isInHighlightSet() {
@@ -176,8 +178,11 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     @Override
     public void fireHighlightsChanged() {
         myHighlightRunner.cancel();
+        
         if (myInUpdateRegion <= 0) {
             if (!myHighlightListeners.isEmpty()) {
+                enterUpdateRegion();
+                
                 CancelableJobScheduler scheduler = getCancellableJobScheduler();
                 if (scheduler != null) {
                     myHighlightRunner = OneTimeRunnable.schedule(scheduler, 250, new AwtRunnable(true, () -> {
@@ -187,6 +192,9 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
                         }
                     }));
                 }
+                
+//                myPendingChanged = false;  // we just updated, assume all is good, otherwise we can get into an infinite loop
+                leaveUpdateRegion();
             }
         } else {
             myPendingChanged = true;
@@ -196,12 +204,18 @@ public abstract class HighlightProviderBase<T> implements HighlightProvider<T>, 
     @Override
     public void fireHighlightsUpdated() {
         myHighlightRunner.cancel();
+        
         if (myInUpdateRegion <= 0) {
+            
             if (!myHighlightListeners.isEmpty()) {
+                enterUpdateRegion();
+
                 for (HighlightListener listener : myHighlightListeners) {
                     if (listener == null) continue;
                     listener.highlightsUpdated();
                 }
+                
+                leaveUpdateRegion();
             }
         } else {
             myPendingChanged = true;
