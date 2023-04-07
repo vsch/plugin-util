@@ -19,8 +19,8 @@ public class EnumLike<E extends ComboBoxAdaptable<E>> {
         return displayNames;
     }
 
-    public interface Factory<F> {
-        F create(@NotNull EnumLike parent, int intValue, @NotNull String displayName);
+    public interface Factory<F extends ComboBoxAdaptable<F>> {
+        F create(@NotNull EnumLike<F> parent, int intValue, @NotNull String displayName);
     }
 
     @SuppressWarnings("ThisEscapedInObjectConstruction")

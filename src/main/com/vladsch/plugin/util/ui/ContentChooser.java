@@ -115,8 +115,8 @@ public abstract class ContentChooser<Data> extends DialogWrapper {
         if (myUseIdeaEditor) {
             EditorColorsScheme scheme = EditorColorsManager.getInstance().getGlobalScheme();
             myList.setFont(scheme.getFont(EditorFontType.PLAIN));
-            Color fg = ObjectUtils.chooseNotNull(scheme.getDefaultForeground(), new JBColor(UIUtil::getListForeground));
-            Color bg = ObjectUtils.chooseNotNull(scheme.getDefaultBackground(), new JBColor(UIUtil::getListBackground));
+            Color fg = ObjectUtils.chooseNotNull(scheme.getDefaultForeground(), UIUtil.getListForeground());
+            Color bg = ObjectUtils.chooseNotNull(scheme.getDefaultBackground(), UIUtil.getListBackground());
             myList.setForeground(fg);
             myList.setBackground(bg);
         }
