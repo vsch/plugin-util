@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public interface DrawableShape extends TransformableShape {
     @NotNull
     @Override
-    DrawableShape transformedBy(@NotNull Transform transform);
+    DrawableShape transformedBy(@NotNull Transform transform, final Rectangle bounds);
 
     @NotNull
     @Override

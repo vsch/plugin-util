@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface TransformableShape {
     @NotNull
-    TransformableShape transformedBy(@NotNull Transform transform);
+    TransformableShape transformedBy(@NotNull Transform transform, final Rectangle bounds);
 
     @NotNull
     TransformableShape transformedBoundsBy(@NotNull Transform transform);

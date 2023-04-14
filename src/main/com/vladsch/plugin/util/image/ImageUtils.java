@@ -2,7 +2,6 @@ package com.vladsch.plugin.util.image;
 
 import com.vladsch.plugin.util.FileIOKt;
 import org.apache.batik.transcoder.SVGAbstractTranscoder;
-import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
@@ -45,6 +44,10 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterOutputStream;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+
+@SuppressWarnings("UndesirableClassUsage")
 public class ImageUtils {
     public static final String PNG_BASE_64_PREFIX = "data:image/png;base64,";
     @SuppressWarnings("UseJBColor")
@@ -765,8 +768,8 @@ public class ImageUtils {
         ImageFilter filter = new RGBImageFilter() {
 
             // the color we are looking for... Alpha bits are set to opaque
-            public int markerRGB = color.getRGB() | 0xFF000000;
-            int radius = tolerance * tolerance * 3;
+            public final int markerRGB = color.getRGB() | 0xFF000000;
+            final int radius = tolerance * tolerance * 3;
 
             public final int filterRGB(int x, int y, int rgb) {
                 if (tolerance == 0 && (rgb | 0xFF000000) == markerRGB) {
@@ -794,6 +797,26 @@ public class ImageUtils {
         return toBufferedImage(Toolkit.getDefaultToolkit().createImage(ip));
     }
 
+    public static BufferedImage rotateImage(BufferedImage image, final int rotation) {
+        int angdeg = rotation % 360;
+        if (angdeg == 0) return image;
+        
+        double rotationRads = Math.toRadians(angdeg);
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+        Rectangle rect = Rectangle.of(image);
+        Rectangle rotated = rect.rotate(rotation, com.vladsch.plugin.util.image.Point.NULL);
+        BufferedImage bufferedImage = new BufferedImage(rotated.getIntWidth(), rotated.getIntHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bufferedImage.createGraphics();
+        g.translate(rotated.getWidth() / 2.0, rotated.getHeight() / 2.0);
+        g.rotate(rotationRads, 0.0, 0.0);
+        g.drawImage(image, -(width / 2), -(height / 2), TRANSPARENT, null);
+        g.dispose();
+
+        return bufferedImage;
+    }
+
     public static byte[] getImageBytes(BufferedImage image) {
         String imageString = null;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -811,7 +834,8 @@ public class ImageUtils {
         return null;
     }
 
-    public static @Nullable String encodeKroki(String text) {
+    public static @Nullable
+    String encodeKroki(String text) {
         try {
             ByteArrayOutputStream compressedStream = new ByteArrayOutputStream();
             DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(compressedStream, new Deflater());
@@ -827,7 +851,8 @@ public class ImageUtils {
         return null;
     }
 
-     public static @Nullable String decodeKroki(String url) {
+    public static @Nullable
+    String decodeKroki(String url) {
         try {
             byte[] decoded = Base64.getUrlDecoder().decode(url.getBytes());
             ByteArrayOutputStream decompressedStream = new ByteArrayOutputStream();

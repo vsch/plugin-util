@@ -587,12 +587,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect1() {
         val name = "punch2xRect1"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -600,12 +601,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect2() {
         val name = "punch2xRect2"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -613,12 +615,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect3() {
         val name = "punch2xRect3"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -626,12 +629,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect4() {
         val name = "punch2xRect4"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -639,12 +643,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect5() {
         val name = "punch2xRect5"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -652,12 +657,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect6() {
         val name = "punch2xRect6"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -665,12 +671,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect7() {
         val name = "punch2xRect7"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -678,12 +685,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xRect8() {
         val name = "punch2xRect8"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.RECTANGLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -691,12 +699,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval1() {
         val name = "punch2xOval1"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -704,12 +713,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval2() {
         val name = "punch2xOval2"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -717,12 +727,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval3() {
         val name = "punch2xOval3"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -730,12 +741,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval4() {
         val name = "punch2xOval4"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -743,12 +755,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval5() {
         val name = "punch2xOval5"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -756,12 +769,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval6() {
         val name = "punch2xOval6"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -769,12 +783,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval7() {
         val name = "punch2xOval7"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -782,12 +797,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xOval8() {
         val name = "punch2xOval8"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.OVAL, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1372,12 +1388,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare1() {
         val name = "punch2xSquare1"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1385,12 +1402,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare2() {
         val name = "punch2xSquare2"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1398,12 +1416,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare3() {
         val name = "punch2xSquare3"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1411,12 +1430,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare4() {
         val name = "punch2xSquare4"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1424,12 +1444,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare5() {
         val name = "punch2xSquare5"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1437,12 +1458,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare6() {
         val name = "punch2xSquare6"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1450,12 +1472,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare7() {
         val name = "punch2xSquare7"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1463,12 +1486,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xSquare8() {
         val name = "punch2xSquare8"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.SQUARE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1476,12 +1500,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle1() {
         val name = "punch2xCircle1"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1489,12 +1514,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle2() {
         val name = "punch2xCircle2"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1502,12 +1528,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle3() {
         val name = "punch2xCircle3"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 0, Color.BLACK, Color.RED)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1515,12 +1542,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle4() {
         val name = "punch2xCircle4"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 1, Color.BLACK, null)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1528,12 +1556,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle5() {
         val name = "punch2xCircle5"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 0)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, TRANSPARENT)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1541,12 +1570,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle6() {
         val name = "punch2xCircle6"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 10)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 3, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1554,12 +1584,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle7() {
         val name = "punch2xCircle7"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color.WHITE)
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1567,12 +1598,13 @@ class SimpleShapeTest : ImageTest() {
     fun test_punch2xCircle8() {
         val name = "punch2xCircle8"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(10, 100, 20, 60, 20)
 
         val shape = SimpleShape(ShapeType.CIRCLE, rect, 2, Color.BLACK, Color(164, 0, 128, 64))
         val outerFill = DrawingShape(Rectangle.NULL, 0, null, TRANSLUCENT)
         var actual = shape.punchOutShape(image, null, outerFill, false)
-        actual = shape.transformedBy(TranslationTransform(40, 20)).punchOutShape(image, actual, outerFill, true)
+        actual = shape.transformedBy(TranslationTransform(40, 20), imageRect).punchOutShape(image, actual, outerFill, true)
         assertImagesEqual(name, actual)
     }
 
@@ -1581,6 +1613,7 @@ class SimpleShapeTest : ImageTest() {
         // Punch-out is shifted when part of the shape border is out of image
         val name = "borderedPunchOut"
         val image = getSourceImage("Image1")
+        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(0, 100, 0, 60, 0)
 
         val shape = BorderedShape(ShapeType.RECTANGLE, rect, 20, Color.ORANGE, null)

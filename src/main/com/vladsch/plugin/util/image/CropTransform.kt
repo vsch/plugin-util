@@ -28,19 +28,19 @@ open class CropTransform(val margins: Rectangle) : Transform {
         return rectangle.grow(margins.x0, margins.x1, margins.y0, margins.y1).nullIfInverted().topLeftTo0()
     }
 
-    override fun transform(rectangle: Rectangle): Rectangle {
+    override fun transform(rectangle: Rectangle, bounds: Rectangle): Rectangle {
         return rectangle.translate(-margins.x0, -margins.y0)
     }
 
-    override fun reverse(rectangle: Rectangle): Rectangle {
+    override fun reverse(rectangle: com.vladsch.plugin.util.image.Rectangle, bounds: com.vladsch.plugin.util.image.Rectangle): Rectangle {
         return rectangle.translate(margins.x0, margins.y0)
     }
 
-    override fun transform(point: Point): Point {
+    override fun transform(point: com.vladsch.plugin.util.image.Point, bounds: com.vladsch.plugin.util.image.Rectangle): Point {
         return point.translate(-margins.x0, -margins.y0)
     }
 
-    override fun reverse(point: Point): Point {
+    override fun reverse(point: com.vladsch.plugin.util.image.Point, bounds: com.vladsch.plugin.util.image.Rectangle): Point {
         return point.translate(margins.x0, margins.y0)
     }
 

@@ -23,19 +23,19 @@ open class TranslationTransform(val x: Float, val y: Float) : Transform {
         return rectangle
     }
 
-    override fun transform(rectangle: Rectangle): Rectangle {
+    override fun transform(rectangle: Rectangle, bounds: Rectangle): Rectangle {
         return rectangle.translate(x, y)
     }
 
-    override fun reverse(rectangle: Rectangle): Rectangle {
+    override fun reverse(rectangle: com.vladsch.plugin.util.image.Rectangle, bounds: com.vladsch.plugin.util.image.Rectangle): Rectangle {
         return rectangle.translate(-x, -y)
     }
 
-    override fun transform(point: Point): Point {
+    override fun transform(point: com.vladsch.plugin.util.image.Point, bounds: com.vladsch.plugin.util.image.Rectangle): Point {
         return point.translate(x, y)
     }
 
-    override fun reverse(point: Point): Point {
+    override fun reverse(point: com.vladsch.plugin.util.image.Point, bounds: com.vladsch.plugin.util.image.Rectangle): Point {
         return point.translate(-x, -y)
     }
 

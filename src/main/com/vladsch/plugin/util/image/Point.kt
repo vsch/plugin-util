@@ -65,8 +65,53 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
         return if (this == other) this else other
     }
 
-    fun isInside(rect:Rectangle):Boolean {
+    fun isInside(rect: Rectangle): Boolean {
         return x >= rect.left && x < rect.right && y >= rect.top && y < rect.bottom
+    }
+
+    fun rotate(deg: Int, c: Point): Point {
+        return rotate(Math.toRadians(deg.toDouble()).toFloat(), c.x, c.y)
+    }
+
+    fun rotate(deg: Int, x: Int, y: Int): Point {
+        return rotate(Math.toRadians(deg.toDouble()).toFloat(), x.toFloat(), y.toFloat())
+    }
+
+    fun rotate(rad: Float, c: Point): Point {
+        return rotate(rad, c.x, c.y)
+    }
+
+    fun rotate(rad: Float, x: Float, y: Float): Point {
+        val rot = Complex.rot(rad.toDouble())
+        val p = translate(-x, -y)
+        val rotated = Complex.of(p).times(rot).toPoint()
+        return rotated
+    }
+
+    fun rotateBounded(deg: Int, bounds: Rectangle): Point {
+        return rotateBounded(Math.toRadians(deg.toDouble()).toFloat(), bounds)
+    }
+
+    fun rotateBounded(rad: Float, bounds: Rectangle): Point {
+        // have to apply all transformations that were done to the bounds rectangle, including translation to top/left
+        val boundsRotated = bounds.rotate(rad, bounds.center())
+        val boundsNormalized = boundsRotated.normalized
+        return rotate(rad, bounds.center())
+            .invert(boundsRotated.isInvertedX, boundsRotated.isInvertedY, boundsRotated.center())
+            .translate(-boundsNormalized.left, -boundsNormalized.top)
+    }
+
+    // flip x about cx and y about cy if respective invX invY are given
+    fun invert(invX: Boolean, invY: Boolean, c: Point): Point {
+        return invert(invX, invY, c.x, c.y)
+    }
+
+    fun invert(invX: Boolean, invY: Boolean, cx: Int, cy: Int): Point {
+        return invert(invX, invY, cx.toFloat(), cy.toFloat())
+    }
+
+    fun invert(invX: Boolean, invY: Boolean, cx: Float, cy: Float): Point {
+        return of(if (!invX) x else -(x - cx) + cx, if (!invY) y else -(y - cy) + cy)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -92,6 +137,7 @@ class Point private constructor(@JvmField val x: Float, @JvmField val y: Float) 
     }
 
     companion object {
+
         @JvmField
         val NULL = Point(0f, 0f)
 

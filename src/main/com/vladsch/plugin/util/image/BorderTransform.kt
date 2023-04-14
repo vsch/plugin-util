@@ -36,19 +36,19 @@ open class BorderTransform(val borderWidth: Int, val cornerRadius: Int, val bord
         return rectangle.grow(-borderWidth).topLeftTo0()
     }
 
-    override fun transform(rectangle: Rectangle): Rectangle {
+    override fun transform(rectangle: Rectangle, bounds: Rectangle): Rectangle {
         return rectangle.translate(borderWidth, borderWidth)
     }
 
-    override fun reverse(rectangle: Rectangle): Rectangle {
+    override fun reverse(rectangle: com.vladsch.plugin.util.image.Rectangle, bounds: com.vladsch.plugin.util.image.Rectangle): Rectangle {
         return rectangle.translate(-borderWidth, -borderWidth)
     }
 
-    override fun transform(point: Point): Point {
+    override fun transform(point: com.vladsch.plugin.util.image.Point, bounds: com.vladsch.plugin.util.image.Rectangle): Point {
         return point.translate(borderWidth, borderWidth)
     }
 
-    override fun reverse(point: Point): Point {
+    override fun reverse(point: com.vladsch.plugin.util.image.Point, bounds: com.vladsch.plugin.util.image.Rectangle): Point {
         return point.translate(-borderWidth, -borderWidth)
     }
 

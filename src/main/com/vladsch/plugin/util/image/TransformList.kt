@@ -42,31 +42,59 @@ open class TransformList constructor(val transforms: List<Transform>, val revers
         return result
     }
 
-    override fun transform(rectangle: Rectangle): Rectangle {
+    override fun transform(rectangle: Rectangle, bounds: Rectangle): Rectangle {
         var result: Rectangle = rectangle
-        if (!reversed) forEach { result = it.transform(result) }
-        else forEachReversed { result = it.reverse(result) }
+        var evolvingBounds: Rectangle = bounds
+        if (!reversed) forEach {
+            result = it.transform(result, evolvingBounds)
+            evolvingBounds = it.transformBounds(evolvingBounds)
+        }
+        else forEachReversed {
+            result = it.reverse(result, evolvingBounds)
+            evolvingBounds = it.reverseBounds(evolvingBounds)
+        }
         return result
     }
 
-    override fun reverse(rectangle: Rectangle): Rectangle {
+    override fun reverse(rectangle: Rectangle, bounds: Rectangle): Rectangle {
         var result: Rectangle = rectangle
-        if (reversed) forEach { result = it.transform(result) }
-        else forEachReversed { result = it.reverse(result) }
+        var evolvingBounds: Rectangle = bounds
+        if (reversed) forEach {
+            result = it.transform(result, evolvingBounds)
+            evolvingBounds = it.transformBounds(evolvingBounds)
+        }
+        else forEachReversed {
+            result = it.reverse(result, evolvingBounds)
+            evolvingBounds = it.reverseBounds(evolvingBounds)
+        }
         return result
     }
 
-    override fun transform(point: Point): Point {
+    override fun transform(point: Point, bounds: Rectangle): Point {
         var result: Point = point
-        if (!reversed) forEach { result = it.transform(result) }
-        else forEachReversed { result = it.reverse(result) }
+        var evolvingBounds: Rectangle = bounds
+        if (!reversed) forEach {
+            result = it.transform(result, evolvingBounds)
+            evolvingBounds = it.transformBounds(evolvingBounds)
+        }
+        else forEachReversed {
+            result = it.reverse(result, evolvingBounds)
+            evolvingBounds = it.reverseBounds(evolvingBounds)
+        }
         return result
     }
 
-    override fun reverse(point: Point): Point {
+    override fun reverse(point: Point, bounds: Rectangle): Point {
         var result: Point = point
-        if (reversed) forEach { result = it.transform(result) }
-        else forEachReversed { result = it.reverse(result) }
+        var evolvingBounds: Rectangle = bounds
+        if (reversed) forEach {
+            result = it.transform(result, evolvingBounds)
+            evolvingBounds = it.transformBounds(evolvingBounds)
+        }
+        else forEachReversed {
+            result = it.reverse(result, evolvingBounds)
+            evolvingBounds = it.reverseBounds(evolvingBounds)
+        }
         return result
     }
 

@@ -9,8 +9,8 @@ open class SimpleShape(val shapeType: ShapeType, rectangle: Rectangle, borderWid
         return rectangle.isAnyIntNull || (borderWidth == 0 || borderColor == null || borderColor.alpha == 0) && (fillColor == null || fillColor.alpha == 0)
     }
 
-    override fun transformedBy(transform: Transform): SimpleShape {
-        return SimpleShape(shapeType, transform.transform(rectangle), borderWidth, borderColor, fillColor)
+    override fun transformedBy(transform: Transform, bounds: Rectangle): SimpleShape {
+        return SimpleShape(shapeType, transform.transform(rectangle, bounds), borderWidth, borderColor, fillColor)
     }
 
     override fun transformedBoundsBy(transform: Transform): SimpleShape {

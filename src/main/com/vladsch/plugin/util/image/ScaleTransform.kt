@@ -31,22 +31,22 @@ open class ScaleTransform(val x: Float, val y: Float, val interpolationType: Int
         return rectangle.scale(1 / x, 1 / y).nullIfInverted().topLeftTo0()
     }
 
-    override fun transform(rectangle: Rectangle): Rectangle {
+    override fun transform(rectangle: Rectangle, bounds: Rectangle): Rectangle {
         if (isEmpty) return rectangle
         return rectangle.scale(x, y)
     }
 
-    override fun reverse(rectangle: Rectangle): Rectangle {
+    override fun reverse(rectangle: Rectangle, bounds: Rectangle): Rectangle {
         if (isEmpty) return rectangle
         return rectangle.scale(1 / x, 1 / y)
     }
 
-    override fun transform(point: Point): Point {
+    override fun transform(point: Point, bounds: Rectangle): Point {
         if (isEmpty) return point
         return point.scale(x, y)
     }
 
-    override fun reverse(point: Point): Point {
+    override fun reverse(point: Point, bounds: Rectangle): Point {
         if (isEmpty) return point
         return point.scale(1 / x, 1 / y)
     }

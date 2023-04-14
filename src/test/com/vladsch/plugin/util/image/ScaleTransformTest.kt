@@ -21,24 +21,25 @@ class ScaleTransformTest : ImageTest() {
     fun test_transRect() {
         val trans = ScaleTransform(2f, 5f)
         val rect = Rectangle.of(0, 10, 0, 20, 1)
-        assertEquals(Rectangle.of(0, 20, 0, 100, 1), trans.transform(rect))
-        assertEquals(Rectangle.of(0, 5, 0, 4, 1), trans.reverse(rect))
-        assertEquals(Rectangle.of(0, 20, 0, 100, 1), trans.reversed().reverse(rect))
-        assertEquals(Rectangle.of(0, 5, 0, 4, 1), trans.reversed().transform(rect))
-        assertEquals(rect, trans.reverse(trans.transform(rect)))
-        assertEquals(rect, trans.transform(trans.reverse(rect)))
+        assertEquals(Rectangle.of(0f, 20f, 0f, 100f, 1f), trans.transform(rect, rect))
+        assertEquals(Rectangle.of(0f, 5f, 0f, 4f, 1f), trans.reverse(rect, rect))
+        assertEquals(Rectangle.of(0f, 20f, 0f, 100f, 1f), trans.reversed().reverse(rect, rect))
+        assertEquals(Rectangle.of(0f, 5f, 0f, 4f, 1f), trans.reversed().transform(rect, rect))
+        assertEquals(rect, trans.reverse(trans.transform(rect, rect), rect))
+        assertEquals(rect, trans.transform(trans.reverse(rect, rect), rect))
     }
 
     @Test
     fun test_transPoint() {
         val trans = ScaleTransform(2f, 5f)
         val point = Point.of(10, 20)
-        assertEquals(Point.of(20, 100), trans.transform(point))
-        assertEquals(Point.of(5, 4), trans.reverse(point))
-        assertEquals(Point.of(20, 100), trans.reversed().reverse(point))
-        assertEquals(Point.of(5, 4), trans.reversed().transform(point))
-        assertEquals(point, trans.reverse(trans.transform(point)))
-        assertEquals(point, trans.transform(trans.reverse(point)))
+        val rect = Rectangle.of(-5, 5, -5, 5, 0)
+        assertEquals(Point.of(20, 100), trans.transform(point, rect))
+        assertEquals(Point.of(5, 4), trans.reverse(point, rect))
+        assertEquals(Point.of(20, 100), trans.reversed().reverse(point, rect))
+        assertEquals(Point.of(5, 4), trans.reversed().transform(point, rect))
+        assertEquals(point, trans.reverse(trans.transform(point, rect), rect))
+        assertEquals(point, trans.transform(trans.reverse(point, rect), rect))
     }
 
     @Test

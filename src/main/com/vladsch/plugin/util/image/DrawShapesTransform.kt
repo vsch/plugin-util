@@ -18,14 +18,16 @@ class DrawShapesTransform constructor(val transform: Transform, val shapes: List
         var outerFillImage: BufferedImage? = null
         val selectedShape = if (selectedIndex >= 0) shapes[selectedIndex] else null
         val filtered = shapes.filter { !it.isEmpty }
+        val bounds = Rectangle.of(image)
         var result = transform.transform(image)
+        val resultBounds = Rectangle.of(result)
         val outerFillShape = transform.imageBorders(DrawingShape(Rectangle.of(image), 0, null, null)).nullIf { it.isEmpty }
         var selected: DrawableShape? = null
 
         filtered.forEachIndexed { i, it ->
             val isLastShape = i == filtered.lastIndex
 
-            val transformed = it.transformedBy(transform)
+            val transformed = it.transformedBy(transform, bounds)
             result = transformed.drawShape(result, false, 0f)
 
             if (it == selectedShape) {

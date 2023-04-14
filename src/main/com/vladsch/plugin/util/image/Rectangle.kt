@@ -3,10 +3,8 @@ package com.vladsch.plugin.util.image
 import com.vladsch.plugin.util.minLimit
 import com.vladsch.plugin.util.rangeLimit
 import java.awt.image.BufferedImage
-import kotlin.math.abs
-import kotlin.math.absoluteValue
-import kotlin.math.min
-import kotlin.math.roundToInt
+import java.lang.Math.toRadians
+import kotlin.math.*
 
 @Suppress("MemberVisibilityCanBePrivate")
 open class Rectangle protected constructor(
@@ -132,10 +130,10 @@ open class Rectangle protected constructor(
             return invert(invX, invY)
         }
 
-    val topLeft: Point get() = Point.of(top, left)
-    val topRight: Point get() = Point.of(top, right)
-    val bottomLeft: Point get() = Point.of(bottom, left)
-    val bottomRight: Point get() = Point.of(bottom, right)
+    val topLeft: Point get() = Point.of(left, top)
+    val topRight: Point get() = Point.of(right, top)
+    val bottomLeft: Point get() = Point.of(left, bottom)
+    val bottomRight: Point get() = Point.of(right, bottom)
 
     val cornerRadius: Float
         get() = radius.minLimit(0f)
@@ -252,8 +250,13 @@ open class Rectangle protected constructor(
         return normalized.translate(-left, -top)
     }
 
+    fun center(): Point {
+        return Point.of((x0 + x1) / 2f, (y0 + y1) / 2f)
+    }
+
     fun translateCenterTo0(): Rectangle {
-        return normalized.translate(-(spanX) / 2, -(spanY) / 2)
+        val c = center()
+        return normalized.translate(-c.x, -c.y)
     }
 
     fun nullIfInverted(): Rectangle {
@@ -308,7 +311,7 @@ open class Rectangle protected constructor(
         if (left != 0f || top != 0f || right != 0f || bottom != 0f) {
             val invX = isInvertedX
             val invY = isInvertedY
-            val avg = (left + right + top + bottom) / 4
+            val avg = if (left == right && left == top && left == bottom) left else 0f
 
             return of(this.left - left, this.right + right, this.top - top, this.bottom + bottom, this.radius + avg).invert(invX, invY)
         }
@@ -322,14 +325,64 @@ open class Rectangle protected constructor(
 
     fun scale(x: Float, y: Float): Rectangle {
         if (x != 0f && y != 0f && (x != 1f || y != 1f)) {
-            val avgScale = ((x + y) / 2).absoluteValue
+            val avgScale = if (x.absoluteValue == y.absoluteValue) x.absoluteValue else 1f
             return copyOf(this, (x0 * x), (x1 * x), (y0 * y), (y1 * y), if (avgScale == 0f || avgScale == 1f) radius else radius * avgScale)
         }
         return this
     }
 
+    fun rotate(deg: Int, x: Int, y: Int): Rectangle {
+        if (deg % 360 == 0) {
+            return this;
+        }
+        return rotate(toRadians(deg.toDouble()).toFloat(), x.toFloat(), y.toFloat())
+    }
+
+    fun rotate(deg: Int, c: Point): Rectangle {
+        if (deg % 360 == 0) {
+            return this;
+        }
+        return rotate(toRadians(deg.toDouble()).toFloat(), c.x, c.y)
+    }
+
+    fun rotate(rad: Float, c: Point): Rectangle {
+        return rotate(rad, c.x, c.y)
+    }
+
+    fun rotate(rad: Float, x: Float, y: Float): Rectangle {
+        val rot = Complex.rot(rad.toDouble()).roundTo()
+        if (rot.isUnitR()) return this
+
+        val r = translate(-x, -y)
+        val p0 = Complex.of(r.topLeft).times(rot).roundTo().toPoint()
+        val p1 = Complex.of(r.topRight).times(rot).roundTo().toPoint()
+        val p2 = Complex.of(r.bottomRight).times(rot).roundTo().toPoint()
+        val p3 = Complex.of(r.bottomLeft).times(rot).roundTo().toPoint()
+        val result = if (rot.isAxisRot()) {
+            // special case, we leave the coordinates unmolested and use p0 as the topLeft and p2 as bottom right
+            of(p0, p2, radius)
+        } else {
+            of(min(p0.x, min(p1.x, min(p2.x, p3.x))), max(p0.x, max(p1.x, max(p2.x, p3.x))), min(p0.y, min(p1.y, min(p2.y, p3.y))), max(p0.y, max(p1.y, max(p2.y, p3.y))), radius)
+        }
+        return result
+    }
+
+    fun rotateBounded(deg: Int, bounds: Rectangle): Rectangle {
+        return rotateBounded(toRadians(deg.toDouble()).toFloat(), bounds)
+    }
+
+    fun rotateBounded(rad: Float, bounds: Rectangle): Rectangle {
+        // have to apply all transformations that were done to the bounds rectangle, including translation to top/left
+        val boundsRotated = bounds.rotate(rad, bounds.center())
+        val boundsNormalized = boundsRotated.normalized
+        return rotate(rad, bounds.center())
+            .invert(boundsRotated.isInvertedX, boundsRotated.isInvertedY)
+            .translate(-boundsNormalized.left, -boundsNormalized.top)
+            .normalized
+    }
+
     override fun toString(): String {
-        return "Rectangle(x0=$x0, x1=$x1, y0=$y0, y1=$y1)"
+        return "Rectangle(x0=$x0, x1=$x1, y0=$y0, y1=$y1, radius=$radius)"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -342,6 +395,7 @@ open class Rectangle protected constructor(
         if (x1 != other.x1) return false
         if (y0 != other.y0) return false
         if (y1 != other.y1) return false
+        if (radius != other.radius) return false
 
         return true
     }
@@ -351,10 +405,12 @@ open class Rectangle protected constructor(
         result = 31 * result + x1.hashCode()
         result = 31 * result + y0.hashCode()
         result = 31 * result + y1.hashCode()
+        result = 31 * result + radius.hashCode()
         return result
     }
 
     companion object {
+
         @JvmField
         val NULL = Rectangle(0f, 0f, 0f, 0f, 0f)
 
@@ -376,6 +432,11 @@ open class Rectangle protected constructor(
         @JvmStatic
         fun of(topLeft: Point, bottomRight: Point): Rectangle {
             return of(topLeft.x, bottomRight.x, topLeft.y, bottomRight.y, 0f)
+        }
+
+        @JvmStatic
+        fun of(topLeft: Point, bottomRight: Point, radius: Float): Rectangle {
+            return of(topLeft.x, bottomRight.x, topLeft.y, bottomRight.y, radius)
         }
 
         @JvmStatic

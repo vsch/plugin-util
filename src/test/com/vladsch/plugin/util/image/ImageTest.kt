@@ -8,7 +8,7 @@ import javax.imageio.ImageIO
 
 open class ImageTest {
     companion object {
-        val rootDir = "/Users/vlad/src/projects/plugin-util/test-resources/"
+        val rootDir = "/Users/vlad/src/projects/idea-multimarkdown202/plugin-util/src/test/resources/"
 
         val TRANSPARENT = Color(0, 0, 0, 0)
         val TRANSLUCENT = Color(0, 0, 0, 64)
@@ -31,7 +31,7 @@ open class ImageTest {
         var useImageName = imageName
         val pos = imageName.lastIndexOf('/')
         if (pos != -1 && pos + 1 < imageName.length) {
-            useImageName = useImageName.substring(0, pos + 1) + useImageName.substring(pos + 1, pos + 2).lowercase() + useImageName.substring(pos + 2)
+            useImageName = useImageName.substring(0, pos + 1) + useImageName.substring(pos + 1, pos + 2).toLowerCase() + useImageName.substring(pos + 2)
         }
         return useImageName
     }
@@ -46,6 +46,11 @@ open class ImageTest {
         return ImageIO.read(File(imagePath))
     }
 
+    fun getActualImage(name: String):BufferedImage {
+        val imagePath = imagePath("actual/$name")
+        return ImageIO.read(File(imagePath))
+    }
+
     fun saveImage(name: String, image: BufferedImage) {
         val imagePath = imagePath("actual/$name")
         ImageUtils.save(image, File(imagePath), "PNG")
@@ -54,12 +59,14 @@ open class ImageTest {
     fun assertImagesEqual(message: String, expectedName: String, actual: BufferedImage) {
         saveImage(expectedName, actual)
         val expected = getExpectedImage(expectedName)
-        assertEquals(message, expected, actual)
+        val actualSaved = getActualImage(expectedName)
+        assertEquals(message, expected, actualSaved)
     }
 
     fun assertImagesEqual(expectedName: String, actual: BufferedImage) {
         saveImage(expectedName, actual)
         val expected = getExpectedImage(expectedName)
-        assertEquals(expected, actual)
+        val actualSaved = getActualImage(expectedName)
+        assertEquals(expected, actualSaved)
     }
 }

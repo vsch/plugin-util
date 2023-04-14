@@ -12,8 +12,8 @@ open class DrawingShape(val rectangle: Rectangle, val borderWidth: Int, val bord
         return rectangle.isAnyIntNull || (borderWidth <= 0 || borderColor == null || borderColor.alpha == 0) && (fillColor == null || fillColor.alpha == 0)
     }
 
-    override fun transformedBy(transform: Transform): DrawingShape {
-        return DrawingShape(transform.transform(rectangle), borderWidth, borderColor, fillColor)
+    override fun transformedBy(transform: Transform, bounds: Rectangle): DrawingShape {
+        return DrawingShape(transform.transform(rectangle, bounds), borderWidth, borderColor, fillColor)
     }
 
     override fun transformedBoundsBy(transform: Transform): DrawingShape {

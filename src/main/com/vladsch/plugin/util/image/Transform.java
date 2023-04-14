@@ -22,19 +22,19 @@ public interface Transform {
 
     // shapes on imaging surface transformations
     @NotNull
-    Rectangle transform(@NotNull Rectangle rectangle);
+    Rectangle transform(@NotNull Rectangle rectangle, @NotNull Rectangle bounds);
 
     default @NotNull
-    Rectangle reverse(@NotNull Rectangle rectangle) {
-        return reversed().transform(rectangle);
+    Rectangle reverse(@NotNull Rectangle rectangle, final Rectangle bounds) {
+        return reversed().transform(rectangle, bounds);
     }
 
     @NotNull
-    Point transform(@NotNull Point point);
+    Point transform(@NotNull Point point, final Rectangle bounds);
 
     default @NotNull
-    Point reverse(@NotNull Point point) {
-        return reversed().transform(point);
+    Point reverse(@NotNull Point point, final Rectangle bounds) {
+        return reversed().transform(point, bounds);
     }
 
     @NotNull
@@ -71,25 +71,25 @@ public interface Transform {
 
         @NotNull
         @Override
-        public Rectangle transform(@NotNull final Rectangle rectangle) {
+        public Rectangle transform(@NotNull final Rectangle rectangle, final @NotNull Rectangle bounds) {
             return rectangle;
         }
 
         @NotNull
         @Override
-        public Rectangle reverse(@NotNull final Rectangle rectangle) {
+        public Rectangle reverse(@NotNull final Rectangle rectangle, final Rectangle bounds) {
             return rectangle;
         }
 
         @NotNull
         @Override
-        public Point transform(@NotNull final Point point) {
+        public Point transform(@NotNull final Point point, final Rectangle bounds) {
             return point;
         }
 
         @NotNull
         @Override
-        public Point reverse(@NotNull final Point point) {
+        public Point reverse(@NotNull final Point point, final Rectangle bounds) {
             return point;
         }
 

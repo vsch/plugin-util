@@ -157,6 +157,46 @@ class DrawShapesTransformTest : ImageTest() {
     }
 
     @Test
+    fun test_drawShapes9() {
+        val name = "drawShapes9"
+        val image = getSourceImage("Image1")
+
+        val scale = ScaleTransform(2f, 2f)
+        val rotate = RotateTransform(0)
+        val crop = CropTransform(Rectangle.of(5, 10, 5, 15, 0))
+        val border = BorderTransform(5, 20, Color.RED, null)
+        val trans = TransformList(listOf(crop, rotate, scale, border))
+
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
+
+        val actual = shapes.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
+    fun test_drawShapes10() {
+        val name = "drawShapes10"
+        val image = getSourceImage("Image1")
+
+        val scale = ScaleTransform(2f, 2f)
+        val rotate = RotateTransform(90)
+        val crop = CropTransform(Rectangle.of(5, 10, 5, 15, 0))
+        val border = BorderTransform(5, 20, Color.RED, null)
+        val trans = TransformList(listOf(crop, rotate, scale, border))
+
+        val shape1 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(10, 50, 10, 30, 0), 2, Color.BLUE, null)
+        val shape2 = BorderedShape(ShapeType.RECTANGLE, Rectangle.of(30, 80, 20, 60, 20), 2, Color.BLACK, Color(164, 0, 128, 64))
+        val shape3 = BorderedShape(ShapeType.OVAL, Rectangle.of(40, 100, 20, 60, 10), 2, Color.BLACK, Color(255, 255, 128, 64))
+        val shapes = DrawShapesTransform(trans, listOf(shape1, shape2, shape3))
+
+        val actual = shapes.transform(image)
+        assertImagesEqual(name, actual)
+    }
+
+    @Test
     fun test_punchOutShapes1() {
         val name = "punchOutShapes1"
         val image = getSourceImage("Image1")

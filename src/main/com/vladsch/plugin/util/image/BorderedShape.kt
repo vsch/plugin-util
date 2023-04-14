@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage
 class BorderedShape(shapeType: ShapeType, rectangle: Rectangle, borderWidth: Int, borderColor: Color?, fillColor: Color?) : SimpleShape(shapeType, rectangle, borderWidth, borderColor, fillColor) {
     constructor(other: SimpleShape) : this(other.shapeType, other.rectangle, other.borderWidth, other.borderColor, other.fillColor)
 
-    override fun transformedBy(transform: Transform): BorderedShape {
-        return BorderedShape(super.transformedBy(transform))
+    override fun transformedBy(transform: Transform, bounds: Rectangle): BorderedShape {
+        return BorderedShape(super.transformedBy(transform, bounds))
     }
 
     override fun transformedBoundsBy(transform: Transform): BorderedShape {
