@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.2.2](#version-122)
 - [Version 1.2.0](#version-120)
 - [Version 1.1.7](#version-117)
 - [Version 1.1.5](#version-115)
@@ -19,6 +20,12 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.2.2
+
+* Fix: directory restructuring was not showing in local changes under IntelliJ, so last version
+  was missing the structure changes. After clearing all caches, suddenly there were 1500+ files
+  in local changes.
 
 ### Version 1.2.0
 
