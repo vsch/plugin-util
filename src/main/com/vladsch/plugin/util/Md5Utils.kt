@@ -21,7 +21,7 @@ class Md5Utils {
                 if (hexString.length < 2) sb.append("0")
                 sb.append(hexString)
             }
-            return sb.toString().uppercase()
+            return sb.toString().toUpperCase()
         }
 
         @JvmStatic
@@ -38,7 +38,7 @@ class Md5Utils {
                 if (hexString.length < 2) sb.append("0")
                 sb.append(hexString)
             }
-            return sb.toString().uppercase()
+            return sb.toString().toUpperCase()
         }
     }
 }

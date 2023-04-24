@@ -1,0 +1,132 @@
+plugins {
+    id "java"
+    id "org.jetbrains.kotlin.jvm" version "1.8.20"
+    id "org.jetbrains.intellij" version "1.13.3"
+}
+
+def pluginVersion = "1.0.20"
+def pluginSinceBuild = "203"
+def pluginUntilBuild = ""
+def flexmarkVersion = "0.64.0"
+def javaVersion = "11"
+
+group = "com.vladsch.plugins"
+version = pluginVersion
+
+repositories {
+    mavenCentral()
+}
+
+// Configure Gradle IntelliJ Plugin
+// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+intellij {
+    version =  "2020.3.4"
+    type = "IC" // Target IDE Platform
+    plugins = []
+    downloadSources = true
+}
+
+dependencies {
+    testAnnotationProcessor "junit:junit:4.13.2"
+    testImplementation "junit:junit:4.13.2"
+    
+    implementation("org.apache.xmlgraphics:batik-anim:1.14:")
+    implementation("org.apache.xmlgraphics:batik-awt-util:1.14:")
+    implementation("org.apache.xmlgraphics:batik-bridge:1.14:")
+    implementation("org.apache.xmlgraphics:batik-codec:1.14:")
+    implementation("org.apache.xmlgraphics:batik-constants:1.14:")
+    implementation("org.apache.xmlgraphics:batik-css:1.14:")
+    implementation("org.apache.xmlgraphics:batik-dom:1.14:")
+    implementation("org.apache.xmlgraphics:batik-ext:1.14:")
+    implementation("org.apache.xmlgraphics:batik-gvt:1.14:")
+    implementation("org.apache.xmlgraphics:batik-parser:1.14:")
+    implementation("org.apache.xmlgraphics:batik-svg-dom:1.14:")
+    implementation("org.apache.xmlgraphics:batik-svggen:1.14:")
+    implementation("org.apache.xmlgraphics:batik-transcoder:1.14:")
+    implementation("org.apache.xmlgraphics:batik-util:1.14:")
+    implementation("org.apache.xmlgraphics:batik-xml:1.14:")
+//    implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.6")
+    
+    implementation("com.vladsch.flexmark:flexmark-util:$flexmarkVersion")
+    implementation("com.vladsch.flexmark:flexmark-tree-iteration:$flexmarkVersion") {
+        exclude(group: "org.slf4j", module: "slf4j-api")
+    }
+    implementation("org.jetbrains:annotations:24.0.1")
+}
+
+sourceSets {
+    main { 
+        java {
+            srcDirs = ["src/main"]
+            resources.srcDirs = ["src/main/resources"]
+        }
+        kotlin {
+            //noinspection GroovyAssignabilityCheck
+            srcDirs = ["src/main"]
+        }
+    }
+    test { 
+        java {
+            srcDirs = ["src/test"]
+            resources.srcDirs = ["src/test/resources"]
+        }
+        kotlin {
+            //noinspection GroovyAssignabilityCheck
+            srcDirs = ["src/test"]
+        }
+    }
+}
+
+// Set the JVM compatibility versions
+compileJava {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = javaVersion
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = "com.vladsch"
+            artifactId = "plugin-util"
+            version = pluginVersion
+
+            from components.java
+        }
+    }
+
+    repositories {
+        mavenLocal {
+
+        }
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/vsch/plugin-util"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+
+tasks {
+    patchPluginXml {
+        enabled = false
+    }
+    
+    runPluginVerifier {
+       enabled = false 
+    }
+
+    signPlugin {
+        enabled = false
+    }
+
+    publishPlugin {
+        enabled = false
+    }
+}

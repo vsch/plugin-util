@@ -16,4 +16,4 @@ Copyright (c) 2018-2019, Vladimir Schneider,
 
 BSD (2-clause) licensed, see [LICENSE] file.
 
-[LICENSE]: LICENSE
+[LICENSE]: LICENSE.txt

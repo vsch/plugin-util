@@ -5,6 +5,7 @@ import java.util.regex.Pattern
 
 class VariableExpander {
     companion object {
+
         val VARIABLE_REF: Pattern = Pattern.compile("\\$\\{([a-zA-Z_$][a-zA-Z_0-9$]+)}")
     }
 
@@ -34,17 +35,27 @@ class VariableExpander {
         }
     }
 
-    operator fun set(name: String, value: List<String>) {
-        valueMap[name] = value
+    operator fun set(name: String, value: List<String>?) {
+        if (value == null) {
+            valueMap.remove(name)
+        } else {
+            valueMap[name] = value
+        }
     }
 
-    operator fun set(name: String, value: Array<String>) {
-        valueMap[name] = value.toList()
+    operator fun set(name: String, value: Array<String>?) {
+        if (value == null) {
+            valueMap.remove(name)
+        } else {
+            valueMap[name] = value.toList()
+        }
     }
 
     operator fun get(name: String): List<String> = valueMap[name] ?: listOf()
     override fun toString(): String {
-        return "VariableExpander(valueMap=${valueMap.entries.sortedBy { it.key }.joinToString { (key, value) -> "$key -> [ " + value.joinToString(", ") + " ]\n" }}" +
+        return "VariableExpander(valueMap=${
+            valueMap.entries.sortedBy { it.key }.joinToString { (key, value) -> "$key -> [ " + value.joinToString(", ") + " ]\n" }
+        }" +
             "asMacroMap=[ ${asMacroMap.joinToString(", ")} ])"
     }
 }
