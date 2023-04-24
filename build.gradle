@@ -6,7 +6,7 @@ plugins {
     id "maven-publish"
 }
 
-def projectVersion = "1.0.0"
+def projectVersion = "1.2.0"
 def flexmarkVersion = "0.64.0"
 def javaVersion = 11
 def batikVersion = "1.16"
@@ -95,6 +95,10 @@ publishing {
             groupId = "com.vladsch.plugin-util"
             artifactId = "plugin-util"
             version = projectVersion
+            pom {
+                name = "plugin-util"
+                description = "Collection of helpers I use in my plugins"
+            }
         }
     }
 

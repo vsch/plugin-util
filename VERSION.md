@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.2.0](#version-120)
 - [Version 1.1.7](#version-117)
 - [Version 1.1.5](#version-115)
 - [Version 1.1.4](#version-114)
@@ -18,6 +19,10 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.2.0
+
+* Change: migrate to gradle build.
 
 ### Version 1.1.7
 
