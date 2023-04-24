@@ -74,8 +74,10 @@ public class AppUtils {
     /**
      * See if app version is equal or greater than given
      *
-     * @param requiredAppVersion
-     * @param defaultUnderTest
+     * @param requiredAppVersion required app version in format major.minor.bugfix
+     * @param defaultUnderTest   default value to use if running under test
+     *
+     * @return true if app version is equal or greater than given
      *
      * @deprecated Use #isAppVersionEqualOrGreaterThan
      */
@@ -84,6 +86,14 @@ public class AppUtils {
         return isAppVersionEqualOrGreaterThan(requiredAppVersion, defaultUnderTest);
     }
 
+    /**
+     * See if app version is equal or greater than given
+     *
+     * @param requiredAppVersion required app version in format major.minor.bugfix
+     * @param defaultUnderTest   default value to use if running under test
+     *
+     * @return true if app version is equal or greater than given
+     */
     public static boolean isAppVersionEqualOrGreaterThan(String requiredAppVersion, boolean defaultUnderTest) {
         Application application = ApplicationManager.getApplication();
         if (application != null && !application.isUnitTestMode()) {

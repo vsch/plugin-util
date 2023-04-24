@@ -44,9 +44,6 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterOutputStream;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
 @SuppressWarnings("UndesirableClassUsage")
 public class ImageUtils {
     public static final String PNG_BASE_64_PREFIX = "data:image/png;base64,";
@@ -379,10 +376,11 @@ public class ImageUtils {
 
     /**
      * http://stackoverflow.com/questions/7603400/how-to-make-a-rounded-corner-image-in-java
-     * 
-     * @param image         image to round corners on
-     * @param cornerRadius  corner radius in pixels
-     * @param borderWidth   border in pixels
+     *
+     * @param image        image to round corners on
+     * @param cornerRadius corner radius in pixels
+     * @param borderWidth  border in pixels
+     *
      * @return modified image
      */
     public static BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius, int borderWidth) {
@@ -736,17 +734,13 @@ public class ImageUtils {
         return output;
     }
 
-    /**
-     * http://stackoverflow.com/questions/2386064/how-do-i-crop-an-image-in-java
-     */
+    // http://stackoverflow.com/questions/2386064/how-do-i-crop-an-image-in-java
     public static BufferedImage cropImage(BufferedImage image, int trimLeft, int trimRight, int trimTop, int trimBottom) {
         BufferedImage output = image.getSubimage(trimLeft, trimTop, image.getWidth() - trimLeft - trimRight, image.getHeight() - trimTop - trimBottom);
         return output;
     }
 
-    /**
-     * http://stackoverflow.com/questions/464825/converting-transparent-gif-png-to-jpeg-using-java
-     */
+    // http://stackoverflow.com/questions/464825/converting-transparent-gif-png-to-jpeg-using-java
     public static BufferedImage removeAlpha(BufferedImage image) {
         BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
         //BufferedImage bufferedImage = UIUtil.createImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
@@ -758,18 +752,8 @@ public class ImageUtils {
         return bufferedImage;
     }
 
-    /**
-     * http://stackoverflow.com/questions/665406/how-to-make-a-color-transparent-in-a-bufferedimage-and-save-as-png
-     */
+    // http://stackoverflow.com/questions/665406/how-to-make-a-color-transparent-in-a-bufferedimage-and-save-as-png
     public static BufferedImage toTransparent(BufferedImage image, final Color color, final int tolerance) {
-        //        ImageFilter filter = new RGBImageFilter() {
-        //            public final int filterRGB(int x, int y, int rgb) {
-        //                return (rgb << 8) & 0xFF000000;
-        //            }
-        //        };
-        //
-        //        ImageProducer ip = new FilteredImageSource(image.getSource(), filter);
-        //        return toBufferedImage(Toolkit.getDefaultToolkit().createImage(ip));
         ImageFilter filter = new RGBImageFilter() {
 
             // the color we are looking for... Alpha bits are set to opaque
@@ -805,7 +789,7 @@ public class ImageUtils {
     public static BufferedImage rotateImage(BufferedImage image, final int rotation) {
         int angdeg = rotation % 360;
         if (angdeg == 0) return image;
-        
+
         double rotationRads = Math.toRadians(angdeg);
 
         int width = image.getWidth();
@@ -848,9 +832,7 @@ public class ImageUtils {
             deflaterOutputStream.close();
             compressedStream.close();
             return new String(Base64.getUrlEncoder().encode(compressedStream.toByteArray()), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
+        } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
         }
         return null;
@@ -866,10 +848,8 @@ public class ImageUtils {
             inflaterOutputStream.write(decoded);
             inflaterOutputStream.close();
             decompressedStream.close();
-            return new String(decompressedStream.toByteArray(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
+            return decompressedStream.toString(StandardCharsets.UTF_8);
+        } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
         }
         return null;

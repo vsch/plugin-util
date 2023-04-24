@@ -19,6 +19,7 @@ repositories {
 group = 'com.vladsch.plugin-util'
 version = properties['projectVersion'] ?: '1.0.SNAPSHOT'
 java.sourceCompatibility = properties['javaVersion'] ?: '11'
+java.targetCompatibility = properties['javaVersion'] ?: '11'
 
 java {
     withSourcesJar()

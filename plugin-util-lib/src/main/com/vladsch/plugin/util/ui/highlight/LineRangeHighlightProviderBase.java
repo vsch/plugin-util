@@ -188,7 +188,7 @@ public abstract class LineRangeHighlightProviderBase<T> extends HighlightProvide
      * the cached structures are updated.
      *
      * @param index       highlighted line number
-     * @param flags
+     * @param flags       text attribute flags
      * @param startOffset start offset in editor
      * @param endOffset   end offset in editor
      *

@@ -20,7 +20,6 @@ import static javax.swing.SwingUtilities.isEventDispatchThread;
 public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable {
     final public static OneTimeRunnable NULL = new OneTimeRunnable(() -> {
     });
-
     static {
         NULL.myHasRun.set(true);
     }
@@ -45,7 +44,7 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
     }
 
     public OneTimeRunnable(boolean awtThread, Runnable command) {
-        this("",  awtThread, null, command);
+        this("", awtThread, null, command);
     }
 
     public OneTimeRunnable(@NotNull String id, boolean awtThread, @Nullable ModalityState modalityState, Runnable command) {
@@ -100,7 +99,8 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
      * the given command will only be executed once, either by the delayed trigger or by the run method.
      * if you want to execute the task early just invoke #run, it will do nothing if the task has already run.
      *
-     * @param scheduler
+     * @param scheduler job scheduler to use
+     * @param id        id of the job
      * @param delay     the time from now to delay execution
      * @param command   the task to execute
      *
@@ -137,9 +137,11 @@ public class OneTimeRunnable extends AwtRunnable implements CancellableRunnable 
      * <p>
      * the given command will only be executed once, either by the delayed trigger or by the run method. if you want to execute the task early just invoke #run, it will do nothing if the task has already run.
      *
-     * @param scheduler
-     * @param delay     the time from now to delay execution
-     * @param command   the task to execute
+     * @param scheduler     job scheduler to use
+     * @param id            id of the job
+     * @param delay         the time from now to delay execution
+     * @param modalityState the modality state to run the job in
+     * @param command       the task to execute
      *
      * @return a {@link CancellableRunnable} which will run after the given delay on the AwtThread if {@link #run()} is invoked before {@link CancellableRunnable#cancel()}
      *

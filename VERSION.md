@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.2.x - Next](#version-12x-next)
 - [Version 1.2.2](#version-122)
 - [Version 1.2.0](#version-120)
 - [Version 1.1.7](#version-117)
@@ -20,6 +21,10 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+
+### Version 1.2.x - Next
+
+* Remove: GitHub package publishing. Too limited and not worth the effort.
 
 ### Version 1.2.2
 

@@ -1,46 +1,72 @@
+//file:noinspection GroovyAssignabilityCheck
 plugins {
     id "java"
+    id "org.jetbrains.kotlin.jvm" version "1.8.20"
     id "maven-publish"
+    id "signing"
 }
 
+def javaVersion = properties["javaVersion"] ?: "11"
 def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
-group = "com.vladsch.plugin-util"
+def projectGroup = properties["projectGroup"] ?: "com.vladsch.unknown"
+def projectArtifactId = properties["projectArtifactId"] ?: "unknown"
+def projectModules = properties["projectModules"] ?: "com.vladsch.unknown"
+def projectUrl = properties["projectUrl"] ?: "https://github.com/vsch/unknown"
+
+group = projectGroup
 version = projectVersion
 
 dependencies {
-    module "com.vladsch.plugin-util:plugin-util-lib:$projectVersion"
+    projectModules.split(",").each {
+        module "${projectGroup}:${it}:${projectVersion}"
+    }
+}
+
+// Set the JVM compatibility versions
+compileJava {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = javaVersion
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
             pom {
-                name = "plugin-util"
+                name = projectArtifactId
                 description = "Collection of helpers I use in my plugins"
-                url = "https://github.com/vsch/plugin-util"
+                url = projectUrl
+
                 licenses {
                     license {
                         name = "Apache License Version 2.0"
                         url = "https://www.apache.org/licenses/LICENSE-2.0"
                     }
                 }
-                
+
                 developers {
                     developer {
                         id = "vsch"
                         name = "Vladimir Schneider"
                         email = "vladimir.schneider@gmail.com"
-                        organizationUrl= "https://github.com/vsch/"
+                        organizationUrl = "https://github.com/vsch/"
                     }
+                }
+
+                scm {
+                    connection = "scm:git:git@github.com:vsch/${projectArtifactId}.git"
+                    developerConnection = "scm:git:git@github.com:vsch/${projectArtifactId}.git"
+                    url = projectUrl
+                    tag = projectVersion
                 }
             }
         }
     }
 
     repositories {
-        mavenLocal {
-
-        }
         maven {
             name = "OSSRH"
             url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
@@ -49,13 +75,21 @@ publishing {
                 password = System.getenv("MAVEN_PASSWORD")
             }
         }
+/*
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/vsch/plugin-util"
+            url = "https://maven.pkg.github.com/vsch/${projectArtifactId}"
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+*/
     }
 }
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
