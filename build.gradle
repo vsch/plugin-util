@@ -1,103 +1,38 @@
 plugins {
     id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.8.20"
-    id "org.jetbrains.intellij" version "1.13.3"
-    id "com.vladsch.plugin-util.java-conventions"
     id "maven-publish"
 }
 
-def projectVersion = "1.2.0"
-def flexmarkVersion = "0.64.0"
-def javaVersion = 11
-def batikVersion = "1.16"
-
+def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
 group = "com.vladsch.plugin-util"
 version = projectVersion
 
-repositories {
-    mavenCentral()
-}
-
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-//    version =  "2020.3.4"
-    //    version = "2021.2.4"
-    version = "2021.2"
-    type = "IC" // Target IDE Platform
-    plugins = []
-    downloadSources = true
-}
-
 dependencies {
-    testImplementation "junit:junit:4.13.2"
-    
-    implementation("org.apache.xmlgraphics:batik-anim:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-awt-util:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-bridge:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-codec:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-constants:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-css:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-dom:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-ext:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-gvt:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-parser:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-svg-dom:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-svggen:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-transcoder:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-util:${batikVersion}")
-    implementation("org.apache.xmlgraphics:batik-xml:${batikVersion}")
-//    implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.6")
-    
-    implementation("com.vladsch.flexmark:flexmark-util:$flexmarkVersion")
-    implementation("com.vladsch.flexmark:flexmark-tree-iteration:$flexmarkVersion") {
-        exclude(group: "org.slf4j", module: "slf4j-api")
-    }
-    implementation("org.jetbrains:annotations:24.0.1")
-}
-
-sourceSets {
-    main { 
-        java {
-            srcDirs = ["src/main"]
-            resources.srcDirs = ["src/main/resources"]
-        }
-        kotlin {
-            //noinspection GroovyAssignabilityCheck
-            srcDirs = ["src/main"]
-        }
-    }
-    test { 
-        java {
-            srcDirs = ["src/test"]
-            resources.srcDirs = ["src/test/resources"]
-        }
-        kotlin {
-            //noinspection GroovyAssignabilityCheck
-            srcDirs = ["src/test"]
-        }
-    }
-}
-
-// Set the JVM compatibility versions
-compileJava {
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = javaVersion
+    module "com.vladsch.plugin-util:plugin-util-lib:$projectVersion"
 }
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
-            groupId = "com.vladsch.plugin-util"
-            artifactId = "plugin-util"
-            version = projectVersion
+        maven(MavenPublication) {
             pom {
                 name = "plugin-util"
                 description = "Collection of helpers I use in my plugins"
+                url = "https://github.com/vsch/plugin-util"
+                licenses {
+                    license {
+                        name = "Apache License Version 2.0"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0"
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id = "vsch"
+                        name = "Vladimir Schneider"
+                        email = "vladimir.schneider@gmail.com"
+                        organizationUrl= "https://github.com/vsch/"
+                    }
+                }
             }
         }
     }
@@ -107,6 +42,14 @@ publishing {
 
         }
         maven {
+            name = "OSSRH"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+        maven {
             name = "GitHubPackages"
             url = "https://maven.pkg.github.com/vsch/plugin-util"
             credentials {
@@ -114,32 +57,5 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
-    }
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-tasks {
-    instrumentCode {
-        enabled = false
-    }
-    
-    patchPluginXml {
-        enabled = false
-    }
-    
-    runPluginVerifier {
-       enabled = false 
-    }
-
-    signPlugin {
-        enabled = false
-    }
-
-    publishPlugin {
-        enabled = false
     }
 }

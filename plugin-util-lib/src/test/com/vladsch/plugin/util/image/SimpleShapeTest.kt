@@ -1613,7 +1613,6 @@ class SimpleShapeTest : ImageTest() {
         // Punch-out is shifted when part of the shape border is out of image
         val name = "borderedPunchOut"
         val image = getSourceImage("Image1")
-        val imageRect = Rectangle.of(image)
         val rect = Rectangle.of(0, 100, 0, 60, 0)
 
         val shape = BorderedShape(ShapeType.RECTANGLE, rect, 20, Color.ORANGE, null)
