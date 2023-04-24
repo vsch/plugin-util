@@ -1079,9 +1079,9 @@ public class Helpers {
     /**
      * Replace the text of range1 (non-overlapping part with range 2) with text from range2 (non-overlapping part of range 2)
      *
-     * @param document
-     * @param range1
-     * @param range2
+     * @param document   document for the ranges
+     * @param range1     range to replace
+     * @param range2     range to replace with
      *
      * @return Pair first is range1 (non-overlapping) text and second is range2 non-overlapping text
      */

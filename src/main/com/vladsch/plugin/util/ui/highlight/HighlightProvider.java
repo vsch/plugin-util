@@ -51,7 +51,7 @@ public interface HighlightProvider<T> extends Disposable {
     void startHighlightSet(int skipSets);
 
     /**
-     * Provide an index, if > than last will change last to this value
+     * Provide an index, if &gt; than last will change last to this value
      * @param index color index
      */
     void restartHighlightSet(int index);

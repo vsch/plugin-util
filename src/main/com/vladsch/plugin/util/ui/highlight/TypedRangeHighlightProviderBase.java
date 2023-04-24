@@ -131,13 +131,13 @@ public abstract class TypedRangeHighlightProviderBase<R, T> extends HighlightPro
      * the cached structures are updated.
      *
      * @param index           highlighted range index
-     * @param flags
+     * @param flags           flags for attributes
      * @param startOffset     start offset in editor
      * @param endOffset       end offset in editor
-     * @param foregroundColor
-     * @param effectColor
-     * @param effectType
-     * @param fontType
+     * @param foregroundColor foreground color
+     * @param effectColor     effect color
+     * @param effectType      effect type
+     * @param fontType        font type
      *
      * @return text attributes to use for highlight or null if not highlighted
      */

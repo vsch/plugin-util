@@ -379,6 +379,11 @@ public class ImageUtils {
 
     /**
      * http://stackoverflow.com/questions/7603400/how-to-make-a-rounded-corner-image-in-java
+     * 
+     * @param image         image to round corners on
+     * @param cornerRadius  corner radius in pixels
+     * @param borderWidth   border in pixels
+     * @return modified image
      */
     public static BufferedImage makeRoundedCorner(BufferedImage image, int cornerRadius, int borderWidth) {
         if ((float) cornerRadius == 0) return image;

@@ -72,10 +72,12 @@ class SteppedProgressIndicator(progressIndicator: ProgressIndicator?) : Progress
         myProgressIndicator?.pushState()
     }
 
+    @Deprecated ("Use {@link ProgressManager.executeNonCancelableSection(Runnable)} instead")
     override fun startNonCancelableSection() {
         @Suppress("DEPRECATION")
         myProgressIndicator?.startNonCancelableSection()
     }
+    
 
     override fun cancel() {
         myProgressIndicator?.cancel()
@@ -89,6 +91,7 @@ class SteppedProgressIndicator(progressIndicator: ProgressIndicator?) : Progress
         myProgressIndicator?.start()
     }
 
+    @Deprecated ("Use {@link ProgressManager.executeNonCancelableSection(Runnable)} instead")
     override fun finishNonCancelableSection() {
         @Suppress("DEPRECATION")
         myProgressIndicator?.finishNonCancelableSection()

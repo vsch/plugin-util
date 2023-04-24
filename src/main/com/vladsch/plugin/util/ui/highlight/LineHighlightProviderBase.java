@@ -70,7 +70,7 @@ public abstract class LineHighlightProviderBase<T> extends HighlightProviderBase
      * the cached structures are updated.
      *
      * @param index       highlighted line number
-     * @param flags
+     * @param flags       not used
      * @param startOffset start offset in editor
      * @param endOffset   end offset in editor
      *

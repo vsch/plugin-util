@@ -2,16 +2,17 @@ plugins {
     id "java"
     id "org.jetbrains.kotlin.jvm" version "1.8.20"
     id "org.jetbrains.intellij" version "1.13.3"
+    id "com.vladsch.plugin-util.java-conventions"
+    id "maven-publish"
 }
 
-def pluginVersion = "1.0.20"
-def pluginSinceBuild = "203"
-def pluginUntilBuild = ""
+def projectVersion = "1.0.0"
 def flexmarkVersion = "0.64.0"
-def javaVersion = "11"
+def javaVersion = 11
+def batikVersion = "1.16"
 
-group = "com.vladsch.plugins"
-version = pluginVersion
+group = "com.vladsch.plugin-util"
+version = projectVersion
 
 repositories {
     mavenCentral()
@@ -20,31 +21,32 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version =  "2020.3.4"
+//    version =  "2020.3.4"
+    //    version = "2021.2.4"
+    version = "2021.2"
     type = "IC" // Target IDE Platform
     plugins = []
     downloadSources = true
 }
 
 dependencies {
-    testAnnotationProcessor "junit:junit:4.13.2"
     testImplementation "junit:junit:4.13.2"
     
-    implementation("org.apache.xmlgraphics:batik-anim:1.14:")
-    implementation("org.apache.xmlgraphics:batik-awt-util:1.14:")
-    implementation("org.apache.xmlgraphics:batik-bridge:1.14:")
-    implementation("org.apache.xmlgraphics:batik-codec:1.14:")
-    implementation("org.apache.xmlgraphics:batik-constants:1.14:")
-    implementation("org.apache.xmlgraphics:batik-css:1.14:")
-    implementation("org.apache.xmlgraphics:batik-dom:1.14:")
-    implementation("org.apache.xmlgraphics:batik-ext:1.14:")
-    implementation("org.apache.xmlgraphics:batik-gvt:1.14:")
-    implementation("org.apache.xmlgraphics:batik-parser:1.14:")
-    implementation("org.apache.xmlgraphics:batik-svg-dom:1.14:")
-    implementation("org.apache.xmlgraphics:batik-svggen:1.14:")
-    implementation("org.apache.xmlgraphics:batik-transcoder:1.14:")
-    implementation("org.apache.xmlgraphics:batik-util:1.14:")
-    implementation("org.apache.xmlgraphics:batik-xml:1.14:")
+    implementation("org.apache.xmlgraphics:batik-anim:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-awt-util:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-bridge:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-codec:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-constants:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-css:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-dom:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-ext:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-gvt:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-parser:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-svg-dom:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-svggen:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-transcoder:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-util:${batikVersion}")
+    implementation("org.apache.xmlgraphics:batik-xml:${batikVersion}")
 //    implementation("org.apache.xmlgraphics:xmlgraphics-commons:2.6")
     
     implementation("com.vladsch.flexmark:flexmark-util:$flexmarkVersion")
@@ -89,12 +91,10 @@ compileKotlin {
 
 publishing {
     publications {
-        maven(MavenPublication) {
-            groupId = "com.vladsch"
+        mavenJava(MavenPublication) {
+            groupId = "com.vladsch.plugin-util"
             artifactId = "plugin-util"
-            version = pluginVersion
-
-            from components.java
+            version = projectVersion
         }
     }
 
@@ -113,7 +113,16 @@ publishing {
     }
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 tasks {
+    instrumentCode {
+        enabled = false
+    }
+    
     patchPluginXml {
         enabled = false
     }
