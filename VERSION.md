@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.212.4](#version-12124)
 - [Version 1.2.4](#version-124)
 - [Version 1.2.2](#version-122)
 - [Version 1.2.0](#version-120)
@@ -21,6 +22,11 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+### Version 1.212.4
+
+* Change: disable intellij plugin related tasks
+* Change: switch to sev ver, minor ver reflects IDE min version compatibility, patch ver reflects
+  changes to the library itself
 
 ### Version 1.2.4
 
