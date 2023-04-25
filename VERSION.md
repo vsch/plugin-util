@@ -3,7 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
-- [Version 1.2.x - Next](#version-12x-next)
+- [Version 1.2.4](#version-124)
 - [Version 1.2.2](#version-122)
 - [Version 1.2.0](#version-120)
 - [Version 1.1.7](#version-117)
@@ -22,9 +22,10 @@
 - [Version 1.0.0](#version-100)
 
 
-### Version 1.2.x - Next
+### Version 1.2.4
 
 * Remove: GitHub package publishing. Too limited and not worth the effort.
+* Fix: plugin-util-lib:1.2.2 had unknown for package name in pom.xml making it useless.
 
 ### Version 1.2.2
 

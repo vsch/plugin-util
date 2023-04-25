@@ -20,13 +20,13 @@ Not meant for general use, but feel free to use it if you find it useful.
 <dependency>
     <groupId>com.vladsch.plugin-util</groupId>
     <artifactId>plugin-util-lib</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.4</version>
 </dependency>
 ```
 #### Gradle Dependency
 
 ```groovy
-implementation "com.vladsch.plugin-util:plugin-util-lib:1.2.2"
+implementation "com.vladsch.plugin-util:plugin-util-lib:1.2.4"
 ```
 
 ---
