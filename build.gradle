@@ -1,17 +1,14 @@
 //file:noinspection GroovyAssignabilityCheck
 plugins {
-    id "java"
-    id "org.jetbrains.kotlin.jvm" version "1.8.20"
     id "maven-publish"
     id "signing"
 }
 
-def javaVersion = properties["javaVersion"] ?: "11"
 def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
-def projectGroup = properties["projectGroup"] ?: "com.vladsch.unknown"
-def projectArtifactId = properties["projectArtifactId"] ?: "unknown"
-def projectModules = properties["projectModules"] ?: "com.vladsch.unknown"
-def projectUrl = properties["projectUrl"] ?: "https://github.com/vsch/unknown"
+def projectArtifactId = properties["projectArtifactId"] ?: ""
+def projectGroup = properties["projectGroup"] ?: "com.vladsch.${projectArtifactId}"
+def projectModules = properties["projectModules"] ?: ""
+def projectUrl = properties["projectUrl"] ?: "https://github.com/vsch/${projectArtifactId}"
 
 group = projectGroup
 version = projectVersion
@@ -20,16 +17,6 @@ dependencies {
     projectModules.split(",").each {
         module "${projectGroup}:${it}:${projectVersion}"
     }
-}
-
-// Set the JVM compatibility versions
-compileJava {
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = javaVersion
 }
 
 publishing {

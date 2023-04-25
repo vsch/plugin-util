@@ -10,8 +10,8 @@ plugins {
 
 def javaVersion = properties["javaVersion"] ?: "11"
 def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
-def projectGroup = properties["projectGroup"] ?: "com.vladsch.unknown"
-def projectArtifactId = properties["projectArtifactId"] ?: "unknown"
+def projectArtifactId = properties["projectArtifactId"] ?: ""
+def projectGroup = properties["projectGroup"] ?: "com.vladsch.${projectArtifactId}"
 def flexmarkVersion = "0.64.0"
 def batikVersion = "1.16"
 
@@ -78,6 +78,11 @@ compileKotlin {
     kotlinOptions.jvmTarget = javaVersion
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
@@ -123,9 +128,4 @@ publishing {
 signing {
     useGpgCmd()
     sign publishing.publications
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
 }

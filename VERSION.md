@@ -25,7 +25,7 @@
 ### Version 1.2.4
 
 * Remove: GitHub package publishing. Too limited and not worth the effort.
-* Fix: plugin-util-lib:1.2.2 had unknown for package name in pom.xml making it useless.
+* Fix: plugin-util-lib:1.2.2 had unknown for module name in pom.xml making it useless.
 
 ### Version 1.2.2
 
