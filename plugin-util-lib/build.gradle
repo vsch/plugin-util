@@ -125,6 +125,25 @@ publishing {
     }
 }
 
+// disable plugin related tasks
+tasks {
+    downloadZipSigner.enabled = false
+    patchPluginXml.enabled = false
+    verifyPluginConfiguration.enabled = false
+    setupInstrumentCode.enabled = false
+    instrumentCode.enabled = false
+    instrumentedJar.enabled = false
+    prepareSandbox.enabled = false
+    buildSearchableOptions.enabled = false
+    jarSearchableOptions.enabled = false
+    buildPlugin.enabled = false
+    runIde.enabled = false
+    publishPlugin.enabled = false
+    buildPlugin.enabled = false
+    signPlugin.enabled = false
+    verifyPluginSignature.enabled = false
+}
+
 signing {
     useGpgCmd()
     sign publishing.publications
