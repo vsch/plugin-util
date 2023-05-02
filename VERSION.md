@@ -3,6 +3,7 @@
 [TOC]: #
 
 ### Table of Contents
+- [Version 1.212.6](#version-12126)
 - [Version 1.212.4](#version-12124)
 - [Version 1.2.4](#version-124)
 - [Version 1.2.2](#version-122)
@@ -21,6 +22,10 @@
 - [Version 1.0.2](#version-102)
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
+
+### Version 1.212.6
+
+* Change: update to `flexmark-java:0.64.4`
 
 ### Version 1.212.4
 

@@ -12,7 +12,7 @@ def javaVersion = properties["javaVersion"] ?: "11"
 def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
 def projectArtifactId = properties["projectArtifactId"] ?: ""
 def projectGroup = properties["projectGroup"] ?: "com.vladsch.${projectArtifactId}"
-def flexmarkVersion = "0.64.0"
+def flexmarkVersion = "0.64.4"
 def batikVersion = "1.16"
 
 group = projectGroup
