@@ -20,7 +20,13 @@ version = projectVersion
 
 repositories {
     mavenCentral()
-    mavenLocal()
+/*
+    mavenLocal() {
+        content {
+            includeGroup "com.vladsch.flexmark"
+        }
+    }
+*/
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -38,7 +44,10 @@ dependencies {
     testImplementation "junit:junit:4.13.2"
     
     implementation("org.jetbrains:annotations:24.0.1")
-    implementation("org.apache.xmlgraphics:batik-transcoder:${batikVersion}")
+    implementation("commons-io:commons-io:2.11.0")
+    implementation("org.apache.xmlgraphics:batik-transcoder:${batikVersion}") {
+        exclude(group:"commons-io", module: "commons-io")
+    }
     implementation("com.vladsch.flexmark:flexmark-util:$flexmarkVersion")
     implementation("com.vladsch.flexmark:flexmark-tree-iteration:$flexmarkVersion") {
         exclude(group: "org.slf4j", module: "slf4j-api")
