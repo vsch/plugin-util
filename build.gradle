@@ -1,0 +1,82 @@
+//file:noinspection GroovyAssignabilityCheck
+plugins {
+    id "maven-publish"
+    id "signing"
+}
+
+def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
+def projectArtifactId = properties["projectArtifactId"] ?: ""
+def projectGroup = properties["projectGroup"] ?: "com.vladsch.${projectArtifactId}"
+def projectModules = properties["projectModules"] ?: ""
+def projectUrl = properties["projectUrl"] ?: "https://github.com/vsch/${projectArtifactId}"
+
+group = projectGroup
+version = projectVersion
+
+dependencies {
+    projectModules.split(",").each {
+        module "${projectGroup}:${it}:${projectVersion}"
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom {
+                name = projectArtifactId
+                description = "Collection of helpers I use in my plugins"
+                url = projectUrl
+
+                licenses {
+                    license {
+                        name = "Apache License Version 2.0"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = "vsch"
+                        name = "Vladimir Schneider"
+                        email = "vladimir.schneider@gmail.com"
+                        organizationUrl = "https://github.com/vsch/"
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:git@github.com:vsch/${projectArtifactId}.git"
+                    developerConnection = "scm:git:git@github.com:vsch/${projectArtifactId}.git"
+                    url = projectUrl
+                    tag = projectVersion
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+/*
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/vsch/${projectArtifactId}"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+*/
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+

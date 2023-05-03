@@ -1,0 +1,157 @@
+//file:noinspection GroovyAssignabilityCheck
+plugins {
+    id "java"
+    id "org.jetbrains.kotlin.jvm" version "1.8.20"
+    id "org.jetbrains.intellij" version "1.13.3"
+    id "com.vladsch.plugin-util.java-conventions"
+    id "maven-publish"
+    id "signing"
+}
+
+def javaVersion = properties["javaVersion"] ?: "11"
+def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
+def projectArtifactId = properties["projectArtifactId"] ?: ""
+def projectGroup = properties["projectGroup"] ?: "com.vladsch.${projectArtifactId}"
+def flexmarkVersion = "0.64.4"
+def batikVersion = "1.16"
+
+group = projectGroup
+version = projectVersion
+
+repositories {
+    mavenCentral()
+    mavenLocal() {
+        content {
+            includeGroup "com.vladsch.flexmark"
+        }
+    }
+}
+
+// Configure Gradle IntelliJ Plugin
+// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+intellij {
+//    version =  "2020.3.4"
+//    version = "2021.2.4"
+    version = "2020.1"
+    type = "IC" // Target IDE Platform
+    plugins = []
+    downloadSources = true
+}
+
+dependencies {
+    testImplementation "junit:junit:4.13.2"
+    
+    implementation("org.jetbrains:annotations:24.0.1")
+    implementation("commons-io:commons-io:2.11.0")
+    implementation("org.apache.xmlgraphics:batik-transcoder:${batikVersion}") {
+        exclude(group:"commons-io", module: "commons-io")
+    }
+    implementation("com.vladsch.flexmark:flexmark-util:$flexmarkVersion")
+    implementation("com.vladsch.flexmark:flexmark-tree-iteration:$flexmarkVersion") {
+        exclude(group: "org.slf4j", module: "slf4j-api")
+    }
+}
+
+sourceSets {
+    main { 
+        java {
+            srcDirs = ["src/main"]
+            resources.srcDirs = ["src/main/resources"]
+        }
+        kotlin {
+            //noinspection GroovyAssignabilityCheck
+            srcDirs = ["src/main"]
+        }
+    }
+    test { 
+        java {
+            srcDirs = ["src/test"]
+            resources.srcDirs = ["src/test/resources"]
+        }
+        kotlin {
+            //noinspection GroovyAssignabilityCheck
+            srcDirs = ["src/test"]
+        }
+    }
+}
+
+// Set the JVM compatibility versions
+compileJava {
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = javaVersion
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            pom {
+                name = "${projectArtifactId}-lib"
+                description = "Collection of helpers I use in my plugins"
+
+                withXml {
+                    asNode()
+                            .appendNode('parent')
+                            .with {
+                                appendNode "groupId", projectGroup
+                                appendNode "artifactId", projectArtifactId
+                                appendNode "version", projectVersion
+                            }
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("MAVEN_USERNAME")
+                password = System.getenv("MAVEN_PASSWORD")
+            }
+        }
+/*
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/vsch/${projectArtifactId}"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+*/
+    }
+}
+
+// disable plugin related tasks
+tasks {
+    downloadZipSigner.enabled = false
+    patchPluginXml.enabled = false
+    verifyPluginConfiguration.enabled = false
+    setupInstrumentCode.enabled = false
+    instrumentCode.enabled = false
+    instrumentedJar.enabled = false
+    prepareSandbox.enabled = false
+    buildSearchableOptions.enabled = false
+    jarSearchableOptions.enabled = false
+    buildPlugin.enabled = false
+    runIde.enabled = false
+    publishPlugin.enabled = false
+    buildPlugin.enabled = false
+    signPlugin.enabled = false
+    verifyPluginSignature.enabled = false
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}

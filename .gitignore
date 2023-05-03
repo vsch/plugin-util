@@ -2,3 +2,8 @@
 /out/
 /.idea/workspace.xml
 /plugin-util.jar
+/gradle/wrapper/gradle-wrapper.jar
+/build/
+/.gradle/
+/buildSrc/.gradle/
+/buildSrc/build/

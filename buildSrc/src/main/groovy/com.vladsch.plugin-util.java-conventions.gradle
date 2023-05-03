@@ -1,0 +1,37 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = uri('https://repo.maven.apache.org/maven2/')
+    }
+}
+
+def projectArtifactId = properties["projectArtifactId"] ?: ""
+def projectGroup = properties["projectGroup"] ?: "com.vladsch.${projectArtifactId}"
+group = projectGroup
+version = properties["projectVersion"] ?: "1.0.SNAPSHOT"
+java.sourceCompatibility = properties["javaVersion"] ?: "11"
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+}
