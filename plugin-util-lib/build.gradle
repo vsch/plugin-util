@@ -12,7 +12,7 @@ def javaVersion = properties["javaVersion"] ?: "11"
 def projectVersion = properties["projectVersion"] ?: "1.0.SNAPSHOT"
 def projectArtifactId = properties["projectArtifactId"] ?: ""
 def projectGroup = properties["projectGroup"] ?: "com.vladsch.${projectArtifactId}"
-def flexmarkVersion = "0.64.4"
+def flexmarkVersion = properties["flexmarkVersion"] ?: ""
 def batikVersion = "1.16"
 
 group = projectGroup
@@ -20,13 +20,11 @@ version = projectVersion
 
 repositories {
     mavenCentral()
-/*
     mavenLocal() {
         content {
             includeGroup "com.vladsch.flexmark"
         }
     }
-*/
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -42,7 +40,7 @@ intellij {
 
 dependencies {
     testImplementation "junit:junit:4.13.2"
-    
+
     implementation("org.jetbrains:annotations:24.0.1")
     implementation("commons-io:commons-io:2.11.0")
     implementation("org.apache.xmlgraphics:batik-transcoder:${batikVersion}") {
@@ -55,7 +53,7 @@ dependencies {
 }
 
 sourceSets {
-    main { 
+    main {
         java {
             srcDirs = ["src/main"]
             resources.srcDirs = ["src/main/resources"]
@@ -65,7 +63,7 @@ sourceSets {
             srcDirs = ["src/main"]
         }
     }
-    test { 
+    test {
         java {
             srcDirs = ["src/test"]
             resources.srcDirs = ["src/test/resources"]

@@ -23,6 +23,10 @@
 - [Version 1.0.1](#version-101)
 - [Version 1.0.0](#version-100)
 
+### Version 1.212.8
+
+* Change: update to `flexmark-java:0.64.8`
+
 ### Version 1.212.6
 
 * Change: update to `flexmark-java:0.64.4`
